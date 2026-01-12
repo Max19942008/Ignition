@@ -1,4 +1,4 @@
-import React, { ChangeEvent, MouseEvent, useEffect, useState } from 'react';
+import React, { ChangeEvent, MouseEvent, useEffect, useState, useCallback } from 'react';
 import { NextPage } from 'next';
 import { Box, Button, Menu, MenuItem, Pagination, Stack, Typography } from '@mui/material';
 import PropertyCard from '../../libs/components/property/PropertyCard';
@@ -17,7 +17,6 @@ import { propertyYears } from '../../libs/config';
 import { GET_PROPERTIES } from '../../apollo/user/query';
 import { useQuery } from '@apollo/client';
 import { T } from '../../libs/types/common';
-import Filter from '../../libs/components/property/Filter';
 
 export const getStaticProps = async ({ locale }: any) => ({
 	props: {
@@ -52,12 +51,12 @@ const PropertyList: NextPage = ({ initialInput, ...props }: any) => {
 		error: getPropertiesError,
 		refetch: getPropertiesRefetch,
 	} = useQuery(GET_PROPERTIES, {
-		fetchPolicy: 'cache-and-network',
+		fetchPolicy: 'network-only',
 		variables: { input: searchFilter },
 		notifyOnNetworkStatusChange: true,
 		onCompleted: (data: T) => {
-			setProperties(data?.getProperties?.list || []);
-			setTotal(data?.getProperties?.metaCounter?.[0]?.total || 0);
+			setProperties(data?.getProperties?.list );
+			setTotal(data?.getProperties?.metaCounter?.[0]?.total );
 		},
 	});
 
@@ -90,17 +89,21 @@ const PropertyList: NextPage = ({ initialInput, ...props }: any) => {
 	}, [searchFilter]);
 
 	/** HANDLERS **/
-	const handlePaginationChange = async (event: ChangeEvent<unknown>, value: number) => {
-		searchFilter.page = value;
-		await router.push(
-			`/property?input=${JSON.stringify(searchFilter)}`,
-			`/property?input=${JSON.stringify(searchFilter)}`,
-			{
-				scroll: false,
-			},
-		);
-		setCurrentPage(value);
-	};
+	const handlePaginationChange = useCallback(
+		async (event: ChangeEvent<unknown>, value: number) => {
+			const newFilter = { ...searchFilter, page: value };
+			setSearchFilter(newFilter);
+			await router.push(
+				`/property?input=${JSON.stringify(newFilter)}`,
+				`/property?input=${JSON.stringify(newFilter)}`,
+				{
+					scroll: false,
+				},
+			);
+			setCurrentPage(value);
+		},
+		[searchFilter, router],
+	);
 
 	const sortingClickHandler = (e: MouseEvent<HTMLElement>) => {
 		setAnchorEl(e.currentTarget);
@@ -112,140 +115,223 @@ const PropertyList: NextPage = ({ initialInput, ...props }: any) => {
 		setAnchorEl(null);
 	};
 
-	const sortingHandler = async (e: React.MouseEvent<HTMLLIElement>) => {
-		let newFilter = { ...searchFilter };
-		switch (e.currentTarget.id) {
-			case 'new':
-				newFilter = { ...searchFilter, sort: 'createdAt', direction: Direction.DESC };
-				setFilterSortName('New');
-				break;
-			case 'lowest':
-				newFilter = { ...searchFilter, sort: 'propertyPrice', direction: Direction.ASC };
-				setFilterSortName('Lowest Price');
-				break;
-			case 'highest':
-				newFilter = { ...searchFilter, sort: 'propertyPrice', direction: Direction.DESC };
-				setFilterSortName('Highest Price');
-				break;
-		}
-		setSearchFilter(newFilter);
-		setSortingOpen(false);
-		setAnchorEl(null);
-		
-		// Router query'ni yangilash
-		await router.push(
-			`/property?input=${JSON.stringify(newFilter)}`,
-			`/property?input=${JSON.stringify(newFilter)}`,
-			{ scroll: false },
-		);
-	};
+	const sortingHandler = useCallback(
+		async (e: React.MouseEvent<HTMLLIElement>) => {
+			let newFilter = { ...searchFilter };
+			switch (e.currentTarget.id) {
+				case 'new':
+					newFilter = { ...searchFilter, sort: 'createdAt', direction: Direction.DESC };
+					setFilterSortName('New');
+					break;
+				case 'lowest':
+					newFilter = { ...searchFilter, sort: 'propertyPrice', direction: Direction.ASC };
+					setFilterSortName('Lowest Price');
+					break;
+				case 'highest':
+					newFilter = { ...searchFilter, sort: 'propertyPrice', direction: Direction.DESC };
+					setFilterSortName('Highest Price');
+					break;
+			}
+			setSearchFilter(newFilter);
+			setSortingOpen(false);
+			setAnchorEl(null);
+			// Router query'ni yangilash
+			await router.push(
+				`/property?input=${JSON.stringify(newFilter)}`,
+				`/property?input=${JSON.stringify(newFilter)}`,
+				{ scroll: false },
+			);
+		},
+		[searchFilter, router],
+	);
 
-	const handleReset = async () => {
-		await router.push(
-			`/property?input=${JSON.stringify(initialInput)}`,
-			`/property?input=${JSON.stringify(initialInput)}`,
-			{ scroll: false },
-		);
-	};
+	const handleReset = useCallback(
+		async () => {
+			setSearchFilter(initialInput);
+			setCurrentPage(initialInput.page === undefined ? 1 : initialInput.page);
+			await router.push(
+				`/property?input=${JSON.stringify(initialInput)}`,
+				`/property?input=${JSON.stringify(initialInput)}`,
+				{ scroll: false },
+			);
+		},
+		[initialInput, router],
+	);
 
-	const handleLocationSelect = async (location: PropertyLocation) => {
-		const currentLocations = searchFilter?.search?.locationList || [];
-		const newLocations = currentLocations.includes(location)
-			? currentLocations.filter((l) => l !== location)
-			: [...currentLocations, location];
+	const handleLocationSelect = useCallback(
+		async (location: PropertyLocation) => {
+			const currentLocations = searchFilter?.search?.locationList || [];
+			const newLocations = currentLocations.includes(location)
+				? currentLocations.filter((l) => l !== location)
+				: [...currentLocations, location];
 
-		const newSearch = { ...searchFilter };
-		if (newLocations.length === 0) {
-			delete newSearch.search.locationList;
-		} else {
-			newSearch.search = { ...newSearch.search, locationList: newLocations };
-		}
+			const newSearch = { ...searchFilter };
+			if (newLocations.length === 0) {
+				delete newSearch.search.locationList;
+			} else {
+				newSearch.search = { ...newSearch.search, locationList: newLocations };
+			}
 
-		await router.push(
-			`/property?input=${JSON.stringify(newSearch)}`,
-			`/property?input=${JSON.stringify(newSearch)}`,
-			{ scroll: false },
-		);
-		setLocationAnchor(null);
-	};
+			await router.push(
+				`/property?input=${JSON.stringify(newSearch)}`,
+				`/property?input=${JSON.stringify(newSearch)}`,
+				{ scroll: false },
+			);
+			setLocationAnchor(null);
+		},
+		[searchFilter, router],
+	);
 
-	const handleTypeSelect = async (type: PropertyType) => {
-		const currentTypes = searchFilter?.search?.typeList || [];
-		const newTypes = currentTypes.includes(type)
-			? currentTypes.filter((t) => t !== type)
-			: [...currentTypes, type];
+	const handleTypeSelect = useCallback(
+		async (type: PropertyType) => {
+			const currentTypes = searchFilter?.search?.typeList || [];
+			const newTypes = currentTypes.includes(type)
+				? currentTypes.filter((t) => t !== type)
+				: [...currentTypes, type];
 
-		const newSearch = { ...searchFilter };
-		if (newTypes.length === 0) {
-			delete newSearch.search.typeList;
-		} else {
-			newSearch.search = { ...newSearch.search, typeList: newTypes };
-		}
+			const newSearch = { ...searchFilter };
+			if (newTypes.length === 0) {
+				delete newSearch.search.typeList;
+			} else {
+				newSearch.search = { ...newSearch.search, typeList: newTypes };
+			}
 
-		await router.push(
-			`/property?input=${JSON.stringify(newSearch)}`,
-			`/property?input=${JSON.stringify(newSearch)}`,
-			{ scroll: false },
-		);
-		setTypeAnchor(null);
-	};
+			await router.push(
+				`/property?input=${JSON.stringify(newSearch)}`,
+				`/property?input=${JSON.stringify(newSearch)}`,
+				{ scroll: false },
+			);
+			setTypeAnchor(null);
+		},
+		[searchFilter, router],
+	);
 
-	const handleLikesSort = async (direction: Direction) => {
-		const newSearch = {
-			...searchFilter,
-			sort: 'propertyLikes',
-			direction: direction,
-		};
+	const handleLikesSort = useCallback(
+		async (direction: Direction) => {
+			const newSearch = {
+				...searchFilter,
+				sort: 'propertyLikes',
+				direction: direction,
+			};
 
-		await router.push(
-			`/property?input=${JSON.stringify(newSearch)}`,
-			`/property?input=${JSON.stringify(newSearch)}`,
-			{ scroll: false },
-		);
-		setLikesAnchor(null);
-	};
+			await router.push(
+				`/property?input=${JSON.stringify(newSearch)}`,
+				`/property?input=${JSON.stringify(newSearch)}`,
+				{ scroll: false },
+			);
+			setLikesAnchor(null);
+		},
+		[searchFilter, router],
+	);
 
-	const handleBrandSelect = async (brand: PropertyBrand) => {
-		const currentBrands = searchFilter?.search?.brandList || [];
-		const newBrands = currentBrands.includes(brand)
-			? currentBrands.filter((b) => b !== brand)
-			: [...currentBrands, brand];
+	// Filter.tsx dan sorting handlerlarni olish
+	const recentSortHandler = useCallback(
+		async () => {
+			try {
+				const newSearch = {
+					...searchFilter,
+					sort: 'createdAt',
+					direction: Direction.DESC,
+				};
+				await router.push(
+					`/property?input=${JSON.stringify(newSearch)}`,
+					`/property?input=${JSON.stringify(newSearch)}`,
+					{ scroll: false },
+				);
+			} catch (err: any) {
+				console.log('ERROR, recentSortHandler:', err);
+			}
+		},
+		[searchFilter, router],
+	);
 
-		const newSearch = { ...searchFilter };
-		if (newBrands.length === 0) {
-			delete newSearch.search.brandList;
-		} else {
-			newSearch.search = { ...newSearch.search, brandList: newBrands };
-		}
+	const oldestSortHandler = useCallback(
+		async () => {
+			try {
+				const newSearch = {
+					...searchFilter,
+					sort: 'createdAt',
+					direction: Direction.ASC,
+				};
+				await router.push(
+					`/property?input=${JSON.stringify(newSearch)}`,
+					`/property?input=${JSON.stringify(newSearch)}`,
+					{ scroll: false },
+				);
+			} catch (err: any) {
+				console.log('ERROR, oldestSortHandler:', err);
+			}
+		},
+		[searchFilter, router],
+	);
 
-		await router.push(
-			`/property?input=${JSON.stringify(newSearch)}`,
-			`/property?input=${JSON.stringify(newSearch)}`,
-			{ scroll: false },
-		);
-		setBrandAnchor(null);
-	};
+	const viewsSortHandler = useCallback(
+		async () => {
+			try {
+				const newSearch = {
+					...searchFilter,
+					sort: 'propertyViews',
+					direction: Direction.DESC,
+				};
+				await router.push(
+					`/property?input=${JSON.stringify(newSearch)}`,
+					`/property?input=${JSON.stringify(newSearch)}`,
+					{ scroll: false },
+				);
+			} catch (err: any) {
+				console.log('ERROR, viewsSortHandler:', err);
+			}
+		},
+		[searchFilter, router],
+	);
 
-	const handleConditionSelect = async (condition: PropertyCondition) => {
-		const currentConditions = searchFilter?.search?.conditionList || [];
-		const newConditions = currentConditions.includes(condition)
-			? currentConditions.filter((c) => c !== condition)
-			: [...currentConditions, condition];
+	const handleBrandSelect = useCallback(
+		async (brand: PropertyBrand) => {
+			const currentBrands = searchFilter?.search?.brandList || [];
+			const newBrands = currentBrands.includes(brand)
+				? currentBrands.filter((b) => b !== brand)
+				: [...currentBrands, brand];
 
-		const newSearch = { ...searchFilter };
-		if (newConditions.length === 0) {
-			delete newSearch.search.conditionList;
-		} else {
-			newSearch.search = { ...newSearch.search, conditionList: newConditions };
-		}
+			const newSearch = { ...searchFilter };
+			if (newBrands.length === 0) {
+				delete newSearch.search.brandList;
+			} else {
+				newSearch.search = { ...newSearch.search, brandList: newBrands };
+			}
 
-		await router.push(
-			`/property?input=${JSON.stringify(newSearch)}`,
-			`/property?input=${JSON.stringify(newSearch)}`,
-			{ scroll: false },
-		);
-		setConditionAnchor(null);
-	};
+			await router.push(
+				`/property?input=${JSON.stringify(newSearch)}`,
+				`/property?input=${JSON.stringify(newSearch)}`,
+				{ scroll: false },
+			);
+			setBrandAnchor(null);
+		},
+		[searchFilter, router],
+	);
+
+	const handleConditionSelect = useCallback(
+		async (condition: PropertyCondition) => {
+			const currentConditions = searchFilter?.search?.conditionList || [];
+			const newConditions = currentConditions.includes(condition)
+				? currentConditions.filter((c) => c !== condition)
+				: [...currentConditions, condition];
+
+			const newSearch = { ...searchFilter };
+			if (newConditions.length === 0) {
+				delete newSearch.search.conditionList;
+			} else {
+				newSearch.search = { ...newSearch.search, conditionList: newConditions };
+			}
+
+			await router.push(
+				`/property?input=${JSON.stringify(newSearch)}`,
+				`/property?input=${JSON.stringify(newSearch)}`,
+				{ scroll: false },
+			);
+			setConditionAnchor(null);
+		},
+		[searchFilter, router],
+	);
 
 	const handleYearSelect = async (year: string, type: 'start' | 'end') => {
 		const currentRange = searchFilter?.search?.yearRange || { start: 1970, end: new Date().getFullYear() };
@@ -279,37 +365,40 @@ const PropertyList: NextPage = ({ initialInput, ...props }: any) => {
 		setYearAnchor(null);
 	};
 
-	const handlePriceRangeSelect = async (price: string, type: 'start' | 'end') => {
-		const currentRange = searchFilter?.search?.pricesRange || { start: 0, end: 2000000 };
-		const priceNum = parseInt(price);
+	const handlePriceRangeSelect = useCallback(
+		async (price: string, type: 'start' | 'end') => {
+			const currentRange = searchFilter?.search?.pricesRange || { start: 0, end: 2000000 };
+			const priceNum = parseInt(price);
 
-		const newRange = {
-			...currentRange,
-			[type]: priceNum,
-		};
+			const newRange = {
+				...currentRange,
+				[type]: priceNum,
+			};
 
-		// Ensure start <= end
-		if (type === 'start' && newRange.end < priceNum) {
-			newRange.end = priceNum;
-		} else if (type === 'end' && newRange.start > priceNum) {
-			newRange.start = priceNum;
-		}
+			// Ensure start <= end
+			if (type === 'start' && newRange.end < priceNum) {
+				newRange.end = priceNum;
+			} else if (type === 'end' && newRange.start > priceNum) {
+				newRange.start = priceNum;
+			}
 
-		const newSearch = {
-			...searchFilter,
-			search: {
-				...searchFilter.search,
-				pricesRange: newRange,
-			},
-		};
+			const newSearch = {
+				...searchFilter,
+				search: {
+					...searchFilter.search,
+					pricesRange: newRange,
+				},
+			};
 
-		await router.push(
-			`/property?input=${JSON.stringify(newSearch)}`,
-			`/property?input=${JSON.stringify(newSearch)}`,
-			{ scroll: false },
-		);
-		setPriceAnchor(null);
-	};
+			await router.push(
+				`/property?input=${JSON.stringify(newSearch)}`,
+				`/property?input=${JSON.stringify(newSearch)}`,
+				{ scroll: false },
+			);
+			setPriceAnchor(null);
+		},
+		[searchFilter, router],
+	);
 
 	if (device === 'mobile') {
 		return <h1>PROPERTIES MOBILE</h1>;
@@ -331,7 +420,9 @@ const PropertyList: NextPage = ({ initialInput, ...props }: any) => {
 		const selectedLocation = (searchFilter?.search?.locationList || []).length > 0 
 			? `${(searchFilter.search.locationList || []).length} selected` 
 			: 'Location';
-		const selectedYear = 'Year';
+		const selectedYear = searchFilter?.search?.yearRange
+			? `${searchFilter.search.yearRange.start} - ${searchFilter.search.yearRange.end}`
+			: 'Year';
 		const selectedPrice = searchFilter?.search?.pricesRange
 			? `$${(searchFilter.search.pricesRange.start || 0).toLocaleString()} - $${(searchFilter.search.pricesRange.end || 0).toLocaleString()}`
 			: 'Price/day';
@@ -405,16 +496,7 @@ const PropertyList: NextPage = ({ initialInput, ...props }: any) => {
 									</MenuItem>
 									<MenuItem 
 										onClick={async () => {
-											const newSearch = {
-												...searchFilter,
-												sort: 'createdAt',
-												direction: Direction.ASC,
-											};
-											await router.push(
-												`/property?input=${JSON.stringify(newSearch)}`,
-												`/property?input=${JSON.stringify(newSearch)}`,
-												{ scroll: false },
-											);
+											await oldestSortHandler();
 											setLikesAnchor(null);
 										}}
 										selected={searchFilter?.sort === 'createdAt' && searchFilter?.direction === Direction.ASC}
@@ -447,16 +529,7 @@ const PropertyList: NextPage = ({ initialInput, ...props }: any) => {
 									</MenuItem>
 									<MenuItem 
 										onClick={async () => {
-											const newSearch = {
-												...searchFilter,
-												sort: 'propertyViews',
-												direction: Direction.DESC,
-											};
-											await router.push(
-												`/property?input=${JSON.stringify(newSearch)}`,
-												`/property?input=${JSON.stringify(newSearch)}`,
-												{ scroll: false },
-											);
+											await viewsSortHandler();
 											setLikesAnchor(null);
 										}}
 										selected={searchFilter?.sort === 'propertyViews' && searchFilter?.direction === Direction.DESC}
@@ -670,51 +743,40 @@ const PropertyList: NextPage = ({ initialInput, ...props }: any) => {
 					</Stack>
 
 					<Stack className={'property-page'}>
-						<Stack className="main-config">
-							
-							{properties?.length > 0 ? (
-								<>
-									<Stack className={'list-config'}>
-										{getPropertiesLoading ? (
-											<Stack className={'loading-state'}>
-												<Typography>Loading bikes...</Typography>
-											</Stack>
-										) : (
-											properties.map((property: Property) => {
-												return <PropertyCard property={property} key={property?._id} />;
-											})
-										)}
-									</Stack>
-									<Stack className="pagination-config">
-										{properties.length !== 0 && (
-											<Stack className="pagination-box">
-												<Pagination
-													page={currentPage}
-													count={Math.ceil(total / searchFilter.limit)}
-													onChange={handlePaginationChange}
-													shape="circular"
-													color="primary"
-												/>
-											</Stack>
-										)}
-
-										{properties.length !== 0 && (
-											<Stack className="total-result">
-												<Typography>
-													Total {total} bike{total > 1 ? 's' : ''} available
-												</Typography>
-											</Stack>
-										)}
-									</Stack>
-								</>
-							) : (
-								!getPropertiesLoading && (
-									<Stack className={'no-data'}>
+						<Stack className="main-config" mb={'76px'}>
+							<Stack className={'list-config'}>
+								{properties?.length === 0 ? (
+									<div className={'no-data'}>
 										<img src="/img/icons/icoAlert.svg" alt="" />
-										<p>No Bikes found!</p>
+										<p>No Properties found!</p>
+									</div>
+								) : (
+									properties.map((property: Property) => {
+										return <PropertyCard property={property} key={property?._id}  />;
+									})
+								)}
+							</Stack>
+							<Stack className="pagination-config">
+								{properties.length !== 0 && (
+									<Stack className="pagination-box">
+										<Pagination
+											page={currentPage}
+											count={Math.ceil(total / searchFilter.limit)}
+											onChange={handlePaginationChange}
+											shape="circular"
+											color="primary"
+										/>
 									</Stack>
-								)
-							)}
+								)}
+
+								{properties.length !== 0 && (
+									<Stack className="total-result">
+										<Typography>
+											Total {total} propert{total > 1 ? 'ies' : 'y'} available
+										</Typography>
+									</Stack>
+								)}
+							</Stack>
 						</Stack>
 					</Stack>
 				</div>

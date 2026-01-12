@@ -19,6 +19,7 @@ import { useRouter } from 'next/router';
 import CancelRoundedIcon from '@mui/icons-material/CancelRounded';
 import { propertySquare } from '../../config';
 import RefreshIcon from '@mui/icons-material/Refresh';
+import { Direction } from '../../enums/common.enum';
 
 const MenuProps = {
 	PaperProps: {
@@ -32,6 +33,12 @@ interface FilterType {
 	searchFilter: PropertiesInquiry;
 	setSearchFilter: any;
 	initialInput: PropertiesInquiry;
+	likesAnchor?: HTMLElement | null;
+	setLikesAnchor?: (anchor: HTMLElement | null) => void;
+	onRecentSort?: () => void;
+	onOldestSort?: () => void;
+	onLikesSort?: (direction: Direction) => void;
+	onViewsSort?: () => void;
 }
 
 const Filter = (props: FilterType) => {
@@ -423,6 +430,91 @@ const Filter = (props: FilterType) => {
 			console.log('ERROR, refreshHandler:', err);
 		}
 	};
+
+	/** SORTING HANDLERS **/
+	const recentSortHandler = useCallback(
+		async () => {
+			try {
+				const newSearch = {
+					...searchFilter,
+					sort: 'createdAt',
+					direction: Direction.DESC,
+				};
+				await router.push(
+					`/property?input=${JSON.stringify(newSearch)}`,
+					`/property?input=${JSON.stringify(newSearch)}`,
+					{ scroll: false },
+				);
+				console.log('recentSortHandler');
+			} catch (err: any) {
+				console.log('ERROR, recentSortHandler:', err);
+			}
+		},
+		[searchFilter],
+	);
+
+	const oldestSortHandler = useCallback(
+		async () => {
+			try {
+				const newSearch = {
+					...searchFilter,
+					sort: 'createdAt',
+					direction: Direction.ASC,
+				};
+				await router.push(
+					`/property?input=${JSON.stringify(newSearch)}`,
+					`/property?input=${JSON.stringify(newSearch)}`,
+					{ scroll: false },
+				);
+				console.log('oldestSortHandler');
+			} catch (err: any) {
+				console.log('ERROR, oldestSortHandler:', err);
+			}
+		},
+		[searchFilter],
+	);
+
+	const likesSortHandler = useCallback(
+		async (direction: Direction) => {
+			try {
+				const newSearch = {
+					...searchFilter,
+					sort: 'propertyLikes',
+					direction: direction,
+				};
+				await router.push(
+					`/property?input=${JSON.stringify(newSearch)}`,
+					`/property?input=${JSON.stringify(newSearch)}`,
+					{ scroll: false },
+				);
+				console.log('likesSortHandler:', direction);
+			} catch (err: any) {
+				console.log('ERROR, likesSortHandler:', err);
+			}
+		},
+		[searchFilter],
+	);
+
+	const viewsSortHandler = useCallback(
+		async () => {
+			try {
+				const newSearch = {
+					...searchFilter,
+					sort: 'propertyViews',
+					direction: Direction.DESC,
+				};
+				await router.push(
+					`/property?input=${JSON.stringify(newSearch)}`,
+					`/property?input=${JSON.stringify(newSearch)}`,
+					{ scroll: false },
+				);
+				console.log('viewsSortHandler');
+			} catch (err: any) {
+				console.log('ERROR, viewsSortHandler:', err);
+			}
+		},
+		[searchFilter],
+	);
 
 	if (device === 'mobile') {
 		return <div>PROPERTIES FILTER</div>;
