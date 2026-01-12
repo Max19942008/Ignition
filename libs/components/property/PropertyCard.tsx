@@ -58,18 +58,24 @@ const PropertyCard = (props: PropertyCardType) => {
 					>
 						<img src={imagePath} alt="" />
 					</Link>
-					{property && property?.propertyRank > 0 && (
-						<Box component={'div'} className={'top-badge'}>
-							<img src="/img/icons/electricity.svg" alt="" />
-							<Typography>TOP</Typography>
+					{/* Type Badge - Yuqori chapda */}
+					{property?.propertyType && (
+						<Box component={'div'} className={'type-badge'}>
+							<Typography>{property.propertyType}</Typography>
 						</Box>
 					)}
-					{/* Views Badge - Chap pastda */}
+					{/* Price Overlay - Pastki chapda */}
+					<Box component={'div'} className={'price-overlay'}>
+						<Typography className="price-overlay-label">FROM</Typography>
+						<Typography className="price-overlay-value">${formatterStr(property?.propertyPrice)}</Typography>
+						<Typography className="price-overlay-period">/DAY</Typography>
+					</Box>
+					{/* Views Badge - Pastki o'ngda */}
 					<Box component={'div'} className={'views-badge'}>
 						<RemoveRedEyeIcon sx={{ fontSize: '16px', color: '#fff' }} />
 						<Typography>{property?.propertyViews || 0}</Typography>
 					</Box>
-					{/* Likes Badge - O'ng pastda */}
+					{/* Likes Badge - Pastki o'ngda, views'dan yuqorida */}
 					<Box 
 						component={'div'} 
 						className={'likes-badge'}
@@ -103,48 +109,30 @@ const PropertyCard = (props: PropertyCardType) => {
 								<Typography className="card-title">{property.propertyTitle}</Typography>
 							</Link>
 							<Typography className="card-subtitle">
-								{property.propertyBrand} - {property.propertyYear}
+								{property.propertyBrand} • {property.propertyYear}
 							</Typography>
 						</Stack>
-						{/* Rating Badge */}
-						<Box className="rating-badge">
-							<StarIcon sx={{ fontSize: '14px', color: '#FFD700' }} />
-							<Typography>{ratingValue}</Typography>
-						</Box>
 					</Stack>
 
-					{/* Location Badge */}
-					<Box className="location-badge">
-						<LocationOnIcon sx={{ fontSize: '16px', color: '#7B61FF' }} />
-						<Typography className="location-text">{property.propertyLocation}</Typography>
-						<Typography className="address-text">{property.propertyAddress}</Typography>
-					</Box>
+					{/* Description */}
+					<Typography className="card-description">
+						{property.propertyDesc || 'Clean ride, ready for your next trip.'}
+					</Typography>
 
-					{/* Specs Badges */}
+					{/* Specs Badges - Icons bilan */}
 					<Stack className="specs-row">
 						<Box className="spec-badge">
-							<SpeedIcon sx={{ fontSize: '14px', color: '#7B61FF' }} />
-							<Typography>{property.propertyMileAge} miles</Typography>
+							<SpeedIcon sx={{ fontSize: '14px', color: '#E92C28' }} />
+							<Typography>{property.propertyMileAge || 0} km</Typography>
 						</Box>
 						<Box className="spec-badge">
-							<TwoWheelerIcon sx={{ fontSize: '14px', color: '#7B61FF' }} />
-							<Typography>{property.propertyCondition}</Typography>
+							<TwoWheelerIcon sx={{ fontSize: '14px', color: '#E92C28' }} />
+							<Typography>{property.propertyCondition || 'N/A'}</Typography>
 						</Box>
 						<Box className="spec-badge">
-							<EngineeringIcon sx={{ fontSize: '14px', color: '#7B61FF' }} />
-							<Typography>{property.propertyEngineCc} cc</Typography>
+							<EngineeringIcon sx={{ fontSize: '14px', color: '#E92C28' }} />
+							<Typography>{property.propertyEngineCc || 0} cc</Typography>
 						</Box>
-					</Stack>
-
-					{/* Price va Buy Now Button */}
-					<Stack className="card-footer">
-						<Box className="price-section">
-							<Typography className="price-label">FROM</Typography>
-							<Typography className="price-value">${formatterStr(property?.propertyPrice)}</Typography>
-						</Box>
-						<Button className="buy-now-button" onClick={handleBuyNow}>
-							Buy Now
-						</Button>
 					</Stack>
 				</Stack>
 			</Stack>
