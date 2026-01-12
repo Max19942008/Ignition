@@ -23,6 +23,9 @@ export interface Property {
 	propertyPrice: number;
 	propertyMileAge: number;
 	propertyEngineCc: number;
+	propertyBeds: number;
+	propertyRooms: number;
+	propertySquare: number;
 	propertyYear: number;
 	propertyViews: number;
 	propertyLikes: number;

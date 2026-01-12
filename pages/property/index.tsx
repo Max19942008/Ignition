@@ -14,6 +14,9 @@ import RefreshIcon from '@mui/icons-material/Refresh';
 import { Direction } from '../../libs/enums/common.enum';
 import { PropertyLocation, PropertyType, PropertyBrand, PropertyCondition } from '../../libs/enums/property.enum';
 import { propertyYears } from '../../libs/config';
+import { GET_PROPERTIES } from '../../apollo/user/query';
+import { useQuery } from '@apollo/client';
+import { T } from '../../libs/types/common';
 
 export const getStaticProps = async ({ locale }: any) => ({
 	props: {
@@ -42,6 +45,20 @@ const PropertyList: NextPage = ({ initialInput, ...props }: any) => {
 	const [likesAnchor, setLikesAnchor] = useState<null | HTMLElement>(null);
 
 	/** APOLLO REQUESTS **/
+	const {
+		loading: getPropertiesLoading,
+		data: getPropertiesData,
+		error: getPropertiesError,
+		refetch: getPropertiesRefetch,
+	} = useQuery(GET_PROPERTIES, {
+		fetchPolicy: 'cache-and-network',
+		variables: { input: searchFilter },
+		notifyOnNetworkStatusChange: true,
+		onCompleted: (data: T) => {
+			setProperties(data?.getProperties?.list || []);
+			setTotal(data?.getProperties?.metaCounter?.[0]?.total || 0);
+		},
+	});
 
 	/** LIFECYCLES **/
 	useEffect(() => {
@@ -64,6 +81,12 @@ const PropertyList: NextPage = ({ initialInput, ...props }: any) => {
 			}
 		}
 	}, [router.query.input]);
+
+	useEffect(() => {
+		if (searchFilter) {
+			getPropertiesRefetch({ input: searchFilter });
+		}
+	}, [searchFilter]);
 
 	/** HANDLERS **/
 	const handlePaginationChange = async (event: ChangeEvent<unknown>, value: number) => {
@@ -336,7 +359,7 @@ const PropertyList: NextPage = ({ initialInput, ...props }: any) => {
 								<Button
 									className={'filter-likes-button'}
 									endIcon={<KeyboardArrowDownRoundedIcon />}
-									onClick={(e) => setLikesAnchor(e.currentTarget)}
+									onClick={(e: React.MouseEvent<HTMLButtonElement>) => setLikesAnchor(e.currentTarget)}
 								>
 									Likes
 								</Button>
@@ -357,7 +380,7 @@ const PropertyList: NextPage = ({ initialInput, ...props }: any) => {
 							<Button
 								className={'filter-dropdown-button'}
 								endIcon={<KeyboardArrowDownRoundedIcon />}
-								onClick={(e) => setBrandAnchor(e.currentTarget)}
+								onClick={(e: React.MouseEvent<HTMLButtonElement>) => setBrandAnchor(e.currentTarget)}
 							>
 								{selectedBrand}
 							</Button>
@@ -382,7 +405,7 @@ const PropertyList: NextPage = ({ initialInput, ...props }: any) => {
 							<Button
 								className={'filter-dropdown-button'}
 								endIcon={<KeyboardArrowDownRoundedIcon />}
-								onClick={(e) => setTypeAnchor(e.currentTarget)}
+								onClick={(e: React.MouseEvent<HTMLButtonElement>) => setTypeAnchor(e.currentTarget)}
 							>
 								{selectedType}
 							</Button>
@@ -407,7 +430,7 @@ const PropertyList: NextPage = ({ initialInput, ...props }: any) => {
 							<Button
 								className={'filter-dropdown-button'}
 								endIcon={<KeyboardArrowDownRoundedIcon />}
-								onClick={(e) => setConditionAnchor(e.currentTarget)}
+								onClick={(e: React.MouseEvent<HTMLButtonElement>) => setConditionAnchor(e.currentTarget)}
 							>
 								{selectedCondition}
 							</Button>
@@ -432,7 +455,7 @@ const PropertyList: NextPage = ({ initialInput, ...props }: any) => {
 							<Button
 								className={'filter-dropdown-button'}
 								endIcon={<KeyboardArrowDownRoundedIcon />}
-								onClick={(e) => setLocationAnchor(e.currentTarget)}
+								onClick={(e: React.MouseEvent<HTMLButtonElement>) => setLocationAnchor(e.currentTarget)}
 							>
 								{selectedLocation}
 							</Button>
@@ -457,7 +480,7 @@ const PropertyList: NextPage = ({ initialInput, ...props }: any) => {
 							<Button
 								className={'filter-dropdown-button'}
 								endIcon={<KeyboardArrowDownRoundedIcon />}
-								onClick={(e) => setYearAnchor(e.currentTarget)}
+								onClick={(e: React.MouseEvent<HTMLButtonElement>) => setYearAnchor(e.currentTarget)}
 							>
 								{selectedYear}
 							</Button>
@@ -470,7 +493,7 @@ const PropertyList: NextPage = ({ initialInput, ...props }: any) => {
 								<Typography sx={{ px: 2, py: 1, fontWeight: 600, fontSize: '12px', color: '#717171' }}>
 									From Year
 								</Typography>
-								{propertyYears.slice().reverse().map((year) => (
+								{propertyYears.slice().reverse().map((year: string) => (
 									<MenuItem
 										key={`start-${year}`}
 										onClick={() => handleYearSelect(year, 'start')}
@@ -482,7 +505,7 @@ const PropertyList: NextPage = ({ initialInput, ...props }: any) => {
 								<Typography sx={{ px: 2, py: 1, fontWeight: 600, fontSize: '12px', color: '#717171', mt: 1, borderTop: '1px solid #eee' }}>
 									To Year
 								</Typography>
-								{propertyYears.slice().reverse().map((year) => (
+								{propertyYears.slice().reverse().map((year: string) => (
 									<MenuItem
 										key={`end-${year}`}
 										onClick={() => handleYearSelect(year, 'end')}
@@ -497,7 +520,7 @@ const PropertyList: NextPage = ({ initialInput, ...props }: any) => {
 							<Button
 								className={'filter-dropdown-button'}
 								endIcon={<KeyboardArrowDownRoundedIcon />}
-								onClick={(e) => setPriceAnchor(e.currentTarget)}
+								onClick={(e: React.MouseEvent<HTMLButtonElement>) => setPriceAnchor(e.currentTarget)}
 							>
 								{selectedPrice}
 							</Button>
@@ -545,38 +568,49 @@ const PropertyList: NextPage = ({ initialInput, ...props }: any) => {
 					</Stack>
 
 					<Stack className={'property-page'}>
-						<Stack className="main-config" mb={'76px'}>
-							<Stack className={'list-config'}>
-								{properties.map((property: Property) => {
-									return <PropertyCard property={property} key={property?._id} />;
-								})}
-							</Stack>
-							<Stack className="pagination-config">
-								{properties.length !== 0 && (
-									<Stack className="pagination-box">
-										<Pagination
-											page={currentPage}
-											count={Math.ceil(total / searchFilter.limit)}
-											onChange={handlePaginationChange}
-											shape="circular"
-											color="primary"
-										/>
+						<Stack className="main-config">
+							{properties?.length > 0 ? (
+								<>
+									<Stack className={'list-config'}>
+										{getPropertiesLoading ? (
+											<Stack className={'loading-state'}>
+												<Typography>Loading bikes...</Typography>
+											</Stack>
+										) : (
+											properties.map((property: Property) => {
+												return <PropertyCard property={property} key={property?._id} />;
+											})
+										)}
 									</Stack>
-								)}
+									<Stack className="pagination-config">
+										{properties.length !== 0 && (
+											<Stack className="pagination-box">
+												<Pagination
+													page={currentPage}
+													count={Math.ceil(total / searchFilter.limit)}
+													onChange={handlePaginationChange}
+													shape="circular"
+													color="primary"
+												/>
+											</Stack>
+										)}
 
-								{properties.length !== 0 && (
-									<Stack className="total-result">
-										<Typography>
-											Total {total} propert{total > 1 ? 'ies' : 'y'} available
-										</Typography>
+										{properties.length !== 0 && (
+											<Stack className="total-result">
+												<Typography>
+													Total {total} bike{total > 1 ? 's' : ''} available
+												</Typography>
+											</Stack>
+										)}
 									</Stack>
-								)}
-							</Stack>
-							{properties?.length === 0 && (
-								<Stack className={'no-data'}>
-									<img src="/img/icons/icoAlert.svg" alt="" />
-									<p>No Properties found!</p>
-								</Stack>
+								</>
+							) : (
+								!getPropertiesLoading && (
+									<Stack className={'no-data'}>
+										<img src="/img/icons/icoAlert.svg" alt="" />
+										<p>No Bikes found!</p>
+									</Stack>
+								)
 							)}
 						</Stack>
 					</Stack>
@@ -593,9 +627,9 @@ PropertyList.defaultProps = {
 		sort: 'createdAt',
 		direction: 'DESC',
 		search: {
-			squaresRange: {
-				start: 0,
-				end: 500,
+			yearRange: {
+				start: 2000,
+				end: new Date().getFullYear(),
 			},
 			pricesRange: {
 				start: 0,
