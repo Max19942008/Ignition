@@ -17,6 +17,7 @@ import { propertyYears } from '../../libs/config';
 import { GET_PROPERTIES } from '../../apollo/user/query';
 import { useQuery } from '@apollo/client';
 import { T } from '../../libs/types/common';
+import Filter from '../../libs/components/property/Filter';
 
 export const getStaticProps = async ({ locale }: any) => ({
 	props: {
@@ -330,9 +331,7 @@ const PropertyList: NextPage = ({ initialInput, ...props }: any) => {
 		const selectedLocation = (searchFilter?.search?.locationList || []).length > 0 
 			? `${(searchFilter.search.locationList || []).length} selected` 
 			: 'Location';
-		const selectedYear = searchFilter?.search?.yearRange
-			? `${searchFilter.search.yearRange.start || 1970} - ${searchFilter.search.yearRange.end || new Date().getFullYear()}`
-			: 'Year';
+		const selectedYear = 'Year';
 		const selectedPrice = searchFilter?.search?.pricesRange
 			? `$${(searchFilter.search.pricesRange.start || 0).toLocaleString()} - $${(searchFilter.search.pricesRange.end || 0).toLocaleString()}`
 			: 'Price/day';
@@ -367,9 +366,112 @@ const PropertyList: NextPage = ({ initialInput, ...props }: any) => {
 									anchorEl={likesAnchor}
 									open={Boolean(likesAnchor)}
 									onClose={() => setLikesAnchor(null)}
+									PaperProps={{ 
+										style: { 
+											borderRadius: '10px',
+											border: '1px solid #e5e5e5',
+											boxShadow: '0px 4px 12px 0px rgba(0, 0, 0, 0.1)',
+											marginTop: '8px',
+											minWidth: '160px'
+										} 
+									}}
 								>
-									<MenuItem onClick={() => handleLikesSort(Direction.DESC)}>Most Liked</MenuItem>
-									<MenuItem onClick={() => handleLikesSort(Direction.ASC)}>Least Liked</MenuItem>
+									<MenuItem 
+										onClick={async () => {
+											const newSearch = {
+												...searchFilter,
+												sort: 'createdAt',
+												direction: Direction.DESC,
+											};
+											await router.push(
+												`/property?input=${JSON.stringify(newSearch)}`,
+												`/property?input=${JSON.stringify(newSearch)}`,
+												{ scroll: false },
+											);
+											setLikesAnchor(null);
+										}}
+										selected={searchFilter?.sort === 'createdAt' && searchFilter?.direction === Direction.DESC}
+										sx={{ 
+											fontSize: '14px',
+											padding: '10px 18px',
+											'&:hover': { background: '#f9f9f9' },
+											'&.Mui-selected': { 
+												background: '#f5f5f5',
+												'&:hover': { background: '#f0f0f0' }
+											}
+										}}
+									>
+										Recent
+									</MenuItem>
+									<MenuItem 
+										onClick={async () => {
+											const newSearch = {
+												...searchFilter,
+												sort: 'createdAt',
+												direction: Direction.ASC,
+											};
+											await router.push(
+												`/property?input=${JSON.stringify(newSearch)}`,
+												`/property?input=${JSON.stringify(newSearch)}`,
+												{ scroll: false },
+											);
+											setLikesAnchor(null);
+										}}
+										selected={searchFilter?.sort === 'createdAt' && searchFilter?.direction === Direction.ASC}
+										sx={{ 
+											fontSize: '14px',
+											padding: '10px 18px',
+											'&:hover': { background: '#f9f9f9' },
+											'&.Mui-selected': { 
+												background: '#f5f5f5',
+												'&:hover': { background: '#f0f0f0' }
+											}
+										}}
+									>
+										Oldest
+									</MenuItem>
+									<MenuItem 
+										onClick={() => handleLikesSort(Direction.DESC)}
+										selected={searchFilter?.sort === 'propertyLikes' && searchFilter?.direction === Direction.DESC}
+										sx={{ 
+											fontSize: '14px',
+											padding: '10px 18px',
+											'&:hover': { background: '#f9f9f9' },
+											'&.Mui-selected': { 
+												background: '#f5f5f5',
+												'&:hover': { background: '#f0f0f0' }
+											}
+										}}
+									>
+										Likes
+									</MenuItem>
+									<MenuItem 
+										onClick={async () => {
+											const newSearch = {
+												...searchFilter,
+												sort: 'propertyViews',
+												direction: Direction.DESC,
+											};
+											await router.push(
+												`/property?input=${JSON.stringify(newSearch)}`,
+												`/property?input=${JSON.stringify(newSearch)}`,
+												{ scroll: false },
+											);
+											setLikesAnchor(null);
+										}}
+										selected={searchFilter?.sort === 'propertyViews' && searchFilter?.direction === Direction.DESC}
+										sx={{ 
+											fontSize: '14px',
+											padding: '10px 18px',
+											'&:hover': { background: '#f9f9f9' },
+											'&.Mui-selected': { 
+												background: '#f5f5f5',
+												'&:hover': { background: '#f0f0f0' }
+											}
+										}}
+									>
+										Views
+									</MenuItem>
 								</Menu>
 							</Box>
 						</Stack>
@@ -569,6 +671,7 @@ const PropertyList: NextPage = ({ initialInput, ...props }: any) => {
 
 					<Stack className={'property-page'}>
 						<Stack className="main-config">
+							
 							{properties?.length > 0 ? (
 								<>
 									<Stack className={'list-config'}>
