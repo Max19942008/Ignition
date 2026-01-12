@@ -66,34 +66,33 @@ const PropertyCard = (props: PropertyCardType) => {
 					)}
 					{/* Price Overlay - Pastki chapda */}
 					<Box component={'div'} className={'price-overlay'}>
-						<Typography className="price-overlay-label">FROM</Typography>
 						<Typography className="price-overlay-value">${formatterStr(property?.propertyPrice)}</Typography>
-						<Typography className="price-overlay-period">/DAY</Typography>
 					</Box>
-					{/* Views Badge - Pastki o'ngda */}
-					<Box component={'div'} className={'views-badge'}>
-						<RemoveRedEyeIcon sx={{ fontSize: '16px', color: '#fff' }} />
-						<Typography>{property?.propertyViews || 0}</Typography>
-					</Box>
-					{/* Likes Badge - Pastki o'ngda, views'dan yuqorida */}
-					<Box 
-						component={'div'} 
-						className={'likes-badge'}
-						onClick={(e) => {
-							e.preventDefault();
-							if (likePropertyHandler && user) {
-								likePropertyHandler(user, property?._id);
-							}
-						}}
-						sx={{ cursor: 'pointer' }}
-					>
-						{liked ? (
-							<FavoriteIcon sx={{ fontSize: '16px', color: '#fff' }} />
-						) : (
-							<FavoriteBorderIcon sx={{ fontSize: '16px', color: '#fff' }} />
-						)}
-						<Typography>{property?.propertyLikes || 0}</Typography>
-					</Box>
+					{/* Views va Likes Badge - Pastki o'ngda, bir qatorda */}
+					<Stack className="engagement-badges">
+						<Box 
+							component={'div'} 
+							className={'likes-badge'}
+							onClick={(e) => {
+								e.preventDefault();
+								if (likePropertyHandler && user) {
+									likePropertyHandler(user, property?._id);
+								}
+							}}
+							sx={{ cursor: 'pointer' }}
+						>
+							{liked ? (
+								<FavoriteIcon sx={{ fontSize: '16px', color: '#fff' }} />
+							) : (
+								<FavoriteBorderIcon sx={{ fontSize: '16px', color: '#fff' }} />
+							)}
+							<Typography>{property?.propertyLikes || 0}</Typography>
+						</Box>
+						<Box component={'div'} className={'views-badge'}>
+							<RemoveRedEyeIcon sx={{ fontSize: '16px', color: '#fff' }} />
+							<Typography>{property?.propertyViews || 0}</Typography>
+						</Box>
+					</Stack>
 				</Stack>
 				<Stack className="bottom">
 					{/* Title va Brand/Year */}
@@ -114,10 +113,16 @@ const PropertyCard = (props: PropertyCardType) => {
 						</Stack>
 					</Stack>
 
-					{/* Description */}
-					<Typography className="card-description">
-						{property.propertyDesc || 'Clean ride, ready for your next trip.'}
-					</Typography>
+					{/* Location va Address */}
+					<Box className="location-info">
+						<LocationOnIcon sx={{ fontSize: '16px', color: '#E92C28' }} />
+						<Stack className="location-details">
+							<Typography className="location-text">{property.propertyLocation}</Typography>
+							{property.propertyAddress && (
+								<Typography className="address-text">{property.propertyAddress}</Typography>
+							)}
+						</Stack>
+					</Box>
 
 					{/* Specs Badges - Icons bilan */}
 					<Stack className="specs-row">

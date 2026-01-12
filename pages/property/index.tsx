@@ -458,11 +458,11 @@ const PropertyList: NextPage = ({ initialInput, ...props }: any) => {
 									Reset
 								</Button>
 								<Button
-									className={'filter-likes-button'}
+									className={'filter-sort-button'}
 									endIcon={<KeyboardArrowDownRoundedIcon />}
 									onClick={(e: React.MouseEvent<HTMLButtonElement>) => setLikesAnchor(e.currentTarget)}
 								>
-									Likes
+									{filterSortName}
 								</Button>
 								<Menu
 									anchorEl={likesAnchor}
