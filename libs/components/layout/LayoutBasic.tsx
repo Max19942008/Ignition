@@ -29,9 +29,9 @@ const withLayoutBasic = (Component: any) => {
 
 			switch (router.pathname) {
 				case '/property':
-					title = 'Property Search';
-					desc = 'We are glad to see you again!';
-					bgImage = '/img/banner/properties.png';
+					title = 'Find Your Perfect Ride';
+					desc = 'Discover amazing bikes • Explore endless possibilities';
+					bgImage = '/img/property/ducati1.avif';
 					break;
 				case '/agent':
 					title = 'Agents';
@@ -93,8 +93,8 @@ const withLayoutBasic = (Component: any) => {
 			return (
 				<>
 					<Head>
-						<title>Nestar</title>
-						<meta name={'title'} content={`Nestar`} />
+						<title>IGNITION</title>
+						<meta name={'title'} content={`IGNITION`} />
 					</Head>
 					<Stack id="mobile-wrap">
 						<Stack id={'top'}>
@@ -115,8 +115,8 @@ const withLayoutBasic = (Component: any) => {
 			return (
 				<>
 					<Head>
-						<title>Nestar</title>
-						<meta name={'title'} content={`Nestar`} />
+						<title>IGNITION</title>
+						<meta name={'title'} content={`IGNITION`} />
 					</Head>
 					<Stack id="pc-wrap">
 						<Stack id={'top'}>
@@ -127,7 +127,9 @@ const withLayoutBasic = (Component: any) => {
 							className={`header-basic ${authHeader && 'auth'}`}
 							style={{
 								backgroundImage: `url(${memoizedValues.bgImage})`,
-								backgroundSize: 'cover',
+								backgroundSize: '60%',
+								backgroundRepeat: 'no-repeat',
+								backgroundPosition: 'center',
 								boxShadow: 'inset 10px 40px 150px 40px rgb(24 22 36)',
 							}}
 						>

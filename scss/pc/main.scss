@@ -356,6 +356,9 @@ body::-webkit-scrollbar {
 							transition: all 0.3s ease;
 							padding: 8px;
 							border-radius: 10px;
+							font-size: 44px !important;
+							width: 44px !important;
+							height: 44px !important;
 							&:hover {
 								color: #ffffff;
 								background: rgba(255, 255, 255, 0.1);
