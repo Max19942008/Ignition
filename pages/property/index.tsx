@@ -45,6 +45,16 @@ const PropertyList: NextPage = ({ initialInput, ...props }: any) => {
 	const [likesAnchor, setLikesAnchor] = useState<null | HTMLElement>(null);
 
 	/** APOLLO REQUESTS **/
+	// Backend schema'ga moslash uchun yearRange va pricesRange'ni olib tashlash
+	const sanitizedSearchFilter = useCallback(() => {
+		const sanitized = { ...searchFilter };
+		if (sanitized.search) {
+			const { yearRange, pricesRange, ...restSearch } = sanitized.search;
+			sanitized.search = restSearch;
+		}
+		return sanitized;
+	}, [searchFilter]);
+
 	const {
 		loading: getPropertiesLoading,
 		data: getPropertiesData,
@@ -52,11 +62,11 @@ const PropertyList: NextPage = ({ initialInput, ...props }: any) => {
 		refetch: getPropertiesRefetch,
 	} = useQuery(GET_PROPERTIES, {
 		fetchPolicy: 'network-only',
-		variables: { input: searchFilter },
+		variables: { input: sanitizedSearchFilter() },
 		notifyOnNetworkStatusChange: true,
 		onCompleted: (data: T) => {
-			setProperties(data?.getProperties?.list );
-			setTotal(data?.getProperties?.metaCounter?.[0]?.total );
+			setProperties(data?.getProperties?.list || []);
+			setTotal(data?.getProperties?.metaCounter?.[0]?.total || 0);
 		},
 	});
 
@@ -84,9 +94,10 @@ const PropertyList: NextPage = ({ initialInput, ...props }: any) => {
 
 	useEffect(() => {
 		if (searchFilter) {
-			getPropertiesRefetch({ input: searchFilter });
+			const sanitized = sanitizedSearchFilter();
+			getPropertiesRefetch({ input: sanitized });
 		}
-	}, [searchFilter]);
+	}, [searchFilter, sanitizedSearchFilter, getPropertiesRefetch]);
 
 	/** HANDLERS **/
 	const handlePaginationChange = useCallback(
@@ -408,24 +419,24 @@ const PropertyList: NextPage = ({ initialInput, ...props }: any) => {
 		const propertyBrands = Object.values(PropertyBrand);
 		const propertyConditions = Object.values(PropertyCondition);
 		
-		const selectedBrand = (searchFilter?.search?.brandList || []).length > 0 
-			? `${(searchFilter.search.brandList || []).length} selected` 
-			: 'Brand';
-		const selectedType = (searchFilter?.search?.typeList || []).length > 0 
-			? `${(searchFilter.search.typeList || []).length} selected` 
-			: 'Type';
-		const selectedCondition = (searchFilter?.search?.conditionList || []).length > 0 
-			? `${(searchFilter.search.conditionList || []).length} selected` 
-			: 'Condition';
-		const selectedLocation = (searchFilter?.search?.locationList || []).length > 0 
-			? `${(searchFilter.search.locationList || []).length} selected` 
-			: 'Location';
-		const selectedYear = searchFilter?.search?.yearRange
-			? `${searchFilter.search.yearRange.start} - ${searchFilter.search.yearRange.end}`
-			: 'Year';
-		const selectedPrice = searchFilter?.search?.pricesRange
-			? `$${(searchFilter.search.pricesRange.start || 0).toLocaleString()} - $${(searchFilter.search.pricesRange.end || 0).toLocaleString()}`
-			: 'Price/day';
+	const selectedBrand = (searchFilter?.search?.brandList || []).length > 0 
+		? `${(searchFilter?.search?.brandList || []).length} selected` 
+		: 'Brand';
+	const selectedType = (searchFilter?.search?.typeList || []).length > 0 
+		? `${(searchFilter?.search?.typeList || []).length} selected` 
+		: 'Type';
+	const selectedCondition = (searchFilter?.search?.conditionList || []).length > 0 
+		? `${(searchFilter?.search?.conditionList || []).length} selected` 
+		: 'Condition';
+	const selectedLocation = (searchFilter?.search?.locationList || []).length > 0 
+		? `${(searchFilter?.search?.locationList || []).length} selected` 
+		: 'Location';
+	const selectedYear = searchFilter?.search?.yearRange
+		? `${searchFilter?.search?.yearRange?.start} - ${searchFilter?.search?.yearRange?.end}`
+		: 'Year';
+	const selectedPrice = searchFilter?.search?.pricesRange
+		? `$${(searchFilter?.search?.pricesRange?.start || 0).toLocaleString()} - $${(searchFilter?.search?.pricesRange?.end || 0).toLocaleString()}`
+		: 'Price/day';
 
 		return (
 			<div id="property-list-page" style={{ position: 'relative' }}>

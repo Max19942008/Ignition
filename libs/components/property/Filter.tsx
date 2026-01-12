@@ -65,102 +65,86 @@ const Filter = (props: FilterType) => {
 		async (e: any) => {
 			try {
 				const isChecked = e.target.checked;
-				const value = e.target.value;
+				const value = e.target.value as PropertyLocation;
+				const currentLocations = searchFilter?.search?.locationList || [];
+				
+				let newLocations: PropertyLocation[];
 				if (isChecked) {
-					await router.push(
-						`/property?input=${JSON.stringify({
-							...searchFilter,
-							search: { ...searchFilter.search, locationList: [...(searchFilter?.search?.locationList || []), value] },
-						})}`,
-						`/property?input=${JSON.stringify({
-							...searchFilter,
-							search: { ...searchFilter.search, locationList: [...(searchFilter?.search?.locationList || []), value] },
-						})}`,
-						{ scroll: false },
-					);
-				} else if (searchFilter?.search?.locationList?.includes(value)) {
-					await router.push(
-						`/property?input=${JSON.stringify({
-							...searchFilter,
-							search: {
-								...searchFilter.search,
-								locationList: searchFilter?.search?.locationList?.filter((item: string) => item !== value),
-							},
-						})}`,
-						`/property?input=${JSON.stringify({
-							...searchFilter,
-							search: {
-								...searchFilter.search,
-								locationList: searchFilter?.search?.locationList?.filter((item: string) => item !== value),
-							},
-						})}`,
-						{ scroll: false },
-					);
+					// Agar tanlangan bo'lsa, qo'shish
+					if (!currentLocations.includes(value)) {
+						newLocations = [...currentLocations, value];
+					} else {
+						newLocations = currentLocations;
+					}
+				} else {
+					// Agar tanlangan bo'lmasa, olib tashlash
+					newLocations = currentLocations.filter((item: PropertyLocation) => item !== value);
 				}
 
-				if (searchFilter?.search?.typeList?.length == 0) {
-					alert('error');
+				const newSearch = { ...searchFilter };
+				if (newLocations.length === 0) {
+					delete newSearch.search.locationList;
+				} else {
+					newSearch.search = { ...newSearch.search, locationList: newLocations };
 				}
 
-				console.log('propertyLocationSelectHandler:', e.target.value);
+				await router.push(
+					`/property?input=${JSON.stringify(newSearch)}`,
+					`/property?input=${JSON.stringify(newSearch)}`,
+					{ scroll: false },
+				);
+
+				console.log('propertyLocationSelectHandler:', e.target.value, 'newLocations:', newLocations);
 			} catch (err: any) {
 				console.log('ERROR, propertyLocationSelectHandler:', err);
 			}
 		},
-		[searchFilter],
+		[searchFilter, router],
 	);
 
 	const propertyTypeSelectHandler = useCallback(
 		async (e: any) => {
 			try {
 				const isChecked = e.target.checked;
-				const value = e.target.value;
+				const value = e.target.value as PropertyType;
+				const currentTypes = searchFilter?.search?.typeList || [];
+				
+				let newTypes: PropertyType[];
 				if (isChecked) {
-					await router.push(
-						`/property?input=${JSON.stringify({
-							...searchFilter,
-							search: { ...searchFilter.search, typeList: [...(searchFilter?.search?.typeList || []), value] },
-						})}`,
-						`/property?input=${JSON.stringify({
-							...searchFilter,
-							search: { ...searchFilter.search, typeList: [...(searchFilter?.search?.typeList || []), value] },
-						})}`,
-						{ scroll: false },
-					);
-				} else if (searchFilter?.search?.typeList?.includes(value)) {
-					await router.push(
-						`/property?input=${JSON.stringify({
-							...searchFilter,
-							search: {
-								...searchFilter.search,
-								typeList: searchFilter?.search?.typeList?.filter((item: string) => item !== value),
-							},
-						})}`,
-						`/property?input=${JSON.stringify({
-							...searchFilter,
-							search: {
-								...searchFilter.search,
-								typeList: searchFilter?.search?.typeList?.filter((item: string) => item !== value),
-							},
-						})}`,
-						{ scroll: false },
-					);
+					// Agar tanlangan bo'lsa, qo'shish
+					if (!currentTypes.includes(value)) {
+						newTypes = [...currentTypes, value];
+					} else {
+						newTypes = currentTypes;
+					}
+				} else {
+					// Agar tanlangan bo'lmasa, olib tashlash
+					newTypes = currentTypes.filter((item: PropertyType) => item !== value);
 				}
 
-				if (searchFilter?.search?.typeList?.length == 0) {
-					alert('error');
+				const newSearch = { ...searchFilter };
+				if (newTypes.length === 0) {
+					delete newSearch.search.typeList;
+				} else {
+					newSearch.search = { ...newSearch.search, typeList: newTypes };
 				}
 
-				console.log('propertyTypeSelectHandler:', e.target.value);
+				await router.push(
+					`/property?input=${JSON.stringify(newSearch)}`,
+					`/property?input=${JSON.stringify(newSearch)}`,
+					{ scroll: false },
+				);
+
+				console.log('propertyTypeSelectHandler:', e.target.value, 'newTypes:', newTypes);
 			} catch (err: any) {
 				console.log('ERROR, propertyTypeSelectHandler:', err);
 			}
 		},
-		[searchFilter],
+		[searchFilter, router],
 	);
 
 	const propertyRoomSelectHandler = useCallback(
-		async (number: Number) => {
+		async (number: number) => {
 			try {
 				if (number != 0) {
 					if (searchFilter?.search?.roomsList?.includes(number)) {
@@ -268,7 +252,7 @@ const Filter = (props: FilterType) => {
 	);
 
 	const propertyBedSelectHandler = useCallback(
-		async (number: Number) => {
+		async (number: number) => {
 			try {
 				if (number != 0) {
 					if (searchFilter?.search?.bedsList?.includes(number)) {
