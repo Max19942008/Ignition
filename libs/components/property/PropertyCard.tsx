@@ -72,9 +72,9 @@ const PropertyCard = (props: PropertyCardType) => {
 					<Stack className="engagement-badges">
 						<Box 
 							component={'div'} 
-							className={'likes-badge'}
-							onClick={(e) => {
-								e.preventDefault();
+							className={`likes-badge ${liked ? 'liked' : 'not-liked'}`}
+							onClick={() => {
+							
 								if (likePropertyHandler && user) {
 									likePropertyHandler(user, property?._id);
 								}
@@ -84,7 +84,7 @@ const PropertyCard = (props: PropertyCardType) => {
 							{liked ? (
 								<FavoriteIcon sx={{ fontSize: '16px', color: '#fff' }} />
 							) : (
-								<FavoriteBorderIcon sx={{ fontSize: '16px', color: '#fff' }} />
+								<FavoriteBorderIcon sx={{ fontSize: '16px', color: '#181a20' }} />
 							)}
 							<Typography>{property?.propertyLikes || 0}</Typography>
 						</Box>
