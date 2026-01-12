@@ -769,23 +769,22 @@ const PropertyList: NextPage = ({ initialInput, ...props }: any) => {
 							</Stack>
 							<Stack className="pagination-config">
 								{properties.length !== 0 && (
-									<Stack className="pagination-box">
-										<Pagination
-											page={currentPage}
-											count={Math.ceil(total / searchFilter.limit)}
-											onChange={handlePaginationChange}
-											shape="circular"
-											color="primary"
-										/>
-									</Stack>
-								)}
-
-								{properties.length !== 0 && (
-									<Stack className="total-result">
-										<Typography>
-											Total {total} propert{total > 1 ? 'ies' : 'y'} available
-										</Typography>
-									</Stack>
+									<>
+										<Stack className="pagination-box">
+											<Pagination
+												page={currentPage}
+												count={Math.ceil(total / searchFilter.limit)}
+												onChange={handlePaginationChange}
+												shape="circular"
+												color="primary"
+											/>
+										</Stack>
+										<Stack className="total-result">
+											<Typography>
+												{total} bike{total > 1 ? 's' : ''} available
+											</Typography>
+										</Stack>
+									</>
 								)}
 							</Stack>
 						</Stack>

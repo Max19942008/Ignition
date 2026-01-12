@@ -95,7 +95,7 @@ const PropertyCard = (props: PropertyCardType) => {
 					</Stack>
 				</Stack>
 				<Stack className="bottom">
-					{/* Title va Brand/Year */}
+					{/* Title va Rating */}
 					<Stack className="card-header">
 						<Stack className="title-section">
 							<Link
@@ -111,11 +111,16 @@ const PropertyCard = (props: PropertyCardType) => {
 								{property.propertyBrand} • {property.propertyYear}
 							</Typography>
 						</Stack>
+						{/* Rating Badge - O'ngda */}
+						<Box className="rating-badge">
+							<StarIcon sx={{ fontSize: '16px', color: '#FFD700' }} />
+							<Typography className="rating-value">{ratingValue}</Typography>
+						</Box>
 					</Stack>
 
-					{/* Location va Address */}
+					{/* Location va Address - Yashil badge */}
 					<Box className="location-info">
-						<LocationOnIcon sx={{ fontSize: '16px', color: '#E92C28' }} />
+						<LocationOnIcon sx={{ fontSize: '16px', color: '#25b44b' }} />
 						<Stack className="location-details">
 							<Typography className="location-text">{property.propertyLocation}</Typography>
 							{property.propertyAddress && (
@@ -124,18 +129,18 @@ const PropertyCard = (props: PropertyCardType) => {
 						</Stack>
 					</Box>
 
-					{/* Specs Badges - Icons bilan */}
+					{/* Specs Badges - Yashil background */}
 					<Stack className="specs-row">
 						<Box className="spec-badge">
-							<SpeedIcon sx={{ fontSize: '14px', color: '#E92C28' }} />
-							<Typography>{property.propertyMileAge || 0} km</Typography>
+							<SpeedIcon sx={{ fontSize: '14px', color: '#25b44b' }} />
+							<Typography>{property.propertyMileAge || 0} miles</Typography>
 						</Box>
 						<Box className="spec-badge">
-							<TwoWheelerIcon sx={{ fontSize: '14px', color: '#E92C28' }} />
+							<TwoWheelerIcon sx={{ fontSize: '14px', color: '#25b44b' }} />
 							<Typography>{property.propertyCondition || 'N/A'}</Typography>
 						</Box>
 						<Box className="spec-badge">
-							<EngineeringIcon sx={{ fontSize: '14px', color: '#E92C28' }} />
+							<EngineeringIcon sx={{ fontSize: '14px', color: '#25b44b' }} />
 							<Typography>{property.propertyEngineCc || 0} cc</Typography>
 						</Box>
 					</Stack>
