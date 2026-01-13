@@ -255,12 +255,12 @@ const PropertyDetail: NextPage = ({ initialComment, ...props }: any) => {
 									</Stack>
 									{/* Engagement Metrics */}
 									<Stack className={'image-engagement-metrics'}>
-										<Stack className={`engagement-metric-badge ${property?.meLiked && property?.meLiked[0]?.myFavorite ? 'liked' : ''}`}>
-											<RemoveRedEyeIcon sx={{ fontSize: 16 }} />
+										<Stack className={'engagement-metric-badge view-badge'}>
+											<RemoveRedEyeIcon sx={{ fontSize: 16, color: '#fff' }} />
 											<Typography>{property?.propertyViews || 0}</Typography>
 										</Stack>
 										<Stack 
-											className={`engagement-metric-badge ${property?.meLiked && property?.meLiked[0]?.myFavorite ? 'liked' : ''}`}
+											className={`engagement-metric-badge like-badge ${property?.meLiked && property?.meLiked[0]?.myFavorite ? 'liked' : ''}`}
 											sx={{ cursor: 'pointer' }}
 											onClick={() => {
 												if (user && property?._id) {
@@ -271,9 +271,11 @@ const PropertyDetail: NextPage = ({ initialComment, ...props }: any) => {
 											{property?.meLiked && property?.meLiked[0]?.myFavorite ? (
 												<FavoriteIcon sx={{ fontSize: 16, color: '#fff' }} />
 											) : (
-												<FavoriteBorderIcon sx={{ fontSize: 16 }} />
+												<FavoriteBorderIcon sx={{ fontSize: 16, color: '#fff' }} />
 											)}
-											<Typography>{property?.propertyLikes || 0}</Typography>
+											<Typography>
+												{property?.propertyLikes || 0}
+											</Typography>
 										</Stack>
 									</Stack>
 									{/* Price Overlay */}
@@ -323,15 +325,15 @@ const PropertyDetail: NextPage = ({ initialComment, ...props }: any) => {
 										Book Online
 									</Button>
 									<Button 
-										className={'btn-like'}
-										startIcon={property?.meLiked && property?.meLiked[0]?.myFavorite ? <FavoriteIcon /> : <FavoriteBorderIcon />}
+										className={`btn-like ${property?.meLiked && property?.meLiked[0]?.myFavorite ? 'liked' : ''}`}
+										startIcon={property?.meLiked && property?.meLiked[0]?.myFavorite ? <FavoriteIcon sx={{ color: '#e91e63' }} /> : <FavoriteBorderIcon />}
 										onClick={() => {
 											if (user && property?._id) {
 												likePropertyHandler(user, property._id);
 											}
 										}}
 									>
-										Like
+										{property?.meLiked && property?.meLiked[0]?.myFavorite ? 'Liked' : 'Like'}
 									</Button>
 								</Stack>
 
