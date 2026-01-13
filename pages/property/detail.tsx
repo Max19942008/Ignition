@@ -76,7 +76,7 @@ const PropertyDetail: NextPage = ({ initialComment, ...props }: any) => {
 		error: getPropertyError,
 		refetch: getPropertyRefetch,
 		 } = useQuery(GET_PROPERTY, {
-		fetchPolicy: "network-only",
+		fetchPolicy: "cache-and-network",
 		variables: {input: propertyId},
 		skip:!propertyId,
 		notifyOnNetworkStatusChange: true,
@@ -85,8 +85,7 @@ const PropertyDetail: NextPage = ({ initialComment, ...props }: any) => {
 			if(data?.getProperty) setSlideImage(data?.getProperty?.propertyImages[0]);
 		},
 		 });
-		 
-
+		
 		  const {
 			 loading: getPropertiesLoading, 
 			 data: getPropertiesData, 
@@ -196,12 +195,12 @@ const PropertyDetail: NextPage = ({ initialComment, ...props }: any) => {
 	 }
 	};
 
-	if (getPropertyLoading) {
-		return (<Stack 
-		sx={{ display:"flex", justifyContent: "center", alignItems: "center", width: "100%", hiehgt: "1080px"}}>
-    <CircularProgress size={"4rem"} />
-		</Stack>)
-	}
+	// if (getPropertyLoading) {
+	// 	return (<Stack 
+	// 	sx={{ display:"flex", justifyContent: "center", alignItems: "center", width: "100%", hiehgt: "1080px"}}>
+  //   <CircularProgress size={"4rem"} />
+	// 	</Stack>)
+	// }
 
    /** RENDER **/
 
@@ -258,9 +257,8 @@ const PropertyDetail: NextPage = ({ initialComment, ...props }: any) => {
 									<Stack 
 										className={`engagement-metric-badge like-badge ${property?.meLiked && property?.meLiked[0]?.myFavorite ? 'liked' : ''}`}
 										sx={{ cursor: 'pointer' }}
-										onClick={(e: any) => {
-											e.stopPropagation();
-											e.preventDefault();
+										onClick={() => {
+											
 											if (user && property?._id) {
 												likePropertyHandler(user, property._id);
 											}
