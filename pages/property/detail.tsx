@@ -468,17 +468,18 @@ const PropertyDetail: NextPage = ({ initialComment, ...props }: any) => {
 													<Typography className={'title'}>Price</Typography>
 													<Typography className={'data'}>${formatterStr(property?.propertyPrice)}</Typography>
 												</Box>
-												<Box component={'div'} className={'info'}>
-													<Typography className={'title'}>Weight</Typography>
-													<Typography className={'data'}>{property?.propertySquare || 0} kg</Typography>
+													<Box component={'div'} className={'info'}>
+													<Typography className={'title'}>Location</Typography>
+													<Typography className={'data'}>{property?.propertyLocation}</Typography>
 												</Box>
 												<Box component={'div'} className={'info'}>
-													<Typography className={'title'}>Seats</Typography>
-													<Typography className={'data'}>{property?.propertyRooms || 0}</Typography>
+													<Typography className={'title'}>Address</Typography>
+													<Typography className={'data'}>{property?.propertyAddress} </Typography>
 												</Box>
+												
 												<Box component={'div'} className={'info'}>
 													<Typography className={'title'}>Engine</Typography>
-													<Typography className={'data'}>{property?.propertyBeds || 0} CC</Typography>
+													<Typography className={'data'}>{property?.propertyEngineCc || 0} CC</Typography>
 												</Box>
 											</Stack>
 											<Stack className={'right'}>
@@ -490,10 +491,18 @@ const PropertyDetail: NextPage = ({ initialComment, ...props }: any) => {
 													<Typography className={'title'}>Bike Type</Typography>
 													<Typography className={'data'}>{property?.propertyType || 'N/A'}</Typography>
 												</Box>
+											  <Box component={'div'} className={'info'}>
+													<Typography className={'title'}>Condition</Typography>
+													<Typography className={'data'}>{property?.propertyCondition}</Typography>
+												</Box>
 												<Box component={'div'} className={'info'}>
 													<Typography className={'title'}>Options</Typography>
 													<Typography className={'data'}>
-														{property?.propertyBarter && 'Barter'} {property?.propertyRent && property?.propertyBarter ? '/ Rent' : property?.propertyRent ? 'Rent' : ''}
+														{property?.propertyBarter 
+															? 'Barter' 
+															: property?.propertyRent 
+																? 'Rent Available' 
+																: 'Rent Available'}
 													</Typography>
 												</Box>
 											</Stack>
