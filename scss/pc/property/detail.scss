@@ -9,6 +9,450 @@
 			height: auto;
 			padding-top: 56px;
 			gap: 30px;
+
+			// Breadcrumb Section
+			.breadcrumb-section {
+				width: 100%;
+				display: flex;
+				flex-direction: row;
+				justify-content: space-between;
+				align-items: flex-start;
+				margin-bottom: 24px;
+				gap: 20px;
+
+				.breadcrumb-nav {
+					display: flex;
+					flex-direction: row;
+					align-items: center;
+					gap: 8px;
+					flex: 1;
+
+					.breadcrumb-item {
+						color: #717171;
+						font-family: $font;
+						font-size: 14px;
+						font-style: normal;
+						font-weight: 400;
+						line-height: normal;
+						cursor: pointer;
+						transition: color 0.2s ease;
+						text-decoration: none;
+
+						&.active {
+							color: #181a20;
+							font-weight: 500;
+							cursor: default;
+						}
+
+						&:hover:not(.active) {
+							color: #181a20;
+						}
+					}
+
+					.breadcrumb-separator {
+						color: #717171;
+						font-family: $font;
+						font-size: 14px;
+						font-weight: 400;
+					}
+				}
+
+				.back-button {
+					display: flex;
+					align-items: center;
+					gap: 8px;
+					padding: 10px 20px;
+					border-radius: 8px;
+					border: 1px solid #ddd;
+					background: #fff;
+					color: #181a20;
+					font-family: $font;
+					font-size: 15px;
+					font-weight: 500;
+					text-transform: none;
+					cursor: pointer;
+					transition: all 0.2s ease;
+
+					&:hover {
+						background: #f5f5f5;
+						border-color: #181a20;
+					}
+				}
+			}
+
+			// Main Content Section
+			.main-content-section {
+				width: 100%;
+				display: flex;
+				flex-direction: row;
+				gap: 30px;
+				margin-bottom: 40px;
+
+				// Image Section
+				.image-section {
+					flex: 1;
+					display: flex;
+					flex-direction: column;
+					gap: 16px;
+
+					.main-image-wrapper {
+						position: relative;
+						width: 100%;
+						height: 500px;
+						border-radius: 16px;
+						overflow: hidden;
+						box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+
+						img {
+							width: 100%;
+							height: 100%;
+							object-fit: cover;
+						}
+
+						.image-type-badge {
+							position: absolute;
+							top: 16px;
+							left: 16px;
+							padding: 6px 14px;
+							border-radius: 20px;
+							background: rgba(255, 255, 255, 0.95);
+							backdrop-filter: blur(8px);
+							z-index: 2;
+
+							.MuiTypography-root {
+								color: #181a20;
+								font-family: $font;
+								font-size: 13px;
+								font-weight: 600;
+								text-transform: uppercase;
+							}
+						}
+
+						.image-location-badge {
+							position: absolute;
+							top: 16px;
+							left: 120px;
+							display: flex;
+							align-items: center;
+							gap: 6px;
+							padding: 6px 14px;
+							border-radius: 20px;
+							background: rgba(255, 255, 255, 0.95);
+							backdrop-filter: blur(8px);
+							z-index: 2;
+
+							.MuiTypography-root {
+								color: #181a20;
+								font-family: $font;
+								font-size: 13px;
+								font-weight: 500;
+							}
+						}
+
+						.image-engagement-metrics {
+							position: absolute;
+							top: 16px;
+							right: 16px;
+							display: flex;
+							flex-direction: row;
+							align-items: center;
+							gap: 8px;
+							z-index: 2;
+
+							.engagement-metric-badge {
+								display: flex;
+								flex-direction: row;
+								align-items: center;
+								gap: 6px;
+								padding: 6px 12px;
+								border-radius: 20px;
+								background: rgba(255, 255, 255, 0.95);
+								backdrop-filter: blur(8px);
+								box-shadow: 0px 1px 3px rgba(0, 0, 0, 0.1);
+								transition: all 0.2s ease;
+
+								&:hover {
+									background: rgba(255, 255, 255, 1);
+									transform: translateY(-1px);
+									box-shadow: 0px 2px 6px rgba(0, 0, 0, 0.15);
+								}
+
+								.MuiTypography-root {
+									color: #181a20;
+									font-family: $font;
+									font-size: 14px;
+									font-weight: 500;
+									line-height: 1;
+								}
+
+								&.liked {
+									background: rgba(233, 44, 40, 0.95);
+									
+									&:hover {
+										background: rgba(233, 44, 40, 1);
+									}
+
+									.MuiTypography-root {
+										color: #fff;
+									}
+								}
+							}
+						}
+
+						.image-price-overlay {
+							position: absolute;
+							bottom: 20px;
+							left: 20px;
+							display: flex;
+							flex-direction: column;
+							padding: 12px 18px;
+							border-radius: 12px;
+							background: rgba(0, 0, 0, 0.85);
+							backdrop-filter: blur(8px);
+							z-index: 2;
+
+							.price-label {
+								color: rgba(255, 255, 255, 0.8);
+								font-family: $font;
+								font-size: 11px;
+								font-weight: 500;
+								text-transform: uppercase;
+								line-height: 1;
+								margin-bottom: 4px;
+							}
+
+							.price-value {
+								color: #fff;
+								font-family: $font;
+								font-size: 24px;
+								font-weight: 700;
+								line-height: 1;
+							}
+
+							.price-period {
+								color: rgba(255, 255, 255, 0.8);
+								font-family: $font;
+								font-size: 12px;
+								font-weight: 400;
+								line-height: 1;
+								margin-top: 2px;
+							}
+						}
+					}
+
+					.thumbnail-gallery {
+						display: flex;
+						flex-direction: row;
+						gap: 12px;
+
+						.thumbnail-item {
+							width: 120px;
+							height: 90px;
+							border-radius: 12px;
+							overflow: hidden;
+							cursor: pointer;
+							border: 2px solid transparent;
+							transition: all 0.2s ease;
+
+							&:hover {
+								border-color: #181a20;
+								transform: translateY(-2px);
+							}
+
+							&.active {
+								border-color: #181a20;
+								box-shadow: 0 2px 8px rgba(0, 0, 0, 0.15);
+							}
+
+							img {
+								width: 100%;
+								height: 100%;
+								object-fit: cover;
+							}
+						}
+					}
+				}
+
+				// Action Panel Section
+				.action-panel-section {
+					width: 380px;
+					display: flex;
+					flex-direction: column;
+					gap: 24px;
+
+					.pricing-section {
+						display: flex;
+						flex-direction: column;
+						gap: 4px;
+						padding: 24px;
+						border-radius: 16px;
+						background: linear-gradient(135deg, #f8f9fa 0%, #ffffff 100%);
+						border: 1px solid #e0e0e0;
+
+						.pricing-label {
+							color: #717171;
+							font-family: $font;
+							font-size: 13px;
+							font-weight: 500;
+							text-transform: uppercase;
+						}
+
+						.pricing-value {
+							color: #181a20;
+							font-family: $font;
+							font-size: 36px;
+							font-weight: 700;
+							line-height: 1;
+						}
+
+						.pricing-period {
+							color: #717171;
+							font-family: $font;
+							font-size: 14px;
+							font-weight: 400;
+						}
+					}
+
+					.action-buttons {
+						display: flex;
+						flex-direction: column;
+						gap: 12px;
+
+						.btn-call-dealer {
+							width: 100%;
+							padding: 16px 24px;
+							border-radius: 12px;
+							background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+							color: #fff;
+							font-family: $font;
+							font-size: 16px;
+							font-weight: 600;
+							text-transform: none;
+							box-shadow: 0 4px 12px rgba(102, 126, 234, 0.3);
+							transition: all 0.3s ease;
+
+							&:hover {
+								transform: translateY(-2px);
+								box-shadow: 0 6px 16px rgba(102, 126, 234, 0.4);
+							}
+						}
+
+						.btn-book-online,
+						.btn-like {
+							width: 100%;
+							padding: 14px 24px;
+							border-radius: 12px;
+							border: 2px solid #667eea;
+							background: #fff;
+							color: #667eea;
+							font-family: $font;
+							font-size: 15px;
+							font-weight: 600;
+							text-transform: none;
+							transition: all 0.2s ease;
+
+							&:hover {
+								background: #667eea;
+								color: #fff;
+								transform: translateY(-1px);
+							}
+						}
+					}
+
+					.dealer-card {
+						padding: 20px;
+						border-radius: 16px;
+						border: 1px solid #e0e0e0;
+						background: #fff;
+						display: flex;
+						flex-direction: column;
+						gap: 16px;
+						box-shadow: 0 2px 8px rgba(0, 0, 0, 0.04);
+
+						.dealer-avatar {
+							width: 80px;
+							height: 80px;
+							border-radius: 50%;
+							object-fit: cover;
+							align-self: center;
+						}
+
+						.dealer-info {
+							display: flex;
+							flex-direction: column;
+							align-items: center;
+							gap: 4px;
+
+							.dealer-name {
+								color: #181a20;
+								font-family: $font;
+								font-size: 16px;
+								font-weight: 600;
+								cursor: pointer;
+								transition: color 0.2s ease;
+								text-decoration: none;
+
+								&:hover {
+									color: #667eea;
+								}
+							}
+
+							.dealer-location {
+								color: #717171;
+								font-family: $font;
+								font-size: 14px;
+								font-weight: 400;
+							}
+						}
+
+						.dealer-actions {
+							display: flex;
+							flex-direction: column;
+							gap: 8px;
+
+							.btn-dealer-call {
+								width: 100%;
+								padding: 10px 20px;
+								border-radius: 8px;
+								border: 1px solid #ddd;
+								background: #fff;
+								color: #181a20;
+								font-family: $font;
+								font-size: 14px;
+								font-weight: 500;
+								text-transform: none;
+								transition: all 0.2s ease;
+
+								&:hover {
+									background: #f5f5f5;
+									border-color: #181a20;
+								}
+							}
+
+							.btn-view-dealer {
+								width: 100%;
+								padding: 10px 20px;
+								border-radius: 8px;
+								border: 2px solid #667eea;
+								background: #fff;
+								color: #667eea;
+								font-family: $font;
+								font-size: 14px;
+								font-weight: 600;
+								text-transform: none;
+								transition: all 0.2s ease;
+								text-decoration: none;
+
+								&:hover {
+									background: #667eea;
+									color: #fff;
+								}
+							}
+						}
+					}
+				}
+			}
+
 			.property-info-config {
 				width: 100%;
 				height: auto;

@@ -24,6 +24,9 @@ import { CommentGroup } from '../../libs/enums/comment.enum';
 import { Pagination as MuiPagination } from '@mui/material';
 import Link from 'next/link';
 import RemoveRedEyeIcon from '@mui/icons-material/RemoveRedEye';
+import ArrowBackIcon from '@mui/icons-material/ArrowBack';
+import PhoneIcon from '@mui/icons-material/Phone';
+import LocationOnIcon from '@mui/icons-material/LocationOn';
 import { serverSideTranslations } from 'next-i18next/serverSideTranslations';
 import 'swiper/css';
 import 'swiper/css/pagination';
@@ -213,76 +216,51 @@ const PropertyDetail: NextPage = ({ initialComment, ...props }: any) => {
 			<div id={'property-detail-page'}>
 				<div className={'container'}>
 					<Stack className={'property-detail-config'}>
-						<Stack className={'property-info-config'}>
-							<Stack className={'info'}>
-								<Stack className={'left-box'}>
-									<Typography className={'title-main'}>{property?.propertyTitle}</Typography>
-									<Stack className={'top-box'}>
-										<Typography className={'city'}>{property?.propertyLocation}</Typography>
-										<Stack className={'divider'}></Stack>
-										<Stack className={'buy-rent-box'}>
-											{property?.propertyBarter && (
-												<>
-													<Stack className={'circle'}>
-														<svg xmlns="http://www.w3.org/2000/svg" width="6" height="6" viewBox="0 0 6 6" fill="none">
-															<circle cx="3" cy="3" r="3" fill="#EB6753" />
-														</svg>
-													</Stack>
-													<Typography className={'buy-rent'}>Barter</Typography>
-												</>
-											)}
+						{/* Breadcrumb Section */}
+						<Stack className={'breadcrumb-section'}>
+							<Stack className={'breadcrumb-nav'}>
+								<Link href="/">
+									<Typography className={'breadcrumb-item'}>Home</Typography>
+								</Link>
+								<Typography className={'breadcrumb-separator'}>/</Typography>
+								<Link href="/property">
+									<Typography className={'breadcrumb-item'}>Property</Typography>
+								</Link>
+								<Typography className={'breadcrumb-separator'}>/</Typography>
+								<Typography className={'breadcrumb-item active'}>{property?.propertyTitle}</Typography>
+							</Stack>
+							<Button className={'back-button'} onClick={() => router.back()}>
+								<ArrowBackIcon sx={{ fontSize: 18 }} />
+								<Typography>Back</Typography>
+							</Button>
+						</Stack>
 
-											{property?.propertyRent && (
-												<>
-													<Stack className={'circle'}>
-														<svg xmlns="http://www.w3.org/2000/svg" width="6" height="6" viewBox="0 0 6 6" fill="none">
-															<circle cx="3" cy="3" r="3" fill="#EB6753" />
-														</svg>
-													</Stack>
-													<Typography className={'buy-rent'}>rent</Typography>
-												</>
-											)}
-										</Stack>
-										<Stack className={'divider'}></Stack>
-										<svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 14 14" fill="none">
-											<g clipPath="url(#clip0_6505_6282)">
-												<path
-													d="M7 14C5.61553 14 4.26216 13.5895 3.11101 12.8203C1.95987 12.0511 1.06266 10.9579 0.532846 9.67879C0.00303297 8.3997 -0.13559 6.99224 0.134506 5.63437C0.404603 4.2765 1.07129 3.02922 2.05026 2.05026C3.02922 1.07129 4.2765 0.404603 5.63437 0.134506C6.99224 -0.13559 8.3997 0.00303297 9.67879 0.532846C10.9579 1.06266 12.0511 1.95987 12.8203 3.11101C13.5895 4.26216 14 5.61553 14 7C14 8.85652 13.2625 10.637 11.9498 11.9498C10.637 13.2625 8.85652 14 7 14ZM7 0.931878C5.79984 0.931878 4.62663 1.28777 3.62873 1.95454C2.63084 2.62132 1.85307 3.56903 1.39379 4.67783C0.934505 5.78664 0.814336 7.00673 1.04848 8.18384C1.28262 9.36094 1.86055 10.4422 2.70919 11.2908C3.55783 12.1395 4.63907 12.7174 5.81617 12.9515C6.99327 13.1857 8.21337 13.0655 9.32217 12.6062C10.431 12.1469 11.3787 11.3692 12.0455 10.3713C12.7122 9.37337 13.0681 8.20016 13.0681 7C13.067 5.39099 12.4273 3.84821 11.2895 2.71047C10.1518 1.57273 8.60901 0.933037 7 0.931878Z"
-													fill="#181A20"
-												/>
-												<path
-													d="M9.0372 9.7275C8.97153 9.72795 8.90643 9.71543 8.84562 9.69065C8.7848 9.66587 8.72948 9.62933 8.68282 9.58313L6.68345 7.58375C6.63724 7.53709 6.6007 7.48177 6.57592 7.42096C6.55115 7.36015 6.53863 7.29504 6.53907 7.22938V2.7275C6.53907 2.59464 6.59185 2.46723 6.6858 2.37328C6.77974 2.27934 6.90715 2.22656 7.04001 2.22656C7.17287 2.22656 7.30028 2.27934 7.39423 2.37328C7.48817 2.46723 7.54095 2.59464 7.54095 2.7275V7.01937L9.39595 8.87438C9.47462 8.9425 9.53001 9.03354 9.55436 9.13472C9.57871 9.2359 9.5708 9.34217 9.53173 9.43863C9.49266 9.53509 9.4244 9.61691 9.3365 9.67264C9.24861 9.72836 9.14548 9.75519 9.04157 9.74938L9.0372 9.7275Z"
-													fill="#181A20"
-												/>
-											</g>
-											<defs>
-												<clipPath id="clip0_6505_6282">
-													<rect width="14" height="14" fill="white" />
-												</clipPath>
-											</defs>
-										</svg>
-										<Typography className={'date'}>{moment().diff(property?.createdAt, 'days')} days ago</Typography>
+						{/* Main Content Section */}
+						<Stack className={'main-content-section'}>
+							{/* Image Section */}
+							<Stack className={'image-section'}>
+								<Stack className={'main-image-wrapper'}>
+									<img
+										src={slideImage ? `${REACT_APP_API_URL}/${slideImage}` : '/img/property/bigImage.png'}
+										alt={'main-image'}
+									/>
+									{/* Image Type Badge */}
+									<Stack className={'image-type-badge'}>
+										<Typography>{property?.propertyType || 'Property'}</Typography>
 									</Stack>
-									<Stack className={'bottom-box'}>
-										<Stack className="option">
-											<img src="/img/icons/bed.svg" alt="" /> <Typography>{property?.propertyBeds} bed</Typography>
-										</Stack>
-										<Stack className="option">
-											<img src="/img/icons/room.svg" alt="" /> <Typography>{property?.propertyRooms} room</Typography>
-										</Stack>
-										<Stack className="option">
-											<img src="/img/icons/expand.svg" alt="" /> <Typography>{property?.propertySquare} m2</Typography>
-										</Stack>
+									{/* Location Badge */}
+									<Stack className={'image-location-badge'}>
+										<LocationOnIcon sx={{ fontSize: 16 }} />
+										<Typography>{property?.propertyLocation}</Typography>
 									</Stack>
-								</Stack>
-								<Stack className={'right-box'}>
-									<Stack className="buttons">
-										<Stack className="button-box">
-											<RemoveRedEyeIcon fontSize="medium" />
-											<Typography>{property?.propertyViews}</Typography>
+									{/* Engagement Metrics */}
+									<Stack className={'image-engagement-metrics'}>
+										<Stack className={`engagement-metric-badge ${property?.meLiked && property?.meLiked[0]?.myFavorite ? 'liked' : ''}`}>
+											<RemoveRedEyeIcon sx={{ fontSize: 16 }} />
+											<Typography>{property?.propertyViews || 0}</Typography>
 										</Stack>
 										<Stack 
-											className="button-box" 
+											className={`engagement-metric-badge ${property?.meLiked && property?.meLiked[0]?.myFavorite ? 'liked' : ''}`}
 											sx={{ cursor: 'pointer' }}
 											onClick={() => {
 												if (user && property?._id) {
@@ -291,32 +269,99 @@ const PropertyDetail: NextPage = ({ initialComment, ...props }: any) => {
 											}}
 										>
 											{property?.meLiked && property?.meLiked[0]?.myFavorite ? (
-												<FavoriteIcon color="primary" fontSize={'medium'} />
+												<FavoriteIcon sx={{ fontSize: 16, color: '#fff' }} />
 											) : (
-												<FavoriteBorderIcon fontSize={'medium'} />
+												<FavoriteBorderIcon sx={{ fontSize: 16 }} />
 											)}
-											<Typography>{property?.propertyLikes}</Typography>
+											<Typography>{property?.propertyLikes || 0}</Typography>
 										</Stack>
 									</Stack>
-									<Typography>${formatterStr(property?.propertyPrice)}</Typography>
+									{/* Price Overlay */}
+									<Stack className={'image-price-overlay'}>
+										<Typography className={'price-label'}>Price</Typography>
+										<Typography className={'price-value'}>${formatterStr(property?.propertyPrice)}</Typography>
+										<Typography className={'price-period'}>
+											{property?.propertyRent ? '/month' : property?.propertyBarter ? '/exchange' : ''}
+										</Typography>
+									</Stack>
 								</Stack>
-							</Stack>
-							<Stack className={'images'}>
-								<Stack className={'main-image'}>
-									<img
-										src={slideImage ? `${REACT_APP_API_URL}/${slideImage}` : '/img/property/bigImage.png'}
-										alt={'main-image'}
-									/>
-								</Stack>
-								<Stack className={'sub-images'}>
-									{property?.propertyImages.map((subImg: string) => {
+								{/* Thumbnail Gallery */}
+								<Stack className={'thumbnail-gallery'}>
+									{property?.propertyImages?.map((subImg: string, index: number) => {
 										const imagePath: string = `${REACT_APP_API_URL}/${subImg}`;
+										const isActive = slideImage === subImg || (!slideImage && index === 0);
 										return (
-											<Stack className={'sub-img-box'} onClick={() => changeImageHandler(subImg)} key={subImg}>
-												<img src={imagePath} alt={'sub-image'} />
+											<Stack 
+												className={`thumbnail-item ${isActive ? 'active' : ''}`} 
+												onClick={() => changeImageHandler(subImg)} 
+												key={subImg}
+											>
+												<img src={imagePath} alt={'thumbnail'} />
 											</Stack>
 										);
 									})}
+								</Stack>
+							</Stack>
+
+							{/* Action Panel Section */}
+							<Stack className={'action-panel-section'}>
+								{/* Pricing Section */}
+								<Stack className={'pricing-section'}>
+									<Typography className={'pricing-label'}>Price</Typography>
+									<Typography className={'pricing-value'}>${formatterStr(property?.propertyPrice)}</Typography>
+									<Typography className={'pricing-period'}>
+										{property?.propertyRent ? 'per month' : property?.propertyBarter ? 'for exchange' : 'total'}
+									</Typography>
+								</Stack>
+
+								{/* Action Buttons */}
+								<Stack className={'action-buttons'}>
+									<Button className={'btn-call-dealer'} startIcon={<PhoneIcon />}>
+										Call Dealer
+									</Button>
+									<Button className={'btn-book-online'}>
+										Book Online
+									</Button>
+									<Button 
+										className={'btn-like'}
+										startIcon={property?.meLiked && property?.meLiked[0]?.myFavorite ? <FavoriteIcon /> : <FavoriteBorderIcon />}
+										onClick={() => {
+											if (user && property?._id) {
+												likePropertyHandler(user, property._id);
+											}
+										}}
+									>
+										Like
+									</Button>
+								</Stack>
+
+								{/* Dealer Card */}
+								<Stack className={'dealer-card'}>
+									<img
+										className={'dealer-avatar'}
+										src={
+											property?.memberData?.memberImage
+												? `${REACT_APP_API_URL}/${property?.memberData?.memberImage}`
+												: '/img/profile/defaultUser.svg'
+										}
+										alt={'dealer'}
+									/>
+									<Stack className={'dealer-info'}>
+										<Link href={`/member?memberId=${property?.memberData?._id}`}>
+											<Typography className={'dealer-name'}>{property?.memberData?.memberNick || 'Dealer'}</Typography>
+										</Link>
+										<Typography className={'dealer-location'}>{property?.propertyLocation}</Typography>
+									</Stack>
+									<Stack className={'dealer-actions'}>
+										<Button className={'btn-dealer-call'} startIcon={<PhoneIcon />}>
+											Call
+										</Button>
+										<Link href={`/member?memberId=${property?.memberData?._id}`}>
+											<Button className={'btn-view-dealer'}>
+												View Dealer
+											</Button>
+										</Link>
+									</Stack>
 								</Stack>
 							</Stack>
 						</Stack>
