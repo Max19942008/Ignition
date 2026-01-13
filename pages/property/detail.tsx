@@ -169,20 +169,11 @@ const PropertyDetail: NextPage = ({ initialComment, ...props }: any) => {
 			await likeTargetProperty({
 				variables: { input: id }, 
 			});
-			 await getPropertyRefetch({ input: id });
-
-			 await getPropertiesRefetch({input: {
-				 page: 1,
-				limit: 4,
-				sort: "createdAt",
-				direction: Direction.DESC,
-				search: {
-					locationList: [property?.propertyLocation],
-				},
-			 },
-			});
+			
+			// Faqat current property ni yangilash
+			await getPropertyRefetch({ input: id });
 	
-			 await sweetTopSmallSuccessAlert("success", 800);
+			await sweetTopSmallSuccessAlert("success", 800);
 	
 			} catch(err: any) {
 			console.log("ERROR likePropertyHandler:", err.message);
@@ -264,15 +255,17 @@ const PropertyDetail: NextPage = ({ initialComment, ...props }: any) => {
 											<RemoveRedEyeIcon sx={{ fontSize: 16, color: '#fff' }} />
 											<Typography>{property?.propertyViews || 0}</Typography>
 										</Stack>
-										<Stack 
-											className={`engagement-metric-badge like-badge ${property?.meLiked && property?.meLiked[0]?.myFavorite ? 'liked' : ''}`}
-											sx={{ cursor: 'pointer' }}
-											onClick={() => {
-												if (user && property?._id) {
-													likePropertyHandler(user, property._id);
-												}
-											}}
-										>
+									<Stack 
+										className={`engagement-metric-badge like-badge ${property?.meLiked && property?.meLiked[0]?.myFavorite ? 'liked' : ''}`}
+										sx={{ cursor: 'pointer' }}
+										onClick={(e: any) => {
+											e.stopPropagation();
+											e.preventDefault();
+											if (user && property?._id) {
+												likePropertyHandler(user, property._id);
+											}
+										}}
+									>
 											{property?.meLiked && property?.meLiked[0]?.myFavorite ? (
 												<FavoriteIcon sx={{ fontSize: 16, color: '#fff' }} />
 											) : (
@@ -332,7 +325,9 @@ const PropertyDetail: NextPage = ({ initialComment, ...props }: any) => {
 									<Button 
 										className={`btn-like ${property?.meLiked && property?.meLiked[0]?.myFavorite ? 'liked' : ''}`}
 										startIcon={property?.meLiked && property?.meLiked[0]?.myFavorite ? <FavoriteIcon sx={{ color: '#e91e63' }} /> : <FavoriteBorderIcon />}
-										onClick={() => {
+										onClick={(e: any) => {
+											e.stopPropagation();
+											e.preventDefault();
 											if (user && property?._id) {
 												likePropertyHandler(user, property._id);
 											}
@@ -493,7 +488,7 @@ const PropertyDetail: NextPage = ({ initialComment, ...props }: any) => {
 														</clipPath>
 													</defs>
 												</svg>
-												<Typography className={'reviews'}>{commentTotal} reviews</Typography>
+												<Typography className={'reviews'}>{commentTotal} Comments</Typography>
 											</Stack>
 										</Stack>
 										<Stack className={'review-list'}>
@@ -513,8 +508,8 @@ const PropertyDetail: NextPage = ({ initialComment, ...props }: any) => {
 									</Stack>
 								)}
 								<Stack className={'leave-review-config'}>
-									<Typography className={'main-title'}>Leave A Review</Typography>
-									<Typography className={'review-title'}>Review</Typography>
+									<Typography className={'main-title'}>Drop your thoughts</Typography>
+									<Typography className={'review-title'}>👉 Experience</Typography>
 									<textarea
 										onChange={({ target: { value } }: any) => {
 											setInsertCommentData({ ...insertCommentData, commentContent: value });
@@ -551,8 +546,8 @@ const PropertyDetail: NextPage = ({ initialComment, ...props }: any) => {
 							<Stack className={'similar-properties-config'}>
 								<Stack className={'title-pagination-box'}>
 									<Stack className={'title-box'}>
-										<Typography className={'main-title'}>Destination Bike</Typography>
-										<Typography className={'sub-title'}>Similar bikes you might like</Typography>
+										<Typography className={'main-title'}>Related bikes</Typography>
+										<Typography className={'sub-title'}>Nearby bikes</Typography>
 									</Stack>
 									<Stack className={'pagination-box'}>
 										<WestIcon className={'swiper-similar-prev'} />

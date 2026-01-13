@@ -10,6 +10,10 @@ import { useReactiveVar } from '@apollo/client';
 import { userVar } from '../../../apollo/store';
 import { useRouter } from 'next/router';
 import RemoveRedEyeIcon from '@mui/icons-material/RemoveRedEye';
+import EngineeringIcon from '@mui/icons-material/Engineering';
+import SpeedIcon from '@mui/icons-material/Speed';
+import LabelIcon from '@mui/icons-material/Label';
+import LocationOnIcon from '@mui/icons-material/LocationOn';
 
 interface PropertyBigCardProps {
 	property: Property;
@@ -28,7 +32,7 @@ const PropertyBigCard = (props: PropertyBigCardProps) => {
 	};
 
 	if (device === 'mobile') {
-		return <div>APARTMEND BIG CARD</div>;
+		return <div>BIKE BIG CARD</div>;
 	} else {
 		return (
 			<Stack className="property-big-card-box" onClick={() => goPropertyDetatilPage(property?._id)}>
@@ -48,46 +52,60 @@ const PropertyBigCard = (props: PropertyBigCardProps) => {
 				</Box>
 				<Box component={'div'} className={'info'}>
 					<strong className={'title'}>{property?.propertyTitle}</strong>
-					<p className={'desc'}>{property?.propertyAddress}</p>
+					<div className={'desc-wrapper'}>
+						<LocationOnIcon className={'location-icon'} />
+						<p className={'desc'}>{property?.propertyLocation || property?.propertyAddress}</p>
+					</div>
 					<div className={'options'}>
-						<div>
-							<img src="/img/icons/bed.svg" alt="" />
-							<span>{property?.propertyBeds} bed</span>
+						<div className={'option-item'}>
+							<EngineeringIcon className={'option-icon'} />
+							<span>{property?.propertyEngineCc || 0} CC</span>
 						</div>
-						<div>
-							<img src="/img/icons/room.svg" alt="" />
-							<span>{property?.propertyRooms} rooms</span>
+						<div className={'option-item'}>
+							<SpeedIcon className={'option-icon'} />
+							<span>{property?.propertyMileAge || 0} km</span>
 						</div>
-						<div>
-							<img src="/img/icons/expand.svg" alt="" />
-							<span>{property?.propertySquare} m2</span>
+						<div className={'option-item'}>
+							<LabelIcon className={'option-icon'} />
+							<span>{property?.propertyBrand || property?.propertyType || 'N/A'}</span>
 						</div>
 					</div>
 					<Divider sx={{ mt: '15px', mb: '17px' }} />
 					<div className={'bott'}>
-						<div>
-							{property?.propertyRent ? <p>Rent</p> : <span>Rent</span>}
-							{property?.propertyBarter ? <p>Barter</p> : <span>Barter</span>}
+						<div className={'options-badges'}>
+							{property?.propertyRent ? (
+								<span className={'badge badge-rent'}>Rent Available</span>
+							) : (
+								<span className={'badge badge-disabled'}>Rent</span>
+							)}
+							{property?.propertyBarter ? (
+								<span className={'badge badge-barter'}>Barter</span>
+							) : (
+								<span className={'badge badge-disabled'}>Barter</span>
+							)}
 						</div>
 						<div className="buttons-box">
-							<IconButton color={'default'}>
+							<IconButton className={'icon-btn'} color={'default'}>
 								<RemoveRedEyeIcon />
 							</IconButton>
-							<Typography className="view-cnt">{property?.propertyViews}</Typography>
+							<Typography className="view-cnt">{property?.propertyViews || 0}</Typography>
 							<IconButton
+								className={`icon-btn ${property?.meLiked && property?.meLiked[0]?.myFavorite ? 'liked' : ''}`}
 								color={'default'}
-									onClick={(e: any) => {
+								onClick={(e: any) => {
 									e.stopPropagation();
-									likePropertyHandler(user, property?._id);
+									if (likePropertyHandler && user) {
+										likePropertyHandler(user, property?._id);
+									}
 								}}
 							>
 								{property?.meLiked && property?.meLiked[0]?.myFavorite ? (
-									<FavoriteIcon style={{ color: 'red' }} />
+									<FavoriteIcon className={'favorite-icon'} />
 								) : (
-									<FavoriteIcon />
+									<FavoriteIcon className={'favorite-icon'} />
 								)}
 							</IconButton>
-							<Typography className="view-cnt">{property?.propertyLikes}</Typography>
+							<Typography className="view-cnt">{property?.propertyLikes || 0}</Typography>
 						</div>
 					</div>
 				</Box>
