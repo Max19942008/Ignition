@@ -86,27 +86,31 @@ export const GET_PROPERTY = gql`
 	query GetProperty($input: String!) {
 		getProperty(propertyId: $input) {
 			_id
-			propertyType
-			propertyStatus
-			propertyLocation
-			propertyAddress
-			propertyTitle
-			propertyPrice
-			propertySquare
-			propertyBeds
-			propertyRooms
-			propertyViews
-			propertyLikes
-			propertyImages
-			propertyDesc
-			propertyBarter
-			propertyRent
-			memberId
-			soldAt
-			deletedAt
-			constructedAt
-			createdAt
-			updatedAt
+		 propertyType
+            propertyStatus
+            propertyLocation
+            propertyBrand
+            propertyCondition
+            propertyAddress
+            propertyTitle
+            propertyPrice
+            propertyYear
+            propertyEngineCc
+            propertyMileAge
+            propertyViews
+            propertyLikes
+            propertyComments
+            propertyRank
+            propertyImages
+            propertyDesc
+            propertyBarter
+            propertyRent
+            memberId
+            soldAt
+            deletedAt
+            producedAt
+            createdAt
+            updatedAt
 			memberData {
 				_id
 				memberType
