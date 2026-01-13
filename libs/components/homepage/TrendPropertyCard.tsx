@@ -63,7 +63,15 @@ const TrendPropertyCard = (props: TrendPropertyCardProps) => {
 							<RemoveRedEyeIcon fontSize="small" />
 							<Typography>{property?.propertyViews || 0}</Typography>
 						</IconButton>
-						<IconButton size="small" className={`badge like ${liked ? 'active' : ''}`} onClick={() => likePropertyHandler(user, property?._id)}>
+						<IconButton 
+							size="small" 
+							className={`badge like ${liked ? 'active' : ''}`} 
+							onClick={(e: React.MouseEvent<HTMLButtonElement>) => {
+								e.preventDefault();
+								e.stopPropagation();
+								likePropertyHandler(user, property?._id);
+							}}
+						>
 							<FavoriteIcon fontSize="small" />
 							<Typography>{property?.propertyLikes || 0}</Typography>
 						</IconButton>
@@ -137,7 +145,11 @@ const TrendPropertyCard = (props: TrendPropertyCardProps) => {
 						<IconButton 
 						size="small" 
 						className={`badge like ${liked ? 'active' : ''}`} 
-						onClick={() => likePropertyHandler(user, property?._id)}
+						onClick={(e: React.MouseEvent<HTMLButtonElement>) => {
+							e.preventDefault();
+							e.stopPropagation();
+							likePropertyHandler(user, property?._id);
+						}}
 						>
 							<FavoriteIcon fontSize="small" />
 							<Typography>{property?.propertyLikes || 0}</Typography>
