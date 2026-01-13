@@ -50,11 +50,18 @@ const TopPropertyCard = (props: TopPropertyCardProps) => {
 	};
 
 	/** HANDLERS **/
+			const pushDetailHandler = async (propertyId: string) => {
+   console.log("propertyId:",propertyId);
+	 router.push({pathname: "/property/detail", query: {id: propertyId }});
+	};
 
 	if (device === 'mobile') {
 		return (
 			<Stack className="top-card-box" onClick={goToDetail}>
-				<Box component={'div'} className={'card-img'} style={{ backgroundImage: `url(${imagePath})` }}>
+				<Box component={'div'} 
+				className={'card-img'} 
+				style={{ backgroundImage: `url(${imagePath})` }} 
+				onClick={() => {pushDetailHandler(property._id)}}>
 					<Stack className="img-bottom-row">
 						<IconButton size="small" className="badge">
 							<RemoveRedEyeIcon fontSize="small" />
@@ -120,7 +127,10 @@ const TopPropertyCard = (props: TopPropertyCardProps) => {
 	} else {
 		return (
 			<Stack className="top-card-box" onClick={goToDetail}>
-				<Box component={'div'} className={'card-img'} style={{ backgroundImage: `url(${imagePath})` }}>
+				<Box component={'div'} 
+				className={'card-img'} 
+				style={{ backgroundImage: `url(${imagePath})` }} 
+				onClick={() => {pushDetailHandler(property._id)}}>
 					<Stack flexDirection="row" className="img-bottom-row">
 						<IconButton size="small" className="badge">
 							<RemoveRedEyeIcon fontSize="small" />
@@ -139,7 +149,7 @@ const TopPropertyCard = (props: TopPropertyCardProps) => {
 				<Box component={'div'} className={'info'}>
 					<Stack className="card-head">
 						<Stack className="title-block">
-							<strong className={'title'}>{property.propertyTitle}</strong>
+							<strong className={'title'} onClick={() => {pushDetailHandler(property._id)}}>{property.propertyTitle}</strong>
 							<span className={'subtitle'}>
 								{property.propertyBrand} · {property.propertyYear}
 							</span>
