@@ -157,6 +157,7 @@ const PropertyBigCard = (props: PropertyBigCardProps) => {
 									transition: 'all 0.2s ease'
 								}}
 								onClick={handleLikeClick}
+							
 							>
 								{isLiked ? (
 									<FavoriteIcon className={'favorite-icon'} sx={{ color: '#e91e63', fontSize: 18 }} />

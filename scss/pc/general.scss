@@ -319,68 +319,246 @@
 	margin-bottom: 34px;
 	display: flex;
 	flex-direction: column;
-	.agent-img {
-		border-radius: 12px;
-		width: 233px;
-		height: 273px;
-		background-size: 100% 100%;
-		background-repeat: no-repeat;
-		cursor: pointer;
-		div {
-			position: absolute;
-			padding: 12px;
-			top: 12px;
-			left: 12px;
-			border-radius: 6px;
-			background: #eb6753;
-			color: #fff;
-			font-family: $font;
-			font-size: 12px;
-			font-style: normal;
-			font-weight: 600;
-			line-height: normal;
+	width: 100%;
+	max-width: 350px;
+	background: #f8f9fa;
+	border-radius: 16px;
+	padding: 20px;
+	box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
+	transition: all 0.3s ease;
+	cursor: default;
+
+	&:hover {
+		transform: translateY(-4px);
+		box-shadow: 0 8px 24px rgba(0, 0, 0, 0.12);
+	}
+
+	// Card variations with different accent colors
+	&.variant-0 {
+		background: linear-gradient(135deg, #ffffff 0%, #f8f9ff 100%);
+		border-top: 3px solid #4caf50;
+	}
+	&.variant-1 {
+		background: linear-gradient(135deg, #ffffff 0%, #fff5f5 100%);
+		border-top: 3px solid #ff6b6b;
+	}
+	&.variant-2 {
+		background: linear-gradient(135deg, #ffffff 0%, #f0f9ff 100%);
+		border-top: 3px solid #3b82f6;
+	}
+	&.variant-3 {
+		background: linear-gradient(135deg, #ffffff 0%, #fffbf0 100%);
+		border-top: 3px solid #f59e0b;
+	}
+	&.variant-4 {
+		background: linear-gradient(135deg, #ffffff 0%, #f5f0ff 100%);
+		border-top: 3px solid #8b5cf6;
+	}
+	&.variant-5 {
+		background: linear-gradient(135deg, #ffffff 0%, #f0fdf4 100%);
+		border-top: 3px solid #10b981;
+	}
+
+	.favorite-heart {
+		width: 36px;
+		height: 36px;
+		border-radius: 50%;
+		&.liked {
+			background: rgba(233, 30, 99, 0.1) !important;
 		}
 	}
-	.agent-desc {
-		margin-top: 23px;
+
+	.agent-profile-img {
+		width: 80px;
+		height: 80px;
+		margin: 0 auto 16px;
+		border-radius: 50%;
+		overflow: hidden;
+		border: 3px solid #fff;
+		box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+		cursor: pointer;
+		transition: all 0.3s ease;
+
+		&:hover {
+			transform: scale(1.05);
+			box-shadow: 0 6px 16px rgba(0, 0, 0, 0.15);
+		}
+
+		img {
+			width: 100%;
+			height: 100%;
+			object-fit: cover;
+		}
+	}
+
+	.agent-content {
+		display: flex;
+		flex-direction: column;
+		gap: 16px;
+	}
+
+	.agent-header {
 		display: flex;
 		flex-direction: row;
 		justify-content: space-between;
 		align-items: center;
-		.agent-info {
-			display: flex;
-			flex-direction: column;
-			strong {
-				color: #181a20;
-				font-family: $font;
-				font-size: 15px;
-				font-style: normal;
-				font-weight: 600;
-				line-height: normal;
-				cursor: pointer;
-			}
-			span {
-				color: #181a20;
-				font-family: $font;
-				font-size: 15px;
-				font-style: normal;
-				font-weight: 400;
-				line-height: 28px;
+		gap: 8px;
+
+		.agent-name {
+			font-family: $font;
+			font-size: 18px;
+			font-weight: 700;
+			color: #181a20;
+			cursor: pointer;
+			transition: color 0.2s ease;
+			flex: 1;
+			overflow: hidden;
+			text-overflow: ellipsis;
+			white-space: nowrap;
+
+			&:hover {
+				color: #4caf50;
 			}
 		}
-		.buttons {
-			width: auto;
+
+		.dealer-badge {
+			background: linear-gradient(135deg, #4caf50 0%, #45a049 100%);
+			color: #fff;
+			font-family: $font;
+			font-size: 10px;
+			font-weight: 700;
+			text-transform: uppercase;
+			letter-spacing: 0.5px;
+			padding: 4px 10px;
+			height: 24px;
+			border-radius: 12px;
+		}
+	}
+
+	.agent-contact-info {
+		display: flex;
+		flex-direction: column;
+		gap: 10px;
+
+		.contact-item {
 			display: flex;
 			flex-direction: row;
-			justify-content: center;
 			align-items: center;
-			svg {
-				width: 24px;
-				height: 24px;
-				cursor: pointer;
+			gap: 8px;
+
+			.contact-icon {
+				font-size: 18px;
+				&.location-icon {
+					color: #4caf50;
+				}
+				&.phone-icon {
+					color: #3b82f6;
+				}
 			}
-			.view-cnt {
-				font-size: 13px;
+
+			.contact-text {
+				font-family: $font;
+				font-size: 14px;
+				font-weight: 500;
+				&.location-text {
+					color: #4caf50;
+				}
+				&.phone-text {
+					color: #3b82f6;
+				}
+			}
+		}
+	}
+
+	.agent-stats-grid {
+		display: grid;
+		grid-template-columns: repeat(2, 1fr);
+		gap: 12px;
+		margin-top: 8px;
+
+		.stat-item {
+			display: flex;
+			flex-direction: column;
+			align-items: center;
+			justify-content: center;
+			padding: 12px 8px;
+			background: #ffffff;
+			border-radius: 12px;
+			box-shadow: 0 2px 6px rgba(0, 0, 0, 0.05);
+			transition: all 0.2s ease;
+
+			&:hover {
+				transform: translateY(-2px);
+				box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+			}
+
+			.stat-icon {
+				font-size: 20px;
+				margin-bottom: 6px;
+			}
+
+			.stat-value {
+				font-family: $font;
+				font-size: 18px;
+				font-weight: 700;
+				margin-bottom: 4px;
+			}
+
+			.stat-label {
+				font-family: $font;
+				font-size: 11px;
+				font-weight: 600;
+				text-transform: uppercase;
+				letter-spacing: 0.5px;
+			}
+
+			// Different colors for each stat
+			&.cars-stat {
+				.stat-icon {
+					color: #4caf50;
+				}
+				.stat-value {
+					color: #4caf50;
+				}
+				.stat-label {
+					color: #45a049;
+				}
+			}
+
+			&.views-stat {
+				.stat-icon {
+					color: #3b82f6;
+				}
+				.stat-value {
+					color: #3b82f6;
+				}
+				.stat-label {
+					color: #2563eb;
+				}
+			}
+
+			&.likes-stat {
+				.stat-icon {
+					color: #e91e63;
+				}
+				.stat-value {
+					color: #e91e63;
+				}
+				.stat-label {
+					color: #c2185b;
+				}
+			}
+
+			&.rating-stat {
+				.stat-icon {
+					color: #f59e0b;
+				}
+				.stat-value {
+					color: #f59e0b;
+				}
+				.stat-label {
+					color: #d97706;
+				}
 			}
 		}
 	}

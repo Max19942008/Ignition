@@ -207,7 +207,7 @@ const AgentDetail: NextPage = ({ initialInput, initialComment, ...props }: any) 
 							{agentProperties.map((property: Property) => {
 								return (
 									<div className={'wrap-main'} key={property?._id}>
-										<PropertyBigCard property={property} key={property?._id} />
+										<PropertyBigCard property={property} key={property?._id} likePropertyHandler={likePropertyHandler} />
 									</div>
 								);
 							})}
@@ -225,7 +225,7 @@ const AgentDetail: NextPage = ({ initialInput, initialComment, ...props }: any) 
 										/>
 									</Stack>
 									<span>
-										Total {propertyTotal} propert{propertyTotal > 1 ? 'ies' : 'y'} available
+										Total {propertyTotal} bikes {propertyTotal > 1 ? 's' : ''} available
 									</span>
 								</>
 							) : (

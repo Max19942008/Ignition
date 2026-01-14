@@ -2,9 +2,12 @@ import React, { ChangeEvent, MouseEvent, useEffect, useState } from 'react';
 import { NextPage } from 'next';
 import useDeviceDetect from '../../libs/hooks/useDeviceDetect';
 import withLayoutBasic from '../../libs/components/layout/LayoutBasic';
-import { Stack, Box, Button, Pagination } from '@mui/material';
+import { Stack, Box, Button, Pagination, Typography, InputAdornment, OutlinedInput } from '@mui/material';
 import { Menu, MenuItem } from '@mui/material';
 import KeyboardArrowDownRoundedIcon from '@mui/icons-material/KeyboardArrowDownRounded';
+import SearchIcon from '@mui/icons-material/Search';
+import FilterListIcon from '@mui/icons-material/FilterList';
+import TwoWheelerIcon from '@mui/icons-material/TwoWheeler';
 import AgentCard from '../../libs/components/common/AgentCard';
 import { useRouter } from 'next/router';
 import { serverSideTranslations } from 'next-i18next/serverSideTranslations';
@@ -15,6 +18,7 @@ import { T } from '../../libs/types/common';
 import { LIKE_TARGET_MEMBER } from '../../apollo/user/mutation';
 import { Message } from '../../libs/enums/common.enum';
 import { sweetMixinErrorAlert, sweetTopSmallSuccessAlert } from '../../libs/sweetAlert';
+import { CircularProgress } from '@mui/material';
 
 export const getStaticProps = async ({ locale }: any) => ({
 	props: {
@@ -125,17 +129,32 @@ const AgentList: NextPage = ({ initialInput, ...props }: any) => {
 				}
 			};
 
+	if (getAgentsLoading && agents.length === 0) {
+		return (
+			<Stack sx={{ display: 'flex', justifyContent: 'center', alignItems: 'center', width: '100%', minHeight: '80vh' }}>
+				<CircularProgress size={'4rem'} />
+			</Stack>
+		);
+	}
+
 	if (device === 'mobile') {
 		return <h1>AGENTS PAGE MOBILE</h1>;
 	} else {
 		return (
 			<Stack className={'agent-list-page'}>
 				<Stack className={'container'}>
+					{/* Header Section */}
+					<Stack className={'page-header'}>
+						<Typography className={'main-title'}>Find Your Perfect Dealer</Typography>
+						<Typography className={'sub-title'}>Connect with trusted bike dealers and experts</Typography>
+					</Stack>
+
+					{/* Filter Section */}
 					<Stack className={'filter'}>
 						<Box component={'div'} className={'left'}>
-							<input
-								type="text"
-								placeholder={'Search for an agent'}
+							<OutlinedInput
+								className={'search-input'}
+								placeholder={'Search for a dealer...'}
 								value={searchText}
 								onChange={(e: any) => setSearchText(e.target.value)}
 								onKeyDown={(event: any) => {
@@ -146,62 +165,113 @@ const AgentList: NextPage = ({ initialInput, ...props }: any) => {
 										});
 									}
 								}}
+								startAdornment={
+									<InputAdornment position="start">
+										<SearchIcon sx={{ color: '#4caf50' }} />
+									</InputAdornment>
+								}
+								sx={{
+									'& .MuiOutlinedInput-notchedOutline': {
+										borderColor: '#e0e0e0',
+									},
+									'&:hover .MuiOutlinedInput-notchedOutline': {
+										borderColor: '#4caf50',
+									},
+									'&.Mui-focused .MuiOutlinedInput-notchedOutline': {
+										borderColor: '#4caf50',
+										borderWidth: '2px',
+									},
+								}}
 							/>
 						</Box>
 						<Box component={'div'} className={'right'}>
-							<span>Sort by</span>
-							<div>
-								<Button onClick={sortingClickHandler} endIcon={<KeyboardArrowDownRoundedIcon />}>
+							<Stack className={'sort-wrapper'}>
+								<FilterListIcon className={'filter-icon'} />
+								<Typography className={'sort-label'}>Sort by</Typography>
+								<Button 
+									className={'sort-button'}
+									onClick={sortingClickHandler} 
+									endIcon={<KeyboardArrowDownRoundedIcon />}
+								>
 									{filterSortName}
 								</Button>
-								<Menu anchorEl={anchorEl} open={sortingOpen} onClose={sortingCloseHandler} sx={{ paddingTop: '5px' }}>
-									<MenuItem onClick={sortingHandler} id={'recent'} disableRipple>
+								<Menu 
+									anchorEl={anchorEl} 
+									open={sortingOpen} 
+									onClose={sortingCloseHandler}
+									className={'sort-menu'}
+									PaperProps={{
+										sx: {
+											borderRadius: '12px',
+											boxShadow: '0 8px 24px rgba(0, 0, 0, 0.12)',
+											border: '1px solid #e0e0e0',
+											marginTop: '8px',
+										}
+									}}
+								>
+									<MenuItem onClick={sortingHandler} id={'recent'} disableRipple className={'menu-item'}>
 										Recent
 									</MenuItem>
-									<MenuItem onClick={sortingHandler} id={'old'} disableRipple>
+									<MenuItem onClick={sortingHandler} id={'old'} disableRipple className={'menu-item'}>
 										Oldest
 									</MenuItem>
-									<MenuItem onClick={sortingHandler} id={'likes'} disableRipple>
-										Likes
+									<MenuItem onClick={sortingHandler} id={'likes'} disableRipple className={'menu-item'}>
+										Most Liked
 									</MenuItem>
-									<MenuItem onClick={sortingHandler} id={'views'} disableRipple>
-										Views
+									<MenuItem onClick={sortingHandler} id={'views'} disableRipple className={'menu-item'}>
+										Most Viewed
 									</MenuItem>
 								</Menu>
-							</div>
+							</Stack>
 						</Box>
 					</Stack>
+
+					{/* Cards Grid */}
 					<Stack className={'card-wrap'}>
 						{agents?.length === 0 ? (
-							<div className={'no-data'}>
-								<img src="/img/icons/icoAlert.svg" alt="" />
-								<p>No Agents found!</p>
-							</div>
+							<Stack className={'no-data'}>
+								<Box className={'no-data-icon'}>
+									<TwoWheelerIcon sx={{ fontSize: 80, color: '#ddd' }} />
+								</Box>
+								<Typography className={'no-data-title'}>No Dealers Found</Typography>
+								<Typography className={'no-data-desc'}>Try adjusting your search or filters</Typography>
+							</Stack>
 						) : (
 							agents.map((agent: Member) => {
 								return <AgentCard agent={agent} key={agent._id} likeMemberHandler={likeMemberHandler} />;
 							})
 						)}
 					</Stack>
+
+					{/* Pagination Section */}
 					<Stack className={'pagination'}>
 						<Stack className="pagination-box">
 							{agents.length !== 0 && Math.ceil(total / searchFilter.limit) > 1 && (
-								<Stack className="pagination-box">
-									<Pagination
-										page={currentPage}
-										count={Math.ceil(total / searchFilter.limit)}
-										onChange={paginationChangeHandler}
-										shape="circular"
-										color="primary"
-									/>
-								</Stack>
+								<Pagination
+									page={currentPage}
+									count={Math.ceil(total / searchFilter.limit)}
+									onChange={paginationChangeHandler}
+									shape="circular"
+									color="primary"
+									size="large"
+									sx={{
+										'& .MuiPaginationItem-root': {
+											fontSize: '16px',
+											fontWeight: 600,
+										},
+										'& .Mui-selected': {
+											background: 'linear-gradient(135deg, #4caf50 0%, #45a049 100%) !important',
+											color: '#fff !important',
+										},
+									}}
+								/>
 							)}
 						</Stack>
 
 						{agents.length !== 0 && (
-							<span>
-								Total {total} agent{total > 1 ? 's' : ''} available
-							</span>
+							<Typography className={'total-count'}>
+								Showing <strong>{agents.length}</strong> of <strong>{total}</strong> dealer{total > 1 ? 's' : ''}
+							</Typography>
 						)}
 					</Stack>
 				</Stack>
