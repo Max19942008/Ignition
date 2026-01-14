@@ -142,7 +142,7 @@ const AgentCard = (props: AgentCardProps) => {
 					<Stack className={'agent-contact-info'}>
 						<Stack className={'contact-item'}>
 							<LocationOnIcon className={'contact-icon location-icon'} />
-							<Typography className={'contact-text location-text'}>{agent?.memberAddress || 'Unknown location'}</Typography>
+							<Typography className={'contact-text location-text'}>{agent?.memberAddress }</Typography>
 						</Stack>
 						<Stack className={'contact-item'}>
 							<PhoneIcon className={'contact-icon phone-icon'} />
