@@ -54,13 +54,15 @@ const withLayoutBasic = (Component: any) => {
 					break;
 				case '/community':
 					title = 'Community';
-					desc = 'Home / For Rent';
-					bgImage = '/img/banner/header2.svg';
+					desc = 'Drive the conversation • Share your passion';
+					bgImage = '/img/property/ducati1.avif';
+					bgSize = '60%';
 					break;
 				case '/community/detail':
 					title = 'Community Detail';
-					desc = 'Home / For Rent';
-					bgImage = '/img/banner/header2.svg';
+					desc = 'Read, discuss, and connect • Join the conversation';
+					bgImage = '/img/property/ducati1.avif';
+					bgSize = '60%';
 					break;
 				case '/cs':
 					title = 'CS';
