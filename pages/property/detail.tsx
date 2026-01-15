@@ -65,6 +65,8 @@ const PropertyDetail: NextPage = ({ initialComment, ...props }: any) => {
 		commentContent: '',
 		commentRefId: '',
 	});
+	const [similarPropertiesPage, setSimilarPropertiesPage] = useState<number>(1);
+	const [similarPropertiesTotal, setSimilarPropertiesTotal] = useState<number>(0);
 
 	/** APOLLO REQUESTS **/
 	const [likeTargetProperty] = useMutation(LIKE_TARGET_PROPERTY);
@@ -94,8 +96,8 @@ const PropertyDetail: NextPage = ({ initialComment, ...props }: any) => {
 				} = useQuery(GET_PROPERTIES, {
 			 fetchPolicy: "cache-and-network",
 			 variables: {input: {
-        page: 1,
-				limit: 4,
+        page: similarPropertiesPage,
+				limit: 9,
 				sort: "createdAt",
 				direction: Direction.DESC,
 				search: {
@@ -106,7 +108,10 @@ const PropertyDetail: NextPage = ({ initialComment, ...props }: any) => {
 			skip: !propertyId && !property,
 			 notifyOnNetworkStatusChange: true,
 			 onCompleted: (data: T) => {
-				if(data?.getProperties?.list) setDestinationProperty(data?.getProperties?.list)
+				if(data?.getProperties?.list) {
+					setDestinationProperty(data?.getProperties?.list);
+					setSimilarPropertiesTotal(data?.getProperties?.metaCounter?.[0]?.total || 0);
+				}
 			 },
 				});
 
@@ -158,6 +163,11 @@ const PropertyDetail: NextPage = ({ initialComment, ...props }: any) => {
 	const commentPaginationChangeHandler = async (event: ChangeEvent<unknown>, value: number) => {
 		commentInquiry.page = value;
 		setCommentInquiry({ ...commentInquiry });
+	};
+
+	const similarPropertiesPaginationHandler = async (event: ChangeEvent<unknown>, value: number) => {
+		setSimilarPropertiesPage(value);
+		window.scrollTo({ top: 0, behavior: 'smooth' });
 	};
 
 	const likePropertyHandler = async (user: T, id:string) => {
@@ -545,37 +555,44 @@ const PropertyDetail: NextPage = ({ initialComment, ...props }: any) => {
 								<Stack className={'title-pagination-box'}>
 									<Stack className={'title-box'}>
 										<Typography className={'main-title'}>Related bikes</Typography>
-										<Typography className={'sub-title'}>Nearby bikes</Typography>
-									</Stack>
-									<Stack className={'pagination-box'}>
-										<WestIcon className={'swiper-similar-prev'} />
-										<div className={'swiper-similar-pagination'}></div>
-										<EastIcon className={'swiper-similar-next'} />
+										<Typography className={'sub-title'}>Discover more amazing bikes nearby</Typography>
 									</Stack>
 								</Stack>
 								<Stack className={'cards-box'}>
-									<Swiper
-										className={'similar-homes-swiper'}
-										slidesPerView={'auto'}
-										spaceBetween={35}
-										modules={[Autoplay, Navigation, Pagination]}
-										navigation={{
-											nextEl: '.swiper-similar-next',
-											prevEl: '.swiper-similar-prev',
-										}}
-										pagination={{
-											el: '.swiper-similar-pagination',
-										}}
-									>
-										{destinationProperty.map((property: Property) => {
-											return (
-												<SwiperSlide className={'similar-homes-slide'} key={property.propertyTitle}>
-													<PropertyBigCard property={property} key={property?._id} likePropertyHandler={likePropertyHandler} />
-												</SwiperSlide>
-											);
-										})}
-									</Swiper>
+									{destinationProperty.map((property: Property, index: number) => {
+										return (
+											<Box 
+												key={property?._id} 
+												className={`property-card-wrapper card-${index + 1}`}
+												sx={{ 
+													animationDelay: `${index * 0.1}s`,
+												}}
+											>
+												<PropertyBigCard property={property} likePropertyHandler={likePropertyHandler} />
+											</Box>
+										);
+									})}
 								</Stack>
+								{similarPropertiesTotal > 9 && (
+									<Stack className={'pagination-container'}>
+										<Box className={'pagination-wrapper'}>
+											<MuiPagination
+												page={similarPropertiesPage}
+												count={Math.ceil(similarPropertiesTotal / 9)}
+												onChange={similarPropertiesPaginationHandler}
+												shape="circular"
+												color="primary"
+												size="large"
+												sx={{
+													'& .MuiPaginationItem-root': {
+														fontSize: '15px',
+														fontWeight: 600,
+													},
+												}}
+											/>
+										</Box>
+									</Stack>
+								)}
 							</Stack>
 						)}
 					</Stack>
