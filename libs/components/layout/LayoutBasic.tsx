@@ -42,9 +42,10 @@ const withLayoutBasic = (Component: any) => {
 				bgSize = '70%';
 					break;
 				case '/agent/detail':
-					title = 'Agent Page';
-					desc = 'Home / For Rent';
-					bgImage = '/img/banner/header2.svg';
+					title = 'Agent Profile';
+					desc = 'Meet your trusted bike agent • Expert service guaranteed';
+					bgImage = '/img/property/ducati1.avif';
+					bgSize = '60%';
 					break;
 				case '/mypage':
 					title = 'my page';

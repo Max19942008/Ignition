@@ -200,20 +200,20 @@ const AgentDetail: NextPage = ({ initialInput, initialComment, ...props }: any) 
 		return (
 			<Stack className={'agent-detail-page'}>
 				<Stack className={'container'}>
-					{/* Top Section - Dealer Profile */}
+					{/* Top Section - Agent Profile */}
 					<Stack className={'dealer-profile-section'}>
 						<Stack className={'dealer-card'}>
 							<Stack className={'dealer-avatar-wrapper'}>
 								<img
 									className={'dealer-avatar'}
 									src={agent?.memberImage ? `${REACT_APP_API_URL}/${agent?.memberImage}` : '/img/profile/defaultUser.svg'}
-									alt={agent?.memberNick || 'Dealer'}
+									alt={agent?.memberNick || 'Agent'}
 								/>
-								<Stack className={'dealer-badge'}>DEALER</Stack>
+								<Stack className={'dealer-badge'}>AGENT</Stack>
 							</Stack>
 							<Stack className={'dealer-info-section'}>
 								<Typography className={'dealer-name'} onClick={() => redirectToMemberPageHandler(agent?._id as string)}>
-									{agent?.memberFullName ?? agent?.memberNick ?? 'Dealer'}
+									{agent?.memberFullName ?? agent?.memberNick ?? 'Agent'}
 								</Typography>
 								<Typography className={'dealer-location'}>{agent?.memberAddress || 'Location not specified'}</Typography>
 								<Stack className={'dealer-actions'}>
