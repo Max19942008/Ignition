@@ -146,7 +146,7 @@ const AgentList: NextPage = ({ initialInput, ...props }: any) => {
 					{/* Header Section */}
 					<Stack className={'page-header'}>
 						<Typography className={'main-title'}>Find Your Perfect Agent</Typography>
-						<Typography className={'sub-title'}>Connect with trusted bike agents and experts</Typography>
+						<Typography className={'sub-title'}>Connect with trusted bike agents and get expert advice on your next ride</Typography>
 					</Stack>
 
 					{/* Filter Section */}
@@ -154,7 +154,7 @@ const AgentList: NextPage = ({ initialInput, ...props }: any) => {
 						<Box component={'div'} className={'left'}>
 							<OutlinedInput
 								className={'search-input'}
-								placeholder={'Search for a dealer...'}
+								placeholder={'Search agents by name, location...'}
 								value={searchText}
 								onChange={(e: any) => setSearchText(e.target.value)}
 								onKeyDown={(event: any) => {
@@ -233,7 +233,7 @@ const AgentList: NextPage = ({ initialInput, ...props }: any) => {
 								<Box className={'no-data-icon'}>
 									<TwoWheelerIcon sx={{ fontSize: 80, color: '#ddd' }} />
 								</Box>
-								<Typography className={'no-data-title'}>No Dealers Found</Typography>
+								<Typography className={'no-data-title'}>No Agents Found</Typography>
 								<Typography className={'no-data-desc'}>Try adjusting your search or filters</Typography>
 							</Stack>
 						) : (
@@ -270,7 +270,7 @@ const AgentList: NextPage = ({ initialInput, ...props }: any) => {
 
 						{agents.length !== 0 && (
 							<Typography className={'total-count'}>
-								Showing <strong>{agents.length}</strong> of <strong>{total}</strong> dealer{total > 1 ? 's' : ''}
+								Showing <strong>{agents.length}</strong> of <strong>{total}</strong> agent{total > 1 ? 's' : ''}
 							</Typography>
 						)}
 					</Stack>

@@ -25,18 +25,21 @@ const withLayoutBasic = (Component: any) => {
 		const memoizedValues = useMemo(() => {
 			let title = '',
 				desc = '',
-				bgImage = '';
+				bgImage = '',
+				bgSize = '60%';
 
 			switch (router.pathname) {
 				case '/property':
 					title = 'Find Your Perfect Ride';
 					desc = 'Discover amazing bikes • Explore endless possibilities';
 					bgImage = '/img/property/ducati1.avif';
+					bgSize = '60%';
 					break;
-				case '/agent':
-					title = 'Agents';
-					desc = 'Home / For Rent';
-					bgImage = '/img/banner/agents.webp';
+			case '/agent':
+				title = 'Find Your Perfect Agent';
+				desc = 'Connect with trusted bike agents • Get expert advice';
+				bgImage = '/img/property/josh-marshall-s0QMav76pmQ-unsplash.jpg';
+				bgSize = '70%';
 					break;
 				case '/agent/detail':
 					title = 'Agent Page';
@@ -78,7 +81,7 @@ const withLayoutBasic = (Component: any) => {
 					break;
 			}
 
-			return { title, desc, bgImage };
+			return { title, desc, bgImage, bgSize };
 		}, [router.pathname]);
 
 		/** LIFECYCLES **/
@@ -127,7 +130,7 @@ const withLayoutBasic = (Component: any) => {
 							className={`header-basic ${authHeader && 'auth'}`}
 							style={{
 								backgroundImage: `url(${memoizedValues.bgImage})`,
-								backgroundSize: '60%',
+								backgroundSize: memoizedValues.bgSize || '60%',
 								backgroundRepeat: 'no-repeat',
 								backgroundPosition: 'center',
 								boxShadow: 'inset 10px 40px 150px 40px rgb(24 22 36)',

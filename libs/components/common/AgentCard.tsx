@@ -120,7 +120,7 @@ const AgentCard = (props: AgentCardProps) => {
 
 				{/* Card Content */}
 				<Stack className={'agent-content'}>
-					{/* Header with Name and DEALER Badge */}
+					{/* Header with Name and AGENT Badge */}
 					<Stack className={'agent-header'}>
 						<Link
 							href={{
@@ -133,7 +133,7 @@ const AgentCard = (props: AgentCardProps) => {
 						</Link>
 						<Chip 
 							label="AGENT" 
-							className={'dealer-badge'}
+							className={'agent-badge'}
 							size="small"
 						/>
 					</Stack>
