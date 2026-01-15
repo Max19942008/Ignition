@@ -2,7 +2,7 @@ import React, { useEffect, useState } from 'react';
 import { NextPage } from 'next';
 import { useRouter } from 'next/router';
 import { TabContext, TabList, TabPanel } from '@mui/lab';
-import { Stack, Tab, Typography, Button, Pagination } from '@mui/material';
+import { Stack, Tab, Typography, Button, Pagination, Box } from '@mui/material';
 import CommunityCard from '../../libs/components/common/CommunityCard';
 import useDeviceDetect from '../../libs/hooks/useDeviceDetect';
 import withLayoutBasic from '../../libs/components/layout/LayoutBasic';
@@ -16,6 +16,8 @@ import { LIKE_TARGET_BOARD_ARTICLE } from '../../apollo/user/mutation';
 import { GET_BOARD_ARTICLES } from '../../apollo/user/query';
 import { Messages } from '../../libs/config';
 import { sweetMixinErrorAlert, sweetTopSmallSuccessAlert } from '../../libs/sweetAlert';
+import RefreshIcon from '@mui/icons-material/Refresh';
+import ArticleIcon from '@mui/icons-material/Article';
 
 export const getStaticProps = async ({ locale }: any) => ({
 	props: {
@@ -108,74 +110,141 @@ const Community: NextPage = ({ initialInput, ...props }: T) => {
 	// 	setSearchCommunity({ ...searchCommunity, page: value });
 	// };
 
+	const refreshHandler = () => {
+		getBoardArticlesRefetch({ input: searchCommunity });
+	};
+
+	const getCategoryLabel = (category: string) => {
+		switch (category) {
+			case 'FREE':
+				return 'Free Board';
+			case 'RECOMMEND':
+				return 'Recommend';
+			case 'NEWS':
+				return 'News';
+			case 'HUMOR':
+				return 'Humor';
+			default:
+				return category;
+		}
+	};
+
 	if (device === 'mobile') {
 		return <h1>COMMUNITY PAGE MOBILE</h1>;
 	} else {
 		return (
 			<div id="community-list-page">
 				<div className="container">
+					{/* Header Banner */}
+					<Stack className="header-banner">
+						<Stack className="header-content">
+							<Stack className="header-left">
+								<Typography className="header-label">COMMUNITY</Typography>
+								<Typography className="header-title">Drive the conversation.</Typography>
+								<Typography className="header-description">
+									Learn, share, and laugh with enthusiasts. Pick a lane and dive into the latest posts.
+								</Typography>
+								<Stack className="header-actions">
+									<Button
+										className="btn-write"
+										onClick={() =>
+											router.push({
+												pathname: '/mypage',
+												query: {
+													category: 'writeArticle',
+												},
+											})
+										}
+									>
+										Write an article
+									</Button>
+									<Button className="btn-refresh" onClick={refreshHandler} startIcon={<RefreshIcon />}>
+										Refresh
+									</Button>
+								</Stack>
+							</Stack>
+							<Stack className="header-stats">
+								<Box className="stat-card articles-stat">
+									<ArticleIcon className="stat-icon" />
+									<Typography className="stat-value">{totalCount || 0}</Typography>
+									<Typography className="stat-label">Articles</Typography>
+								</Box>
+								<Box className="stat-card category-stat">
+									<Typography className="stat-value">{getCategoryLabel(searchCommunity.search.articleCategory)}</Typography>
+									<Typography className="stat-label">Category</Typography>
+								</Box>
+							</Stack>
+						</Stack>
+					</Stack>
+
 					<TabContext value={searchCommunity.search.articleCategory}>
 						<Stack className="main-box">
+							{/* Left Sidebar - Boards */}
 							<Stack className="left-config">
-								<Stack className={'image-info'}>
-									<img src={'/img/logo/logoText.svg'} />
-									<Stack className={'community-name'}>
-										<Typography className={'name'}>Nestar Community</Typography>
-									</Stack>
-								</Stack>
-
+								<Typography className="boards-title">Boards</Typography>
 								<TabList
 									orientation="vertical"
-									aria-label="lab API tabs example"
+									aria-label="community boards"
 									TabIndicatorProps={{
 										style: { display: 'none' },
 									}}
 									onChange={tabChangeHandler}
+									className="boards-list"
 								>
 									<Tab
 										value={'FREE'}
-										label={'Free Board'}
-										className={`tab-button ${searchCommunity.search.articleCategory == 'FREE' ? 'active' : ''}`}
+										label={
+											<Stack className="board-item">
+												<Typography className="board-name">Free Board</Typography>
+												<Typography className="board-desc">Open chat about anything</Typography>
+											</Stack>
+										}
+										className={`board-tab ${searchCommunity.search.articleCategory == 'FREE' ? 'active' : ''}`}
 									/>
 									<Tab
 										value={'RECOMMEND'}
-										label={'Recommendation'}
-										className={`tab-button ${searchCommunity.search.articleCategory == 'RECOMMEND' ? 'active' : ''}`}
+										label={
+											<Stack className="board-item">
+												<Typography className="board-name">Recommend</Typography>
+												<Typography className="board-desc">Best spots & services</Typography>
+											</Stack>
+										}
+										className={`board-tab ${searchCommunity.search.articleCategory == 'RECOMMEND' ? 'active' : ''}`}
 									/>
 									<Tab
 										value={'NEWS'}
-										label={'News'}
-										className={`tab-button ${searchCommunity.search.articleCategory == 'NEWS' ? 'active' : ''}`}
+										label={
+											<Stack className="board-item">
+												<Typography className="board-name">News</Typography>
+												<Typography className="board-desc">Auto industry updates</Typography>
+											</Stack>
+										}
+										className={`board-tab ${searchCommunity.search.articleCategory == 'NEWS' ? 'active' : ''}`}
 									/>
 									<Tab
 										value={'HUMOR'}
-										label={'Humor'}
-										className={`tab-button ${searchCommunity.search.articleCategory == 'HUMOR' ? 'active' : ''}`}
+										label={
+											<Stack className="board-item">
+												<Typography className="board-name">Humor</Typography>
+												<Typography className="board-desc">Memes & fun</Typography>
+											</Stack>
+										}
+										className={`board-tab ${searchCommunity.search.articleCategory == 'HUMOR' ? 'active' : ''}`}
 									/>
 								</TabList>
+								{totalCount > 0 && (
+									<Typography className="showing-count">Showing {boardArticles.length} / {totalCount}</Typography>
+								)}
 							</Stack>
+
+							{/* Right Main Area - Latest Posts */}
 							<Stack className="right-config">
 								<Stack className="panel-config">
-									<Stack className="title-box">
-										<Stack className="left">
-											<Typography className="title">{searchCommunity.search.articleCategory} BOARD</Typography>
-											<Typography className="sub-title">
-												Express your opinions freely here without content restrictions
-											</Typography>
-										</Stack>
-										<Button
-											onClick={() =>
-												router.push({
-													pathname: '/mypage',
-													query: {
-														category: 'writeArticle',
-													},
-												})
-											}
-											className="right"
-										>
-											Write
-										</Button>
+									<Stack className="posts-header">
+										<Typography className="posts-title">Latest posts</Typography>
+										<Typography className="posts-subtitle">
+											Sorted by newest • {getCategoryLabel(searchCommunity.search.articleCategory)} board
+										</Typography>
 									</Stack>
 
 									<TabPanel value="FREE">
