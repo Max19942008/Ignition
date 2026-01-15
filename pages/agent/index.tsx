@@ -145,8 +145,8 @@ const AgentList: NextPage = ({ initialInput, ...props }: any) => {
 				<Stack className={'container'}>
 					{/* Header Section */}
 					<Stack className={'page-header'}>
-						<Typography className={'main-title'}>Find Your Perfect Dealer</Typography>
-						<Typography className={'sub-title'}>Connect with trusted bike dealers and experts</Typography>
+						<Typography className={'main-title'}>Find Your Perfect Agent</Typography>
+						<Typography className={'sub-title'}>Connect with trusted bike agents and experts</Typography>
 					</Stack>
 
 					{/* Filter Section */}

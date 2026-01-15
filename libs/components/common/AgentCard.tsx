@@ -114,7 +114,7 @@ const AgentCard = (props: AgentCardProps) => {
 						component={'div'}
 						className={'agent-profile-img'}
 					>
-						<img src={imagePath} alt={agent?.memberNick || 'Dealer'} />
+						<img src={imagePath} alt={agent?.memberNick || 'Agent'} />
 					</Box>
 				</Link>
 
@@ -132,7 +132,7 @@ const AgentCard = (props: AgentCardProps) => {
 							<Typography className={'agent-name'}>{agent?.memberFullName ?? agent?.memberNick}</Typography>
 						</Link>
 						<Chip 
-							label="DEALER" 
+							label="AGENT" 
 							className={'dealer-badge'}
 							size="small"
 						/>
@@ -155,7 +155,7 @@ const AgentCard = (props: AgentCardProps) => {
 						<Box className={'stat-item cars-stat'}>
 							<TwoWheelerIcon className={'stat-icon'} />
 							<Typography className={'stat-value'}>{agent?.memberProperties || 0}</Typography>
-							<Typography className={'stat-label'}>CARS</Typography>
+							<Typography className={'stat-label'}>BIKES</Typography>
 						</Box>
 						<Box className={'stat-item views-stat'}>
 							<RemoveRedEyeIcon className={'stat-icon'} />
