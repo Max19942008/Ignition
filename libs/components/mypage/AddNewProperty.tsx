@@ -2,14 +2,16 @@ import React, { useCallback, useEffect, useRef, useState } from 'react';
 import { useRouter } from 'next/router';
 import { Button, Stack, Typography } from '@mui/material';
 import useDeviceDetect from '../../hooks/useDeviceDetect';
-import { PropertyLocation, PropertyType } from '../../enums/property.enum';
-import { REACT_APP_API_URL, propertySquare } from '../../config';
+import { PropertyLocation, PropertyType, PropertyBrand, PropertyCondition } from '../../enums/property.enum';
+import { REACT_APP_API_URL } from '../../config';
 import { PropertyInput } from '../../types/property/property.input';
 import axios from 'axios';
 import { getJwtToken } from '../../auth';
-import { sweetMixinErrorAlert } from '../../sweetAlert';
-import { useReactiveVar } from '@apollo/client';
+import { sweetMixinErrorAlert, sweetMixinSuccessAlert } from '../../sweetAlert';
+import { useMutation, useQuery, useReactiveVar } from '@apollo/client';
 import { userVar } from '../../../apollo/store';
+import { CREATE_PROPERTY, UPDATE_PROPERTY } from '../../../apollo/user/mutation';
+import { GET_PROPERTY } from '../../../apollo/user/query';
 
 const AddProperty = ({ initialValues, ...props }: any) => {
 	const device = useDeviceDetect();
@@ -18,29 +20,49 @@ const AddProperty = ({ initialValues, ...props }: any) => {
 	const [insertPropertyData, setInsertPropertyData] = useState<PropertyInput>(initialValues);
 	const [propertyType, setPropertyType] = useState<PropertyType[]>(Object.values(PropertyType));
 	const [propertyLocation, setPropertyLocation] = useState<PropertyLocation[]>(Object.values(PropertyLocation));
+	const [propertyBrand, setPropertyBrand] = useState<PropertyBrand[]>(Object.values(PropertyBrand));
+	const [propertyCondition, setPropertyCondition] = useState<PropertyCondition[]>(Object.values(PropertyCondition));
 	const token = getJwtToken();
 	const user = useReactiveVar(userVar);
 
 	/** APOLLO REQUESTS **/
-	let getPropertyData: any, getPropertyLoading: any;
+	const [updateProperty] = useMutation(UPDATE_PROPERTY);
+	const [createProperty] = useMutation(CREATE_PROPERTY);
+
+	const {
+		loading: getPropertyLoading, 
+		data: getPropertyData, 
+		error: getPropertyError,
+		refetch: getPropertyRefetch,
+		 } = useQuery(GET_PROPERTY, {
+		fetchPolicy: "network-only",
+		variables: { 
+		input: router.query.propertyId
+		},
+		skip: !router.query.propertyId,
+		 });	
 
 	/** LIFECYCLES **/
 	useEffect(() => {
-		setInsertPropertyData({
-			...insertPropertyData,
-			propertyTitle: getPropertyData?.getProperty ? getPropertyData?.getProperty?.propertyTitle : '',
-			propertyPrice: getPropertyData?.getProperty ? getPropertyData?.getProperty?.propertyPrice : 0,
-			propertyType: getPropertyData?.getProperty ? getPropertyData?.getProperty?.propertyType : '',
-			propertyLocation: getPropertyData?.getProperty ? getPropertyData?.getProperty?.propertyLocation : '',
-			propertyAddress: getPropertyData?.getProperty ? getPropertyData?.getProperty?.propertyAddress : '',
-			propertyBarter: getPropertyData?.getProperty ? getPropertyData?.getProperty?.propertyBarter : false,
-			propertyRent: getPropertyData?.getProperty ? getPropertyData?.getProperty?.propertyRent : false,
-			propertyRooms: getPropertyData?.getProperty ? getPropertyData?.getProperty?.propertyRooms : 0,
-			propertyBeds: getPropertyData?.getProperty ? getPropertyData?.getProperty?.propertyBeds : 0,
-			propertySquare: getPropertyData?.getProperty ? getPropertyData?.getProperty?.propertySquare : 0,
-			propertyDesc: getPropertyData?.getProperty ? getPropertyData?.getProperty?.propertyDesc : '',
-			propertyImages: getPropertyData?.getProperty ? getPropertyData?.getProperty?.propertyImages : [],
-		});
+		if (getPropertyData?.getProperty && !getPropertyLoading) {
+			setInsertPropertyData({
+				...insertPropertyData,
+				propertyTitle: getPropertyData?.getProperty ? getPropertyData?.getProperty?.propertyTitle : '',
+				propertyPrice: getPropertyData?.getProperty ? getPropertyData?.getProperty?.propertyPrice : 0,
+				propertyType: getPropertyData?.getProperty ? getPropertyData?.getProperty?.propertyType : '',
+				propertyBrand: getPropertyData?.getProperty ? getPropertyData?.getProperty?.propertyBrand : '',
+				propertyCondition: getPropertyData?.getProperty ? getPropertyData?.getProperty?.propertyCondition : '',
+				propertyLocation: getPropertyData?.getProperty ? getPropertyData?.getProperty?.propertyLocation : '',
+				propertyAddress: getPropertyData?.getProperty ? getPropertyData?.getProperty?.propertyAddress : '',
+				propertyBarter: getPropertyData?.getProperty ? getPropertyData?.getProperty?.propertyBarter : false,
+				propertyRent: getPropertyData?.getProperty ? getPropertyData?.getProperty?.propertyRent : false,
+				propertyYear: getPropertyData?.getProperty ? getPropertyData?.getProperty?.propertyYear : 0,
+				propertyEngineCc: getPropertyData?.getProperty ? getPropertyData?.getProperty?.propertyEngineCc : 0,
+				propertyMileAge: getPropertyData?.getProperty ? getPropertyData?.getProperty?.propertyMileAge : 0,
+				propertyDesc: getPropertyData?.getProperty ? getPropertyData?.getProperty?.propertyDesc : '',
+				propertyImages: getPropertyData?.getProperty ? getPropertyData?.getProperty?.propertyImages : [],
+			});
+		}
 	}, [getPropertyLoading, getPropertyData]);
 
 	/** HANDLERS **/
@@ -102,12 +124,14 @@ const AddProperty = ({ initialValues, ...props }: any) => {
 			insertPropertyData.propertyPrice === 0 || // @ts-ignore
 			insertPropertyData.propertyType === '' || // @ts-ignore
 			insertPropertyData.propertyLocation === '' || // @ts-ignore
+			insertPropertyData.propertyBrand === '' || // @ts-ignore
+			insertPropertyData.propertyCondition === '' || // @ts-ignore
 			insertPropertyData.propertyAddress === '' || // @ts-ignore
 			insertPropertyData.propertyBarter === '' || // @ts-ignore
 			insertPropertyData.propertyRent === '' ||
-			insertPropertyData.propertyRooms === 0 ||
-			insertPropertyData.propertyBeds === 0 ||
-			insertPropertyData.propertySquare === 0 ||
+			insertPropertyData.propertyYear === 0 ||
+			insertPropertyData.propertyEngineCc === 0 ||
+			insertPropertyData.propertyMileAge === 0 ||
 			insertPropertyData.propertyDesc === '' ||
 			insertPropertyData.propertyImages.length === 0
 		) {
@@ -115,9 +139,87 @@ const AddProperty = ({ initialValues, ...props }: any) => {
 		}
 	};
 
-	const insertPropertyHandler = useCallback(async () => {}, [insertPropertyData]);
+	const insertPropertyHandler = useCallback(async () => {
+		try {
+			if (doDisabledCheck()) {
+				await sweetMixinErrorAlert('Please fill all required fields!');
+				return;
+			}
 
-	const updatePropertyHandler = useCallback(async () => {}, [insertPropertyData]);
+			const result = await createProperty({
+				variables: {
+					input: {
+						propertyTitle: insertPropertyData.propertyTitle,
+						propertyPrice: insertPropertyData.propertyPrice,
+						propertyType: insertPropertyData.propertyType,
+						propertyBrand: insertPropertyData.propertyBrand,
+						propertyCondition: insertPropertyData.propertyCondition,
+						propertyLocation: insertPropertyData.propertyLocation,
+						propertyAddress: insertPropertyData.propertyAddress,
+						propertyBarter: insertPropertyData.propertyBarter || false,
+						propertyRent: insertPropertyData.propertyRent || false,
+						propertyYear: insertPropertyData.propertyYear,
+						propertyEngineCc: insertPropertyData.propertyEngineCc,
+						propertyMileAge: insertPropertyData.propertyMileAge,
+						propertyDesc: insertPropertyData.propertyDesc || '',
+						propertyImages: insertPropertyData.propertyImages || [],
+					},
+				},
+			});
+
+			if (result.data?.createProperty) {
+				await sweetMixinSuccessAlert('Bike created successfully!');
+				await router.push('/mypage?category=myProperties');
+			}
+		} catch (err: any) {
+			console.log('insertPropertyHandler error: ', err);
+			await sweetMixinErrorAlert(err.message || 'Failed to create bike!');
+		}
+	}, [insertPropertyData, createProperty, router]);
+
+	const updatePropertyHandler = useCallback(async () => {
+		try {
+			if (doDisabledCheck()) {
+				await sweetMixinErrorAlert('Please fill all required fields!');
+				return;
+			}
+
+			if (!router.query.propertyId) {
+				await sweetMixinErrorAlert('Property ID is missing!');
+				return;
+			}
+
+			const result = await updateProperty({
+				variables: {
+					input: {
+						_id: router.query.propertyId as string,
+						propertyTitle: insertPropertyData.propertyTitle,
+						propertyPrice: insertPropertyData.propertyPrice,
+						propertyType: insertPropertyData.propertyType,
+						propertyBrand: insertPropertyData.propertyBrand,
+						propertyCondition: insertPropertyData.propertyCondition,
+						propertyLocation: insertPropertyData.propertyLocation,
+						propertyAddress: insertPropertyData.propertyAddress,
+						propertyBarter: insertPropertyData.propertyBarter || false,
+						propertyRent: insertPropertyData.propertyRent || false,
+						propertyYear: insertPropertyData.propertyYear,
+						propertyEngineCc: insertPropertyData.propertyEngineCc,
+						propertyMileAge: insertPropertyData.propertyMileAge,
+						propertyDesc: insertPropertyData.propertyDesc || '',
+						propertyImages: insertPropertyData.propertyImages || [],
+					},
+				},
+			});
+
+			if (result.data?.updateProperty) {
+				await sweetMixinSuccessAlert('Bike updated successfully!');
+				await router.push('/mypage?category=myProperties');
+			}
+		} catch (err: any) {
+			console.log('updatePropertyHandler error: ', err);
+			await sweetMixinErrorAlert(err.message || 'Failed to update bike!');
+		}
+	}, [insertPropertyData, updateProperty, router]);
 
 	if (user?.memberType !== 'AGENT') {
 		router.back();
@@ -131,7 +233,7 @@ const AddProperty = ({ initialValues, ...props }: any) => {
 		return (
 			<div id="add-property-page">
 				<Stack className="main-title-box">
-					<Typography className="main-title">Add New Property</Typography>
+					<Typography className="main-title">Add New Bike</Typography>
 					<Typography className="sub-title">We are glad to see you again!</Typography>
 				</Stack>
 
@@ -155,12 +257,12 @@ const AddProperty = ({ initialValues, ...props }: any) => {
 								<Stack className="price-year-after-price">
 									<Typography className="title">Price</Typography>
 									<input
-										type="text"
+										type="number"
 										className="description-input"
 										placeholder={'Price'}
-										value={insertPropertyData.propertyPrice}
+										value={insertPropertyData.propertyPrice || ''}
 										onChange={({ target: { value } }) =>
-											setInsertPropertyData({ ...insertPropertyData, propertyPrice: parseInt(value) })
+											setInsertPropertyData({ ...insertPropertyData, propertyPrice: value === '' ? 0 : parseInt(value) || 0 })
 										}
 									/>
 								</Stack>
@@ -274,66 +376,89 @@ const AddProperty = ({ initialValues, ...props }: any) => {
 
 							<Stack className="config-row">
 								<Stack className="price-year-after-price">
-									<Typography className="title">Rooms</Typography>
+									<Typography className="title">Brand</Typography>
 									<select
 										className={'select-description'}
-										value={insertPropertyData.propertyRooms || 'select'}
-										defaultValue={insertPropertyData.propertyRooms || 'select'}
+										defaultValue={insertPropertyData.propertyBrand || 'select'}
+										value={insertPropertyData.propertyBrand || 'select'}
 										onChange={({ target: { value } }) =>
-											setInsertPropertyData({ ...insertPropertyData, propertyRooms: parseInt(value) })
+											// @ts-ignore
+											setInsertPropertyData({ ...insertPropertyData, propertyBrand: value })
 										}
 									>
-										<option disabled={true} selected={true} value={'select'}>
-											Select
+										<option selected={true} disabled={true} value={'select'}>
+											Select Brand
 										</option>
-										{[1, 2, 3, 4, 5].map((room: number) => (
-											<option value={`${room}`}>{room}</option>
+										{propertyBrand.map((brand: any) => (
+											<option value={`${brand}`} key={brand}>
+												{brand.replace('_', ' ')}
+											</option>
 										))}
 									</select>
 									<div className={'divider'}></div>
 									<img src={'/img/icons/Vector.svg'} className={'arrow-down'} />
 								</Stack>
 								<Stack className="price-year-after-price">
-									<Typography className="title">Bed</Typography>
+									<Typography className="title">Condition</Typography>
 									<select
 										className={'select-description'}
-										value={insertPropertyData.propertyBeds || 'select'}
-										defaultValue={insertPropertyData.propertyBeds || 'select'}
+										defaultValue={insertPropertyData.propertyCondition || 'select'}
+										value={insertPropertyData.propertyCondition || 'select'}
 										onChange={({ target: { value } }) =>
-											setInsertPropertyData({ ...insertPropertyData, propertyBeds: parseInt(value) })
+											// @ts-ignore
+											setInsertPropertyData({ ...insertPropertyData, propertyCondition: value })
 										}
 									>
-										<option disabled={true} selected={true} value={'select'}>
-											Select
+										<option selected={true} disabled={true} value={'select'}>
+											Select Condition
 										</option>
-										{[1, 2, 3, 4, 5].map((bed: number) => (
-											<option value={`${bed}`}>{bed}</option>
+										{propertyCondition.map((condition: any) => (
+											<option value={`${condition}`} key={condition}>
+												{condition}
+											</option>
 										))}
 									</select>
 									<div className={'divider'}></div>
 									<img src={'/img/icons/Vector.svg'} className={'arrow-down'} />
 								</Stack>
+							</Stack>
+
+							<Stack className="config-row">
 								<Stack className="price-year-after-price">
-									<Typography className="title">Square</Typography>
-									<select
-										className={'select-description'}
-										value={insertPropertyData.propertySquare || 'select'}
-										defaultValue={insertPropertyData.propertySquare || 'select'}
+									<Typography className="title">Year</Typography>
+									<input
+										type="number"
+										className="description-input"
+										placeholder={'Year (e.g., 2020)'}
+										value={insertPropertyData.propertyYear || ''}
 										onChange={({ target: { value } }) =>
-											setInsertPropertyData({ ...insertPropertyData, propertySquare: parseInt(value) })
+											setInsertPropertyData({ ...insertPropertyData, propertyYear: value === '' ? 0 : parseInt(value) || 0 })
 										}
-									>
-										<option disabled={true} selected={true} value={'select'}>
-											Select
-										</option>
-										{propertySquare.map((square: number) => {
-											if (square !== 0) {
-												return <option value={`${square}`}>{square}</option>;
-											}
-										})}
-									</select>
-									<div className={'divider'}></div>
-									<img src={'/img/icons/Vector.svg'} className={'arrow-down'} />
+									/>
+								</Stack>
+								<Stack className="price-year-after-price">
+									<Typography className="title">Engine CC</Typography>
+									<input
+										type="number"
+										className="description-input"
+										placeholder={'Engine CC (e.g., 250)'}
+										value={insertPropertyData.propertyEngineCc || ''}
+										onChange={({ target: { value } }) =>
+											setInsertPropertyData({ ...insertPropertyData, propertyEngineCc: value === '' ? 0 : parseInt(value) || 0 })
+										}
+									/>
+								</Stack>
+								<Stack className="price-year-after-price">
+									<Typography className="title">Mileage</Typography>
+									<input
+										type="number"
+										className="description-input"
+										placeholder={'Mileage (km)'}
+										value={insertPropertyData.propertyMileAge || ''}
+										onChange={({ target: { value } }) =>
+											setInsertPropertyData({ ...insertPropertyData, propertyMileAge: value === '' ? 0 : parseInt(value) || 0 })
+										}
+									/>
 								</Stack>
 							</Stack>
 
@@ -465,13 +590,15 @@ AddProperty.defaultProps = {
 		propertyTitle: '',
 		propertyPrice: 0,
 		propertyType: '',
+		propertyBrand: '',
+		propertyCondition: '',
 		propertyLocation: '',
 		propertyAddress: '',
 		propertyBarter: false,
 		propertyRent: false,
-		propertyRooms: 0,
-		propertyBeds: 0,
-		propertySquare: 0,
+		propertyYear: 0,
+		propertyEngineCc: 0,
+		propertyMileAge: 0,
 		propertyDesc: '',
 		propertyImages: [],
 	},

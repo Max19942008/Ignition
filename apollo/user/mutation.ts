@@ -125,27 +125,32 @@ export const LIKE_TARGET_MEMBER = gql`
 export const CREATE_PROPERTY = gql`
 	mutation CreateProperty($input: PropertyInput!) {
 		createProperty(input: $input) {
-			_id
-			propertyType
-			propertyStatus
-			propertyLocation
-			propertyAddress
-			propertyTitle
-			propertyPrice
-			propertySquare
-			propertyBeds
-			propertyRooms
-			propertyViews
-			propertyLikes
-			propertyImages
-			propertyDesc
-			propertyBarter
-			propertyRent
-			memberId
-			soldAt
-			deletedAt
-			createdAt
-			updatedAt
+			 _id
+        propertyType
+        propertyStatus
+        propertyLocation
+        propertyBrand
+        propertyCondition
+        propertyAddress
+        propertyTitle
+        propertyPrice
+        propertyYear
+        propertyEngineCc
+        propertyMileAge
+        propertyViews
+        propertyLikes
+        propertyComments
+        propertyRank
+        propertyImages
+        propertyDesc
+        propertyBarter
+        propertyRent
+        memberId
+        soldAt
+        deletedAt
+        producedAt
+        createdAt
+        updatedAt
 		}
 	}
 `;

@@ -154,7 +154,7 @@ const AgentCard = (props: AgentCardProps) => {
 					<Stack className={'agent-stats-grid'}>
 						<Box className={'stat-item cars-stat'}>
 							<TwoWheelerIcon className={'stat-icon'} />
-							<Typography className={'stat-value'}>{agent?.memberProperties || 0}</Typography>
+							<Typography className={'stat-value'}>{agent?.m|| 0}</Typography>
 							<Typography className={'stat-label'}>BIKES</Typography>
 						</Box>
 						<Box className={'stat-item views-stat'}>

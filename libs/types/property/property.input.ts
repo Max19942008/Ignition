@@ -4,18 +4,20 @@ import { Direction } from '../../enums/common.enum';
 export interface PropertyInput {
 	propertyType: PropertyType;
 	propertyLocation: PropertyLocation;
+	 propertyBrand: PropertyBrand;
+	 propertyCondition: PropertyCondition
 	propertyAddress: string;
 	propertyTitle: string;
 	propertyPrice: number;
-	propertySquare: number;
-	propertyBeds: number;
-	propertyRooms: number;
+  propertyYear: number;
+  propertyEngineCc: number;
+	 propertyMileAge: number;
 	propertyImages: string[];
 	propertyDesc?: string;
 	propertyBarter?: boolean;
 	propertyRent?: boolean;
 	memberId?: string;
-	constructedAt?: Date;
+	createdAt?: Date;
 }
 
 interface PISearch {
