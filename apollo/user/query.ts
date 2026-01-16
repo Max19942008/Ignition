@@ -214,28 +214,32 @@ export const GET_AGENT_PROPERTIES = gql`
 	query GetAgentProperties($input: AgentPropertiesInquiry!) {
 		getAgentProperties(input: $input) {
 			list {
-				_id
-				propertyType
-				propertyStatus
-				propertyLocation
-				propertyAddress
-				propertyTitle
-				propertyPrice
-				propertySquare
-				propertyBeds
-				propertyRooms
-				propertyViews
-				propertyLikes
-				propertyImages
-				propertyDesc
-				propertyBarter
-				propertyRent
-				memberId
-				soldAt
-				deletedAt
-				constructedAt
-				createdAt
-				updatedAt
+				 _id
+            propertyType
+            propertyStatus
+            propertyLocation
+            propertyBrand
+            propertyCondition
+            propertyAddress
+            propertyTitle
+            propertyPrice
+            propertyYear
+            propertyEngineCc
+            propertyMileAge
+            propertyViews
+            propertyLikes
+            propertyComments
+            propertyRank
+            propertyImages
+            propertyDesc
+            propertyBarter
+            propertyRent
+            memberId
+            soldAt
+            deletedAt
+            producedAt
+            createdAt
+            updatedAt
 			}
 			metaCounter {
 				total

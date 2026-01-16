@@ -153,27 +153,32 @@ export const CREATE_PROPERTY = gql`
 export const UPDATE_PROPERTY = gql`
 	mutation UpdateProperty($input: PropertyUpdate!) {
 		updateProperty(input: $input) {
-			_id
-			propertyType
-			propertyStatus
-			propertyLocation
-			propertyAddress
-			propertyTitle
-			propertyPrice
-			propertySquare
-			propertyBeds
-			propertyRooms
-			propertyViews
-			propertyLikes
-			propertyImages
-			propertyDesc
-			propertyBarter
-			propertyRent
-			memberId
-			soldAt
-			deletedAt
-			createdAt
-			updatedAt
+			 _id
+        propertyType
+        propertyStatus
+        propertyLocation
+        propertyBrand
+        propertyCondition
+        propertyAddress
+        propertyTitle
+        propertyPrice
+        propertyYear
+        propertyEngineCc
+        propertyMileAge
+        propertyViews
+        propertyLikes
+        propertyComments
+        propertyRank
+        propertyImages
+        propertyDesc
+        propertyBarter
+        propertyRent
+        memberId
+        soldAt
+        deletedAt
+        producedAt
+        createdAt
+        updatedAt
 		}
 	}
 `;

@@ -495,7 +495,7 @@ const CommunityDetail: NextPage = ({ initialInput, ...props }: T) => {
 								open={openBackdrop}
 								onClick={cancelButtonHandler}
 							>
-								<Stack className="update-modal" onClick={(e) => e.stopPropagation()}>
+								<Stack className="update-modal" onClick={(e:any) => e.stopPropagation()}>
 									<Typography className="modal-title">Update comment</Typography>
 									<Stack className="modal-content">
 										<input
