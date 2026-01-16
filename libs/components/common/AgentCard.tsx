@@ -120,7 +120,7 @@ const AgentCard = (props: AgentCardProps) => {
 
 				{/* Card Content */}
 				<Stack className={'agent-content'}>
-					{/* Header with Name and AGENT Badge */}
+					{/* Header with Name and DEALER Badge */}
 					<Stack className={'agent-header'}>
 						<Link
 							href={{
@@ -133,7 +133,7 @@ const AgentCard = (props: AgentCardProps) => {
 						</Link>
 						<Chip 
 							label="AGENT" 
-							className={'agent-badge'}
+							className={'dealer-badge'}
 							size="small"
 						/>
 					</Stack>
@@ -154,7 +154,7 @@ const AgentCard = (props: AgentCardProps) => {
 					<Stack className={'agent-stats-grid'}>
 						<Box className={'stat-item cars-stat'}>
 							<TwoWheelerIcon className={'stat-icon'} />
-							<Typography className={'stat-value'}>{agent?.m|| 0}</Typography>
+							<Typography className={'stat-value'}>{agent?.memberProperties || 0}</Typography>
 							<Typography className={'stat-label'}>BIKES</Typography>
 						</Box>
 						<Box className={'stat-item views-stat'}>
