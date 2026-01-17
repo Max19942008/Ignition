@@ -8,11 +8,13 @@ import MemberProperties from '../../libs/components/member/MemberProperties';
 import { useRouter } from 'next/router';
 import MemberFollowers from '../../libs/components/member/MemberFollowers';
 import MemberArticles from '../../libs/components/member/MemberArticles';
-import { useReactiveVar } from '@apollo/client';
-import { sweetErrorHandling } from '../../libs/sweetAlert';
+import { useMutation, useReactiveVar } from '@apollo/client';
+import { sweetErrorHandling, sweetMixinErrorAlert, sweetTopSmallSuccessAlert } from '../../libs/sweetAlert';
 import MemberFollowings from '../../libs/components/member/MemberFollowings';
 import { userVar } from '../../apollo/store';
 import { serverSideTranslations } from 'next-i18next/serverSideTranslations';
+import { LIKE_TARGET_MEMBER } from '../../apollo/user/mutation';
+import { Messages } from '../../libs/config';
 
 export const getStaticProps = async ({ locale }: any) => ({
 	props: {
@@ -27,6 +29,7 @@ const MemberPage: NextPage = () => {
 	const user = useReactiveVar(userVar);
 
 	/** APOLLO REQUESTS **/
+	const [likeTargetMember] = useMutation(LIKE_TARGET_MEMBER);
 
 	/** LIFECYCLES **/
 	useEffect(() => {
@@ -57,6 +60,25 @@ const MemberPage: NextPage = () => {
 		}
 	};
 
+		const likeMemberHandler = async (id: string, refetch: any, query: any) => {
+						try {
+							if(!id) return;
+							if(!user._id) throw new Error(Messages.error2);
+						await likeTargetMember({
+							variables: {
+								input:id,
+							}, 
+						});
+						 await sweetTopSmallSuccessAlert("success", 800);
+						 await refetch({input: query});
+				
+						} catch(err: any) {
+						console.log("ERROR likePropertyHandler:", err.message);
+						sweetMixinErrorAlert(err.message).then();
+						}
+					};
+	
+
 	if (device === 'mobile') {
 		return <>MEMBER PAGE MOBILE</>;
 	} else {
@@ -75,6 +97,7 @@ const MemberPage: NextPage = () => {
 										<MemberFollowers
 											subscribeHandler={subscribeHandler}
 											unsubscribeHandler={unsubscribeHandler}
+											likeMemberHandler={likeMemberHandler}
 											redirectToMemberPageHandler={redirectToMemberPageHandler}
 										/>
 									)}
@@ -82,6 +105,7 @@ const MemberPage: NextPage = () => {
 										<MemberFollowings
 											subscribeHandler={subscribeHandler}
 											unsubscribeHandler={unsubscribeHandler}
+											likeMemberHandler={likeMemberHandler}
 											redirectToMemberPageHandler={redirectToMemberPageHandler}
 										/>
 									)}
