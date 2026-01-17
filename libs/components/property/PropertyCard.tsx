@@ -1,5 +1,5 @@
 import React from 'react';
-import { Stack, Typography, Box, Button } from '@mui/material';
+import { Stack, Typography, Box, Button, Chip } from '@mui/material';
 import useDeviceDetect from '../../hooks/useDeviceDetect';
 import FavoriteIcon from '@mui/icons-material/Favorite';
 import FavoriteBorderIcon from '@mui/icons-material/FavoriteBorder';
@@ -16,17 +16,21 @@ import LocationOnIcon from '@mui/icons-material/LocationOn';
 import SpeedIcon from '@mui/icons-material/Speed';
 import TwoWheelerIcon from '@mui/icons-material/TwoWheeler';
 import EngineeringIcon from '@mui/icons-material/Engineering';
+import ModeIcon from '@mui/icons-material/Mode';
+import DeleteIcon from '@mui/icons-material/Delete';
 import { useRouter } from 'next/router';
+import { PropertyType, PropertyStatus } from '../../enums/property.enum';
 
 interface PropertyCardType {
 	property: Property;
 	likePropertyHandler?: any;
 	myFavorites?: boolean;
 	recentlyVisited?: boolean;
+	deletePropertyHandler?: any;
 }
 
 const PropertyCard = (props: PropertyCardType) => {
-	const { property, likePropertyHandler, myFavorites, recentlyVisited } = props;
+	const { property, likePropertyHandler, myFavorites, recentlyVisited, deletePropertyHandler } = props;
 	const device = useDeviceDetect();
 	const user = useReactiveVar(userVar);
 	const router = useRouter();
@@ -44,9 +48,149 @@ const PropertyCard = (props: PropertyCardType) => {
 		});
 	};
 
+	const getTypeBadgeColor = (type: PropertyType) => {
+		switch (type) {
+			case PropertyType.SPORT:
+				return { bg: '#4CAF50', text: '#fff' };
+			case PropertyType.CRUISER:
+				return { bg: '#2196F3', text: '#fff' };
+			case PropertyType.SCOOTER:
+				return { bg: '#00BCD4', text: '#fff' };
+			case PropertyType.TOURING:
+				return { bg: '#9E9E9E', text: '#fff' };
+			default:
+				return { bg: '#667eea', text: '#fff' };
+		}
+	};
+
+	const getStatusColor = (status: PropertyStatus) => {
+		switch (status) {
+			case PropertyStatus.ACTIVE:
+				return { bg: '#4CAF50', text: '#fff' };
+			case PropertyStatus.HOLD:
+				return { bg: '#FF9800', text: '#fff' };
+			case PropertyStatus.SOLD:
+				return { bg: '#9E9E9E', text: '#fff' };
+			default:
+				return { bg: '#667eea', text: '#fff' };
+		}
+	};
+
 	if (device === 'mobile') {
 		return <div>PROPERTY CARD</div>;
+	} else if (myFavorites || recentlyVisited) {
+		// Vertical layout for myFavorites and recentlyVisited
+		return (
+			<Stack className="card-config vertical-layout">
+				<Stack className="image-section">
+					<Box className="image-box">
+						<Link
+							href={{
+								pathname: '/property/detail',
+								query: { id: property?._id },
+							}}
+						>
+							<img src={imagePath} alt={property.propertyTitle} />
+						</Link>
+						{property?.propertyType && (
+							<Box 
+								className="type-badge" 
+								sx={{ 
+									background: getTypeBadgeColor(property.propertyType).bg,
+									color: getTypeBadgeColor(property.propertyType).text
+								}}
+							>
+								<Typography>{property.propertyType}</Typography>
+							</Box>
+						)}
+					</Box>
+				</Stack>
+				<Stack className="content-section">
+					<Link
+						href={{
+							pathname: '/property/detail',
+							query: { id: property?._id },
+						}}
+						style={{ textDecoration: 'none' }}
+					>
+						<Typography className="bike-name">{property.propertyTitle}</Typography>
+					</Link>
+					<Typography className="bike-details">
+						{property.propertyBrand} • {property.propertyYear} • {property.propertyEngineCc}cc • {property.propertyCondition}
+					</Typography>
+					<Stack className="specs-row">
+						<Chip label={`${property.propertyYear} Year`} className="spec-chip" />
+						<Chip label={`${property.propertyEngineCc}cc`} className="spec-chip" />
+						<Chip label={property.propertyLocation} className="spec-chip" />
+					</Stack>
+					<Box 
+						className="status-badge" 
+						sx={{ 
+							background: getStatusColor(property.propertyStatus).bg,
+							color: getStatusColor(property.propertyStatus).text
+						}}
+					>
+						{property.propertyStatus}
+					</Box>
+				</Stack>
+				<Stack className="actions-section">
+					<Stack className="action-buttons">
+						<IconButton 
+							className="edit-button" 
+							onClick={(e) => {
+								e.preventDefault();
+								router.push({
+									pathname: '/mypage',
+									query: { category: 'addProperty', propertyId: property._id },
+								});
+							}}
+						>
+							<ModeIcon />
+						</IconButton>
+						<IconButton 
+							className="delete-button"
+							onClick={(e) => {
+								e.preventDefault();
+								if (deletePropertyHandler) {
+									deletePropertyHandler(property._id);
+								}
+							}}
+						>
+							<DeleteIcon />
+						</IconButton>
+					</Stack>
+					<Stack className="metrics-row">
+						<Box className="metric-item">
+							<RemoveRedEyeIcon className="metric-icon" />
+							<Typography className="metric-value">{property.propertyViews || 0}</Typography>
+						</Box>
+						<Box 
+							className={`metric-item likes-metric ${liked ? 'liked' : ''}`}
+							onClick={() => {
+								if (likePropertyHandler && user) {
+									likePropertyHandler(user, property?._id);
+								}
+							}}
+							sx={{ cursor: 'pointer' }}
+						>
+							{liked ? (
+								<FavoriteIcon className="metric-icon" />
+							) : (
+								<FavoriteBorderIcon className="metric-icon" />
+							)}
+							<Typography className="metric-value">{property.propertyLikes || 0}</Typography>
+						</Box>
+					</Stack>
+				</Stack>
+				<Stack className="price-section">
+					<Typography className="price-label">FROM</Typography>
+					<Typography className="price-value">${formatterStr(property?.propertyPrice)}</Typography>
+					<Typography className="price-period">/DAY</Typography>
+				</Stack>
+			</Stack>
+		);
 	} else {
+		// Original layout for other pages
 		return (
 			<Stack className="card-config">
 				<Stack className="top">

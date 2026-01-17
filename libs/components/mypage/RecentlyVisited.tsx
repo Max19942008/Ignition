@@ -43,15 +43,22 @@ const RecentlyVisited: NextPage = () => {
 		return (
 			<div id="my-favorites-page">
 				<Stack className="main-title-box">
-					<Stack className="right-box">
-						<Typography className="main-title">Recently Visited</Typography>
-						<Typography className="sub-title">We are glad to see you again!</Typography>
+					<Stack className="left-header">
+						<Typography className="section-label">HISTORY</Typography>
+						<Stack className="right-box">
+							<Typography className="main-title">Recently Visited</Typography>
+							<Typography className="sub-title">Browse your viewing history • Revisit bikes you've explored</Typography>
+						</Stack>
+					</Stack>
+					<Stack className="header-right">
+						<Typography className="bikes-count">{total} bikes</Typography>
+						<Typography className="showing-text">Showing {((searchVisited.page - 1) * searchVisited.limit) + 1}-{Math.min(searchVisited.page * searchVisited.limit, total)} of {total}</Typography>
 					</Stack>
 				</Stack>
 				<Stack className="favorites-list-box">
 					{recentlyVisited?.length ? (
 						recentlyVisited?.map((property: Property) => {
-							return <PropertyCard property={property} recentlyVisited={true}  />;
+							return <PropertyCard key={property._id} property={property} recentlyVisited={true}  />;
 						})
 					) : (
 						<div className={'no-data'}>
@@ -73,7 +80,7 @@ const RecentlyVisited: NextPage = () => {
 						</Stack>
 						<Stack className="total-result">
 							<Typography>
-								Total {total} recently visited propert{total > 1 ? 'ies' : 'y'}
+								{total} Bikes available
 							</Typography>
 						</Stack>
 					</Stack>

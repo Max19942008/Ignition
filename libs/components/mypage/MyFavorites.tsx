@@ -66,15 +66,22 @@ const MyFavorites: NextPage = () => {
 		return (
 			<div id="my-favorites-page">
 				<Stack className="main-title-box">
-					<Stack className="right-box">
-						<Typography className="main-title">My Favorites</Typography>
-						<Typography className="sub-title">We are glad to see you again!</Typography>
+					<Stack className="left-header">
+						<Typography className="section-label">FAVORITES</Typography>
+						<Stack className="right-box">
+							<Typography className="main-title">My Favorites</Typography>
+							<Typography className="sub-title">Manage your favorite bikes • Save and revisit your preferred listings</Typography>
+						</Stack>
+					</Stack>
+					<Stack className="header-right">
+						<Typography className="bikes-count">{total} bikes</Typography>
+						<Typography className="showing-text">Showing {((searchFavorites.page - 1) * searchFavorites.limit) + 1}-{Math.min(searchFavorites.page * searchFavorites.limit, total)} of {total}</Typography>
 					</Stack>
 				</Stack>
 				<Stack className="favorites-list-box">
 					{myFavorites?.length ? (
 						myFavorites?.map((property: Property) => {
-							return <PropertyCard property={property} myFavorites={true} likePropertyHandler={likePropertyHandler} />;
+							return <PropertyCard key={property._id} property={property} myFavorites={true} likePropertyHandler={likePropertyHandler} deletePropertyHandler={undefined} />;
 						})
 					) : (
 						<div className={'no-data'}>
@@ -96,7 +103,7 @@ const MyFavorites: NextPage = () => {
 						</Stack>
 						<Stack className="total-result">
 							<Typography>
-								Total {total} favorite propert{total > 1 ? 'ies' : 'y'}
+								{total} Bikes available
 							</Typography>
 						</Stack>
 					</Stack>
