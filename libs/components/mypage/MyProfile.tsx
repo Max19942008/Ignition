@@ -116,8 +116,8 @@ const MyProfile: NextPage = ({ initialValues, ...props }: any) => {
 			<div id="my-profile-page">
 				<Stack className="main-title-box">
 					<Stack className="right-box">
-						<Typography className="main-title">My Profile</Typography>
-						<Typography className="sub-title">We are glad to see you again!</Typography>
+						<Typography className="main-title">✨ My Profile</Typography>
+						<Typography className="sub-title">🌟 We are glad to see you again!</Typography>
 					</Stack>
 				</Stack>
 				<Stack className="top-box">
@@ -151,7 +151,9 @@ const MyProfile: NextPage = ({ initialValues, ...props }: any) => {
 					</Stack>
 					<Stack className="small-input-box">
 						<Stack className="input-box">
-							<Typography className="title">Username</Typography>
+							<Typography className="title">
+								<span style={{ marginRight: '6px' }}>👤</span>Username
+							</Typography>
 							<input
 								type="text"
 								placeholder="Your username"
@@ -160,7 +162,9 @@ const MyProfile: NextPage = ({ initialValues, ...props }: any) => {
 							/>
 						</Stack>
 						<Stack className="input-box">
-							<Typography className="title">Phone</Typography>
+							<Typography className="title">
+								<span style={{ marginRight: '6px' }}>📞</span>Phone
+							</Typography>
 							<input
 								type="text"
 								placeholder="Your Phone"
@@ -170,7 +174,9 @@ const MyProfile: NextPage = ({ initialValues, ...props }: any) => {
 						</Stack>
 					</Stack>
 					<Stack className="address-box">
-						<Typography className="title">Address</Typography>
+						<Typography className="title">
+							<span style={{ marginRight: '6px' }}>📍</span>Address
+						</Typography>
 						<input
 							type="text"
 							placeholder="Your address"
