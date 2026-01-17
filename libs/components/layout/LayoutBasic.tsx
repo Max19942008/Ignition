@@ -66,9 +66,10 @@ const withLayoutBasic = (Component: any) => {
 					bgSize = '60%';
 					break;
 				case '/cs':
-					title = 'CS';
-					desc = 'We are glad to see you again!';
-					bgImage = '/img/banner/header2.svg';
+					title = 'CS Center';
+					desc = 'We are here to help! Ask us anything';
+					bgImage = '/img/property/ducati1.avif';
+					bgSize = '60%';
 					break;
 				case '/account/join':
 					title = 'Login/Signup';

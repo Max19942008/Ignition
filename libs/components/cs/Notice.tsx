@@ -18,7 +18,7 @@ const Notice = () => {
 		},
 		{
 			no: 2,
-			title: "It's absolutely free to upload and trade properties",
+			title: "It's absolutely free to upload and trade bikes",
 			date: '31.03.2024',
 		},
 	];
@@ -28,19 +28,26 @@ const Notice = () => {
 	} else {
 		return (
 			<Stack className={'notice-content'}>
-				<span className={'title'}>Notice</span>
+				<span className={'title'}>📢 Notice</span>
 				<Stack className={'main'}>
 					<Box component={'div'} className={'top'}>
-						<span>number</span>
-						<span>title</span>
-						<span>date</span>
+						<span>#</span>
+						<span>Title</span>
+						<span>Date</span>
 					</Box>
 					<Stack className={'bottom'}>
 						{data.map((ele: any) => (
 							<div className={`notice-card ${ele?.event && 'event'}`} key={ele.title}>
-								{ele?.event ? <div>event</div> : <span className={'notice-number'}>{ele.no}</span>}
+								{ele?.event ? (
+									<div>
+										<span style={{ marginRight: '6px' }}>🎉</span>
+										Event
+									</div>
+								) : (
+									<span className={'notice-number'}>{ele.no}</span>
+								)}
 								<span className={'notice-title'}>{ele.title}</span>
-								<span className={'notice-date'}>{ele.date}</span>
+								<span className={'notice-date'}>📅 {ele.date}</span>
 							</div>
 						))}
 					</Stack>

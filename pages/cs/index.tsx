@@ -39,8 +39,8 @@ const CS: NextPage = () => {
 				<Stack className={'container'}>
 					<Box component={'div'} className={'cs-main-info'}>
 						<Box component={'div'} className={'info'}>
-							<span>Cs center</span>
-							<p>I will answer your questions</p>
+							<span className={'main-title'}>✨ CS Center</span>
+							<p className={'sub-title'}>🌟 We're here to help! Ask us anything</p>
 						</Box>
 						<Box component={'div'} className={'btns'}>
 							<div
@@ -49,7 +49,8 @@ const CS: NextPage = () => {
 									changeTabHandler('notice');
 								}}
 							>
-								Notice
+								<span className={'icon'}>📢</span>
+								<span>Notice</span>
 							</div>
 							<div
 								className={tab == 'faq' ? 'active' : ''}
@@ -57,7 +58,8 @@ const CS: NextPage = () => {
 									changeTabHandler('faq');
 								}}
 							>
-								FAQ
+								<span className={'icon'}>❓</span>
+								<span>FAQ</span>
 							</div>
 						</Box>
 					</Box>

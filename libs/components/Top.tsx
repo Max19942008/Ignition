@@ -146,7 +146,7 @@ const Top = () => {
 					<div>{t('Home')}</div>
 				</Link>
 				<Link href={'/property'}>
-					<div>{t('Properties')}</div>
+					<div>{t('Bikes')}</div>
 				</Link>
 				<Link href={'/agent'}>
 					<div> {t('Agents')} </div>
@@ -167,8 +167,8 @@ const Top = () => {
 						<Box component={'div'} className={'logo-box'}>
 							<Link href={'/'}>
 								<Stack direction="row" alignItems="center" spacing={1.5} className="brand">
-									<img src="/img/logo/logo1.webp" alt="MotoNext logo" className="logo-img" />
-									<span className="logo-wordmark">Ignition</span>
+									<img src="/img/logo/logo1.webp" alt="Bike Hub logo" className="logo-img" />
+									<span className="logo-wordmark">Bike Hub</span>
 								</Stack>
 							</Link>
 						</Box>

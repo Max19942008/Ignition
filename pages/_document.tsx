@@ -8,13 +8,13 @@ export default function Document() {
 				<link rel="icon" type="image/png" href="/img/logo/logo1.webp" />
 
 				{/* SEO */}
-				<meta name="keyword" content={'nestar, nestar.uz, devex mern, mern nestjs fullstack'} />
+				<meta name="keyword" content={'bike hub, motorcycle, bike marketplace, buy sell bikes'} />
 				<meta
 					name={'description'}
 					content={
-						'Buy and sell properties anywhere anytime in South Korea. Best Properties at Best prices on nestar.uz | ' +
-						'Покупайте и продавайте недвижимость в любой точке Южной Кореи в любое время. Лучшая недвижимость по лучшим ценам на nestar.uz | ' +
-						'대한민국 언제 어디서나 부동산을 사고팔 수 있습니다. Nestar.uz에서 최적의 가격으로 최고의 부동산을 만나보세요'
+						'Buy and sell motorcycles anywhere anytime. Best Bikes at Best prices on Bike Hub | ' +
+						'Покупайте и продавайте мотоциклы в любое время. Лучшие мотоциклы по лучшим ценам на Bike Hub | ' +
+						'언제 어디서나 오토바이를 사고팔 수 있습니다. Bike Hub에서 최적의 가격으로 최고의 오토바이를 만나보세요'
 					}
 				/>
 			</Head>
