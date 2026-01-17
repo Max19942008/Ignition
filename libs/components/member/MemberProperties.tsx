@@ -7,6 +7,8 @@ import { Property } from '../../types/property/property';
 import { PropertiesInquiry } from '../../types/property/property.input';
 import { T } from '../../types/common';
 import { useRouter } from 'next/router';
+import { GET_PROPERTIES } from '../../../apollo/user/query';
+import { useQuery } from '@apollo/client';
 
 const MyProperties: NextPage = ({ initialInput, ...props }: any) => {
 	const device = useDeviceDetect();
@@ -17,9 +19,26 @@ const MyProperties: NextPage = ({ initialInput, ...props }: any) => {
 	const [total, setTotal] = useState<number>(0);
 
 	/** APOLLO REQUESTS **/
+		const {
+						loading: getPropertiesLoading, 
+						data: getPropertiesData, 
+						error: getPropertiesError,
+						refetch: getPropertiesRefetch,
+						 } = useQuery(GET_PROPERTIES, {
+						fetchPolicy: "network-only",
+						variables: {input: searchFilter},
+						skip: !searchFilter?.search?.memberId,
+						notifyOnNetworkStatusChange: true,
+						onCompleted: (data: T) => {
+								setAgentProperties(data?.getProperties?.list);
+								setTotal(data?.getProperties?.metaCounter[0]?.total ?? 0);
+						},
+						 });	
 
 	/** LIFECYCLES **/
-	useEffect(() => {}, [searchFilter]);
+	useEffect(() => {
+		getPropertiesRefetch().then();
+	}, [searchFilter]);
 
 	useEffect(() => {
 		if (memberId)
@@ -32,13 +51,13 @@ const MyProperties: NextPage = ({ initialInput, ...props }: any) => {
 	};
 
 	if (device === 'mobile') {
-		return <div>NESTAR PROPERTIES MOBILE</div>;
+		return <div> PROPERTIES MOBILE</div>;
 	} else {
 		return (
 			<div id="member-properties-page">
 				<Stack className="main-title-box">
 					<Stack className="right-box">
-						<Typography className="main-title">Properties</Typography>
+						<Typography className="main-title">Bikes</Typography>
 					</Stack>
 				</Stack>
 				<Stack className="properties-list-box">
@@ -54,7 +73,7 @@ const MyProperties: NextPage = ({ initialInput, ...props }: any) => {
 						{agentProperties?.length === 0 && (
 							<div className={'no-data'}>
 								<img src="/img/icons/icoAlert.svg" alt="" />
-								<p>No Property found!</p>
+								<p>No Bike found!</p>
 							</div>
 						)}
 						{agentProperties?.map((property: Property) => {

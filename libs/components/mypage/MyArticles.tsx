@@ -49,7 +49,7 @@ const MyArticles: NextPage = ({ initialInput, ...props }: T) => {
 		setSearchCommunity({ ...searchCommunity, page: value });
 	};
 
-		const likeBoardArticleHandler = async (e:any, user: T, id:string) => {
+		const likeArticleHandler = async (e:any, user: T, id:string) => {
 				try {
 					if(!id) return;
 					if(!user._id) throw new Error(Messages.error2)
@@ -85,7 +85,7 @@ const MyArticles: NextPage = ({ initialInput, ...props }: T) => {
 							return <CommunityCard 
 							boardArticle={boardArticle} 
 							key={boardArticle?._id} size={'small'} 
-							likeBoardArticleHandler={likeBoardArticleHandler} />;
+							likeArticleHandler={likeArticleHandler} />;
 						})
 					) : (
 						<div className={'no-data'}>
