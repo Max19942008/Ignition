@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { NextPage } from 'next';
-import { Pagination, Stack, Typography } from '@mui/material';
+import { Button, Pagination, Stack, Typography } from '@mui/material';
 import useDeviceDetect from '../../hooks/useDeviceDetect';
 import { PropertyCard } from './PropertyCard';
 import { useMutation, useQuery, useReactiveVar } from '@apollo/client';
@@ -97,9 +97,22 @@ const MyProperties: NextPage = ({ initialInput, ...props }: any) => {
 		return (
 			<div id="my-property-page">
 				<Stack className="main-title-box">
-					<Stack className="right-box">
-						<Typography className="main-title">My Bikes</Typography>
-						<Typography className="sub-title">We are glad to see you again!</Typography>
+					<Stack className="left-header">
+						<Typography className="section-label">GARAGE</Typography>
+						<Stack className="right-box">
+							<Typography className="main-title">My Bikes</Typography>
+							<Typography className="sub-title">Manage your listings, update details, and archive old bikes.</Typography>
+						</Stack>
+					</Stack>
+					<Stack className="header-right">
+						<Typography className="bikes-count">{total} bikes</Typography>
+						<Button
+							className="add-bike-button"
+							onClick={() => router.push('/mypage?category=addProperty')}
+						>
+							Add Bike
+						</Button>
+						<Typography className="showing-text">Showing {((searchFilter.page - 1) * searchFilter.limit) + 1}-{Math.min(searchFilter.page * searchFilter.limit, total)} of {total}</Typography>
 					</Stack>
 				</Stack>
 				<Stack className="property-list-box">
@@ -108,23 +121,22 @@ const MyProperties: NextPage = ({ initialInput, ...props }: any) => {
 							onClick={() => changeStatusHandler(PropertyStatus.ACTIVE)}
 							className={searchFilter.search.propertyStatus === 'ACTIVE' ? 'active-tab-name' : 'tab-name'}
 						>
-							On Sale
+							Active
+						</Typography>
+						<Typography
+							onClick={() => changeStatusHandler(PropertyStatus.HOLD)}
+							className={searchFilter.search.propertyStatus === 'HOLD' ? 'active-tab-name' : 'tab-name'}
+						>
+							Blocked
 						</Typography>
 						<Typography
 							onClick={() => changeStatusHandler(PropertyStatus.SOLD)}
 							className={searchFilter.search.propertyStatus === 'SOLD' ? 'active-tab-name' : 'tab-name'}
 						>
-							On Sold
+							Archived
 						</Typography>
 					</Stack>
 					<Stack className="list-box">
-						<Stack className="listing-title-box">
-							<Typography className="title-text">Listing title</Typography>
-							<Typography className="title-text">Date Published</Typography>
-							<Typography className="title-text">Status</Typography>
-							<Typography className="title-text">View</Typography>
-						{searchFilter.search.propertyStatus === 'ACTIVE' && <Typography className="title-text">Action</Typography>}
-						</Stack>
 
 						{agentProperties?.length === 0 ? (
 							<div className={'no-data'}>
@@ -155,7 +167,7 @@ const MyProperties: NextPage = ({ initialInput, ...props }: any) => {
 									/>
 								</Stack>
 								<Stack className="total-result">
-									<Typography>{total} property available</Typography>
+									<Typography>{total} Bikes  available</Typography>
 								</Stack>
 							</Stack>
 						)}
