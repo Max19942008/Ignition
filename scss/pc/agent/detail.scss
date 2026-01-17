@@ -146,6 +146,7 @@
 							gap: 12px;
 							flex-shrink: 0;
 							margin-top: 8px;
+							align-items: center;
 
 							.btn-call {
 								padding: 14px 32px;
@@ -171,23 +172,66 @@
 								}
 							}
 
+							.following-wrapper {
+								display: flex;
+								flex-direction: row;
+								align-items: center;
+								gap: 10px;
+								padding: 8px 16px;
+								border-radius: 14px;
+								background: linear-gradient(135deg, #e8f5e9 0%, #c8e6c9 100%);
+								border: 2px solid #4caf50;
+								box-shadow: 0 4px 12px rgba(76, 175, 80, 0.2);
+
+								.following-label {
+									color: #2e7d32;
+									font-family: $font;
+									font-size: 14px;
+									font-weight: 600;
+									margin: 0;
+									text-transform: uppercase;
+									letter-spacing: 0.5px;
+								}
+							}
+
 							.btn-follow {
 								padding: 14px 32px;
 								border-radius: 14px;
-								border: 2px solid #e8e8e8;
-								background: #fff;
-								color: #181a20;
 								font-family: $font;
 								font-size: 15px;
 								font-weight: 600;
 								text-transform: none;
-								transition: all 0.3s ease;
+								transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+								border: none;
+								min-width: 120px;
 
-								&:hover {
-									border-color: #4caf50;
-									background: linear-gradient(135deg, #f0f9ff 0%, #ffffff 100%);
-									color: #4caf50;
-									transform: translateY(-1px);
+								&.btn-follow-active {
+									background: linear-gradient(135deg, #4caf50 0%, #66bb6a 100%);
+									color: #fff;
+									box-shadow: 0 6px 20px rgba(76, 175, 80, 0.4), 0 2px 8px rgba(102, 187, 106, 0.3);
+
+									&:hover {
+										background: linear-gradient(135deg, #43a047 0%, #5cb660 100%);
+										transform: translateY(-2px);
+										box-shadow: 0 8px 24px rgba(76, 175, 80, 0.5), 0 4px 12px rgba(102, 187, 106, 0.4);
+									}
+								}
+
+								&.btn-unfollow {
+									padding: 10px 24px;
+									border-radius: 10px;
+									background: linear-gradient(135deg, #fff 0%, #f5f5f5 100%);
+									color: #d32f2f;
+									border: 2px solid #ffcdd2;
+									box-shadow: 0 2px 8px rgba(211, 47, 47, 0.15);
+
+									&:hover {
+										background: linear-gradient(135deg, #ffebee 0%, #ffcdd2 100%);
+										border-color: #d32f2f;
+										color: #c62828;
+										transform: translateY(-1px);
+										box-shadow: 0 4px 12px rgba(211, 47, 47, 0.25);
+									}
 								}
 							}
 						}

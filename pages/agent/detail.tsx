@@ -16,7 +16,7 @@ import { useMutation, useQuery, useReactiveVar } from '@apollo/client';
 import { useRouter } from 'next/router';
 import { Property } from '../../libs/types/property/property';
 import { Member } from '../../libs/types/member/member';
-import { sweetErrorHandling, sweetMixinErrorAlert, sweetTopSmallSuccessAlert } from '../../libs/sweetAlert';
+import { sweetErrorHandling, sweetMixinErrorAlert, sweetMixinSuccessAlert, sweetTopSmallSuccessAlert } from '../../libs/sweetAlert';
 import { userVar } from '../../apollo/store';
 import { PropertiesInquiry } from '../../libs/types/property/property.input';
 import { CommentInput, CommentsInquiry } from '../../libs/types/comment/comment.input';
@@ -24,7 +24,7 @@ import { Comment } from '../../libs/types/comment/comment';
 import { CommentGroup } from '../../libs/enums/comment.enum';
 import { Messages, REACT_APP_API_URL } from '../../libs/config';
 import { serverSideTranslations } from 'next-i18next/serverSideTranslations';
-import { CREATE_COMMENT, LIKE_TARGET_PROPERTY } from '../../apollo/user/mutation';
+import { CREATE_COMMENT, LIKE_TARGET_PROPERTY, SUBSCRIBE, UNSUBSCRIBE } from '../../apollo/user/mutation';
 import { GET_COMMENTS, GET_MEMBER, GET_PROPERTIES } from '../../apollo/user/query';
 import { T } from '../../libs/types/common';
 
@@ -55,6 +55,8 @@ const AgentDetail: NextPage = ({ initialInput, initialComment, ...props }: any) 
 /** APOLLO REQUESTS **/
 	const [createComment] = useMutation(CREATE_COMMENT);
 	const [likeTargetProperty] = useMutation(LIKE_TARGET_PROPERTY);
+	const [subscribe] = useMutation(SUBSCRIBE);
+	const [unsubscribe] = useMutation(UNSUBSCRIBE);
 
 	const {
 					loading: getMemberLoading, 
@@ -136,6 +138,40 @@ const AgentDetail: NextPage = ({ initialInput, initialComment, ...props }: any) 
 	}, [commentInquiry]);
 
 	/** HANDLERS **/
+	const subscribeHandler = async (id: string) => {
+		try {
+			if (!id) throw new Error(Messages.error1);
+			if (!user._id) throw new Error(Messages.error2);
+
+			await subscribe({
+				variables: {
+					input: id,
+				},
+			});
+			await sweetMixinSuccessAlert('Subscribed', 800);
+			await getMemberRefetch({input: agentId});
+		} catch (err: any) {
+			sweetErrorHandling(err).then();
+		}
+	};
+
+	const unsubscribeHandler = async (id: string) => {
+		try {
+			if (!id) throw new Error(Messages.error1);
+			if (!user._id) throw new Error(Messages.error2);
+
+			await unsubscribe({
+				variables: {
+					input: id,
+				},
+			});
+			await sweetMixinSuccessAlert('Unsubscribed', 800);
+			await getMemberRefetch({input: agentId});
+		} catch (err: any) {
+			sweetErrorHandling(err).then();
+		}
+	};
+
 	const redirectToMemberPageHandler = async (memberId: string) => {
 		try {
 			if (memberId === user?._id) await router.push(`/mypage?memberId=${memberId}`);
@@ -220,9 +256,30 @@ const AgentDetail: NextPage = ({ initialInput, initialComment, ...props }: any) 
 									<Button className={'btn-call'} startIcon={<PhoneIcon />}>
 										Call
 									</Button>
-									<Button className={'btn-follow'}>
-										Following
-									</Button>
+									{user?._id && user._id !== agent?._id && (
+										<>
+											{agent?.meFollowed && agent?.meFollowed[0]?.myFollowing ? (
+												<Stack className={'following-wrapper'}>
+													<Typography className={'following-label'}>Following</Typography>
+													<Button
+														className={'btn-follow btn-unfollow'}
+														variant="outlined"
+														onClick={() => unsubscribeHandler(agent?._id as string)}
+													>
+														Unfollow
+													</Button>
+												</Stack>
+											) : (
+												<Button
+													className={'btn-follow btn-follow-active'}
+													variant="contained"
+													onClick={() => subscribeHandler(agent?._id as string)}
+												>
+													Follow
+												</Button>
+											)}
+										</>
+									)}
 								</Stack>
 							</Stack>
 							<Stack className={'dealer-stats'}>

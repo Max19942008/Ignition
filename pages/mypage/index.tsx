@@ -55,7 +55,8 @@ const MyPage: NextPage = () => {
 					},
 				});
 				await sweetMixinSuccessAlert('Subscribed', 800);
-				await refetch({input: query});
+					await refetch({input: query});
+				
 		} catch (err: any) {
 			sweetErrorHandling(err).then();
 		}
@@ -72,7 +73,9 @@ const MyPage: NextPage = () => {
 					},
 				});
 				await sweetMixinSuccessAlert('unSubscribed', 800);
-				await refetch({input: query});
+				if (refetch && typeof refetch === 'function') {
+					await refetch({input: query});
+				}
 		} catch (err: any) {
 			sweetErrorHandling(err).then();
 		}
