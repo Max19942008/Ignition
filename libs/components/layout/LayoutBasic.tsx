@@ -48,9 +48,10 @@ const withLayoutBasic = (Component: any) => {
 					bgSize = '60%';
 					break;
 				case '/mypage':
-					title = 'my page';
-					desc = 'Home / For Rent';
-					bgImage = '/img/banner/header1.svg';
+					title = 'My Page';
+					desc = 'Manage your profile • Your bikes, favorites & more';
+					bgImage = '/img/property/ducati1.avif';
+					bgSize = '60%';
 					break;
 				case '/community':
 					title = 'Community';
