@@ -55,6 +55,227 @@
       }
     }
   }
+  
+  // Admin Dashboard Styles
+  .admin-dashboard {
+    width: 100%;
+    padding: 0;
+    
+    .dashboard-title {
+      background: linear-gradient(135deg, #667eea 0%, #764ba2 50%, #f093fb 100%);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+      font-size: 36px;
+      font-weight: 900;
+      letter-spacing: -1px;
+      margin-bottom: 40px;
+    }
+    
+    .stat-card {
+      border-radius: 20px;
+      background: linear-gradient(135deg, rgba(255, 255, 255, 0.95) 0%, rgba(248, 249, 255, 0.95) 100%);
+      backdrop-filter: blur(20px);
+      border: 1px solid rgba(102, 126, 234, 0.1);
+      box-shadow: 0 8px 32px rgba(102, 126, 234, 0.1);
+      transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+      cursor: pointer;
+      position: relative;
+      overflow: hidden;
+      height: 100%;
+      
+      &::before {
+        content: '';
+        position: absolute;
+        top: 0;
+        left: 0;
+        right: 0;
+        height: 4px;
+        background: linear-gradient(90deg, #667eea 0%, #764ba2 50%, #f093fb 100%);
+        opacity: 0;
+        transition: opacity 0.4s ease;
+      }
+      
+      &::after {
+        content: '';
+        position: absolute;
+        top: -50%;
+        right: -50%;
+        width: 200%;
+        height: 200%;
+        background: radial-gradient(circle, rgba(102, 126, 234, 0.1) 0%, transparent 70%);
+        opacity: 0;
+        transition: opacity 0.4s ease;
+      }
+      
+      &:hover {
+        transform: translateY(-12px) scale(1.02);
+        box-shadow: 0 20px 60px rgba(102, 126, 234, 0.2);
+        border-color: rgba(102, 126, 234, 0.3);
+        
+        &::before {
+          opacity: 1;
+        }
+        
+        &::after {
+          opacity: 1;
+        }
+        
+        .stat-icon-box {
+          transform: scale(1.15) rotate(5deg);
+        }
+        
+        .stat-action-btn {
+          transform: translateX(4px);
+        }
+      }
+      
+      .MuiCardContent-root {
+        padding: 28px;
+        position: relative;
+        z-index: 1;
+      }
+      
+      .stat-icon-box {
+        width: 64px;
+        height: 64px;
+        border-radius: 16px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+        box-shadow: 0 4px 16px rgba(0, 0, 0, 0.1);
+      }
+      
+      .stat-icon-users {
+        background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+        color: #fff;
+        box-shadow: 0 4px 16px rgba(102, 126, 234, 0.3);
+      }
+      
+      .stat-icon-bikes {
+        background: linear-gradient(135deg, #f093fb 0%, #f5576c 100%);
+        color: #fff;
+        box-shadow: 0 4px 16px rgba(245, 87, 108, 0.3);
+      }
+      
+      .stat-icon-articles {
+        background: linear-gradient(135deg, #4facfe 0%, #00f2fe 100%);
+        color: #fff;
+        box-shadow: 0 4px 16px rgba(79, 172, 254, 0.3);
+      }
+      
+      .stat-action-btn {
+        color: #667eea;
+        font-weight: 600;
+        font-size: 13px;
+        text-transform: none;
+        padding: 6px 12px;
+        border-radius: 8px;
+        transition: all 0.3s ease;
+        min-width: auto;
+        
+        &:hover {
+          background: rgba(102, 126, 234, 0.1);
+          color: #764ba2;
+        }
+        
+        .MuiSvgIcon-root {
+          transition: all 0.3s ease;
+        }
+      }
+      
+      .stat-label {
+        color: #64748b;
+        font-size: 14px;
+        font-weight: 600;
+        text-transform: uppercase;
+        letter-spacing: 0.8px;
+        margin-bottom: 8px;
+      }
+      
+      .stat-value {
+        background: linear-gradient(135deg, #1e293b 0%, #334155 100%);
+        -webkit-background-clip: text;
+        -webkit-text-fill-color: transparent;
+        background-clip: text;
+        font-size: 48px;
+        font-weight: 900;
+        line-height: 1;
+        letter-spacing: -2px;
+        margin-bottom: 16px;
+      }
+      
+      .stat-details {
+        padding-top: 16px;
+        border-top: 1px solid rgba(102, 126, 234, 0.1);
+      }
+      
+      .stat-detail-item {
+        flex: 1;
+      }
+      
+      .stat-detail-label {
+        color: #94a3b8;
+        font-size: 11px;
+        font-weight: 600;
+        text-transform: uppercase;
+        letter-spacing: 0.5px;
+        margin-bottom: 4px;
+      }
+      
+      .stat-detail-value {
+        font-size: 20px;
+        font-weight: 700;
+        line-height: 1.2;
+      }
+      
+      .stat-active {
+        color: #10b981;
+      }
+      
+      .stat-sold {
+        color: #f59e0b;
+      }
+      
+      .stat-deleted {
+        color: #ef4444;
+      }
+    }
+    
+    .stat-card-users {
+      &:hover {
+        .stat-icon-users {
+          box-shadow: 0 8px 24px rgba(102, 126, 234, 0.4);
+        }
+        .stat-action-btn {
+          color: #667eea;
+        }
+      }
+    }
+    
+    .stat-card-bikes {
+      &:hover {
+        .stat-icon-bikes {
+          box-shadow: 0 8px 24px rgba(245, 87, 108, 0.4);
+        }
+        .stat-action-btn {
+          color: #f093fb;
+        }
+      }
+    }
+    
+    .stat-card-articles {
+      &:hover {
+        .stat-icon-articles {
+          box-shadow: 0 8px 24px rgba(79, 172, 254, 0.4);
+        }
+        .stat-action-btn {
+          color: #4facfe;
+        }
+      }
+    }
+  }
   .aside {
     background: linear-gradient(180deg, #ffffff 0%, #f8f9ff 100%);
     border-right: 1px solid rgba(102, 126, 234, 0.1);
