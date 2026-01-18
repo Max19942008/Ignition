@@ -184,21 +184,21 @@ const AdminUsers: NextPage = ({ initialInquiry, ...props }: any) => {
 								<ListItem
 									onClick={(e:any) => tabChangeHandler(e, 'ACTIVE')}
 									value="ACTIVE"
-									className={value === 'ACTIVE' ? 'li on' : 'li'}
+									className={value === 'ACTIVE' ? 'li on active-tab' : 'li active-tab'}
 								>
 									Active
 								</ListItem>
 								<ListItem
 									onClick={(e:any) => tabChangeHandler(e, 'BLOCK')}
 									value="BLOCK"
-									className={value === 'BLOCK' ? 'li on' : 'li'}
+									className={value === 'BLOCK' ? 'li on block-tab' : 'li block-tab'}
 								>
 									Blocked
 								</ListItem>
 								<ListItem
 									onClick={(e:any) => tabChangeHandler(e, 'DELETE')}
 									value="DELETE"
-									className={value === 'DELETE' ? 'li on' : 'li'}
+									className={value === 'DELETE' ? 'li on delete-tab' : 'li delete-tab'}
 								>
 									Deleted
 								</ListItem>

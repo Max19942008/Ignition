@@ -160,8 +160,19 @@ export const MemberPanelList = (props: MemberPanelListType) => {
 								const member_image = member.memberImage
 									? `${REACT_APP_API_URL}/${member.memberImage}`
 									: '/img/profile/defaultUser.svg';
+								const isDeleted = member.memberStatus === MemberStatus.DELETE;
 								return (
-									<TableRow hover key={member?._id} sx={{ '&:last-child td, &:last-child th': { border: 0 } }}>
+									<TableRow 
+										hover 
+										key={member?._id} 
+										sx={{ 
+											'&:last-child td, &:last-child th': { border: 0 },
+											backgroundColor: isDeleted ? 'rgba(239, 68, 68, 0.05)' : 'transparent',
+											'&:hover': {
+												backgroundColor: isDeleted ? 'rgba(239, 68, 68, 0.1)' : 'rgba(0, 0, 0, 0.04)',
+											}
+										}}
+									>
 										<TableCell align="left">{member._id}</TableCell>
 
 										<TableCell align="left" className={'name'}>
@@ -181,7 +192,10 @@ export const MemberPanelList = (props: MemberPanelListType) => {
 										<TableCell align="left">{member.memberPhone}</TableCell>
 
 										<TableCell align="center">
-											<Button onClick={(e: any) => menuIconClickHandler(e, index)} className={'badge success'}>
+											<Button 
+												onClick={(e: any) => menuIconClickHandler(e, index)} 
+												className={`badge member-type-${member.memberType?.toLowerCase()}`}
+											>
 												{member.memberType}
 											</Button>
 
@@ -214,7 +228,10 @@ export const MemberPanelList = (props: MemberPanelListType) => {
 										<TableCell align="center">{member.memberWarnings}</TableCell>
 										<TableCell align="center">{member.memberBlocks}</TableCell>
 										<TableCell align="center">
-											<Button onClick={(e: any) => menuIconClickHandler(e, member._id)} className={'badge success'}>
+											<Button 
+												onClick={(e: any) => menuIconClickHandler(e, member._id)} 
+												className={`badge member-status-${member.memberStatus?.toLowerCase()}`}
+											>
 												{member.memberStatus}
 											</Button>
 
