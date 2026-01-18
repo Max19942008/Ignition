@@ -157,7 +157,7 @@ const AdminCommunity: NextPage = ({ initialInquiry, ...props }: any) => {
 	return (
 		<Box component={'div'} className={'content'}>
 			<Typography variant={'h2'} className={'tit'} sx={{ mb: '24px' }}>
-				Arricle List
+				Article List
 			</Typography>
 			<Box component={'div'} className={'table-wrap'}>
 				<Box component={'div'} sx={{ width: '100%', typography: 'body1' }}>
@@ -174,16 +174,16 @@ const AdminCommunity: NextPage = ({ initialInquiry, ...props }: any) => {
 								<ListItem
 									onClick={(e: any) => tabChangeHandler(e, 'ACTIVE')}
 									value="ACTIVE"
-									className={value === 'ACTIVE' ? 'li on' : 'li'}
+									className={value === 'ACTIVE' ? 'li on active-tab' : 'li active-tab'}
 								>
 									Active
 								</ListItem>
 								<ListItem
 									onClick={(e: any) => tabChangeHandler(e, 'DELETE')}
 									value="DELETE"
-									className={value === 'DELETE' ? 'li on' : 'li'}
+									className={value === 'DELETE' ? 'li on delete-tab' : 'li delete-tab'}
 								>
-									Delete
+									Deleted
 								</ListItem>
 							</List>
 							<Divider />
