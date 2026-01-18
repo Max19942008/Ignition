@@ -83,22 +83,25 @@ const AgentCard = (props: AgentCardProps) => {
 					sx={{ 
 						cursor: isLiking ? 'wait' : 'pointer', 
 						opacity: isLiking ? 0.7 : 1,
-						transition: 'all 0.2s ease',
+						transition: 'all 0.3s ease',
 						position: 'absolute',
-						top: '16px',
-						right: '16px',
+						top: '20px',
+						right: '20px',
 						zIndex: 10,
-						background: 'rgba(255, 255, 255, 0.9)',
+						background: 'rgba(255, 255, 255, 0.95)',
+						backdropFilter: 'blur(10px)',
+						boxShadow: '0px 4px 12px rgba(0, 0, 0, 0.15)',
 						'&:hover': {
 							background: 'rgba(255, 255, 255, 1)',
+							transform: 'scale(1.1)',
 						}
 					}}
 					onClick={handleLikeClick}
 				>
 					{isLiked ? (
-						<FavoriteIcon sx={{ fontSize: 20, color: '#e91e63' }} />
+						<FavoriteIcon sx={{ fontSize: 22, color: '#f5576c' }} />
 					) : (
-						<FavoriteBorderIcon sx={{ fontSize: 20, color: '#666' }} />
+						<FavoriteBorderIcon sx={{ fontSize: 22, color: '#667eea' }} />
 					)}
 				</IconButton>
 
