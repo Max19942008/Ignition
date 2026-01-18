@@ -80,23 +80,27 @@ const AdminMenuList = (props: any) => {
 	const menu_set = [
 		{
 			title: 'Users',
-			icon: <User size={20} color="#bdbdbd" weight="fill" />,
+			icon: <User size={22} color="#667eea" weight="fill" className="menu-icon menu-icon-users" />,
 			on_click: () => subMenuChangeHandler('Users'),
+			color: '#667eea',
 		},
 		{
 			title: 'Properties',
-			icon: <UserCircleGear size={20} color="#bdbdbd" weight="fill" />,
+			icon: <UserCircleGear size={22} color="#f093fb" weight="fill" className="menu-icon menu-icon-properties" />,
 			on_click: () => subMenuChangeHandler('Properties'),
+			color: '#f093fb',
 		},
 		{
 			title: 'Community',
-			icon: <ChatsCircle size={20} color="#bdbdbd" weight="fill" />,
+			icon: <ChatsCircle size={22} color="#4facfe" weight="fill" className="menu-icon menu-icon-community" />,
 			on_click: () => subMenuChangeHandler('Community'),
+			color: '#4facfe',
 		},
 		{
 			title: 'Cs',
-			icon: <Headset size={20} color="#bdbdbd" weight="fill" />,
+			icon: <Headset size={22} color="#10b981" weight="fill" className="menu-icon menu-icon-cs" />,
 			on_click: () => subMenuChangeHandler('Cs'),
+			color: '#10b981',
 		},
 	];
 
@@ -117,7 +121,7 @@ const AdminMenuList = (props: any) => {
 					<ListItemButton
 						onClick={item.on_click}
 						component={'li'}
-						className={clickMenu[0] === item.title ? 'menu on' : 'menu'}
+						className={clickMenu[0] === item.title ? `menu on menu-${item.title.toLowerCase()}` : `menu menu-${item.title.toLowerCase()}`}
 						sx={{
 							minHeight: 48,
 							justifyContent: openMenu ? 'initial' : 'center',
@@ -134,7 +138,7 @@ const AdminMenuList = (props: any) => {
 							{item.icon}
 						</ListItemIcon>
 						<ListItemText>{item.title}</ListItemText>
-						{clickMenu.find((menu: string) => item.title === menu) ? <ExpandLess /> : <ExpandMore />}
+						{clickMenu.find((menu: string) => item.title === menu) ? <ExpandLess className="expand-icon" /> : <ExpandMore className="expand-icon" />}
 					</ListItemButton>
 					<Collapse
 						in={!!clickMenu.find((menu: string) => menu === item.title)}
