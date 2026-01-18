@@ -236,18 +236,44 @@ const AdminHome: NextPage = (props: any) => {
 	}) => {
 		const radius = (size - strokeWidth) / 2;
 		const circumference = 2 * Math.PI * radius;
-		let currentOffset = 0;
 		const filteredData = data.filter(item => item.value > 0);
+		const totalPercent = filteredData.reduce((sum, item) => sum + item.value, 0);
+		
+		// Normalize percentages to ensure they sum to 100%
+		const normalizedData = filteredData.map(item => ({
+			...item,
+			value: totalPercent > 0 ? Math.round((item.value / totalPercent) * 100) : 0
+		}));
+		
+		// Adjust last item to ensure sum is exactly 100%
+		if (normalizedData.length > 0) {
+			const sum = normalizedData.reduce((s, item) => s + item.value, 0);
+			if (sum !== 100 && normalizedData.length > 0) {
+				normalizedData[normalizedData.length - 1].value += (100 - sum);
+			}
+		}
+
+		// Calculate segment positions
+		const segments = normalizedData.map((item, index) => {
+			const segmentLength = (item.value / 100) * circumference;
+			const previousLength = normalizedData.slice(0, index).reduce((sum, prevItem) => {
+				return sum + (prevItem.value / 100) * circumference;
+			}, 0);
+			// strokeDashoffset should be negative to move the dash pattern backwards
+			const strokeDashoffset = -previousLength;
+			
+			return {
+				...item,
+				segmentLength,
+				strokeDashoffset,
+			};
+		});
 
 		return (
 			<Box className="donut-chart-container" sx={{ position: 'relative', width: '100%', display: 'flex', flexDirection: 'column', alignItems: 'center' }}>
 				<Box sx={{ position: 'relative', width: size, height: size, display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
 					<svg width={size} height={size} style={{ transform: 'rotate(-90deg)' }}>
-						{filteredData.map((item, index) => {
-							const strokeDasharray = (item.value / 100) * circumference;
-							const strokeDashoffset = circumference - (currentOffset / 100) * circumference;
-							currentOffset += item.value;
-							
+						{segments.map((segment, index) => {
 							return (
 								<circle
 									key={index}
@@ -255,10 +281,11 @@ const AdminHome: NextPage = (props: any) => {
 									cy={size / 2}
 									r={radius}
 									fill="none"
-									stroke={item.color}
+									stroke={segment.color}
 									strokeWidth={strokeWidth}
-									strokeDasharray={`${strokeDasharray} ${circumference}`}
-									strokeDashoffset={strokeDashoffset}
+									strokeDasharray={`${segment.segmentLength} ${circumference}`}
+									strokeDashoffset={segment.strokeDashoffset}
+									strokeLinecap="round"
 									className="donut-segment"
 									style={{
 										transition: 'all 0.5s ease',
@@ -268,11 +295,11 @@ const AdminHome: NextPage = (props: any) => {
 						})}
 					</svg>
 					<Box className="donut-chart-center" sx={{ position: 'absolute', top: '50%', left: '50%', transform: 'translate(-50%, -50%)', pointerEvents: 'none' }}>
-						<Typography className="donut-chart-total">{filteredData.reduce((sum, item) => sum + item.value, 0) > 0 ? '100%' : '0%'}</Typography>
+						<Typography className="donut-chart-total">100%</Typography>
 					</Box>
 				</Box>
 				<Box className="donut-chart-legend" sx={{ width: '100%', marginTop: '16px' }}>
-					{filteredData.map((item, index) => (
+					{normalizedData.map((item, index) => (
 						<Box key={index} className="donut-legend-item">
 							<Box className="donut-legend-color" sx={{ backgroundColor: item.color }} />
 							<Typography className="donut-legend-label">{item.label}</Typography>
