@@ -23,10 +23,12 @@ const AdminHome: NextPage = (props: any) => {
 	const router = useRouter();
 	const [usersTotal, setUsersTotal] = useState<number>(0);
 	const [usersActive, setUsersActive] = useState<number>(0);
+	const [usersBlocked, setUsersBlocked] = useState<number>(0);
 	const [usersDeleted, setUsersDeleted] = useState<number>(0);
 	const [bikesTotal, setBikesTotal] = useState<number>(0);
 	const [bikesActive, setBikesActive] = useState<number>(0);
 	const [bikesSold, setBikesSold] = useState<number>(0);
+	const [bikesHold, setBikesHold] = useState<number>(0);
 	const [bikesDeleted, setBikesDeleted] = useState<number>(0);
 	const [articlesTotal, setArticlesTotal] = useState<number>(0);
 	const [articlesActive, setArticlesActive] = useState<number>(0);
@@ -58,6 +60,19 @@ const AdminHome: NextPage = (props: any) => {
 		},
 		onCompleted: (data: T) => {
 			setUsersActive(data?.getAllMembersByAdmin?.metaCounter[0]?.total ?? 0);
+		},
+	});
+
+	const { data: usersBlockedData } = useQuery(GET_ALL_MEMBERS_BY_ADMIN, {
+		fetchPolicy: 'network-only',
+		variables: {
+			input: {
+				...membersInquiry,
+				search: { memberStatus: MemberStatus.BLOCK },
+			},
+		},
+		onCompleted: (data: T) => {
+			setUsersBlocked(data?.getAllMembersByAdmin?.metaCounter[0]?.total ?? 0);
 		},
 	});
 
@@ -113,6 +128,19 @@ const AdminHome: NextPage = (props: any) => {
 		},
 		onCompleted: (data: T) => {
 			setBikesSold(data?.getAllPropertiesByAdmin?.metaCounter[0]?.total ?? 0);
+		},
+	});
+
+	const { data: bikesHoldData } = useQuery(GET_ALL_PROPERTIES_BY_ADMIN, {
+		fetchPolicy: 'network-only',
+		variables: {
+			input: {
+				...propertiesInquiry,
+				search: { propertyStatus: PropertyStatus.HOLD },
+			},
+		},
+		onCompleted: (data: T) => {
+			setBikesHold(data?.getAllPropertiesByAdmin?.metaCounter[0]?.total ?? 0);
 		},
 	});
 
@@ -183,6 +211,79 @@ const AdminHome: NextPage = (props: any) => {
 		router.push('/_admin/community');
 	};
 
+	// Calculate percentages for donut charts
+	const usersActivePercent = usersTotal > 0 ? Math.round((usersActive / usersTotal) * 100) : 0;
+	const usersBlockedPercent = usersTotal > 0 ? Math.round((usersBlocked / usersTotal) * 100) : 0;
+	const usersDeletedPercent = usersTotal > 0 ? Math.round((usersDeleted / usersTotal) * 100) : 0;
+
+	const bikesActivePercent = bikesTotal > 0 ? Math.round((bikesActive / bikesTotal) * 100) : 0;
+	const bikesSoldPercent = bikesTotal > 0 ? Math.round((bikesSold / bikesTotal) * 100) : 0;
+	const bikesHoldPercent = bikesTotal > 0 ? Math.round((bikesHold / bikesTotal) * 100) : 0;
+	const bikesDeletedPercent = bikesTotal > 0 ? Math.round((bikesDeleted / bikesTotal) * 100) : 0;
+
+	const articlesActivePercent = articlesTotal > 0 ? Math.round((articlesActive / articlesTotal) * 100) : 0;
+	const articlesDeletedPercent = articlesTotal > 0 ? Math.round((articlesDeleted / articlesTotal) * 100) : 0;
+
+	// Donut chart component
+	const DonutChart = ({ 
+		data, 
+		size = 120, 
+		strokeWidth = 20 
+	}: { 
+		data: Array<{ value: number; color: string; label: string }>; 
+		size?: number; 
+		strokeWidth?: number;
+	}) => {
+		const radius = (size - strokeWidth) / 2;
+		const circumference = 2 * Math.PI * radius;
+		let currentOffset = 0;
+		const filteredData = data.filter(item => item.value > 0);
+
+		return (
+			<Box className="donut-chart-container" sx={{ position: 'relative', width: '100%', display: 'flex', flexDirection: 'column', alignItems: 'center' }}>
+				<Box sx={{ position: 'relative', width: size, height: size, display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
+					<svg width={size} height={size} style={{ transform: 'rotate(-90deg)' }}>
+						{filteredData.map((item, index) => {
+							const strokeDasharray = (item.value / 100) * circumference;
+							const strokeDashoffset = circumference - (currentOffset / 100) * circumference;
+							currentOffset += item.value;
+							
+							return (
+								<circle
+									key={index}
+									cx={size / 2}
+									cy={size / 2}
+									r={radius}
+									fill="none"
+									stroke={item.color}
+									strokeWidth={strokeWidth}
+									strokeDasharray={`${strokeDasharray} ${circumference}`}
+									strokeDashoffset={strokeDashoffset}
+									className="donut-segment"
+									style={{
+										transition: 'all 0.5s ease',
+									}}
+								/>
+							);
+						})}
+					</svg>
+					<Box className="donut-chart-center" sx={{ position: 'absolute', top: '50%', left: '50%', transform: 'translate(-50%, -50%)', pointerEvents: 'none' }}>
+						<Typography className="donut-chart-total">{filteredData.reduce((sum, item) => sum + item.value, 0) > 0 ? '100%' : '0%'}</Typography>
+					</Box>
+				</Box>
+				<Box className="donut-chart-legend" sx={{ width: '100%', marginTop: '16px' }}>
+					{filteredData.map((item, index) => (
+						<Box key={index} className="donut-legend-item">
+							<Box className="donut-legend-color" sx={{ backgroundColor: item.color }} />
+							<Typography className="donut-legend-label">{item.label}</Typography>
+							<Typography className="donut-legend-value">{item.value}%</Typography>
+						</Box>
+					))}
+				</Box>
+			</Box>
+		);
+	};
+
 	return (
 		<Box component={'div'} className={'admin-dashboard'}>
 			<Typography variant={'h2'} className={'dashboard-title'} sx={{ mb: '40px' }}>
@@ -204,6 +305,19 @@ const AdminHome: NextPage = (props: any) => {
 							</Stack>
 							<Typography className={'stat-label'}>Total Users</Typography>
 							<Typography className={'stat-value'}>{usersTotal}</Typography>
+							
+							<Box className="stat-chart-container">
+								<DonutChart
+									data={[
+										{ value: usersActivePercent, color: '#10b981', label: 'Active' },
+										{ value: usersBlockedPercent, color: '#f59e0b', label: 'Blocked' },
+										{ value: usersDeletedPercent, color: '#ef4444', label: 'Deleted' },
+									]}
+									size={140}
+									strokeWidth={18}
+								/>
+							</Box>
+							
 							<Stack direction={'row'} spacing={2} mt={2} className={'stat-details'}>
 								<Box className={'stat-detail-item'}>
 									<Typography className={'stat-detail-label'}>Active</Typography>
@@ -232,6 +346,20 @@ const AdminHome: NextPage = (props: any) => {
 							</Stack>
 							<Typography className={'stat-label'}>Total Bikes</Typography>
 							<Typography className={'stat-value'}>{bikesTotal}</Typography>
+							
+							<Box className="stat-chart-container">
+								<DonutChart
+									data={[
+										{ value: bikesActivePercent, color: '#10b981', label: 'Active' },
+										{ value: bikesSoldPercent, color: '#f59e0b', label: 'Sold' },
+										{ value: bikesHoldPercent, color: '#3b82f6', label: 'Hold' },
+										{ value: bikesDeletedPercent, color: '#ef4444', label: 'Deleted' },
+									]}
+									size={140}
+									strokeWidth={18}
+								/>
+							</Box>
+							
 							<Stack direction={'row'} spacing={2} mt={2} className={'stat-details'}>
 								<Box className={'stat-detail-item'}>
 									<Typography className={'stat-detail-label'}>Active</Typography>
@@ -264,6 +392,18 @@ const AdminHome: NextPage = (props: any) => {
 							</Stack>
 							<Typography className={'stat-label'}>Total Articles</Typography>
 							<Typography className={'stat-value'}>{articlesTotal}</Typography>
+							
+							<Box className="stat-chart-container">
+								<DonutChart
+									data={[
+										{ value: articlesActivePercent, color: '#10b981', label: 'Active' },
+										{ value: articlesDeletedPercent, color: '#ef4444', label: 'Deleted' },
+									]}
+									size={140}
+									strokeWidth={18}
+								/>
+							</Box>
+							
 							<Stack direction={'row'} spacing={2} mt={2} className={'stat-details'}>
 								<Box className={'stat-detail-item'}>
 									<Typography className={'stat-detail-label'}>Active</Typography>
