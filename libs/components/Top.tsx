@@ -168,7 +168,7 @@ const Top = () => {
 							<Link href={'/'}>
 								<Stack direction="row" alignItems="center" spacing={1.5} className="brand">
 									<img src="/img/logo/logo1.webp" alt="Bike Hub logo" className="logo-img" />
-									<span className="logo-wordmark">Bike Hub</span>
+									<span className="logo-wordmark">Ignition</span>
 								</Stack>
 							</Link>
 						</Box>
