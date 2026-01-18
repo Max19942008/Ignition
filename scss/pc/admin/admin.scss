@@ -229,14 +229,14 @@
           }
         }
         
-        // Properties menu
-        &.menu-properties {
+        // Bikes menu
+        &.menu-bikes {
           &.on {
             background: linear-gradient(135deg, rgba(240, 147, 251, 0.15) 0%, rgba(245, 87, 108, 0.1) 100%);
             color: #f093fb;
             font-weight: 700;
             border-left: 4px solid #f093fb;
-            .menu-icon-properties {
+            .menu-icon-bikes {
               color: #f093fb;
               transform: scale(1.15);
             }
@@ -1059,6 +1059,113 @@
     }
     .MuiTableContainer-root {
       box-shadow: none;
+    }
+    
+    // Property List specific styles
+    .property-id {
+      color: #667eea !important;
+      font-weight: 600 !important;
+      font-family: 'Courier New', monospace !important;
+      font-size: 12px !important;
+    }
+    
+    .property-title {
+      color: #1e293b !important;
+      font-weight: 600 !important;
+      text-decoration: none !important;
+      transition: all 0.2s ease !important;
+      &:hover {
+        background: linear-gradient(135deg, #667eea 0%, #764ba2 100%) !important;
+        -webkit-background-clip: text !important;
+        -webkit-text-fill-color: transparent !important;
+        background-clip: text !important;
+      }
+    }
+    
+    .property-price {
+      color: #10b981 !important;
+      font-weight: 700 !important;
+      font-size: 15px !important;
+    }
+    
+    .property-agent {
+      color: #3b82f6 !important;
+      font-weight: 600 !important;
+    }
+    
+    .property-location {
+      color: #8b5cf6 !important;
+      font-weight: 600 !important;
+    }
+    
+    .property-brand {
+      color: #f59e0b !important;
+      font-weight: 600 !important;
+      font-size: 13px !important;
+    }
+    
+    .property-row-deleted {
+      opacity: 0.85;
+      td {
+        color: #9ca3af !important;
+      }
+    }
+    
+    .property-status-deleted {
+      color: #fff !important;
+      background: linear-gradient(135deg, #ef4444 0%, #dc2626 100%) !important;
+      box-shadow: 0 2px 8px rgba(239, 68, 68, 0.4) !important;
+      position: relative;
+      overflow: hidden;
+      &::before {
+        content: '';
+        position: absolute;
+        top: 0;
+        left: -100%;
+        width: 100%;
+        height: 100%;
+        background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.3), transparent);
+        animation: shine 2s infinite;
+      }
+      &:hover {
+        box-shadow: 0 4px 16px rgba(239, 68, 68, 0.5) !important;
+        background: linear-gradient(135deg, #dc2626 0%, #b91c1c 100%) !important;
+      }
+    }
+    
+    .property-status-sold {
+      color: #fff !important;
+      background: linear-gradient(135deg, #f59e0b 0%, #d97706 100%) !important;
+      box-shadow: 0 2px 8px rgba(245, 158, 11, 0.3) !important;
+      &:hover {
+        box-shadow: 0 4px 12px rgba(245, 158, 11, 0.4) !important;
+        background: linear-gradient(135deg, #e08d0a 0%, #c46905 100%) !important;
+      }
+    }
+    
+    .property-status-active {
+      color: #fff !important;
+      background: linear-gradient(135deg, #10b981 0%, #059669 100%) !important;
+      box-shadow: 0 2px 8px rgba(16, 185, 129, 0.3) !important;
+      &:hover {
+        box-shadow: 0 4px 12px rgba(16, 185, 129, 0.4) !important;
+        background: linear-gradient(135deg, #0ea572 0%, #047857 100%) !important;
+      }
+    }
+    
+    .delete-button {
+      color: #ef4444 !important;
+      transition: all 0.2s ease !important;
+      &:hover {
+        background: rgba(239, 68, 68, 0.1) !important;
+        transform: scale(1.1);
+        .MuiSvgIcon-root {
+          color: #dc2626 !important;
+        }
+      }
+      .MuiSvgIcon-root {
+        transition: all 0.2s ease !important;
+      }
     }
     
     // Menu styles

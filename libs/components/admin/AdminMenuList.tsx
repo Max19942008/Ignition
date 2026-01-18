@@ -31,7 +31,7 @@ const AdminMenuList = (props: any) => {
 
 		switch (pathnames[1]) {
 			case 'properties':
-				setClickMenu(['Properties']);
+				setClickMenu(['Bikes']);
 				break;
 			case 'community':
 				setClickMenu(['Community']);
@@ -85,9 +85,9 @@ const AdminMenuList = (props: any) => {
 			color: '#667eea',
 		},
 		{
-			title: 'Properties',
-			icon: <UserCircleGear size={22} color="#f093fb" weight="fill" className="menu-icon menu-icon-properties" />,
-			on_click: () => subMenuChangeHandler('Properties'),
+			title: 'Bikes',
+			icon: <UserCircleGear size={22} color="#f093fb" weight="fill" className="menu-icon menu-icon-bikes" />,
+			on_click: () => subMenuChangeHandler('Bikes'),
 			color: '#f093fb',
 		},
 		{
@@ -106,7 +106,7 @@ const AdminMenuList = (props: any) => {
 
 	const sub_menu_set: any = {
 		Users: [{ title: 'List', url: '/_admin/users' }],
-		Properties: [{ title: 'List', url: '/_admin/properties' }],
+		Bikes: [{ title: 'Bike List', url: '/_admin/properties' }],
 		Community: [{ title: 'List', url: '/_admin/community' }],
 		Cs: [
 			{ title: 'FAQ', url: '/_admin/cs/faq' },

@@ -74,7 +74,7 @@ const headCells: readonly HeadCell[] = [
 		id: 'type',
 		numeric: false,
 		disablePadding: false,
-		label: 'TYPE',
+		label: 'BRAND',
 	},
 	{
 		id: 'status',
@@ -150,10 +150,22 @@ export const PropertyPanelList = (props: PropertyPanelListType) => {
 						{properties.length !== 0 &&
 							properties.map((property: Property, index: number) => {
 								const propertyImage = `${REACT_APP_API_URL}/${property?.propertyImages[0]}`;
+								const isDeleted = property.propertyStatus === PropertyStatus.DELETE;
 
 								return (
-									<TableRow hover key={property?._id} sx={{ '&:last-child td, &:last-child th': { border: 0 } }}>
-										<TableCell align="left">{property._id}</TableCell>
+									<TableRow 
+										hover 
+										key={property?._id} 
+										className={isDeleted ? 'property-row-deleted' : ''}
+										sx={{ 
+											'&:last-child td, &:last-child th': { border: 0 },
+											backgroundColor: isDeleted ? 'rgba(239, 68, 68, 0.05)' : 'transparent',
+											'&:hover': {
+												backgroundColor: isDeleted ? 'rgba(239, 68, 68, 0.1)' : 'rgba(0, 0, 0, 0.04)',
+											}
+										}}
+									>
+										<TableCell align="left" className="property-id">{property._id}</TableCell>
 										<TableCell align="left" className={'name'}>
 											<Stack direction={'row'}>
 												<Link href={`/property/detail?id=${property?._id}`}>
@@ -162,32 +174,43 @@ export const PropertyPanelList = (props: PropertyPanelListType) => {
 													</div>
 												</Link>
 												<Link href={`/property/detail?id=${property?._id}`}>
-													<div>{property.propertyTitle}</div>
+													<div className="property-title">{property.propertyTitle}</div>
 												</Link>
 											</Stack>
 										</TableCell>
-										<TableCell align="center">{property.propertyPrice}</TableCell>
-										<TableCell align="center">{property.memberData?.memberNick}</TableCell>
-										<TableCell align="center">{property.propertyLocation}</TableCell>
-										<TableCell align="center">{property.propertyType}</TableCell>
+										<TableCell align="center" className="property-price">{property.propertyPrice}</TableCell>
+										<TableCell align="center" className="property-agent">{property.memberData?.memberNick}</TableCell>
+										<TableCell align="center" className="property-location">{property.propertyLocation}</TableCell>
+										<TableCell align="center" className="property-brand">
+											{property.propertyBrand || property.propertyType} {property.propertyCondition && `• ${property.propertyCondition}`}
+										</TableCell>
 										<TableCell align="center">
 											{property.propertyStatus === PropertyStatus.DELETE && (
-												<Button
-													variant="outlined"
-													sx={{ p: '3px', border: 'none', ':hover': { border: '1px solid #000000' } }}
-													onClick={() => removePropertyHandler(property._id)}
-												>
-													<DeleteIcon fontSize="small" />
-												</Button>
+												<>
+													<Button
+														className={'badge property-status-deleted'}
+														sx={{ mr: 1 }}
+													>
+														Deleted
+													</Button>
+													<Button
+														variant="outlined"
+														className="delete-button"
+														sx={{ p: '3px', border: 'none', ':hover': { border: '1px solid #ef4444' } }}
+														onClick={() => removePropertyHandler(property._id)}
+													>
+														<DeleteIcon fontSize="small" />
+													</Button>
+												</>
 											)}
 
 											{property.propertyStatus === PropertyStatus.SOLD && (
-												<Button className={'badge warning'}>{property.propertyStatus}</Button>
+												<Button className={'badge property-status-sold'}>{property.propertyStatus}</Button>
 											)}
 
 											{property.propertyStatus === PropertyStatus.ACTIVE && (
 												<>
-													<Button onClick={(e: any) => menuIconClickHandler(e, index)} className={'badge success'}>
+													<Button onClick={(e: any) => menuIconClickHandler(e, index)} className={'badge property-status-active'}>
 														{property.propertyStatus}
 													</Button>
 
@@ -210,7 +233,7 @@ export const PropertyPanelList = (props: PropertyPanelListType) => {
 																	key={status}
 																>
 																	<Typography variant={'subtitle1'} component={'span'}>
-																		{status}
+																		{status === PropertyStatus.DELETE ? 'Deleted' : status}
 																	</Typography>
 																</MenuItem>
 															))}
