@@ -74,7 +74,8 @@ const withLayoutBasic = (Component: any) => {
 				case '/account/join':
 					title = 'Login/Signup';
 					desc = 'Authentication Process';
-					bgImage = '/img/banner/header2.svg';
+					bgImage = '/img/property/ducati1.avif';
+					bgSize = '70%';
 					setAuthHeader(true);
 					break;
 				case '/member':
