@@ -13,9 +13,9 @@ import {
 	Fade,
 	MenuItem,
 } from '@mui/material';
-import Avatar from '@mui/material/Avatar';
 import Typography from '@mui/material/Typography';
 import { Stack } from '@mui/material';
+import { NoticeStatus } from '../../../enums/notice.enum';
 
 interface Data {
 	category: string;
@@ -23,20 +23,8 @@ interface Data {
 	writer: string;
 	date: string;
 	status: string;
-	id?: string;
+	_id?: string;
 }
-
-function descendingComparator<T>(a: T, b: T, orderBy: keyof T) {
-	if (b[orderBy] < a[orderBy]) {
-		return -1;
-	}
-	if (b[orderBy] > a[orderBy]) {
-		return 1;
-	}
-	return 0;
-}
-
-type Order = 'asc' | 'desc';
 
 interface HeadCell {
 	disablePadding: boolean;
@@ -48,26 +36,25 @@ interface HeadCell {
 const headCells: readonly HeadCell[] = [
 	{
 		id: 'category',
-		numeric: true,
+		numeric: false,
 		disablePadding: false,
 		label: 'CATEGORY',
 	},
 	{
 		id: 'title',
-		numeric: true,
+		numeric: false,
 		disablePadding: false,
 		label: 'TITLE',
 	},
-
 	{
 		id: 'writer',
-		numeric: true,
+		numeric: false,
 		disablePadding: false,
 		label: 'WRITER',
 	},
 	{
 		id: 'date',
-		numeric: true,
+		numeric: false,
 		disablePadding: false,
 		label: 'DATE',
 	},
@@ -80,17 +67,11 @@ const headCells: readonly HeadCell[] = [
 ];
 
 interface EnhancedTableProps {
-	numSelected: number;
 	onRequestSort: (event: React.MouseEvent<unknown>, property: keyof Data) => void;
-	onSelectAllClick: (event: React.ChangeEvent<HTMLInputElement>) => void;
-	order: Order;
 	orderBy: string;
-	rowCount: number;
 }
 
 function EnhancedTableHead(props: EnhancedTableProps) {
-	const { onSelectAllClick } = props;
-
 	return (
 		<TableHead>
 			<TableRow>
@@ -110,90 +91,141 @@ function EnhancedTableHead(props: EnhancedTableProps) {
 
 interface FaqArticlesPanelListType {
 	dense?: boolean;
-	membersData?: any;
-	searchMembers?: any;
+	faqList?: any[];
 	anchorEl?: any;
-	handleMenuIconClick?: any;
-	handleMenuIconClose?: any;
-	generateMentorTypeHandle?: any;
+	menuIconClickHandler?: any;
+	menuIconCloseHandler?: any;
+	updateFaqHandler?: any;
+	value?: string;
 }
 
 export const FaqArticlesPanelList = (props: FaqArticlesPanelListType) => {
-	const {
-		dense,
-		membersData,
-		searchMembers,
-		anchorEl,
-		handleMenuIconClick,
-		handleMenuIconClose,
-		generateMentorTypeHandle,
-	} = props;
+	const { faqList = [], anchorEl, menuIconClickHandler, menuIconCloseHandler, updateFaqHandler, value } = props;
 	const router = useRouter();
 
-	/** APOLLO REQUESTS **/
-	/** LIFECYCLES **/
-	/** HANDLERS **/
+	const filteredList = value === 'ALL' ? faqList : faqList.filter((item) => item.status === value);
 
 	return (
 		<Stack>
 			<TableContainer>
-				<Table sx={{ minWidth: 750 }} aria-labelledby="tableTitle" size={dense ? 'small' : 'medium'}>
-					{/*@ts-ignore*/}
-					<EnhancedTableHead />
+				<Table sx={{ minWidth: 750 }} aria-labelledby="tableTitle" size={'medium'}>
+					<EnhancedTableHead onRequestSort={() => {}} orderBy={''} />
 					<TableBody>
-						{[1, 2, 3, 4, 5].map((ele: any, index: number) => {
-							const member_image = '/img/profile/defaultUser.svg';
+						{filteredList.length === 0 ? (
+							<TableRow>
+								<TableCell colSpan={5} align="center" sx={{ py: 8 }}>
+									<Typography variant="body1" sx={{ color: '#94a3b8' }}>
+										No FAQ articles found
+									</Typography>
+								</TableCell>
+							</TableRow>
+						) : (
+							filteredList.map((faq: any, index: number) => {
+								const isDeleted = faq.status === NoticeStatus.DELETE;
 
-							let status_class_name = '';
-
-							return (
-								<TableRow hover key={'member._id'} sx={{ '&:last-child td, &:last-child th': { border: 0 } }}>
-									<TableCell align="left">mb id</TableCell>
-									<TableCell align="left">member.mb_full_name</TableCell>
-									<TableCell align="left" className={'name'}>
-										<Stack direction={'row'}>
-											<Link href={`/_admin/users/detail?mb_id=$'{member._id'}`}>
-												<div>
-													<Avatar alt="Remy Sharp" src={member_image} sx={{ ml: '2px', mr: '10px' }} />
-												</div>
-											</Link>
-											<Link href={`/_admin/users/detail?mb_id=${'member._id'}`}>
-												<div>member.mb_nick</div>
-											</Link>
-										</Stack>
-									</TableCell>
-									<TableCell align="left">member.mb_phone</TableCell>
-									<TableCell align="center">
-										<Button onClick={(e: any) => handleMenuIconClick(e, index)} className={'badge success'}>
-											member.mb_type
-										</Button>
-
-										<Menu
-											className={'menu-modal'}
-											MenuListProps={{
-												'aria-labelledby': 'fade-button',
-											}}
-											anchorEl={anchorEl[index]}
-											open={Boolean(anchorEl[index])}
-											onClose={handleMenuIconClose}
-											TransitionComponent={Fade}
-											sx={{ p: 1 }}
-										>
-											<MenuItem onClick={(e) => generateMentorTypeHandle('member._id', 'mentor', 'originate')}>
-												<Typography variant={'subtitle1'} component={'span'}>
-													MENTOR
-												</Typography>
-											</MenuItem>
-											<MenuItem onClick={(e) => generateMentorTypeHandle('member._id', 'user', 'remove')}>
-												<Typography variant={'subtitle1'} component={'span'}>
-													USER
-												</Typography>
-											</MenuItem>
-										</Menu>
-									</TableCell>
-								</TableRow>
-							);
-						})}
+								return (
+									<TableRow
+										hover
+										key={faq._id || index}
+										sx={{
+											'&:last-child td, &:last-child th': { border: 0 },
+											opacity: isDeleted ? 0.6 : 1,
+											background: isDeleted ? 'rgba(239, 68, 68, 0.02)' : 'transparent',
+										}}
+										className={isDeleted ? 'deleted-row' : ''}
+									>
+										<TableCell align="center">
+											<Typography
+												sx={{
+													color: '#667eea',
+													fontWeight: 700,
+													fontSize: '13px',
+													textTransform: 'uppercase',
+													letterSpacing: '0.5px',
+												}}
+											>
+												{faq.category}
+											</Typography>
+										</TableCell>
+										<TableCell align="left">
+											<Typography
+												sx={{
+													color: isDeleted ? '#94a3b8' : '#1e293b',
+													fontWeight: 600,
+													cursor: 'pointer',
+													'&:hover': {
+														color: '#667eea',
+													},
+												}}
+												onClick={() => router.push(`/_admin/cs/faq_detail?id=${faq._id}`)}
+											>
+												{faq.title}
+											</Typography>
+										</TableCell>
+										<TableCell align="center">
+											<Typography
+												sx={{
+													color: '#475569',
+													fontWeight: 600,
+													fontSize: '14px',
+												}}
+											>
+												{faq.writer}
+											</Typography>
+										</TableCell>
+										<TableCell align="center">
+											<Typography
+												sx={{
+													color: '#64748b',
+													fontSize: '13px',
+													fontFamily: 'monospace',
+												}}
+											>
+												{faq.date}
+											</Typography>
+										</TableCell>
+										<TableCell align="center">
+											{faq.status === NoticeStatus.DELETE ? (
+												<Button className={'badge badge-deleted'}>Deleted</Button>
+											) : (
+												<>
+													<Button
+														onClick={(e: any) => menuIconClickHandler && menuIconClickHandler(e, index)}
+														className={`badge badge-${faq.status.toLowerCase()}`}
+													>
+														{faq.status}
+													</Button>
+													<Menu
+														className={'menu-modal'}
+														MenuListProps={{ 'aria-labelledby': 'fade-button' }}
+														anchorEl={anchorEl && anchorEl[index]}
+														open={Boolean(anchorEl && anchorEl[index])}
+														onClose={menuIconCloseHandler}
+														TransitionComponent={Fade}
+														sx={{ p: 1 }}
+													>
+														{Object.values(NoticeStatus)
+															.filter((ele: string) => ele !== faq.status)
+															.map((status: string) => (
+																<MenuItem
+																	onClick={() =>
+																		updateFaqHandler && updateFaqHandler({ _id: faq._id, status: status })
+																	}
+																	key={status}
+																>
+																	<Typography variant={'subtitle1'} component={'span'}>
+																		{status === NoticeStatus.DELETE ? 'Deleted' : status}
+																	</Typography>
+																</MenuItem>
+															))}
+													</Menu>
+												</>
+											)}
+										</TableCell>
+									</TableRow>
+								);
+							})
+						)}
 					</TableBody>
 				</Table>
 			</TableContainer>

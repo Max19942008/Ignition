@@ -1,6 +1,5 @@
 import React from 'react';
 import { useRouter } from 'next/router';
-import Link from 'next/link';
 import {
 	TableCell,
 	TableHead,
@@ -13,7 +12,6 @@ import {
 	Fade,
 	MenuItem,
 } from '@mui/material';
-import Avatar from '@mui/material/Avatar';
 import Typography from '@mui/material/Typography';
 import { Stack } from '@mui/material';
 
@@ -23,11 +21,8 @@ interface Data {
 	title: string;
 	writer: string;
 	date: string;
-	status: string;
-	id?: string;
+	_id?: string;
 }
-
-type Order = 'asc' | 'desc';
 
 interface HeadCell {
 	disablePadding: boolean;
@@ -39,25 +34,25 @@ interface HeadCell {
 const headCells: readonly HeadCell[] = [
 	{
 		id: 'category',
-		numeric: true,
+		numeric: false,
 		disablePadding: false,
 		label: 'CATEGORY',
 	},
 	{
 		id: 'title',
-		numeric: true,
+		numeric: false,
 		disablePadding: false,
 		label: 'TITLE',
 	},
 	{
 		id: 'writer',
-		numeric: true,
+		numeric: false,
 		disablePadding: false,
 		label: 'WRITER',
 	},
 	{
 		id: 'date',
-		numeric: true,
+		numeric: false,
 		disablePadding: false,
 		label: 'DATE',
 	},
@@ -65,22 +60,16 @@ const headCells: readonly HeadCell[] = [
 		id: 'qna_case_status',
 		numeric: false,
 		disablePadding: false,
-		label: 'QNA STATUS',
+		label: 'STATUS',
 	},
 ];
 
 interface EnhancedTableProps {
-	numSelected: number;
 	onRequestSort: (event: React.MouseEvent<unknown>, property: keyof Data) => void;
-	onSelectAllClick: (event: React.ChangeEvent<HTMLInputElement>) => void;
-	order: Order;
 	orderBy: string;
-	rowCount: number;
 }
 
 function EnhancedTableHead(props: EnhancedTableProps) {
-	const { onSelectAllClick } = props;
-
 	return (
 		<TableHead>
 			<TableRow>
@@ -100,90 +89,169 @@ function EnhancedTableHead(props: EnhancedTableProps) {
 
 interface InquiryPanelListType {
 	dense?: boolean;
-	membersData?: any;
-	searchMembers?: any;
+	inquiryList?: any[];
 	anchorEl?: any;
-	handleMenuIconClick?: any;
-	handleMenuIconClose?: any;
-	generateMentorTypeHandle?: any;
+	menuIconClickHandler?: any;
+	menuIconCloseHandler?: any;
+	updateInquiryHandler?: any;
+	value?: string;
 }
 
-export const InquiryList = (props: InquiryPanelListType) => {
-	const {
-		dense,
-		membersData,
-		searchMembers,
-		anchorEl,
-		handleMenuIconClick,
-		handleMenuIconClose,
-		generateMentorTypeHandle,
-	} = props;
-	const router = useRouter();
+const statusColors: { [key: string]: string } = {
+	PENDING: '#f59e0b',
+	RESPONDED: '#3b82f6',
+	RESOLVED: '#10b981',
+	CLOSED: '#64748b',
+};
 
-	/** APOLLO REQUESTS **/
-	/** LIFECYCLES **/
-	/** HANDLERS **/
+const statusLabels: { [key: string]: string } = {
+	PENDING: 'Pending',
+	RESPONDED: 'Responded',
+	RESOLVED: 'Resolved',
+	CLOSED: 'Closed',
+};
+
+export const InquiryList = (props: InquiryPanelListType) => {
+	const { inquiryList = [], anchorEl, menuIconClickHandler, menuIconCloseHandler, updateInquiryHandler, value } = props;
+	const router = useRouter();
 
 	return (
 		<Stack>
 			<TableContainer>
-				<Table sx={{ minWidth: 750 }} aria-labelledby="tableTitle" size={dense ? 'small' : 'medium'}>
-					{/*@ts-ignore*/}
-					<EnhancedTableHead />
+				<Table sx={{ minWidth: 750 }} aria-labelledby="tableTitle" size={'medium'}>
+					<EnhancedTableHead onRequestSort={() => {}} orderBy={''} />
 					<TableBody>
-						{[1, 2, 3, 4, 5].map((ele: any, index: number) => {
-							const member_image = '/img/profile/defaultUser.svg';
+						{inquiryList.length === 0 ? (
+							<TableRow>
+								<TableCell colSpan={5} align="center" sx={{ py: 8 }}>
+									<Typography variant="body1" sx={{ color: '#94a3b8' }}>
+										No inquiries found
+									</Typography>
+								</TableCell>
+							</TableRow>
+						) : (
+							inquiryList.map((inquiry: any, index: number) => {
+								const statusColor = statusColors[inquiry.qna_case_status] || '#64748b';
+								const statusLabel = statusLabels[inquiry.qna_case_status] || inquiry.qna_case_status;
 
-							let status_class_name = '';
-
-							return (
-								<TableRow hover key={'member._id'} sx={{ '&:last-child td, &:last-child th': { border: 0 } }}>
-									<TableCell align="left">mb id</TableCell>
-									<TableCell align="left">member.mb_full_name</TableCell>
-									<TableCell align="left" className={'name'}>
-										<Stack direction={'row'}>
-											<Link href={`/_admin/users/detail?mb_id=$'{member._id'}`}>
-												<div>
-													<Avatar alt="Remy Sharp" src={member_image} sx={{ ml: '2px', mr: '10px' }} />
-												</div>
-											</Link>
-											<Link href={`/_admin/users/detail?mb_id=${'member._id'}`}>
-												<div>member.mb_nick</div>
-											</Link>
-										</Stack>
-									</TableCell>
-									<TableCell align="left">member.mb_phone</TableCell>
-									<TableCell align="center">
-										<Button onClick={(e: any) => handleMenuIconClick(e, index)} className={'badge success'}>
-											member.mb_type
-										</Button>
-
-										<Menu
-											className={'menu-modal'}
-											MenuListProps={{
-												'aria-labelledby': 'fade-button',
-											}}
-											anchorEl={anchorEl[index]}
-											open={Boolean(anchorEl[index])}
-											onClose={handleMenuIconClose}
-											TransitionComponent={Fade}
-											sx={{ p: 1 }}
-										>
-											<MenuItem onClick={(e) => generateMentorTypeHandle('member._id', 'mentor', 'originate')}>
-												<Typography variant={'subtitle1'} component={'span'}>
-													MENTOR
-												</Typography>
-											</MenuItem>
-											<MenuItem onClick={(e) => generateMentorTypeHandle('member._id', 'user', 'remove')}>
-												<Typography variant={'subtitle1'} component={'span'}>
-													USER
-												</Typography>
-											</MenuItem>
-										</Menu>
-									</TableCell>
-								</TableRow>
-							);
-						})}
+								return (
+									<TableRow
+										hover
+										key={inquiry._id || index}
+										sx={{
+											'&:last-child td, &:last-child th': { border: 0 },
+											cursor: 'pointer',
+											'&:hover': {
+												background: 'rgba(102, 126, 234, 0.03)',
+											},
+										}}
+										onClick={() => router.push(`/_admin/cs/inquiry_detail?id=${inquiry._id}`)}
+									>
+										<TableCell align="center">
+											<Typography
+												sx={{
+													color: '#667eea',
+													fontWeight: 700,
+													fontSize: '13px',
+													textTransform: 'uppercase',
+													letterSpacing: '0.5px',
+												}}
+											>
+												{inquiry.category}
+											</Typography>
+										</TableCell>
+										<TableCell align="left">
+											<Typography
+												sx={{
+													color: '#1e293b',
+													fontWeight: 600,
+													'&:hover': {
+														color: '#667eea',
+													},
+												}}
+											>
+												{inquiry.title}
+											</Typography>
+										</TableCell>
+										<TableCell align="center">
+											<Typography
+												sx={{
+													color: '#3b82f6',
+													fontWeight: 600,
+													fontSize: '14px',
+												}}
+											>
+												{inquiry.writer}
+											</Typography>
+										</TableCell>
+										<TableCell align="center">
+											<Typography
+												sx={{
+													color: '#64748b',
+													fontSize: '13px',
+													fontFamily: 'monospace',
+												}}
+											>
+												{inquiry.date}
+											</Typography>
+										</TableCell>
+										<TableCell align="center">
+											<Button
+												onClick={(e: any) => {
+													e.stopPropagation();
+													menuIconClickHandler && menuIconClickHandler(e, index);
+												}}
+												sx={{
+													background: `linear-gradient(135deg, ${statusColor} 0%, ${statusColor}dd 100%)`,
+													color: '#fff',
+													fontWeight: 700,
+													fontSize: '12px',
+													padding: '6px 16px',
+													borderRadius: '20px',
+													textTransform: 'uppercase',
+													letterSpacing: '0.5px',
+													boxShadow: `0 4px 12px ${statusColor}40`,
+													'&:hover': {
+														background: `linear-gradient(135deg, ${statusColor}dd 0%, ${statusColor}bb 100%)`,
+														transform: 'translateY(-2px)',
+														boxShadow: `0 6px 16px ${statusColor}60`,
+													},
+													transition: 'all 0.3s ease',
+												}}
+											>
+												{statusLabel}
+											</Button>
+											<Menu
+												className={'menu-modal'}
+												MenuListProps={{ 'aria-labelledby': 'fade-button' }}
+												anchorEl={anchorEl && anchorEl[index]}
+												open={Boolean(anchorEl && anchorEl[index])}
+												onClose={(e) => {
+													e?.stopPropagation();
+													menuIconCloseHandler();
+												}}
+												TransitionComponent={Fade}
+												sx={{ p: 1 }}
+											>
+												{Object.keys(statusLabels).map((status: string) => (
+													<MenuItem
+														onClick={(e) => {
+															e.stopPropagation();
+															updateInquiryHandler && updateInquiryHandler({ _id: inquiry._id, qna_case_status: status });
+														}}
+														key={status}
+													>
+														<Typography variant={'subtitle1'} component={'span'}>
+															{statusLabels[status]}
+														</Typography>
+													</MenuItem>
+												))}
+											</Menu>
+										</TableCell>
+									</TableRow>
+								);
+							})
+						)}
 					</TableBody>
 				</Table>
 			</TableContainer>
