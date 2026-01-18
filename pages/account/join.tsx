@@ -2,11 +2,17 @@ import React, { useCallback, useState } from 'react';
 import { NextPage } from 'next';
 import useDeviceDetect from '../../libs/hooks/useDeviceDetect';
 import withLayoutBasic from '../../libs/components/layout/LayoutBasic';
-import { Box, Button, Checkbox, FormControlLabel, FormGroup, Stack } from '@mui/material';
+import { Box, Button, Checkbox, FormControlLabel, FormGroup, Stack, TextField, Typography, IconButton, InputAdornment } from '@mui/material';
 import { useRouter } from 'next/router';
 import { logIn, signUp } from '../../libs/auth';
 import { sweetMixinErrorAlert } from '../../libs/sweetAlert';
 import { serverSideTranslations } from 'next-i18next/serverSideTranslations';
+import VisibilityIcon from '@mui/icons-material/Visibility';
+import VisibilityOffIcon from '@mui/icons-material/VisibilityOff';
+import PersonIcon from '@mui/icons-material/Person';
+import LockIcon from '@mui/icons-material/Lock';
+import PhoneIcon from '@mui/icons-material/Phone';
+import TwoWheelerIcon from '@mui/icons-material/TwoWheeler';
 
 export const getStaticProps = async ({ locale }: any) => ({
 	props: {
@@ -19,10 +25,13 @@ const Join: NextPage = () => {
 	const device = useDeviceDetect();
 	const [input, setInput] = useState({ nick: '', password: '', phone: '', type: 'USER' });
 	const [loginView, setLoginView] = useState<boolean>(true);
+	const [showPassword, setShowPassword] = useState<boolean>(false);
 
 	/** HANDLERS **/
 	const viewChangeHandler = (state: boolean) => {
 		setLoginView(state);
+		setInput({ nick: '', password: '', phone: '', type: 'USER' });
+		setShowPassword(false);
 	};
 
 	const checkUserTypeHandler = (e: any) => {
@@ -42,171 +51,228 @@ const Join: NextPage = () => {
 	}, []);
 
 	const doLogin = useCallback(async () => {
-		console.warn(input);
 		try {
 			await logIn(input.nick, input.password);
 			await router.push(`${router.query.referrer ?? '/'}`);
 		} catch (err: any) {
 			await sweetMixinErrorAlert(err.message);
 		}
-	}, [input]);
+	}, [input, router]);
 
 	const doSignUp = useCallback(async () => {
-		console.warn(input);
 		try {
 			await signUp(input.nick, input.password, input.phone, input.type);
 			await router.push(`${router.query.referrer ?? '/'}`);
 		} catch (err: any) {
 			await sweetMixinErrorAlert(err.message);
 		}
-	}, [input]);
+	}, [input, router]);
 
-	console.log('+input: ', input);
+	const togglePasswordVisibility = () => {
+		setShowPassword(!showPassword);
+	};
 
 	if (device === 'mobile') {
 		return <div>LOGIN MOBILE</div>;
 	} else {
 		return (
 			<Stack className={'join-page'}>
+				<Box className={'background-gradient'} />
 				<Stack className={'container'}>
 					<Stack className={'main'}>
+						{/* Left Side - Form */}
 						<Stack className={'left'}>
-							{/* @ts-ignore */}
-							<Box className={'logo'}>
-								<img src="/img/logo/logoText.svg" alt="" />
-								<span>Nestar</span>
+							{/* Logo Section */}
+							<Box className={'logo-section'}>
+								<Box className={'logo-box'}>
+									<img src="/img/logo/logo1.webp" alt="Ignition Logo" className={'logo-img'} />
+									<Typography className={'logo-text'}>Ignition</Typography>
+								</Box>
+								<Typography className={'logo-subtitle'}>Your Motorcycle Marketplace</Typography>
 							</Box>
-							<Box className={'info'}>
-								<span>{loginView ? 'login' : 'signup'}</span>
-								<p>{loginView ? 'Login' : 'Sign'} in with this account across the following sites.</p>
+
+							{/* Title Section */}
+							<Box className={'title-section'}>
+								<Typography className={'title'}>
+									{loginView ? 'Welcome Back!' : 'Create Account'}
+								</Typography>
+								<Typography className={'subtitle'}>
+									{loginView
+										? 'Sign in to continue to Ignition'
+										: 'Join Ignition and start buying or selling motorcycles'}
+								</Typography>
 							</Box>
-							<Box className={'input-wrap'}>
-								<div className={'input-box'}>
-									<span>Nickname</span>
-									<input
-										type="text"
-										placeholder={'Enter Nickname'}
+
+							{/* Form Section */}
+							<Box className={'form-section'}>
+								<Box className={'input-box'}>
+									<TextField
+										fullWidth
+										label="Nickname"
+										placeholder="Enter your nickname"
+										value={input.nick}
 										onChange={(e) => handleInput('nick', e.target.value)}
-										required={true}
 										onKeyDown={(event) => {
 											if (event.key == 'Enter' && loginView) doLogin();
 											if (event.key == 'Enter' && !loginView) doSignUp();
 										}}
+										InputProps={{
+											startAdornment: (
+												<InputAdornment position="start">
+													<PersonIcon className={'input-icon'} />
+												</InputAdornment>
+											),
+										}}
+										className={'custom-input'}
 									/>
-								</div>
-								<div className={'input-box'}>
-									<span>Password</span>
-									<input
-										type="text"
-										placeholder={'Enter Password'}
+								</Box>
+
+								<Box className={'input-box'}>
+									<TextField
+										fullWidth
+										label="Password"
+										type={showPassword ? 'text' : 'password'}
+										placeholder="Enter your password"
+										value={input.password}
 										onChange={(e) => handleInput('password', e.target.value)}
-										required={true}
 										onKeyDown={(event) => {
 											if (event.key == 'Enter' && loginView) doLogin();
 											if (event.key == 'Enter' && !loginView) doSignUp();
 										}}
+										InputProps={{
+											startAdornment: (
+												<InputAdornment position="start">
+													<LockIcon className={'input-icon'} />
+												</InputAdornment>
+											),
+											endAdornment: (
+												<InputAdornment position="end">
+													<IconButton onClick={togglePasswordVisibility} edge="end" className={'eye-icon'}>
+														{showPassword ? <VisibilityOffIcon /> : <VisibilityIcon />}
+													</IconButton>
+												</InputAdornment>
+											),
+										}}
+										className={'custom-input'}
 									/>
-								</div>
+								</Box>
+
 								{!loginView && (
-									<div className={'input-box'}>
-										<span>Phone</span>
-										<input
-											type="text"
-											placeholder={'Enter Phone'}
+									<Box className={'input-box'}>
+										<TextField
+											fullWidth
+											label="Phone Number"
+											placeholder="Enter your phone number"
+											value={input.phone}
 											onChange={(e) => handleInput('phone', e.target.value)}
-											required={true}
 											onKeyDown={(event) => {
 												if (event.key == 'Enter') doSignUp();
 											}}
-										/>
-									</div>
-								)}
-							</Box>
-							<Box className={'register'}>
-								{!loginView && (
-									<div className={'type-option'}>
-										<span className={'text'}>I want to be registered as:</span>
-										<div>
-											<FormGroup>
-												<FormControlLabel
-													control={
-														<Checkbox
-															size="small"
-															name={'USER'}
-															onChange={checkUserTypeHandler}
-															checked={input?.type == 'USER'}
-														/>
-													}
-													label="User"
-												/>
-											</FormGroup>
-											<FormGroup>
-												<FormControlLabel
-													control={
-														<Checkbox
-															size="small"
-															name={'AGENT'}
-															onChange={checkUserTypeHandler}
-															checked={input?.type == 'AGENT'}
-														/>
-													}
-													label="Agent"
-												/>
-											</FormGroup>
-										</div>
-									</div>
-								)}
-
-								{loginView && (
-									<div className={'remember-info'}>
-										<FormGroup>
-											<FormControlLabel control={<Checkbox defaultChecked size="small" />} label="Remember me" />
-										</FormGroup>
-										<a>Lost your password?</a>
-									</div>
-								)}
-
-								{loginView ? (
-									<Button
-										variant="contained"
-										endIcon={<img src="/img/icons/rightup.svg" alt="" />}
-										disabled={input.nick == '' || input.password == ''}
-										onClick={doLogin}
-									>
-										LOGIN
-									</Button>
-								) : (
-									<Button
-										variant="contained"
-										disabled={input.nick == '' || input.password == '' || input.phone == '' || input.type == ''}
-										onClick={doSignUp}
-										endIcon={<img src="/img/icons/rightup.svg" alt="" />}
-									>
-										SIGNUP
-									</Button>
-								)}
-							</Box>
-							<Box className={'ask-info'}>
-								{loginView ? (
-									<p>
-										Not registered yet?
-										<b
-											onClick={() => {
-												viewChangeHandler(false);
+											InputProps={{
+												startAdornment: (
+													<InputAdornment position="start">
+														<PhoneIcon className={'input-icon'} />
+													</InputAdornment>
+												),
 											}}
-										>
-											SIGNUP
-										</b>
-									</p>
-								) : (
-									<p>
-										Have account?
-										<b onClick={() => viewChangeHandler(true)}> LOGIN</b>
-									</p>
+											className={'custom-input'}
+										/>
+									</Box>
 								)}
+							</Box>
+
+							{/* User Type Selection (Signup only) */}
+							{!loginView && (
+								<Box className={'user-type-section'}>
+									<Typography className={'user-type-label'}>I want to register as:</Typography>
+									<Box className={'user-type-buttons'}>
+										<Button
+											variant={input.type === 'USER' ? 'contained' : 'outlined'}
+											onClick={() => handleInput('type', 'USER')}
+											className={`user-type-btn ${input.type === 'USER' ? 'active' : ''}`}
+											startIcon={<PersonIcon />}
+										>
+											User
+										</Button>
+										<Button
+											variant={input.type === 'AGENT' ? 'contained' : 'outlined'}
+											onClick={() => handleInput('type', 'AGENT')}
+											className={`user-type-btn ${input.type === 'AGENT' ? 'active' : ''}`}
+											startIcon={<TwoWheelerIcon />}
+										>
+											Agent
+										</Button>
+									</Box>
+								</Box>
+							)}
+
+							{/* Remember Me / Forgot Password (Login only) */}
+							{loginView && (
+								<Box className={'remember-section'}>
+									<FormControlLabel
+										control={<Checkbox defaultChecked className={'remember-checkbox'} />}
+										label="Remember me"
+										className={'remember-label'}
+									/>
+									<Button className={'forgot-password-btn'}>Forgot Password?</Button>
+								</Box>
+							)}
+
+							{/* Submit Button */}
+							<Button
+								variant="contained"
+								fullWidth
+								disabled={
+									loginView
+										? input.nick == '' || input.password == ''
+										: input.nick == '' || input.password == '' || input.phone == '' || input.type == ''
+								}
+								onClick={loginView ? doLogin : doSignUp}
+								className={'submit-btn'}
+							>
+								{loginView ? 'LOGIN' : 'SIGN UP'}
+							</Button>
+
+							{/* Switch View */}
+							<Box className={'switch-view'}>
+								<Typography className={'switch-text'}>
+									{loginView ? "Don't have an account? " : 'Already have an account? '}
+									<Button
+										onClick={() => viewChangeHandler(!loginView)}
+										className={'switch-btn'}
+									>
+										{loginView ? 'SIGN UP' : 'LOGIN'}
+									</Button>
+								</Typography>
 							</Box>
 						</Stack>
-						<Stack className={'right'}></Stack>
+
+						{/* Right Side - Decorative */}
+						<Stack className={'right'}>
+							<Box className={'right-content'}>
+								<Box className={'moto-icon-wrapper'}>
+									<TwoWheelerIcon className={'moto-icon'} />
+								</Box>
+								<Typography className={'right-title'}>Welcome to Ignition</Typography>
+								<Typography className={'right-subtitle'}>
+									Your trusted marketplace for buying and selling motorcycles
+								</Typography>
+								<Box className={'features-list'}>
+									<Box className={'feature-item'}>
+										<Typography className={'feature-icon'}>🏍️</Typography>
+										<Typography className={'feature-text'}>Wide Selection</Typography>
+									</Box>
+									<Box className={'feature-item'}>
+										<Typography className={'feature-icon'}>🔒</Typography>
+										<Typography className={'feature-text'}>Secure Transactions</Typography>
+									</Box>
+									<Box className={'feature-item'}>
+										<Typography className={'feature-icon'}>⚡</Typography>
+										<Typography className={'feature-text'}>Fast & Easy</Typography>
+									</Box>
+								</Box>
+							</Box>
+						</Stack>
 					</Stack>
 				</Stack>
 			</Stack>
