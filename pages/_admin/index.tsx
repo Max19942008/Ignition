@@ -371,7 +371,7 @@ const AdminHome: NextPage = (props: any) => {
 									View All
 								</Button>
 							</Stack>
-							<Typography className={'stat-label'}>Total Bikes</Typography>
+							<Typography className={'stat-label'}>{t('Total Bikes')}</Typography>
 							<Typography className={'stat-value'}>{bikesTotal}</Typography>
 							
 							<Box className="stat-chart-container">
