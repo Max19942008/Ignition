@@ -13,14 +13,62 @@ import StarIcon from '@mui/icons-material/Star';
 import PhoneIcon from '@mui/icons-material/Phone';
 import { useReactiveVar } from '@apollo/client';
 import { userVar } from '../../../apollo/store';
+import { T } from '../../types/common';
+
+type Agent = {
+	_id?: string;
+	memberImage?: string;
+	memberNick?: string;
+	memberFullName?: string;
+	memberAddress?: string;
+	memberPhone?: string;
+	memberRank?: number;
+	memberProperties?: number;
+	memberViews?: number;
+	memberLikes?: number;
+	meLiked?: Array<{ myFavorite?: boolean }>;
+};
 
 interface AgentCardProps {
-	agent: any;
-	likeMemberHandler: any;
+	agent: Agent;
+	likeMemberHandler?: (user: T, memberId: string) => Promise<void>;
 }
 
+type AgentStatsProps = {
+	bikes: number;
+	views: number;
+	likes: number;
+	rating: string;
+};
+
+const AgentStats = ({ bikes, views, likes, rating }: AgentStatsProps): JSX.Element => (
+	<div className={'agent-stats-grid'}>
+		<div className={'stat-item cars-stat'}>
+			<TwoWheelerIcon className={'stat-icon'} />
+			<span className={'stat-value'}>{bikes}</span>
+			<span className={'stat-label'}>BIKES</span>
+		</div>
+		<div className={'stat-item views-stat'}>
+			<RemoveRedEyeIcon className={'stat-icon'} />
+			<span className={'stat-value'}>{views}</span>
+			<span className={'stat-label'}>VIEWS</span>
+		</div>
+		<div className={'stat-item likes-stat'}>
+			<FavoriteIcon className={'stat-icon'} />
+			<span className={'stat-value'}>{likes}</span>
+			<span className={'stat-label'}>LIKES</span>
+		</div>
+		<div className={'stat-item rating-stat'}>
+			<StarIcon className={'stat-icon'} />
+			<span className={'stat-value'}>{rating}</span>
+			<span className={'stat-label'}>RATING</span>
+		</div>
+	</div>
+);
+
 const AgentCard = (props: AgentCardProps) => {
-	const { agent, likeMemberHandler } = props;
+	const { agent: rawAgent, likeMemberHandler } = props;
+	const agent = rawAgent as Agent;
 	const device = useDeviceDetect();
 	const user = useReactiveVar(userVar);
 	const [isLiking, setIsLiking] = useState<boolean>(false);
@@ -31,9 +79,11 @@ const AgentCard = (props: AgentCardProps) => {
 		? `${REACT_APP_API_URL}/${agent?.memberImage}`
 		: '/img/profile/defaultUser.svg';
 
-	const isLiked = optimisticLiked !== null ? optimisticLiked : (agent?.meLiked && agent?.meLiked[0]?.myFavorite);
-	const likesCount = optimisticLikes !== null ? optimisticLikes : (agent?.memberLikes || 0);
+	const isLiked = optimisticLiked !== null ? optimisticLiked : Boolean(agent?.meLiked?.[0]?.myFavorite);
+	const likesCount = optimisticLikes !== null ? optimisticLikes : (agent?.memberLikes ?? 0);
 	const ratingValue = agent?.memberRank && agent.memberRank > 0 ? agent.memberRank.toFixed(1) : '4.5';
+	const bikesCount = agent?.memberProperties ?? 0;
+	const viewsCount = agent?.memberViews ?? 0;
 	
 	// Generate card variation based on agent ID for different accent colors
 	const cardVariant = useMemo(() => {
@@ -49,8 +99,8 @@ const AgentCard = (props: AgentCardProps) => {
 		if (!likeMemberHandler || !user || !agent?._id || isLiking) return;
 
 		setIsLiking(true);
-		const currentLiked = agent?.meLiked && agent?.meLiked[0]?.myFavorite;
-		const currentLikes = agent?.memberLikes || 0;
+		const currentLiked = agent?.meLiked?.[0]?.myFavorite ?? false;
+		const currentLikes = agent?.memberLikes ?? 0;
 		const newLiked = !currentLiked;
 		const newLikes = newLiked ? currentLikes + 1 : Math.max(0, currentLikes - 1);
 
@@ -69,7 +119,7 @@ const AgentCard = (props: AgentCardProps) => {
 			setOptimisticLikes(null);
 			setIsLiking(false);
 		}
-	}, [likeMemberHandler, user, agent, isLiking]);
+	}, [likeMemberHandler, user, agent?._id, agent?.meLiked, agent?.memberLikes, isLiking]);
 
 	if (device === 'mobile') {
 		return <div>AGENT CARD</div>;
@@ -154,28 +204,7 @@ const AgentCard = (props: AgentCardProps) => {
 					</Stack>
 
 					{/* Stats Grid */}
-					<Stack className={'agent-stats-grid'}>
-						<Box className={'stat-item cars-stat'}>
-							<TwoWheelerIcon className={'stat-icon'} />
-							<Typography className={'stat-value'}>{agent?.memberProperties || 0}</Typography>
-							<Typography className={'stat-label'}>BIKES</Typography>
-						</Box>
-						<Box className={'stat-item views-stat'}>
-							<RemoveRedEyeIcon className={'stat-icon'} />
-							<Typography className={'stat-value'}>{agent?.memberViews || 0}</Typography>
-							<Typography className={'stat-label'}>VIEWS</Typography>
-						</Box>
-						<Box className={'stat-item likes-stat'}>
-							<FavoriteIcon className={'stat-icon'} />
-							<Typography className={'stat-value'}>{likesCount}</Typography>
-							<Typography className={'stat-label'}>LIKES</Typography>
-						</Box>
-						<Box className={'stat-item rating-stat'}>
-							<StarIcon className={'stat-icon'} />
-							<Typography className={'stat-value'}>{ratingValue}</Typography>
-							<Typography className={'stat-label'}>RATING</Typography>
-						</Box>
-					</Stack>
+					<AgentStats bikes={bikesCount} views={viewsCount} likes={likesCount} rating={ratingValue} />
 				</Stack>
 			</Stack>
 		);

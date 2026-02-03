@@ -1,6 +1,5 @@
 import React from 'react';
 import { useRouter } from 'next/router';
-import { Stack, Box } from '@mui/material';
 import useDeviceDetect from '../../hooks/useDeviceDetect';
 import PhoneIcon from '@mui/icons-material/Phone';
 import StarIcon from '@mui/icons-material/Star';
@@ -26,47 +25,25 @@ const TopAgentCard = (props: TopAgentProps) => {
 
 	/** HANDLERS **/
 
-	if (device === 'mobile') {
-		return (
-			<Stack className="top-agent-card" onClick={goToProfile}>
-				<Box className="image-wrapper">
-					<img src={agentImage} alt="" />
-					<Box className="rank-badge">
-						<StarIcon />
-						<span>{agent?.memberRank?.toFixed(1) || '5.0'}</span>
-					</Box>
-				</Box>
-				<strong>{agent?.memberNick}</strong>
-				<span className="member-type">{agent?.memberType}</span>
-				{agent?.memberPhone && (
-					<Box className="phone-box">
-						<PhoneIcon />
-						<span>{agent.memberPhone}</span>
-					</Box>
-				)}
-			</Stack>
-		);
-	} else {
-		return (
-			<Stack className="top-agent-card" onClick={goToProfile}>
-				<Box className="image-wrapper">
-					<img src={agentImage} alt="" />
-					<Box className="rank-badge">
-						<StarIcon />
-						<span>{agent?.memberRank?.toFixed(1) || '5.0'}</span>
-					</Box>
-				</Box>
-				<strong>{agent?.memberNick}</strong>
-				<span className="member-type">{agent?.memberType}</span>
-				{agent?.memberPhone && (
-					<Box className="phone-box">
-						<PhoneIcon />
-						<span>{agent.memberPhone}</span>
-					</Box>
-				)}
-			</Stack>
-		);
-	}
+	return (
+		<div className="top-agent-card" onClick={goToProfile}>
+			<div className="image-wrapper">
+				<img src={agentImage} alt="" />
+				<div className="rank-badge">
+					<StarIcon />
+					<span>{agent?.memberRank?.toFixed(1) || '5.0'}</span>
+				</div>
+			</div>
+			<strong>{agent?.memberNick}</strong>
+			<span className="member-type">{agent?.memberType}</span>
+			{agent?.memberPhone && (
+				<div className="phone-box">
+					<PhoneIcon />
+					<span>{agent.memberPhone}</span>
+				</div>
+			)}
+		</div>
+	);
 };
 
 export default TopAgentCard;

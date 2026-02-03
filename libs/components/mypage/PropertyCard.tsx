@@ -1,4 +1,4 @@
-import { Menu, MenuItem, Stack, Typography, Box, Chip } from '@mui/material';
+import { Menu, MenuItem } from '@mui/material';
 import React, { useState } from 'react';
 import useDeviceDetect from '../../hooks/useDeviceDetect';
 import IconButton from '@mui/material/IconButton';
@@ -59,7 +59,7 @@ export const PropertyCard = (props: PropertyCardProps) => {
 				return { bg: '#4CAF50', text: '#fff' };
 			case PropertyType.CRUISER:
 				return { bg: '#2196F3', text: '#fff' };
-			case PropertyType.TOURING:
+			case PropertyType.SCOOTER:
 				return { bg: '#9E9E9E', text: '#fff' };
 			default:
 				return { bg: '#667eea', text: '#fff' };
@@ -83,71 +83,71 @@ export const PropertyCard = (props: PropertyCardProps) => {
 		return <div>MOBILE PROPERTY CARD</div>;
 	} else
 		return (
-			<Stack className="property-card-box">
-				<Stack className="image-section">
-					<Box className="image-box">
+			<div className="property-card-box">
+				<div className="image-section">
+					<div className="image-box">
 						<img 
 							src={property.propertyImages?.[0] ? `${REACT_APP_API_URL}/${property.propertyImages[0]}` : '/img/property/defaultBike.jpg'} 
 							alt={property.propertyTitle}
 						/>
-						<Box 
-							className="type-badge" 
-							sx={{ 
+						<div 
+							className="type-badge"
+							style={{ 
 								background: getTypeBadgeColor(property.propertyType).bg,
 								color: getTypeBadgeColor(property.propertyType).text
 							}}
 						>
 							{property.propertyType}
-						</Box>
-					</Box>
-				</Stack>
-				<Stack className="content-section">
-					<Typography className="bike-name">{property.propertyTitle}</Typography>
-					<Typography className="bike-details">
+						</div>
+					</div>
+				</div>
+				<div className="content-section">
+					<div className="bike-name">{property.propertyTitle}</div>
+					<div className="bike-details">
 						{property.propertyBrand} • {property.propertyYear} • {property.propertyEngineCc}cc • {property.propertyCondition}
-					</Typography>
-					<Stack className="specs-row">
-						<Chip label={`${property.propertyYear} Year`} className="spec-chip" />
-						<Chip label={`${property.propertyEngineCc}cc`} className="spec-chip" />
-						<Chip label={property.propertyLocation} className="spec-chip" />
-					</Stack>
-					<Box 
-						className="status-badge" 
-						sx={{ 
+					</div>
+					<div className="specs-row">
+						<span className="spec-chip">{`${property.propertyYear} Year`}</span>
+						<span className="spec-chip">{`${property.propertyEngineCc}cc`}</span>
+						<span className="spec-chip">{property.propertyLocation}</span>
+					</div>
+					<div 
+						className="status-badge"
+						style={{ 
 							background: getStatusColor(property.propertyStatus).bg,
 							color: getStatusColor(property.propertyStatus).text
 						}}
 					>
 						{property.propertyStatus}
-					</Box>
-				</Stack>
-				<Stack className="actions-section">
+					</div>
+				</div>
+				<div className="actions-section">
 					{!memberPage && property.propertyStatus === PropertyStatus.ACTIVE && (
-						<Stack className="action-buttons">
+						<div className="action-buttons">
 							<IconButton className="edit-button" onClick={() => pushEditProperty(property._id)}>
 								<ModeIcon />
 							</IconButton>
 							<IconButton className="delete-button" onClick={() => deletePropertyHandler(property._id)}>
 								<DeleteIcon />
 							</IconButton>
-						</Stack>
+						</div>
 					)}
-					<Stack className="metrics-row">
-						<Box className="metric-item">
+					<div className="metrics-row">
+						<div className="metric-item">
 							<RemoveRedEyeIcon className="metric-icon" />
-							<Typography className="metric-value">{property.propertyViews || 0}</Typography>
-						</Box>
-						<Box className="metric-item">
+							<span className="metric-value">{property.propertyViews || 0}</span>
+						</div>
+						<div className="metric-item">
 							<FavoriteIcon className="metric-icon" />
-							<Typography className="metric-value">{property.propertyLikes || 0}</Typography>
-						</Box>
-					</Stack>
-				</Stack>
-				<Stack className="price-section">
-					<Typography className="price-label">FROM</Typography>
-					<Typography className="price-value">${formatterStr(property?.propertyPrice)}</Typography>
-					<Typography className="price-period">/DAY</Typography>
-				</Stack>
-			</Stack>
+							<span className="metric-value">{property.propertyLikes || 0}</span>
+						</div>
+					</div>
+				</div>
+				<div className="price-section">
+					<span className="price-label">FROM</span>
+					<span className="price-value">${formatterStr(property?.propertyPrice)}</span>
+					<span className="price-period">/DAY</span>
+				</div>
+			</div>
 		);
 };

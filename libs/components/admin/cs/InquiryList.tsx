@@ -226,7 +226,7 @@ export const InquiryList = (props: InquiryPanelListType) => {
 												MenuListProps={{ 'aria-labelledby': 'fade-button' }}
 												anchorEl={anchorEl && anchorEl[index]}
 												open={Boolean(anchorEl && anchorEl[index])}
-												onClose={(e) => {
+												onClose={(e: any) => {
 													e?.stopPropagation();
 													menuIconCloseHandler();
 												}}
@@ -235,7 +235,7 @@ export const InquiryList = (props: InquiryPanelListType) => {
 											>
 												{Object.keys(statusLabels).map((status: string) => (
 													<MenuItem
-														onClick={(e) => {
+														onClick={(e: any) => {
 															e.stopPropagation();
 															updateInquiryHandler && updateInquiryHandler({ _id: inquiry._id, qna_case_status: status });
 														}}

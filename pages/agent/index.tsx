@@ -230,7 +230,7 @@ const AgentList: NextPage = ({ initialInput, ...props }: any) => {
 					<Stack className={'card-wrap'}>
 						{agents?.length === 0 ? (
 							<Stack className={'no-data'}>
-								<Box className={'no-data-icon'}>
+								<Box component="div" className={'no-data-icon'}>
 									<TwoWheelerIcon sx={{ fontSize: 80, color: '#ddd' }} />
 								</Box>
 								<Typography className={'no-data-title'}>No Agents Found</Typography>

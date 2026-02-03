@@ -3,6 +3,7 @@ export enum PropertyType {
 	SCOOTER  = 'SCOOTER',
 	SPORT  = 'SPORT',
 	CRUISER  = 'CRUISER',
+	TOURING = 'TOURING',
 }
 
 export enum PropertyCondition {

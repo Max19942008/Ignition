@@ -224,6 +224,9 @@ const AdminHome: NextPage = (props: any) => {
 	const articlesActivePercent = articlesTotal > 0 ? Math.round((articlesActive / articlesTotal) * 100) : 0;
 	const articlesDeletedPercent = articlesTotal > 0 ? Math.round((articlesDeleted / articlesTotal) * 100) : 0;
 
+	// Donut chart data type
+	type DonutChartData = Array<{ value: number; color: string; label: string }>;
+
 	// Donut chart component
 	const DonutChart = ({ 
 		data, 
@@ -270,8 +273,8 @@ const AdminHome: NextPage = (props: any) => {
 		});
 
 		return (
-			<Box className="donut-chart-container" sx={{ position: 'relative', width: '100%', display: 'flex', flexDirection: 'column', alignItems: 'center' }}>
-				<Box sx={{ position: 'relative', width: size, height: size, display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
+			<div className="donut-chart-container" style={{ position: 'relative', width: '100%', display: 'flex', flexDirection: 'column', alignItems: 'center' }}>
+				<div style={{ position: 'relative', width: size, height: size, display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
 					<svg width={size} height={size} style={{ transform: 'rotate(-90deg)' }}>
 						{segments.map((segment, index) => {
 							return (
@@ -287,27 +290,25 @@ const AdminHome: NextPage = (props: any) => {
 									strokeDashoffset={segment.strokeDashoffset}
 									strokeLinecap="round"
 									className="donut-segment"
-									style={{
-										transition: 'all 0.5s ease',
-									}}
+									style={{ transition: 'all 0.5s ease' }}
 								/>
 							);
 						})}
 					</svg>
-					<Box className="donut-chart-center" sx={{ position: 'absolute', top: '50%', left: '50%', transform: 'translate(-50%, -50%)', pointerEvents: 'none' }}>
-						<Typography className="donut-chart-total">100%</Typography>
-					</Box>
-				</Box>
-				<Box className="donut-chart-legend" sx={{ width: '100%', marginTop: '16px' }}>
+					<div className="donut-chart-center" style={{ position: 'absolute', top: '50%', left: '50%', transform: 'translate(-50%, -50%)', pointerEvents: 'none' }}>
+						<span className="donut-chart-total">100%</span>
+					</div>
+				</div>
+				<div className="donut-chart-legend" style={{ width: '100%', marginTop: '16px' }}>
 					{normalizedData.map((item, index) => (
-						<Box key={index} className="donut-legend-item">
-							<Box className="donut-legend-color" sx={{ backgroundColor: item.color }} />
-							<Typography className="donut-legend-label">{item.label}</Typography>
-							<Typography className="donut-legend-value">{item.value}%</Typography>
-						</Box>
+						<div key={index} className="donut-legend-item">
+							<div className="donut-legend-color" style={{ backgroundColor: item.color }} />
+							<span className="donut-legend-label">{item.label}</span>
+							<span className="donut-legend-value">{item.value}%</span>
+						</div>
 					))}
-				</Box>
-			</Box>
+				</div>
+			</div>
 		);
 	};
 
@@ -323,7 +324,7 @@ const AdminHome: NextPage = (props: any) => {
 					<Card className={'stat-card stat-card-users'} onClick={navigateToUsers}>
 						<CardContent>
 							<Stack direction={'row'} justifyContent={'space-between'} alignItems={'flex-start'} mb={2}>
-								<Box className={'stat-icon-box stat-icon-users'}>
+								<Box component="div" className={'stat-icon-box stat-icon-users'}>
 									<PeopleIcon sx={{ fontSize: 32 }} />
 								</Box>
 								<Button className={'stat-action-btn'} endIcon={<ArrowForwardIcon />}>
@@ -332,25 +333,25 @@ const AdminHome: NextPage = (props: any) => {
 							</Stack>
 							<Typography className={'stat-label'}>Total Users</Typography>
 							<Typography className={'stat-value'}>{usersTotal}</Typography>
-							
-							<Box className="stat-chart-container">
+					
+							<div className="stat-chart-container">
 								<DonutChart
 									data={[
 										{ value: usersActivePercent, color: '#10b981', label: 'Active' },
 										{ value: usersBlockedPercent, color: '#f59e0b', label: 'Blocked' },
 										{ value: usersDeletedPercent, color: '#ef4444', label: 'Deleted' },
-									]}
+									] as DonutChartData}
 									size={140}
 									strokeWidth={18}
 								/>
-							</Box>
+							</div>
 							
 							<Stack direction={'row'} spacing={2} mt={2} className={'stat-details'}>
-								<Box className={'stat-detail-item'}>
+								<Box component="div" className={'stat-detail-item'}>
 									<Typography className={'stat-detail-label'}>Active</Typography>
 									<Typography className={'stat-detail-value stat-active'}>{usersActive}</Typography>
 								</Box>
-								<Box className={'stat-detail-item'}>
+								<Box component="div" className={'stat-detail-item'}>
 									<Typography className={'stat-detail-label'}>Deleted</Typography>
 									<Typography className={'stat-detail-value stat-deleted'}>{usersDeleted}</Typography>
 								</Box>
@@ -364,39 +365,39 @@ const AdminHome: NextPage = (props: any) => {
 					<Card className={'stat-card stat-card-bikes'} onClick={navigateToBikes}>
 						<CardContent>
 							<Stack direction={'row'} justifyContent={'space-between'} alignItems={'flex-start'} mb={2}>
-								<Box className={'stat-icon-box stat-icon-bikes'}>
+								<Box component="div" className={'stat-icon-box stat-icon-bikes'}>
 									<TwoWheelerIcon sx={{ fontSize: 32 }} />
 								</Box>
 								<Button className={'stat-action-btn'} endIcon={<ArrowForwardIcon />}>
 									View All
 								</Button>
 							</Stack>
-							<Typography className={'stat-label'}>{t('Total Bikes')}</Typography>
+							<Typography className={'stat-label'}>Total Bikes</Typography>
 							<Typography className={'stat-value'}>{bikesTotal}</Typography>
 							
-							<Box className="stat-chart-container">
+							<div className="stat-chart-container">
 								<DonutChart
 									data={[
 										{ value: bikesActivePercent, color: '#10b981', label: 'Active' },
 										{ value: bikesSoldPercent, color: '#f59e0b', label: 'Sold' },
 										{ value: bikesHoldPercent, color: '#3b82f6', label: 'Hold' },
 										{ value: bikesDeletedPercent, color: '#ef4444', label: 'Deleted' },
-									]}
+									] as DonutChartData}
 									size={140}
 									strokeWidth={18}
 								/>
-							</Box>
+							</div>
 							
 							<Stack direction={'row'} spacing={2} mt={2} className={'stat-details'}>
-								<Box className={'stat-detail-item'}>
+								<Box component="div" className={'stat-detail-item'}>
 									<Typography className={'stat-detail-label'}>Active</Typography>
 									<Typography className={'stat-detail-value stat-active'}>{bikesActive}</Typography>
 								</Box>
-								<Box className={'stat-detail-item'}>
+								<Box component="div" className={'stat-detail-item'}>
 									<Typography className={'stat-detail-label'}>Sold</Typography>
 									<Typography className={'stat-detail-value stat-sold'}>{bikesSold}</Typography>
 								</Box>
-								<Box className={'stat-detail-item'}>
+								<Box component="div" className={'stat-detail-item'}>
 									<Typography className={'stat-detail-label'}>Deleted</Typography>
 									<Typography className={'stat-detail-value stat-deleted'}>{bikesDeleted}</Typography>
 								</Box>
@@ -410,7 +411,7 @@ const AdminHome: NextPage = (props: any) => {
 					<Card className={'stat-card stat-card-articles'} onClick={navigateToArticles}>
 						<CardContent>
 							<Stack direction={'row'} justifyContent={'space-between'} alignItems={'flex-start'} mb={2}>
-								<Box className={'stat-icon-box stat-icon-articles'}>
+								<Box component="div" className={'stat-icon-box stat-icon-articles'}>
 									<ArticleIcon sx={{ fontSize: 32 }} />
 								</Box>
 								<Button className={'stat-action-btn'} endIcon={<ArrowForwardIcon />}>
@@ -420,23 +421,23 @@ const AdminHome: NextPage = (props: any) => {
 							<Typography className={'stat-label'}>Total Articles</Typography>
 							<Typography className={'stat-value'}>{articlesTotal}</Typography>
 							
-							<Box className="stat-chart-container">
+							<div className="stat-chart-container">
 								<DonutChart
 									data={[
 										{ value: articlesActivePercent, color: '#10b981', label: 'Active' },
 										{ value: articlesDeletedPercent, color: '#ef4444', label: 'Deleted' },
-									]}
+									] as DonutChartData}
 									size={140}
 									strokeWidth={18}
 								/>
-							</Box>
+							</div>
 							
 							<Stack direction={'row'} spacing={2} mt={2} className={'stat-details'}>
-								<Box className={'stat-detail-item'}>
+								<Box component="div" className={'stat-detail-item'}>
 									<Typography className={'stat-detail-label'}>Active</Typography>
 									<Typography className={'stat-detail-value stat-active'}>{articlesActive}</Typography>
 								</Box>
-								<Box className={'stat-detail-item'}>
+								<Box component="div" className={'stat-detail-item'}>
 									<Typography className={'stat-detail-label'}>Deleted</Typography>
 									<Typography className={'stat-detail-value stat-deleted'}>{articlesDeleted}</Typography>
 								</Box>
