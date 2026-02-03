@@ -83,7 +83,7 @@ const PropertyCard = (props: PropertyCardType) => {
 		return (
 			<Stack className="card-config vertical-layout">
 				<Stack className="image-section">
-					<Box className="image-box">
+					<Box component={'div'} className="image-box">
 						<Link
 							href={{
 								pathname: '/property/detail',
@@ -94,6 +94,7 @@ const PropertyCard = (props: PropertyCardType) => {
 						</Link>
 						{property?.propertyType && (
 							<Box 
+								component={'div'}
 								className="type-badge" 
 								sx={{ 
 									background: getTypeBadgeColor(property.propertyType).bg,
@@ -124,6 +125,7 @@ const PropertyCard = (props: PropertyCardType) => {
 						<Chip label={property.propertyLocation} className="spec-chip" />
 					</Stack>
 					<Box 
+						component={'div'}
 						className="status-badge" 
 						sx={{ 
 							background: getStatusColor(property.propertyStatus).bg,
@@ -160,11 +162,12 @@ const PropertyCard = (props: PropertyCardType) => {
 						</IconButton>
 					</Stack>
 					<Stack className="metrics-row">
-						<Box className="metric-item">
+						<Box component={'div'} className="metric-item">
 							<RemoveRedEyeIcon className="metric-icon" />
 							<Typography className="metric-value">{property.propertyViews || 0}</Typography>
 						</Box>
 						<Box 
+							component={'div'}
 							className={`metric-item likes-metric ${liked ? 'liked' : ''}`}
 							onClick={() => {
 								if (likePropertyHandler && user) {
@@ -256,14 +259,14 @@ const PropertyCard = (props: PropertyCardType) => {
 							</Typography>
 						</Stack>
 						{/* Rating Badge - O'ngda */}
-						<Box className="rating-badge">
+						<Box component={'div'} className="rating-badge">
 							<StarIcon sx={{ fontSize: '16px', color: '#FFD700' }} />
 							<Typography className="rating-value">{ratingValue}</Typography>
 						</Box>
 					</Stack>
 
 					{/* Location va Address - Yashil badge */}
-					<Box className="location-info">
+					<Box component={'div'} className="location-info">
 						<LocationOnIcon sx={{ fontSize: '16px', color: '#25b44b' }} />
 						<Stack className="location-details">
 							<Typography className="location-text">{property.propertyLocation}</Typography>
@@ -275,15 +278,15 @@ const PropertyCard = (props: PropertyCardType) => {
 
 					{/* Specs Badges - Yashil background */}
 					<Stack className="specs-row">
-						<Box className="spec-badge">
+						<Box component={'div'} className="spec-badge">
 							<SpeedIcon sx={{ fontSize: '14px', color: '#25b44b' }} />
 							<Typography>{property.propertyMileAge || 0} miles</Typography>
 						</Box>
-						<Box className="spec-badge">
+						<Box component={'div'} className="spec-badge">
 							<TwoWheelerIcon sx={{ fontSize: '14px', color: '#25b44b' }} />
 							<Typography>{property.propertyCondition || 'N/A'}</Typography>
 						</Box>
-						<Box className="spec-badge">
+						<Box component={'div'} className="spec-badge">
 							<EngineeringIcon sx={{ fontSize: '14px', color: '#25b44b' }} />
 							<Typography>{property.propertyEngineCc || 0} cc</Typography>
 						</Box>
