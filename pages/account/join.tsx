@@ -20,7 +20,7 @@ export const getStaticProps = async ({ locale }: any) => ({
 	},
 });
 
-const Join: NextPage = () => {
+const Join: NextPage = (): JSX.Element => {
 	const router = useRouter();
 	const device = useDeviceDetect();
 	const [input, setInput] = useState({ nick: '', password: '', phone: '', type: 'USER' });
@@ -74,10 +74,11 @@ const Join: NextPage = () => {
 
 	if (device === 'mobile') {
 		return <div>LOGIN MOBILE</div>;
-	} else {
-		return (
-			<Stack className={'join-page'}>
-				<Box className={'background-gradient'} />
+	}
+
+	return (
+		<Stack className="join-page">
+			<Box className="background-gradient" />
 				<Stack className={'container'}>
 					<Stack className={'main'}>
 						{/* Left Side - Form */}
@@ -276,8 +277,7 @@ const Join: NextPage = () => {
 					</Stack>
 				</Stack>
 			</Stack>
-		);
-	}
+	);
 };
 
 export default withLayoutBasic(Join);
