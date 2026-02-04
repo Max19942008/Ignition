@@ -360,11 +360,11 @@ const CommunityDetail: NextPage = ({ initialInput, ...props }: T) => {
 										</Stack>
 									</Stack>
 									<Stack className="engagement-stats">
-										<Box className="stat-badge">
+										<Box component="div" className="stat-badge">
 											<VisibilityIcon className="stat-icon" />
 											<Typography className="stat-value">{boardArticle?.articleViews || 0}</Typography>
 										</Box>
-										<Box className="stat-badge">
+										<Box component="div" className="stat-badge">
 											<ChatIcon className="stat-icon" />
 											<Typography className="stat-value">{boardArticle?.articleComments || 0}</Typography>
 										</Box>
