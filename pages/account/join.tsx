@@ -20,7 +20,7 @@ export const getStaticProps = async ({ locale }: any) => ({
 	},
 });
 
-const Join: NextPage = (): JSX.Element => {
+const Join: NextPage = () => {
 	const router = useRouter();
 	const device = useDeviceDetect();
 	const [input, setInput] = useState({ nick: '', password: '', phone: '', type: 'USER' });
@@ -78,22 +78,22 @@ const Join: NextPage = (): JSX.Element => {
 
 	return (
 		<Stack className="join-page">
-			<Box className="background-gradient" />
+			<Box component="div" className="background-gradient" />
 				<Stack className={'container'}>
 					<Stack className={'main'}>
 						{/* Left Side - Form */}
 						<Stack className={'left'}>
 							{/* Logo Section */}
-							<Box className={'logo-section'}>
-								<Box className={'logo-box'}>
+						<Box component="div" className={'logo-section'}>
+							<Box component="div" className={'logo-box'}>
 									<img src="/img/logo/logo1.webp" alt="Ignition Logo" className={'logo-img'} />
 									<Typography className={'logo-text'}>Ignition</Typography>
-								</Box>
-								<Typography className={'logo-subtitle'}>Your Motorcycle Marketplace</Typography>
 							</Box>
+							<Typography className={'logo-subtitle'}>Your Motorcycle Marketplace</Typography>
+						</Box>
 
-							{/* Title Section */}
-							<Box className={'title-section'}>
+						{/* Title Section */}
+						<Box component="div" className={'title-section'}>
 								<Typography className={'title'}>
 									{loginView ? 'Welcome Back!' : 'Create Account'}
 								</Typography>
@@ -105,8 +105,8 @@ const Join: NextPage = (): JSX.Element => {
 							</Box>
 
 							{/* Form Section */}
-							<Box className={'form-section'}>
-								<Box className={'input-box'}>
+							<Box component="div" className={'form-section'}>
+								<Box component="div" className={'input-box'}>
 									<TextField
 										fullWidth
 										label="Nickname"
@@ -124,11 +124,11 @@ const Join: NextPage = (): JSX.Element => {
 												</InputAdornment>
 											),
 										}}
-										className={'custom-input'}
-									/>
-								</Box>
+									className={'custom-input'}
+								/>
+							</Box>
 
-								<Box className={'input-box'}>
+							<Box component="div" className={'input-box'}>
 									<TextField
 										fullWidth
 										label="Password"
@@ -154,12 +154,12 @@ const Join: NextPage = (): JSX.Element => {
 												</InputAdornment>
 											),
 										}}
-										className={'custom-input'}
-									/>
-								</Box>
+									className={'custom-input'}
+								/>
+							</Box>
 
-								{!loginView && (
-									<Box className={'input-box'}>
+							{!loginView && (
+								<Box component="div" className={'input-box'}>
 										<TextField
 											fullWidth
 											label="Phone Number"
@@ -176,17 +176,17 @@ const Join: NextPage = (): JSX.Element => {
 													</InputAdornment>
 												),
 											}}
-											className={'custom-input'}
-										/>
-									</Box>
-								)}
+									className={'custom-input'}
+								/>
 							</Box>
+						)}
+					</Box>
 
-							{/* User Type Selection (Signup only) */}
-							{!loginView && (
-								<Box className={'user-type-section'}>
-									<Typography className={'user-type-label'}>I want to register as:</Typography>
-									<Box className={'user-type-buttons'}>
+					{/* User Type Selection (Signup only) */}
+					{!loginView && (
+						<Box component="div" className={'user-type-section'}>
+							<Typography className={'user-type-label'}>I want to register as:</Typography>
+							<Box component="div" className={'user-type-buttons'}>
 										<Button
 											variant={input.type === 'USER' ? 'contained' : 'outlined'}
 											onClick={() => handleInput('type', 'USER')}
@@ -201,25 +201,25 @@ const Join: NextPage = (): JSX.Element => {
 											className={`user-type-btn ${input.type === 'AGENT' ? 'active' : ''}`}
 											startIcon={<TwoWheelerIcon />}
 										>
-											Agent
-										</Button>
-									</Box>
-								</Box>
-							)}
+							Agent
+						</Button>
+					</Box>
+				</Box>
+			)}
 
-							{/* Remember Me / Forgot Password (Login only) */}
-							{loginView && (
-								<Box className={'remember-section'}>
+			{/* Remember Me / Forgot Password (Login only) */}
+			{loginView && (
+				<Box component="div" className={'remember-section'}>
 									<FormControlLabel
 										control={<Checkbox defaultChecked className={'remember-checkbox'} />}
 										label="Remember me"
 										className={'remember-label'}
 									/>
-									<Button className={'forgot-password-btn'}>Forgot Password?</Button>
-								</Box>
-							)}
+					<Button className={'forgot-password-btn'}>Forgot Password?</Button>
+				</Box>
+			)}
 
-							{/* Submit Button */}
+			{/* Submit Button */}
 							<Button
 								variant="contained"
 								fullWidth
@@ -234,8 +234,8 @@ const Join: NextPage = (): JSX.Element => {
 								{loginView ? 'LOGIN' : 'SIGN UP'}
 							</Button>
 
-							{/* Switch View */}
-							<Box className={'switch-view'}>
+			{/* Switch View */}
+			<Box component="div" className={'switch-view'}>
 								<Typography className={'switch-text'}>
 									{loginView ? "Don't have an account? " : 'Already have an account? '}
 									<Button
@@ -243,36 +243,36 @@ const Join: NextPage = (): JSX.Element => {
 										className={'switch-btn'}
 									>
 										{loginView ? 'SIGN UP' : 'LOGIN'}
-									</Button>
-								</Typography>
-							</Box>
-						</Stack>
+					</Button>
+				</Typography>
+			</Box>
+		</Stack>
 
-						{/* Right Side - Decorative */}
-						<Stack className={'right'}>
-							<Box className={'right-content'}>
-								<Box className={'moto-icon-wrapper'}>
-									<TwoWheelerIcon className={'moto-icon'} />
-								</Box>
+		{/* Right Side - Decorative */}
+		<Stack className={'right'}>
+			<Box component="div" className={'right-content'}>
+				<Box component="div" className={'moto-icon-wrapper'}>
+					<TwoWheelerIcon className={'moto-icon'} />
+				</Box>
 								<Typography className={'right-title'}>Welcome to Ignition</Typography>
-								<Typography className={'right-subtitle'}>
-									Your trusted marketplace for buying and selling motorcycles
-								</Typography>
-								<Box className={'features-list'}>
-									<Box className={'feature-item'}>
-										<Typography className={'feature-icon'}>🏍️</Typography>
-										<Typography className={'feature-text'}>Wide Selection</Typography>
-									</Box>
-									<Box className={'feature-item'}>
-										<Typography className={'feature-icon'}>🔒</Typography>
-										<Typography className={'feature-text'}>Secure Transactions</Typography>
-									</Box>
-									<Box className={'feature-item'}>
-										<Typography className={'feature-icon'}>⚡</Typography>
-										<Typography className={'feature-text'}>Fast & Easy</Typography>
-									</Box>
-								</Box>
-							</Box>
+				<Typography className={'right-subtitle'}>
+					Your trusted marketplace for buying and selling motorcycles
+				</Typography>
+				<Box component="div" className={'features-list'}>
+					<Box component="div" className={'feature-item'}>
+						<Typography className={'feature-icon'}>🏍️</Typography>
+						<Typography className={'feature-text'}>Wide Selection</Typography>
+					</Box>
+					<Box component="div" className={'feature-item'}>
+						<Typography className={'feature-icon'}>🔒</Typography>
+						<Typography className={'feature-text'}>Secure Transactions</Typography>
+					</Box>
+					<Box component="div" className={'feature-item'}>
+						<Typography className={'feature-icon'}>⚡</Typography>
+						<Typography className={'feature-text'}>Fast & Easy</Typography>
+					</Box>
+				</Box>
+			</Box>
 						</Stack>
 					</Stack>
 				</Stack>
