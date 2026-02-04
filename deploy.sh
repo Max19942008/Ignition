@@ -1,6 +1,6 @@
-#!/usr/bin/env bas
+#!/bin/bash
 
-# PRODUCTION DEPLOYMENT SCRIPT
+# PRODUCTION 
 
 git reset --hard
 git checkout master
