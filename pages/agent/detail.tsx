@@ -282,20 +282,20 @@ const AgentDetail: NextPage = ({ initialInput, initialComment, ...props }: any) 
 									)}
 								</Stack>
 							</Stack>
-							<Stack className={'dealer-stats'}>
-								<Box className={'stat-item'}>
-									<Typography className={'stat-value'}>{propertyTotal || 0}</Typography>
-									<Typography className={'stat-label'}>BIKES</Typography>
-								</Box>
-								<Box className={'stat-item'}>
-									<Typography className={'stat-value'}>{agent?.memberLikes || 0}</Typography>
-									<Typography className={'stat-label'}>LIKES</Typography>
-								</Box>
-								<Box className={'stat-item'}>
-									<Typography className={'stat-value'}>{agent?.memberViews || 0}</Typography>
-									<Typography className={'stat-label'}>VIEWS</Typography>
-								</Box>
-							</Stack>
+						<Stack className={'dealer-stats'}>
+							<Box component="div" className={'stat-item'}>
+								<Typography className={'stat-value'}>{propertyTotal || 0}</Typography>
+								<Typography className={'stat-label'}>BIKES</Typography>
+							</Box>
+							<Box component="div" className={'stat-item'}>
+								<Typography className={'stat-value'}>{agent?.memberLikes || 0}</Typography>
+								<Typography className={'stat-label'}>LIKES</Typography>
+							</Box>
+							<Box component="div" className={'stat-item'}>
+								<Typography className={'stat-value'}>{agent?.memberViews || 0}</Typography>
+								<Typography className={'stat-label'}>VIEWS</Typography>
+							</Box>
+						</Stack>
 						</Stack>
 					</Stack>
 
@@ -341,7 +341,7 @@ const AgentDetail: NextPage = ({ initialInput, initialComment, ...props }: any) 
 									{agentProperties.length > 0 ? (
 										agentProperties.map((property: Property) => {
 											return (
-												<Box className={'wrap-main'} key={property?._id}>
+												<Box component="div" className={'wrap-main'} key={property?._id}>
 													<PropertyBigCard property={property} likePropertyHandler={likePropertyHandler} />
 												</Box>
 											);
