@@ -163,17 +163,17 @@ const Community: NextPage = ({ initialInput, ...props }: T) => {
 									</Button>
 								</Stack>
 							</Stack>
-							<Stack className="header-stats">
-								<Box className="stat-card articles-stat">
-									<ArticleIcon className="stat-icon" />
-									<Typography className="stat-value">{totalCount || 0}</Typography>
-									<Typography className="stat-label">Articles</Typography>
-								</Box>
-								<Box className="stat-card category-stat">
-									<Typography className="stat-value">{getCategoryLabel(searchCommunity.search.articleCategory)}</Typography>
-									<Typography className="stat-label">Category</Typography>
-								</Box>
-							</Stack>
+					<Stack className="header-stats">
+						<Box component={'div'} className="stat-card articles-stat">
+							<ArticleIcon className="stat-icon" />
+							<Typography className="stat-value">{totalCount || 0}</Typography>
+							<Typography className="stat-label">Articles</Typography>
+						</Box>
+						<Box component={'div'} className="stat-card category-stat">
+							<Typography className="stat-value">{getCategoryLabel(searchCommunity.search.articleCategory)}</Typography>
+							<Typography className="stat-label">Category</Typography>
+						</Box>
+					</Stack>
 						</Stack>
 					</Stack>
 
