@@ -139,7 +139,7 @@ const PropertyCard = (props: PropertyCardType) => {
 					<Stack className="action-buttons">
 						<IconButton 
 							className="edit-button" 
-							onClick={(e) => {
+							onClick={(e:any) => {
 								e.preventDefault();
 								router.push({
 									pathname: '/mypage',
@@ -151,7 +151,7 @@ const PropertyCard = (props: PropertyCardType) => {
 						</IconButton>
 						<IconButton 
 							className="delete-button"
-							onClick={(e) => {
+							onClick={(e:any) => {
 								e.preventDefault();
 								if (deletePropertyHandler) {
 									deletePropertyHandler(property._id);

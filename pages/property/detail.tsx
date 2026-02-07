@@ -356,22 +356,22 @@ const PropertyDetail: NextPage = ({ initialComment, ...props }: any) => {
 										}
 										alt={'dealer'}
 									/>
-									<Stack className={'dealer-info'}>
-										<Link href={`/member?memberId=${property?.memberData?._id}`}>
-											<Typography className={'dealer-name'}>{property?.memberData?.memberNick || 'Dealer'}</Typography>
-										</Link>
-										<Typography className={'dealer-location'}>{property?.propertyLocation}</Typography>
-									</Stack>
-									<Stack className={'dealer-actions'}>
-										<Button className={'btn-dealer-call'} startIcon={<PhoneIcon />}>
-											Call
+								<Stack className={'dealer-info'}>
+									<Link href={`/agent/detail?agentId=${property?.memberData?._id}`}>
+										<Typography className={'dealer-name'}>{property?.memberData?.memberNick || 'Dealer'}</Typography>
+									</Link>
+									<Typography className={'dealer-location'}>{property?.propertyLocation}</Typography>
+								</Stack>
+								<Stack className={'dealer-actions'}>
+									<Button className={'btn-dealer-call'} startIcon={<PhoneIcon />}>
+										Call
+									</Button>
+									<Link href={`/agent/detail?agentId=${property?.memberData?._id}`}>
+										<Button className={'btn-view-dealer'}>
+											View Dealer
 										</Button>
-										<Link href={`/member?memberId=${property?.memberData?._id}`}>
-											<Button className={'btn-view-dealer'}>
-												View Dealer
-											</Button>
-										</Link>
-									</Stack>
+									</Link>
+								</Stack>
 								</Stack>
 							</Stack>
 						</Stack>
