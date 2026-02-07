@@ -16,7 +16,7 @@ const Advertisement = () => {
 					preload="auto"
 					style={{ width: '100%', height: '100%', objectFit: 'cover' }}
 				>
-					<source src="/video/13582980_3840_2160_30fps.mp4" type="video/mp4" />
+					<source src="/video/mixkit-motorcyclist-crossing-a-desert-surrounded-by-mountains-39926-hd-ready.mp4" type="video/mp4" />
 				</video>
 			</Stack>
 		);
@@ -31,7 +31,7 @@ const Advertisement = () => {
 					preload="auto"
 					style={{ width: '100%', height: '100%', objectFit: 'cover' }}
 				>
-					<source src="/video/ads.mp4" type="video/mp4" />
+					<source src="/video/mixkit-motorcyclist-crossing-a-desert-surrounded-by-mountains-39926-hd-ready.mp4" type="video/mp4" />
 				</video>
 			</Stack>
 		);
