@@ -572,7 +572,7 @@ const PropertyDetail: NextPage = ({ initialComment, ...props }: any) => {
 								</Stack>
 								{similarPropertiesTotal > 9 && (
 									<Stack className={'pagination-container'}>
-										<Box className={'pagination-wrapper'}>
+										<Box component="div" className={'pagination-wrapper'}>
 											<MuiPagination
 												page={similarPropertiesPage}
 												count={Math.ceil(similarPropertiesTotal / 9)}
@@ -956,7 +956,7 @@ const PropertyDetail: NextPage = ({ initialComment, ...props }: any) => {
 								</Stack>
 								{similarPropertiesTotal > 9 && (
 									<Stack className={'pagination-container'}>
-										<Box className={'pagination-wrapper'}>
+										<Box component="div" className={'pagination-wrapper'}>
 											<MuiPagination
 												page={similarPropertiesPage}
 												count={Math.ceil(similarPropertiesTotal / 9)}

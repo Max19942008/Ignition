@@ -467,11 +467,11 @@ const PropertyList: NextPage = ({ initialInput, ...props }: any) => {
 					<Stack className={'filter-header-section'}>
 						{/* Top Row - Title, Count, Reset, Likes */}
 						<Stack className={'filter-header-top'}>
-							<Box className={'filter-header-left'}>
+							<Box component="div" className={'filter-header-left'}>
 								<Typography className={'filter-header-title'}>Bikes</Typography>
 								<Typography className={'filter-header-count'}>{total} available</Typography>
 							</Box>
-							<Box className={'filter-header-right'}>
+							<Box component="div" className={'filter-header-right'}>
 								<Button
 									className={'filter-reset-button'}
 									startIcon={<FilterListIcon />}
@@ -822,11 +822,11 @@ const PropertyList: NextPage = ({ initialInput, ...props }: any) => {
 					<Stack className={'filter-header-section'}>
 						{/* Top Row - Title, Count, Reset, Likes */}
 						<Stack className={'filter-header-top'}>
-							<Box className={'filter-header-left'}>
+							<Box component="div" className={'filter-header-left'}>
 								<Typography className={'filter-header-title'}>Bikes</Typography>
 								<Typography className={'filter-header-count'}>{total} available</Typography>
 							</Box>
-							<Box className={'filter-header-right'}>
+							<Box component="div" className={'filter-header-right'}>
 								<Button
 									className={'filter-reset-button'}
 									startIcon={<FilterListIcon />}
