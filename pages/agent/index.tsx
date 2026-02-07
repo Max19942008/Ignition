@@ -138,7 +138,143 @@ const AgentList: NextPage = ({ initialInput, ...props }: any) => {
 	}
 
 	if (device === 'mobile') {
-		return <h1>AGENTS PAGE MOBILE</h1>;
+		return (
+			<Stack className={'agent-list-page'}>
+				<Stack className={'container'}>
+					{/* Header Section */}
+					<Stack className={'page-header'}>
+						<Typography className={'main-title'}>Find Your Perfect Agent</Typography>
+						<Typography className={'sub-title'}>Connect with trusted bike agents and get expert advice on your next ride</Typography>
+					</Stack>
+
+					{/* Filter Section */}
+					<Stack className={'filter'}>
+						<Box component={'div'} className={'left'}>
+							<OutlinedInput
+								className={'search-input'}
+								placeholder={'Search agents by name, location...'}
+								value={searchText}
+								onChange={(e: any) => setSearchText(e.target.value)}
+								onKeyDown={(event: any) => {
+									if (event.key == 'Enter') {
+										setSearchFilter({
+											...searchFilter,
+											search: { ...searchFilter.search, text: searchText },
+										});
+									}
+								}}
+								startAdornment={
+									<InputAdornment position="start">
+										<SearchIcon sx={{ color: '#4caf50' }} />
+									</InputAdornment>
+								}
+								sx={{
+									'& .MuiOutlinedInput-notchedOutline': {
+										borderColor: '#e0e0e0',
+									},
+									'&:hover .MuiOutlinedInput-notchedOutline': {
+										borderColor: '#4caf50',
+									},
+									'&.Mui-focused .MuiOutlinedInput-notchedOutline': {
+										borderColor: '#4caf50',
+										borderWidth: '2px',
+									},
+								}}
+							/>
+						</Box>
+						<Box component={'div'} className={'right'}>
+							<Stack className={'sort-wrapper'}>
+								<FilterListIcon className={'filter-icon'} />
+								<Typography className={'sort-label'}>Sort by</Typography>
+								<Button 
+									className={'sort-button'}
+									onClick={sortingClickHandler} 
+									endIcon={<KeyboardArrowDownRoundedIcon />}
+								>
+									{filterSortName}
+								</Button>
+								<Menu 
+									anchorEl={anchorEl} 
+									open={sortingOpen} 
+									onClose={sortingCloseHandler}
+									className={'sort-menu'}
+									PaperProps={{
+										sx: {
+											borderRadius: '12px',
+											boxShadow: '0 8px 24px rgba(0, 0, 0, 0.12)',
+											border: '1px solid #e0e0e0',
+											marginTop: '8px',
+										}
+									}}
+								>
+									<MenuItem onClick={sortingHandler} id={'recent'} disableRipple className={'menu-item'}>
+										Recent
+									</MenuItem>
+									<MenuItem onClick={sortingHandler} id={'old'} disableRipple className={'menu-item'}>
+										Oldest
+									</MenuItem>
+									<MenuItem onClick={sortingHandler} id={'likes'} disableRipple className={'menu-item'}>
+										Most Liked
+									</MenuItem>
+									<MenuItem onClick={sortingHandler} id={'views'} disableRipple className={'menu-item'}>
+										Most Viewed
+									</MenuItem>
+								</Menu>
+							</Stack>
+						</Box>
+					</Stack>
+
+					{/* Cards Grid */}
+					<Stack className={'card-wrap'}>
+						{agents?.length === 0 ? (
+							<Stack className={'no-data'}>
+								<Box component="div" className={'no-data-icon'}>
+									<TwoWheelerIcon sx={{ fontSize: 80, color: '#ddd' }} />
+								</Box>
+								<Typography className={'no-data-title'}>No Agents Found</Typography>
+								<Typography className={'no-data-desc'}>Try adjusting your search or filters</Typography>
+							</Stack>
+						) : (
+							agents.map((agent: Member) => {
+								return <AgentCard agent={agent} key={agent._id} likeMemberHandler={likeMemberHandler} />;
+							})
+						)}
+					</Stack>
+
+					{/* Pagination Section */}
+					<Stack className={'pagination'}>
+						<Stack className="pagination-box">
+							{agents.length !== 0 && Math.ceil(total / searchFilter.limit) > 1 && (
+								<Pagination
+									page={currentPage}
+									count={Math.ceil(total / searchFilter.limit)}
+									onChange={paginationChangeHandler}
+									shape="circular"
+									color="primary"
+									size="large"
+									sx={{
+										'& .MuiPaginationItem-root': {
+											fontSize: '16px',
+											fontWeight: 600,
+										},
+										'& .Mui-selected': {
+											background: 'linear-gradient(135deg, #4caf50 0%, #45a049 100%) !important',
+											color: '#fff !important',
+										},
+									}}
+								/>
+							)}
+						</Stack>
+
+						{agents.length !== 0 && (
+							<Typography className={'total-count'}>
+								Showing <strong>{agents.length}</strong> of <strong>{total}</strong> agent{total > 1 ? 's' : ''}
+							</Typography>
+						)}
+					</Stack>
+				</Stack>
+			</Stack>
+		);
 	} else {
 		return (
 			<Stack className={'agent-list-page'}>

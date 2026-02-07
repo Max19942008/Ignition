@@ -73,7 +73,178 @@ const Join: NextPage = () => {
 	};
 
 	if (device === 'mobile') {
-		return <div>LOGIN MOBILE</div>;
+		return (
+			<Stack className="join-page">
+				<Box component="div" className="background-gradient" />
+				<Stack className={'container'}>
+					<Stack className={'main'}>
+						{/* Logo Section */}
+						<Box component="div" className={'logo-section'}>
+							<Box component="div" className={'logo-box'}>
+								<img src="/img/logo/logo1.webp" alt="Ignition Logo" className={'logo-img'} />
+								<Typography className={'logo-text'}>Ignition</Typography>
+							</Box>
+							<Typography className={'logo-subtitle'}>Your Motorcycle Marketplace</Typography>
+						</Box>
+
+						{/* Title Section */}
+						<Box component="div" className={'title-section'}>
+							<Typography className={'title'}>
+								{loginView ? 'Welcome Back!' : 'Create Account'}
+							</Typography>
+							<Typography className={'subtitle'}>
+								{loginView
+									? 'Sign in to continue to Ignition'
+									: 'Join Ignition and start buying or selling motorcycles'}
+							</Typography>
+						</Box>
+
+						{/* Form Section */}
+						<Box component="div" className={'form-section'}>
+							<Box component="div" className={'input-box'}>
+								<TextField
+									fullWidth
+									label="Nickname"
+									placeholder="Enter your nickname"
+									value={input.nick}
+									onChange={(e) => handleInput('nick', e.target.value)}
+									onKeyDown={(event) => {
+										if (event.key == 'Enter' && loginView) doLogin();
+										if (event.key == 'Enter' && !loginView) doSignUp();
+									}}
+									InputProps={{
+										startAdornment: (
+											<InputAdornment position="start">
+												<PersonIcon className={'input-icon'} />
+											</InputAdornment>
+										),
+									}}
+									className={'custom-input'}
+								/>
+							</Box>
+
+							<Box component="div" className={'input-box'}>
+								<TextField
+									fullWidth
+									label="Password"
+									type={showPassword ? 'text' : 'password'}
+									placeholder="Enter your password"
+									value={input.password}
+									onChange={(e) => handleInput('password', e.target.value)}
+									onKeyDown={(event) => {
+										if (event.key == 'Enter' && loginView) doLogin();
+										if (event.key == 'Enter' && !loginView) doSignUp();
+									}}
+									InputProps={{
+										startAdornment: (
+											<InputAdornment position="start">
+												<LockIcon className={'input-icon'} />
+											</InputAdornment>
+										),
+										endAdornment: (
+											<InputAdornment position="end">
+												<IconButton onClick={togglePasswordVisibility} edge="end" className={'eye-icon'}>
+													{showPassword ? <VisibilityOffIcon /> : <VisibilityIcon />}
+												</IconButton>
+											</InputAdornment>
+										),
+									}}
+									className={'custom-input'}
+								/>
+							</Box>
+
+							{!loginView && (
+								<Box component="div" className={'input-box'}>
+									<TextField
+										fullWidth
+										label="Phone Number"
+										placeholder="Enter your phone number"
+										value={input.phone}
+										onChange={(e) => handleInput('phone', e.target.value)}
+										onKeyDown={(event) => {
+											if (event.key == 'Enter') doSignUp();
+										}}
+										InputProps={{
+											startAdornment: (
+												<InputAdornment position="start">
+													<PhoneIcon className={'input-icon'} />
+												</InputAdornment>
+											),
+										}}
+										className={'custom-input'}
+									/>
+								</Box>
+							)}
+						</Box>
+
+						{/* User Type Selection (Signup only) */}
+						{!loginView && (
+							<Box component="div" className={'user-type-section'}>
+								<Typography className={'user-type-label'}>I want to register as:</Typography>
+								<Box component="div" className={'user-type-buttons'}>
+									<Button
+										variant={input.type === 'USER' ? 'contained' : 'outlined'}
+										onClick={() => handleInput('type', 'USER')}
+										className={`user-type-btn ${input.type === 'USER' ? 'active' : ''}`}
+										startIcon={<PersonIcon />}
+									>
+										User
+									</Button>
+									<Button
+										variant={input.type === 'AGENT' ? 'contained' : 'outlined'}
+										onClick={() => handleInput('type', 'AGENT')}
+										className={`user-type-btn ${input.type === 'AGENT' ? 'active' : ''}`}
+										startIcon={<TwoWheelerIcon />}
+									>
+										Agent
+									</Button>
+								</Box>
+							</Box>
+						)}
+
+						{/* Remember Me / Forgot Password (Login only) */}
+						{loginView && (
+							<Box component="div" className={'remember-section'}>
+								<FormControlLabel
+									control={<Checkbox defaultChecked className={'remember-checkbox'} />}
+									label="Remember me"
+									className={'remember-label'}
+								/>
+								<Button className={'forgot-password-btn'}>Forgot Password?</Button>
+							</Box>
+						)}
+
+						{/* Submit Button */}
+						<Button
+							variant="contained"
+							fullWidth
+							disabled={
+								loginView
+									? input.nick == '' || input.password == ''
+									: input.nick == '' || input.password == '' || input.phone == '' || input.type == ''
+							}
+							onClick={loginView ? doLogin : doSignUp}
+							className={'submit-btn'}
+						>
+							{loginView ? 'LOGIN' : 'SIGN UP'}
+						</Button>
+
+						{/* Switch View */}
+						<Box component="div" className={'switch-view'}>
+							<Typography className={'switch-text'}>
+								{loginView ? "Don't have an account? " : 'Already have an account? '}
+								<Button
+									onClick={() => viewChangeHandler(!loginView)}
+									className={'switch-btn'}
+								>
+									{loginView ? 'SIGN UP' : 'LOGIN'}
+								</Button>
+							</Typography>
+						</Box>
+					</Stack>
+				</Stack>
+			</Stack>
+		);
 	}
 
 	return (

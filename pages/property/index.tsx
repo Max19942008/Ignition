@@ -434,14 +434,11 @@ const PropertyList: NextPage = ({ initialInput, ...props }: any) => {
 		[searchFilter, router],
 	);
 
-	if (device === 'mobile') {
-		return <h1>PROPERTIES MOBILE</h1>;
-	} else {
-		const propertyLocations = Object.values(PropertyLocation);
-		const propertyTypes = Object.values(PropertyType);
-		const propertyBrands = Object.values(PropertyBrand);
-		const propertyConditions = Object.values(PropertyCondition);
-		
+	const propertyLocations = Object.values(PropertyLocation);
+	const propertyTypes = Object.values(PropertyType);
+	const propertyBrands = Object.values(PropertyBrand);
+	const propertyConditions = Object.values(PropertyCondition);
+	
 	const selectedBrand = (searchFilter?.search?.brandList || []).length > 0 
 		? `${(searchFilter?.search?.brandList || []).length} selected` 
 		: 'Brand';
@@ -460,7 +457,364 @@ const PropertyList: NextPage = ({ initialInput, ...props }: any) => {
 	const selectedPrice = searchFilter?.search?.pricesRange
 		? `$${(searchFilter?.search?.pricesRange?.start || 0).toLocaleString()} - $${(searchFilter?.search?.pricesRange?.end || 0).toLocaleString()}`
 		: 'Price/day';
+	
+	if (device === 'mobile') {
 
+		return (
+			<div id="property-list-page" style={{ position: 'relative' }}>
+				<div className="container">
+					{/* Filter Header Section */}
+					<Stack className={'filter-header-section'}>
+						{/* Top Row - Title, Count, Reset, Likes */}
+						<Stack className={'filter-header-top'}>
+							<Box className={'filter-header-left'}>
+								<Typography className={'filter-header-title'}>Bikes</Typography>
+								<Typography className={'filter-header-count'}>{total} available</Typography>
+							</Box>
+							<Box className={'filter-header-right'}>
+								<Button
+									className={'filter-reset-button'}
+									startIcon={<FilterListIcon />}
+									onClick={handleReset}
+								>
+									Reset
+								</Button>
+								<Button
+									className={'filter-sort-button'}
+									endIcon={<KeyboardArrowDownRoundedIcon />}
+									onClick={(e: React.MouseEvent<HTMLButtonElement>) => setLikesAnchor(e.currentTarget)}
+								>
+									{filterSortName}
+								</Button>
+								<Menu
+									anchorEl={likesAnchor}
+									open={Boolean(likesAnchor)}
+									onClose={() => setLikesAnchor(null)}
+									PaperProps={{ 
+										style: { 
+											borderRadius: '10px',
+											border: '1px solid #e5e5e5',
+											boxShadow: '0px 4px 12px 0px rgba(0, 0, 0, 0.1)',
+											marginTop: '8px',
+											minWidth: '160px'
+										} 
+									}}
+								>
+									<MenuItem 
+										onClick={async () => {
+											const newSearch = {
+												...searchFilter,
+												sort: 'createdAt',
+												direction: Direction.DESC,
+											};
+											await router.push(
+												`/property?input=${JSON.stringify(newSearch)}`,
+												`/property?input=${JSON.stringify(newSearch)}`,
+												{ scroll: false },
+											);
+											setLikesAnchor(null);
+										}}
+										selected={searchFilter?.sort === 'createdAt' && searchFilter?.direction === Direction.DESC}
+										sx={{ 
+											fontSize: '14px',
+											padding: '10px 18px',
+											'&:hover': { background: '#f9f9f9' },
+											'&.Mui-selected': { 
+												background: '#f5f5f5',
+												'&:hover': { background: '#f0f0f0' }
+											}
+										}}
+									>
+										Recent
+									</MenuItem>
+									<MenuItem 
+										onClick={async () => {
+											await oldestSortHandler();
+											setLikesAnchor(null);
+										}}
+										selected={searchFilter?.sort === 'createdAt' && searchFilter?.direction === Direction.ASC}
+										sx={{ 
+											fontSize: '14px',
+											padding: '10px 18px',
+											'&:hover': { background: '#f9f9f9' },
+											'&.Mui-selected': { 
+												background: '#f5f5f5',
+												'&:hover': { background: '#f0f0f0' }
+											}
+										}}
+									>
+										Oldest
+									</MenuItem>
+									<MenuItem 
+										onClick={() => handleLikesSort(Direction.DESC)}
+										selected={searchFilter?.sort === 'propertyLikes' && searchFilter?.direction === Direction.DESC}
+										sx={{ 
+											fontSize: '14px',
+											padding: '10px 18px',
+											'&:hover': { background: '#f9f9f9' },
+											'&.Mui-selected': { 
+												background: '#f5f5f5',
+												'&:hover': { background: '#f0f0f0' }
+											}
+										}}
+									>
+										Likes
+									</MenuItem>
+									<MenuItem 
+										onClick={async () => {
+											await viewsSortHandler();
+											setLikesAnchor(null);
+										}}
+										selected={searchFilter?.sort === 'propertyViews' && searchFilter?.direction === Direction.DESC}
+										sx={{ 
+											fontSize: '14px',
+											padding: '10px 18px',
+											'&:hover': { background: '#f9f9f9' },
+											'&.Mui-selected': { 
+												background: '#f5f5f5',
+												'&:hover': { background: '#f0f0f0' }
+											}
+										}}
+									>
+										Views
+									</MenuItem>
+								</Menu>
+							</Box>
+						</Stack>
+
+						{/* Filter Row */}
+						<Stack className={'filter-header-row'}>
+							{/* Brand Filter */}
+							<Button
+								className={'filter-dropdown-button'}
+								endIcon={<KeyboardArrowDownRoundedIcon />}
+								onClick={(e: React.MouseEvent<HTMLButtonElement>) => setBrandAnchor(e.currentTarget)}
+							>
+								{selectedBrand}
+							</Button>
+							<Menu
+								anchorEl={brandAnchor}
+								open={Boolean(brandAnchor)}
+								onClose={() => setBrandAnchor(null)}
+								PaperProps={{ style: { maxHeight: 300, width: 200 } }}
+							>
+								{propertyBrands.map((brand) => (
+									<MenuItem
+										key={brand}
+										onClick={() => handleBrandSelect(brand)}
+										selected={(searchFilter?.search?.brandList || []).includes(brand)}
+									>
+										{brand}
+									</MenuItem>
+								))}
+							</Menu>
+
+							{/* Type Filter */}
+							<Button
+								className={'filter-dropdown-button'}
+								endIcon={<KeyboardArrowDownRoundedIcon />}
+								onClick={(e: React.MouseEvent<HTMLButtonElement>) => setTypeAnchor(e.currentTarget)}
+							>
+								{selectedType}
+							</Button>
+							<Menu
+								anchorEl={typeAnchor}
+								open={Boolean(typeAnchor)}
+								onClose={() => setTypeAnchor(null)}
+								PaperProps={{ style: { maxHeight: 300, width: 200 } }}
+							>
+								{propertyTypes.map((type) => (
+									<MenuItem
+										key={type}
+										onClick={() => handleTypeSelect(type)}
+										selected={(searchFilter?.search?.typeList || []).includes(type)}
+									>
+										{type}
+									</MenuItem>
+								))}
+							</Menu>
+
+							{/* Condition Filter */}
+							<Button
+								className={'filter-dropdown-button'}
+								endIcon={<KeyboardArrowDownRoundedIcon />}
+								onClick={(e: React.MouseEvent<HTMLButtonElement>) => setConditionAnchor(e.currentTarget)}
+							>
+								{selectedCondition}
+							</Button>
+							<Menu
+								anchorEl={conditionAnchor}
+								open={Boolean(conditionAnchor)}
+								onClose={() => setConditionAnchor(null)}
+								PaperProps={{ style: { maxHeight: 300, width: 200 } }}
+							>
+								{propertyConditions.map((condition) => (
+									<MenuItem
+										key={condition}
+										onClick={() => handleConditionSelect(condition)}
+										selected={(searchFilter?.search?.conditionList || []).includes(condition)}
+									>
+										{condition}
+									</MenuItem>
+								))}
+							</Menu>
+
+							{/* Location Filter */}
+							<Button
+								className={'filter-dropdown-button'}
+								endIcon={<KeyboardArrowDownRoundedIcon />}
+								onClick={(e: React.MouseEvent<HTMLButtonElement>) => setLocationAnchor(e.currentTarget)}
+							>
+								{selectedLocation}
+							</Button>
+							<Menu
+								anchorEl={locationAnchor}
+								open={Boolean(locationAnchor)}
+								onClose={() => setLocationAnchor(null)}
+								PaperProps={{ style: { maxHeight: 300, width: 200 } }}
+							>
+								{propertyLocations.map((location) => (
+									<MenuItem
+										key={location}
+										onClick={() => handleLocationSelect(location)}
+										selected={(searchFilter?.search?.locationList || []).includes(location)}
+									>
+										{location}
+									</MenuItem>
+								))}
+							</Menu>
+
+							{/* Year Filter */}
+							<Button
+								className={'filter-dropdown-button'}
+								endIcon={<KeyboardArrowDownRoundedIcon />}
+								onClick={(e: React.MouseEvent<HTMLButtonElement>) => setYearAnchor(e.currentTarget)}
+							>
+								{selectedYear}
+							</Button>
+							<Menu
+								anchorEl={yearAnchor}
+								open={Boolean(yearAnchor)}
+								onClose={() => setYearAnchor(null)}
+								PaperProps={{ style: { maxHeight: 400, width: 200 } }}
+							>
+								<Typography sx={{ px: 2, py: 1, fontWeight: 600, fontSize: '12px', color: '#717171' }}>
+									From Year
+								</Typography>
+								{propertyYears.slice().reverse().map((year: string) => (
+									<MenuItem
+										key={`start-${year}`}
+										onClick={() => handleYearSelect(year, 'start')}
+										selected={searchFilter?.search?.yearRange?.start === parseInt(year)}
+									>
+										{year}
+									</MenuItem>
+								))}
+								<Typography sx={{ px: 2, py: 1, fontWeight: 600, fontSize: '12px', color: '#717171', mt: 1, borderTop: '1px solid #eee' }}>
+									To Year
+								</Typography>
+								{propertyYears.slice().reverse().map((year: string) => (
+									<MenuItem
+										key={`end-${year}`}
+										onClick={() => handleYearSelect(year, 'end')}
+										selected={searchFilter?.search?.yearRange?.end === parseInt(year)}
+									>
+										{year}
+									</MenuItem>
+								))}
+							</Menu>
+
+							{/* Price Filter */}
+							<Button
+								className={'filter-dropdown-button'}
+								endIcon={<KeyboardArrowDownRoundedIcon />}
+								onClick={(e: React.MouseEvent<HTMLButtonElement>) => setPriceAnchor(e.currentTarget)}
+							>
+								{selectedPrice}
+							</Button>
+							<Menu
+								anchorEl={priceAnchor}
+								open={Boolean(priceAnchor)}
+								onClose={() => setPriceAnchor(null)}
+								PaperProps={{ style: { maxHeight: 400, width: 200 } }}
+							>
+								<Typography sx={{ px: 2, py: 1, fontWeight: 600, fontSize: '12px', color: '#717171' }}>
+									Min Price ($)
+								</Typography>
+								{[0, 500, 1000, 2000, 5000, 10000, 20000, 50000, 100000, 200000].map((price) => (
+									<MenuItem
+										key={`start-${price}`}
+										onClick={() => handlePriceRangeSelect(price.toString(), 'start')}
+										selected={searchFilter?.search?.pricesRange?.start === price}
+									>
+										${price.toLocaleString()}
+									</MenuItem>
+								))}
+								<Typography sx={{ px: 2, py: 1, fontWeight: 600, fontSize: '12px', color: '#717171', mt: 1, borderTop: '1px solid #eee' }}>
+									Max Price ($)
+								</Typography>
+								{[500, 1000, 2000, 5000, 10000, 20000, 50000, 100000, 200000, 500000].map((price) => (
+									<MenuItem
+										key={`end-${price}`}
+										onClick={() => handlePriceRangeSelect(price.toString(), 'end')}
+										selected={searchFilter?.search?.pricesRange?.end === price}
+									>
+										${price.toLocaleString()}
+									</MenuItem>
+								))}
+							</Menu>
+
+							{/* Reset Button */}
+							<Button
+								className={'filter-reset-row-button'}
+								startIcon={<RefreshIcon />}
+								onClick={handleReset}
+							>
+								Reset
+							</Button>
+						</Stack>
+					</Stack>
+
+					<Stack className={'property-page'}>
+						<Stack className="main-config" mb={'76px'}>
+							<Stack className={'list-config'}>
+								{properties?.length === 0 ? (
+									<div className={'no-data'}>
+										<img src="/img/icons/icoAlert.svg" alt="" />
+										<p>No bikes found!</p>
+									</div>
+								) : (
+									properties.map((property: Property) => {
+										return <PropertyCard property={property} key={property?._id} likePropertyHandler={likePropertyHandler} />;
+									})
+								)}
+							</Stack>
+							<Stack className="pagination-config">
+								{properties.length !== 0 && (
+									<>
+										<Stack className="pagination-box">
+											<Pagination
+												page={currentPage}
+												count={Math.ceil(total / searchFilter.limit)}
+												onChange={handlePaginationChange}
+												shape="circular"
+												color="primary"
+											/>
+										</Stack>
+										<Stack className="total-result">
+											<Typography>
+												{total} bike{total > 1 ? 's' : ''} available
+											</Typography>
+										</Stack>
+									</>
+								)}
+							</Stack>
+						</Stack>
+					</Stack>
+				</div>
+			</div>
+		);
+	} else {
 		return (
 			<div id="property-list-page" style={{ position: 'relative' }}>
 				<div className="container">

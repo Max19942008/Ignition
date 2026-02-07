@@ -130,7 +130,214 @@ const Community: NextPage = ({ initialInput, ...props }: T) => {
 	};
 
 	if (device === 'mobile') {
-		return <h1>COMMUNITY PAGE MOBILE</h1>;
+		return (
+			<div id="community-list-page">
+				<div className="container">
+					{/* Header Banner */}
+					<Stack className="header-banner">
+						<Stack className="header-content">
+							<Stack className="header-left">
+								<Typography className="header-label">COMMUNITY</Typography>
+								<Typography className="header-title">Drive the conversation.</Typography>
+								<Typography className="header-description">
+									Learn, share, and laugh with enthusiasts. Pick a lane and dive into the latest posts.
+								</Typography>
+								<Stack className="header-actions">
+									<Button
+										className="btn-write"
+										onClick={() =>
+											router.push({
+												pathname: '/mypage',
+												query: {
+													category: 'writeArticle',
+												},
+											})
+										}
+									>
+										Write an article
+									</Button>
+									<Button className="btn-refresh" onClick={refreshHandler} startIcon={<RefreshIcon />}>
+										Refresh
+									</Button>
+								</Stack>
+							</Stack>
+							<Stack className="header-stats">
+								<Box component={'div'} className="stat-card articles-stat">
+									<ArticleIcon className="stat-icon" />
+									<Typography className="stat-value">{totalCount || 0}</Typography>
+									<Typography className="stat-label">Articles</Typography>
+								</Box>
+								<Box component={'div'} className="stat-card category-stat">
+									<Typography className="stat-value">{getCategoryLabel(searchCommunity.search.articleCategory)}</Typography>
+									<Typography className="stat-label">Category</Typography>
+								</Box>
+							</Stack>
+						</Stack>
+					</Stack>
+
+					<TabContext value={searchCommunity.search.articleCategory}>
+						<Stack className="main-box">
+							{/* Left Sidebar - Boards */}
+							<Stack className="left-config">
+								<Typography className="boards-title">Boards</Typography>
+								<TabList
+									orientation="vertical"
+									aria-label="community boards"
+									TabIndicatorProps={{
+										style: { display: 'none' },
+									}}
+									onChange={tabChangeHandler}
+									className="boards-list"
+								>
+									<Tab
+										value={'FREE'}
+										label={
+											<Stack className="board-item">
+												<Typography className="board-name">Free Board</Typography>
+												<Typography className="board-desc">Open chat about anything</Typography>
+											</Stack>
+										}
+										className={`board-tab ${searchCommunity.search.articleCategory == 'FREE' ? 'active' : ''}`}
+									/>
+									<Tab
+										value={'RECOMMEND'}
+										label={
+											<Stack className="board-item">
+												<Typography className="board-name">Recommend</Typography>
+												<Typography className="board-desc">Best spots & services</Typography>
+											</Stack>
+										}
+										className={`board-tab ${searchCommunity.search.articleCategory == 'RECOMMEND' ? 'active' : ''}`}
+									/>
+									<Tab
+										value={'NEWS'}
+										label={
+											<Stack className="board-item">
+												<Typography className="board-name">News</Typography>
+												<Typography className="board-desc">Auto industry updates</Typography>
+											</Stack>
+										}
+										className={`board-tab ${searchCommunity.search.articleCategory == 'NEWS' ? 'active' : ''}`}
+									/>
+									<Tab
+										value={'HUMOR'}
+										label={
+											<Stack className="board-item">
+												<Typography className="board-name">Humor</Typography>
+												<Typography className="board-desc">Memes & fun</Typography>
+											</Stack>
+										}
+										className={`board-tab ${searchCommunity.search.articleCategory == 'HUMOR' ? 'active' : ''}`}
+									/>
+								</TabList>
+								{totalCount > 0 && (
+									<Typography className="showing-count">Showing {boardArticles.length} / {totalCount}</Typography>
+								)}
+							</Stack>
+
+							{/* Right Main Area - Latest Posts */}
+							<Stack className="right-config">
+								<Stack className="panel-config">
+									<Stack className="posts-header">
+										<Typography className="posts-title">Latest posts</Typography>
+										<Typography className="posts-subtitle">
+											Sorted by newest • {getCategoryLabel(searchCommunity.search.articleCategory)} board
+										</Typography>
+									</Stack>
+
+									<TabPanel value="FREE">
+										<Stack className="list-box">
+											{totalCount ? (
+												boardArticles?.map((boardArticle: BoardArticle) => {
+													return <CommunityCard 
+													boardArticle={boardArticle} 
+													key={boardArticle?._id} 
+													likeArticleHandler={likeArticleHandler} />;
+												})
+											) : (
+												<Stack className={'no-data'}>
+													<img src="/img/icons/icoAlert.svg" alt="" />
+													<p>No Article found!</p>
+												</Stack>
+											)}
+										</Stack>
+									</TabPanel>
+									<TabPanel value="RECOMMEND">
+										<Stack className="list-box">
+											{totalCount ? (
+												boardArticles?.map((boardArticle: BoardArticle) => {
+													return <CommunityCard 
+													boardArticle={boardArticle} 
+													key={boardArticle?._id} 
+													likeArticleHandler={likeArticleHandler} />;
+												})
+											) : (
+												<Stack className={'no-data'}>
+													<img src="/img/icons/icoAlert.svg" alt="" />
+													<p>No Article found!</p>
+												</Stack>
+											)}
+										</Stack>
+									</TabPanel>
+									<TabPanel value="NEWS">
+										<Stack className="list-box">
+											{totalCount ? (
+												boardArticles?.map((boardArticle: BoardArticle) => {
+													return <CommunityCard 
+													boardArticle={boardArticle} 
+													key={boardArticle?._id} 
+													likeArticleHandler={likeArticleHandler} />;
+												})
+											) : (
+												<Stack className={'no-data'}>
+													<img src="/img/icons/icoAlert.svg" alt="" />
+													<p>No Article found!</p>
+												</Stack>
+											)}
+										</Stack>
+									</TabPanel>
+									<TabPanel value="HUMOR">
+										<Stack className="list-box">
+											{totalCount ? (
+												boardArticles?.map((boardArticle: BoardArticle) => {
+													return <CommunityCard boardArticle={boardArticle} 
+													key={boardArticle?._id}  
+													likeArticleHandler={likeArticleHandler} />;
+												})
+											) : (
+												<Stack className={'no-data'}>
+													<img src="/img/icons/icoAlert.svg" alt="" />
+													<p>No Article found!</p>
+												</Stack>
+											)}
+										</Stack>
+									</TabPanel>
+								</Stack>
+							</Stack>
+						</Stack>
+					</TabContext>
+
+					{totalCount > 0 && (
+						<Stack className="pagination-config">
+							<Stack className="pagination-box">
+								<Pagination
+									count={Math.ceil(totalCount / searchCommunity.limit)}
+									page={searchCommunity.page}
+									shape="circular"
+									color="primary"
+									onChange={paginationHandler}
+								/>
+							</Stack>
+							<Stack className="total-result">
+								<Typography>
+									Total {totalCount} article{totalCount > 1 ? 's' : ''} available
+								</Typography>
+							</Stack>
+						</Stack>
+					)}
+				</div>
+			</div>
+		);
 	} else {
 		return (
 			<div id="community-list-page">
