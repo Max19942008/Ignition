@@ -558,6 +558,7 @@ const PropertyDetail: NextPage = ({ initialComment, ...props }: any) => {
 									{destinationProperty.map((property: Property, index: number) => {
 										return (
 											<Box 
+												component="div"
 												key={property?._id} 
 												className={`property-card-wrapper card-${index + 1}`}
 												sx={{ 
@@ -941,6 +942,7 @@ const PropertyDetail: NextPage = ({ initialComment, ...props }: any) => {
 									{destinationProperty.map((property: Property, index: number) => {
 										return (
 											<Box 
+												component="div"
 												key={property?._id} 
 												className={`property-card-wrapper card-${index + 1}`}
 												sx={{ 
