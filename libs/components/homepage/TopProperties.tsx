@@ -68,24 +68,46 @@ const TopProperties = (props: TopPropertiesProps) => {
 			<Stack className={'top-properties'}>
 				<Stack className={'container'}>
 					<Stack className={'info-box'}>
-						<span>Top Motorcycles</span>
+						<Box component={'div'} className={'left'}>
+							<span>Top Motorcycles</span>
+							<p>🏆 Premium rated bikes this month</p>
+						</Box>
 					</Stack>
 					<Stack className={'card-box'}>
-						<Swiper
-							className={'top-property-swiper'}
-							slidesPerView={'auto'}
-							centeredSlides={true}
-							spaceBetween={15}
-							modules={[Autoplay]}
-						>
-							{topProperties.map((property: Property) => {
-								return (
-									<SwiperSlide className={'top-property-slide'} key={property?._id}>
-										<TopPropertyCard property={property} likePropertyHandler={likePropertyHandler} />
-									</SwiperSlide>
-								);
-							})}
-						</Swiper>
+						{topProperties.length === 0 ? (
+							<Box component={'div'} className={'empty-list'}>
+								Top Properties Empty
+							</Box>
+						) : (
+							<Swiper
+								className={'top-property-swiper'}
+								slidesPerView={'auto'}
+								spaceBetween={15}
+								modules={[Autoplay, Navigation, Pagination]}
+								navigation={{
+									nextEl: '.swiper-top-next',
+									prevEl: '.swiper-top-prev',
+								}}
+								pagination={{
+									el: '.swiper-top-pagination',
+								}}
+							>
+								{topProperties.map((property: Property) => {
+									return (
+										<SwiperSlide className={'top-property-slide'} key={property?._id}>
+											<TopPropertyCard property={property} likePropertyHandler={likePropertyHandler} />
+										</SwiperSlide>
+									);
+								})}
+							</Swiper>
+						)}
+						{topProperties.length > 0 && (
+							<Box component={'div'} className={'pagination-box'}>
+								<WestIcon className={'swiper-top-prev'} />
+								<div className={'swiper-top-pagination'}></div>
+								<EastIcon className={'swiper-top-next'} />
+							</Box>
+						)}
 					</Stack>
 				</Stack>
 			</Stack>

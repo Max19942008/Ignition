@@ -62,14 +62,22 @@ const TopPropertyCard = (props: TopPropertyCardProps) => {
 				className={'card-img'} 
 				style={{ backgroundImage: `url(${imagePath})` }} 
 				onClick={() => {pushDetailHandler(property._id)}}>
-					<Stack className="img-bottom-row">
+					<Stack flexDirection="row" className="img-bottom-row">
 						<IconButton size="small" className="badge">
 							<RemoveRedEyeIcon fontSize="small" />
-							<Typography>{property?.propertyViews || 0}</Typography>
+							<Typography component="span" sx={{ fontSize: '11px', fontWeight: 700, color: '#fff', ml: 0.5 }}>{property?.propertyViews || 0}</Typography>
 						</IconButton>
-						<IconButton size="small" className={`badge like ${liked ? 'active' : ''}`} onClick={() => likePropertyHandler(user, property?._id)}>
+						<IconButton 
+						size="small" 
+						className={`badge like ${liked ? 'active' : ''}`} 
+						onClick={(e: React.MouseEvent<HTMLButtonElement>) => {
+							e.preventDefault();
+							e.stopPropagation();
+							likePropertyHandler(e, user, property?._id);
+						}}
+						>
 							<FavoriteIcon fontSize="small" />
-							<Typography>{property?.propertyLikes || 0}</Typography>
+							<Typography component="span" sx={{ fontSize: '11px', fontWeight: 700, color: '#fff', ml: 0.5 }}>{property?.propertyLikes || 0}</Typography>
 						</IconButton>
 					</Stack>
 				</Box>

@@ -67,24 +67,46 @@ const PopularProperties = (props: PopularPropertiesProps) => {
 			<Stack className={'popular-properties'}>
 				<Stack className={'container'}>
 					<Stack className={'info-box'}>
-						<span>Popular Bikes</span>
+						<Box component={'div'} className={'left'}>
+							<span>Popular Bikes</span>
+							<p>🔥 Most viewed motorcycles this week</p>
+						</Box>
 					</Stack>
 					<Stack className={'card-box'}>
-						<Swiper
-							className={'popular-property-swiper'}
-							slidesPerView={'auto'}
-							centeredSlides={true}
-							spaceBetween={25}
-							modules={[Autoplay]}
-						>
-							{popularProperties.map((property: Property) => {
-								return (
-									<SwiperSlide key={property._id} className={'popular-property-slide'}>
-										<PopularPropertyCard property={property} likePropertyHandler={likePropertyHandler} />
-									</SwiperSlide>
-								);
-							})}
-						</Swiper>
+						{popularProperties.length === 0 ? (
+							<Box component={'div'} className={'empty-list'}>
+								Popular Empty
+							</Box>
+						) : (
+							<Swiper
+								className={'popular-property-swiper'}
+								slidesPerView={'auto'}
+								spaceBetween={15}
+								modules={[Autoplay, Navigation, Pagination]}
+								navigation={{
+									nextEl: '.swiper-popular-next',
+									prevEl: '.swiper-popular-prev',
+								}}
+								pagination={{
+									el: '.swiper-popular-pagination',
+								}}
+							>
+								{popularProperties.map((property: Property) => {
+									return (
+										<SwiperSlide key={property._id} className={'popular-property-slide'}>
+											<PopularPropertyCard property={property} likePropertyHandler={likePropertyHandler} />
+										</SwiperSlide>
+									);
+								})}
+							</Swiper>
+						)}
+						{popularProperties.length > 0 && (
+							<Box component={'div'} className={'pagination-box'}>
+								<WestIcon className={'swiper-popular-prev'} />
+								<div className={'swiper-popular-pagination'}></div>
+								<EastIcon className={'swiper-popular-next'} />
+							</Box>
+						)}
 					</Stack>
 				</Stack>
 			</Stack>

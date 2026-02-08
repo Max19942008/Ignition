@@ -44,24 +44,46 @@ const TopAgents = (props: TopAgentsProps) => {
 			<Stack className={'top-agents'}>
 				<Stack className={'container'}>
 					<Stack className={'info-box'}>
-						<span>Elite Riders</span>
+						<Box component={'div'} className={'left'}>
+							<span>Elite Riders</span>
+							<p>⭐ Meet our community champions</p>
+						</Box>
 					</Stack>
 					<Stack className={'wrapper'}>
-						<Swiper
-							className={'top-agents-swiper'}
-							slidesPerView={'auto'}
-							centeredSlides={true}
-							spaceBetween={29}
-							modules={[Autoplay]}
-						>
-							{topAgents.map((agent: Member) => {
-								return (
-									<SwiperSlide className={'top-agents-slide'} key={agent?._id}>
-										<TopAgentCard agent={agent} key={agent?.memberNick} />
-									</SwiperSlide>
-								);
-							})}
-						</Swiper>
+						{topAgents.length === 0 ? (
+							<Box component={'div'} className={'empty-list'}>
+								Agents Empty
+							</Box>
+						) : (
+							<Swiper
+								className={'top-agents-swiper'}
+								slidesPerView={'auto'}
+								spaceBetween={15}
+								modules={[Autoplay, Navigation, Pagination]}
+								navigation={{
+									nextEl: '.swiper-agents-next',
+									prevEl: '.swiper-agents-prev',
+								}}
+								pagination={{
+									el: '.swiper-agents-pagination',
+								}}
+							>
+								{topAgents.map((agent: Member) => {
+									return (
+										<SwiperSlide className={'top-agents-slide'} key={agent?._id}>
+											<TopAgentCard agent={agent} key={agent?.memberNick} />
+										</SwiperSlide>
+									);
+								})}
+							</Swiper>
+						)}
+						{topAgents.length > 0 && (
+							<Box component={'div'} className={'pagination-box'}>
+								<ArrowBackIosNewIcon className={'swiper-agents-prev'} />
+								<div className={'swiper-agents-pagination'}></div>
+								<ArrowBackIosNewIcon className={'swiper-agents-next'} sx={{ transform: 'rotate(180deg)' }} />
+							</Box>
+						)}
 					</Stack>
 				</Stack>
 			</Stack>
