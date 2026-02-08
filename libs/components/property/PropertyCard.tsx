@@ -1,5 +1,5 @@
-import React from 'react';
-import { Stack, Typography, Box, Button, Chip } from '@mui/material';
+import React, { useMemo } from 'react';
+import { Stack, Typography, Box, Button, Chip, Divider } from '@mui/material';
 import useDeviceDetect from '../../hooks/useDeviceDetect';
 import FavoriteIcon from '@mui/icons-material/Favorite';
 import FavoriteBorderIcon from '@mui/icons-material/FavoriteBorder';
@@ -34,11 +34,21 @@ const PropertyCard = (props: PropertyCardType) => {
 	const device = useDeviceDetect();
 	const user = useReactiveVar(userVar);
 	const router = useRouter();
-	const imagePath: string = property?.propertyImages[0]
-		? `${REACT_APP_API_URL}/${property?.propertyImages[0]}`
-		: '/img/banner/header1.svg';
+	const imagePath: string = useMemo(() => {
+		if (property?.propertyImages?.length) return `${REACT_APP_API_URL}/${property.propertyImages[0]}`;
+		return '/img/banner/header1.svg';
+	}, [property]);
 
-	const ratingValue = property?.propertyRank ? (property.propertyRank / 10).toFixed(1) : '4.6';
+	const formattedPrice = useMemo(
+		() => (property?.propertyPrice ? property.propertyPrice.toLocaleString() : '0'),
+		[property?.propertyPrice],
+	);
+
+	const ratingValue = useMemo(() => {
+		if (property?.propertyRank && property.propertyRank > 0) return (property.propertyRank / 10).toFixed(1);
+		return '4.6';
+	}, [property?.propertyRank]);
+
 	const liked = myFavorites || (property?.meLiked && property?.meLiked[0]?.myFavorite);
 
 	const handleBuyNow = () => {
@@ -46,6 +56,10 @@ const PropertyCard = (props: PropertyCardType) => {
 			pathname: '/property/detail',
 			query: { id: property?._id },
 		});
+	};
+
+	const pushDetailHandler = async (propertyId: string) => {
+		router.push({ pathname: '/property/detail', query: { id: propertyId } });
 	};
 
 	const getTypeBadgeColor = (type: PropertyType) => {
@@ -77,7 +91,91 @@ const PropertyCard = (props: PropertyCardType) => {
 	};
 
 	if (device === 'mobile') {
-		return <div>PROPERTY CARD</div>;
+		return (
+			<Stack className="property-card-box" key={property._id}>
+				<Box 
+					component={'div'} 
+					className={'card-img'} 
+					style={{ backgroundImage: `url(${imagePath})` }}
+					onClick={() => {pushDetailHandler(property._id)}}
+				>
+					{property?.propertyType && (
+						<Box component={'div'} className={'type-badge'}>
+							<Typography>{property.propertyType}</Typography>
+						</Box>
+					)}
+					<Stack flexDirection="row" className="img-bottom-row">
+						<IconButton size="small" className="badge">
+							<RemoveRedEyeIcon fontSize="small" />
+							<Typography component="span" sx={{ fontSize: '11px', fontWeight: 700, color: '#fff', ml: 0.5 }}>{property?.propertyViews || 0}</Typography>
+						</IconButton>
+						<IconButton 
+							size="small" 
+							className={`badge like ${liked ? 'active' : ''}`} 
+							onClick={(e: React.MouseEvent<HTMLButtonElement>) => {
+								e.preventDefault();
+								e.stopPropagation();
+								if (likePropertyHandler && user) {
+									likePropertyHandler(user, property?._id);
+								}
+							}}
+						>
+							<FavoriteIcon fontSize="small" />
+							<Typography component="span" sx={{ fontSize: '11px', fontWeight: 700, color: '#fff', ml: 0.5 }}>{property?.propertyLikes || 0}</Typography>
+						</IconButton>
+					</Stack>
+				</Box>
+				<Box component={'div'} className={'info'}>
+					<Stack className="card-head">
+						<Stack className="title-block">
+							<strong className={'title'} onClick={() => {pushDetailHandler(property._id)}}>{property.propertyTitle}</strong>
+							<span className={'subtitle'}>
+								{property.propertyBrand} · {property.propertyYear}
+							</span>
+						</Stack>
+						<Stack direction="row" alignItems="center" spacing={0.5} className="rating">
+							<StarIcon fontSize="small" />
+							<span>{ratingValue}</span>
+						</Stack>
+					</Stack>
+
+					<Stack direction="row" alignItems="center" justifyContent="space-between" spacing={1} className="location-row">
+						<Stack direction="row" alignItems="center" spacing={1}>
+							<LocationOnIcon fontSize="small" />
+							<span>{property.propertyLocation}</span>
+						</Stack>
+						<span>{property.propertyAddress}</span>
+					</Stack>
+
+					<Stack className="spec-row">
+						<div className="spec">
+							<SpeedIcon fontSize="small" />
+							<span>{property.propertyMileAge || 0} miles</span>
+						</div>
+						<div className="spec">
+							<TwoWheelerIcon fontSize="small" />
+							<span>{property.propertyCondition || 'N/A'}</span>
+						</div>
+						<div className="spec">
+							<EngineeringIcon fontSize="small" />
+							<span>{property.propertyEngineCc || 0} cc</span>
+						</div>
+					</Stack>
+
+					<Divider sx={{ mt: '12px', mb: '14px' }} />
+
+					<Stack className="card-foot">
+						<Box component={'div'} className="price-box">
+							<span className="from">From</span>
+							<strong className="price">${formattedPrice}</strong>
+						</Box>
+						<Button variant="contained" className="cta" onClick={handleBuyNow}>
+							Buy Now
+						</Button>
+					</Stack>
+				</Box>
+			</Stack>
+		);
 	} else if (myFavorites || recentlyVisited) {
 		// Vertical layout for myFavorites and recentlyVisited
 		return (
