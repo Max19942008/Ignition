@@ -45,7 +45,59 @@ const CommunityCard = (props: CommunityCardProps) => {
 	};
 
 	if (device === 'mobile') {
-		return <div>COMMUNITY CARD MOBILE</div>;
+		return (
+			<Stack
+				sx={{ width: size === 'small' ? '285px' : '100%' }}
+				className="community-general-card-config"
+				onClick={(e:any) => chooseArticleHandler(e, boardArticle)}
+			>
+				<Stack className="image-box">
+					<img src={imagePath} alt="" className="card-img" />
+					<Stack className="date-box">
+						<Moment className="month" format={'MMMM'}>
+							{boardArticle?.createdAt}
+						</Moment>
+						<Typography className="day">
+							<Moment format={'DD'}>{boardArticle?.createdAt}</Moment>
+						</Typography>
+					</Stack>
+				</Stack>
+				<Stack className="desc-box">
+					<Stack className="content-section">
+						<Typography
+							className="author-name"
+							onClick={(e:any) => {
+								e.stopPropagation();
+								goMemberPage(boardArticle?.memberData?._id as string);
+							}}
+						>
+							{boardArticle?.memberData?.memberNick}
+						</Typography>
+						<Typography className="title">{boardArticle?.articleTitle}</Typography>
+					</Stack>
+					<Stack className={'engagement-section'}>
+						<Stack className="engagement-item">
+							<RemoveRedEyeIcon className="engagement-icon" />
+							<Typography className="engagement-count">{boardArticle?.articleViews || 0}</Typography>
+						</Stack>
+						<Stack 
+							className={`engagement-item like-item ${boardArticle?.meLiked && boardArticle?.meLiked[0]?.myFavorite ? 'liked' : ''}`}
+							onClick={(e: any) => {
+								e.stopPropagation();
+								likeArticleHandler(e, user, boardArticle?._id as string);
+							}}
+						>
+							{boardArticle?.meLiked && boardArticle?.meLiked[0]?.myFavorite ? (
+								<FavoriteIcon className="engagement-icon liked-icon" />
+							) : (
+								<FavoriteBorderIcon className="engagement-icon" />
+							)}
+							<Typography className="engagement-count">{boardArticle?.articleLikes || 0}</Typography>
+						</Stack>
+					</Stack>
+				</Stack>
+			</Stack>
+		);
 	} else {
 		return (
 			<Stack

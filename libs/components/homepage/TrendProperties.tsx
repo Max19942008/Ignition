@@ -100,11 +100,11 @@ const TrendProperties = (props: TrendPropertiesProps) => {
 								})}
 							</Swiper>
 						)}
-						<Box component={'div'} className={'pagination-box'}>
+						{/* <Box component={'div'} className={'pagination-box'}>
 							<WestIcon className={'swiper-trend-prev'} />
 							<div className={'swiper-trend-pagination'}></div>
 							<EastIcon className={'swiper-trend-next'} />
-						</Box>
+						</Box> */}
 					</Stack>
 				</Stack>
 			</Stack>
