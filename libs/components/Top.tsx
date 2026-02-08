@@ -154,6 +154,11 @@ const Top = () => {
 				<Link href={'/community?articleCategory=FREE'}>
 					<div> {t('Community')} </div>
 				</Link>
+				{user?._id && (
+					<Link href={'/mypage'}>
+						<div> {t('My Page')} </div>
+					</Link>
+				)}
 				<Link href={'/cs'}>
 					<div> {t('CS')} </div>
 				</Link>
