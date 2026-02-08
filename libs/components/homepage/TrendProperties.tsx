@@ -67,7 +67,10 @@ const TrendProperties = (props: TrendPropertiesProps) => {
 			<Stack className={'trend-properties'}>
 				<Stack className={'container'}>
 					<Stack className={'info-box'}>
-						<span>Trend Properties</span>
+						<Box component={'div'} className={'left'}>
+							<span>Most Searched Bikes</span>
+							<p>Trend is based on likes</p>
+						</Box>
 					</Stack>
 					<Stack className={'card-box'}>
 						{trendProperties.length === 0 ? (
@@ -78,19 +81,30 @@ const TrendProperties = (props: TrendPropertiesProps) => {
 							<Swiper
 								className={'trend-property-swiper'}
 								slidesPerView={'auto'}
-								centeredSlides={true}
 								spaceBetween={15}
-								modules={[Autoplay]}
+								modules={[Autoplay, Navigation, Pagination]}
+								navigation={{
+									nextEl: '.swiper-trend-next',
+									prevEl: '.swiper-trend-prev',
+								}}
+								pagination={{
+									el: '.swiper-trend-pagination',
+								}}
 							>
 								{trendProperties.map((property: Property) => {
 									return (
 										<SwiperSlide key={property._id} className={'trend-property-slide'}>
-											<TrendPropertyCard property={property} likePropertyHandler={likePropertyHandler} />
+											<TrendPropertyCard property={property}  likePropertyHandler={likePropertyHandler} />
 										</SwiperSlide>
 									);
 								})}
 							</Swiper>
 						)}
+						<Box component={'div'} className={'pagination-box'}>
+							<WestIcon className={'swiper-trend-prev'} />
+							<div className={'swiper-trend-pagination'}></div>
+							<EastIcon className={'swiper-trend-next'} />
+						</Box>
 					</Stack>
 				</Stack>
 			</Stack>

@@ -56,31 +56,36 @@ const TrendPropertyCard = (props: TrendPropertyCardProps) => {
 
 	if (device === 'mobile') {
 		return (
-			<Stack className="trend-card-box" key={property._id} onClick={goToDetail}>
-				<Box component={'div'} className={'card-img'} style={{ backgroundImage: `url(${imagePath})` }} onClick={() => {pushDetailHandler(property._id)}}>
-					<Stack className="img-bottom-row">
+			<Stack className="trend-card-box" key={property._id}>
+				<Box 
+				component={'div'} 
+				className={'card-img'} 
+				style={{ backgroundImage: `url(${imagePath})` }}
+				onClick={() => {pushDetailHandler(property._id)}}
+				>
+					<Stack flexDirection="row" className="img-bottom-row">
 						<IconButton size="small" className="badge">
 							<RemoveRedEyeIcon fontSize="small" />
-							<Typography>{property?.propertyViews || 0}</Typography>
+							<Typography component="span" sx={{ fontSize: '11px', fontWeight: 700, color: '#fff', ml: 0.5 }}>{property?.propertyViews || 0}</Typography>
 						</IconButton>
 						<IconButton 
-							size="small" 
-							className={`badge like ${liked ? 'active' : ''}`} 
-							onClick={(e: React.MouseEvent<HTMLButtonElement>) => {
-								e.preventDefault();
-								e.stopPropagation();
-								likePropertyHandler(user, property?._id);
-							}}
+						size="small" 
+						className={`badge like ${liked ? 'active' : ''}`} 
+						onClick={(e: React.MouseEvent<HTMLButtonElement>) => {
+							e.preventDefault();
+							e.stopPropagation();
+							likePropertyHandler(user, property?._id);
+						}}
 						>
 							<FavoriteIcon fontSize="small" />
-							<Typography>{property?.propertyLikes || 0}</Typography>
+							<Typography component="span" sx={{ fontSize: '11px', fontWeight: 700, color: '#fff', ml: 0.5 }}>{property?.propertyLikes || 0}</Typography>
 						</IconButton>
 					</Stack>
 				</Box>
 				<Box component={'div'} className={'info'}>
 					<Stack className="card-head">
 						<Stack className="title-block">
-							<strong className={'title'} onClick={() => {pushDetailHandler(property._id)}} >{property.propertyTitle}</strong>
+							<strong className={'title'} onClick={() => {pushDetailHandler(property._id)}} >{property.propertyTitle} </strong>
 							<span className={'subtitle'}>
 								{property.propertyBrand} · {property.propertyYear}
 							</span>
@@ -122,7 +127,7 @@ const TrendPropertyCard = (props: TrendPropertyCardProps) => {
 							<strong className="price">${formattedPrice}</strong>
 						</Box>
 						<Button variant="contained" className="cta" onClick={goToDetail}>
-							Book Now
+							Buy Now
 						</Button>
 					</Stack>
 				</Box>
