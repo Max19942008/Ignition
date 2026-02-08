@@ -122,7 +122,86 @@ const AgentCard = (props: AgentCardProps) => {
 	}, [likeMemberHandler, user, agent?._id, agent?.meLiked, agent?.memberLikes, isLiking]);
 
 	if (device === 'mobile') {
-		return <div>AGENT CARD</div>;
+		return (
+			<Stack className={`agent-general-card variant-${cardVariant}`}>
+				{/* Favorite Heart Icon - Top Right */}
+				<IconButton 
+					className={`favorite-heart ${isLiked ? 'liked' : ''} ${isLiking ? 'liking' : ''}`}
+					disabled={isLiking}
+					sx={{ 
+						cursor: isLiking ? 'wait' : 'pointer', 
+						opacity: isLiking ? 0.7 : 1,
+						transition: 'all 0.3s ease',
+						position: 'absolute',
+						top: '16px',
+						right: '16px',
+						zIndex: 10,
+						background: 'rgba(255, 255, 255, 0.95)',
+						backdropFilter: 'blur(10px)',
+						boxShadow: '0px 4px 12px rgba(0, 0, 0, 0.15)',
+					}}
+					onClick={handleLikeClick}
+				>
+					{isLiked ? (
+						<FavoriteIcon sx={{ fontSize: 20, color: '#f5576c' }} />
+					) : (
+						<FavoriteBorderIcon sx={{ fontSize: 20, color: '#667eea' }} />
+					)}
+				</IconButton>
+
+				{/* Profile Image Section */}
+				<Link
+					href={{
+						pathname: '/agent/detail',
+						query: { agentId: agent?._id },
+					}}
+					style={{ textDecoration: 'none' }}
+				>
+					<Box
+						component={'div'}
+						className={'agent-profile-img'}
+					>
+						<img src={imagePath} alt={agent?.memberNick || 'Agent'} />
+					</Box>
+				</Link>
+
+				{/* Card Content */}
+				<Stack className={'agent-content'}>
+					{/* Header with Name and AGENT Badge */}
+					<Stack className={'agent-header'}>
+						<Link
+							href={{
+								pathname: '/agent/detail',
+								query: { agentId: agent?._id },
+							}}
+							style={{ textDecoration: 'none' }}
+						>
+							<Typography className={'agent-name'}>{agent?.memberFullName ?? agent?.memberNick}</Typography>
+						</Link>
+						<Chip 
+							label="AGENT" 
+							className={'dealer-badge'}
+							size="small"
+						/>
+					</Stack>
+
+					{/* Location and Phone */}
+					<Stack className={'agent-contact-info'}>
+						<Stack className={'contact-item'}>
+							<LocationOnIcon className={'contact-icon location-icon'} />
+							<Typography className={'contact-text location-text'}>{agent?.memberAddress || 'N/A'}</Typography>
+						</Stack>
+						<Stack className={'contact-item'}>
+							<PhoneIcon className={'contact-icon phone-icon'} />
+							<Typography className={'contact-text phone-text'}>{agent?.memberPhone || 'N/A'}</Typography>
+						</Stack>
+					</Stack>
+
+					{/* Stats Grid */}
+					<AgentStats bikes={bikesCount} views={viewsCount} likes={likesCount} rating={ratingValue} />
+				</Stack>
+			</Stack>
+		);
 	} else {
 		return (
 			<Stack className={`agent-general-card variant-${cardVariant}`}>

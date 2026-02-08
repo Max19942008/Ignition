@@ -110,7 +110,46 @@ const MyPage: NextPage = () => {
 
 
 	if (device === 'mobile') {
-		return <div>MY PAGE</div>;
+		return (
+			<div id="my-page" style={{ position: 'relative' }}>
+				<div className="container">
+					<Stack className={'my-page'}>
+						<Stack className={'back-frame'}>
+							<Stack className={'left-config'}>
+								<MyMenu />
+							</Stack>
+							<Stack className="main-config" mb={'76px'}>
+								<Stack className={'list-config'}>
+									{category === 'addProperty' && <AddProperty />}
+									{category === 'myProperties' && <MyProperties />}
+									{category === 'myFavorites' && <MyFavorites />}
+									{category === 'recentlyVisited' && <RecentlyVisited />}
+									{category === 'myArticles' && <MyArticles />}
+									{category === 'writeArticle' && <WriteArticle />}
+									{category === 'myProfile' && <MyProfile />}
+									{category === 'followers' && (
+										<MemberFollowers
+											subscribeHandler={subscribeHandler}
+											unsubscribeHandler={unsubscribeHandler}
+											redirectToMemberPageHandler={redirectToMemberPageHandler}
+											likeMemberHandler={likeMemberHandler}
+										/>
+									)}
+									{category === 'followings' && (
+										<MemberFollowings
+											subscribeHandler={subscribeHandler}
+											unsubscribeHandler={unsubscribeHandler}
+											redirectToMemberPageHandler={redirectToMemberPageHandler}
+											likeMemberHandler={likeMemberHandler}
+										/>
+									)}
+								</Stack>
+							</Stack>
+						</Stack>
+					</Stack>
+				</div>
+			</div>
+		);
 	} else {
 		return (
 			<div id="my-page" style={{ position: 'relative' }}>

@@ -80,7 +80,74 @@ export const PropertyCard = (props: PropertyCardProps) => {
 	};
 
 	if (device === 'mobile') {
-		return <div>MOBILE PROPERTY CARD</div>;
+		return (
+			<div className="property-card-box" onClick={() => pushPropertyDetail(property._id)}>
+				<div className="image-section">
+					<div className="image-box">
+						<img 
+							src={property.propertyImages?.[0] ? `${REACT_APP_API_URL}/${property.propertyImages[0]}` : '/img/property/defaultBike.jpg'} 
+							alt={property.propertyTitle}
+						/>
+						<div 
+							className="type-badge"
+							style={{ 
+								background: getTypeBadgeColor(property.propertyType).bg,
+								color: getTypeBadgeColor(property.propertyType).text
+							}}
+						>
+							{property.propertyType}
+						</div>
+					</div>
+				</div>
+				<div className="content-section">
+					<div className="bike-name">{property.propertyTitle}</div>
+					<div className="bike-details">
+						{property.propertyBrand} • {property.propertyYear} • {property.propertyEngineCc}cc • {property.propertyCondition}
+					</div>
+					<div className="specs-row">
+						<span className="spec-chip">{`${property.propertyYear} Year`}</span>
+						<span className="spec-chip">{`${property.propertyEngineCc}cc`}</span>
+						<span className="spec-chip">{property.propertyLocation}</span>
+					</div>
+					<div 
+						className="status-badge"
+						style={{ 
+							background: getStatusColor(property.propertyStatus).bg,
+							color: getStatusColor(property.propertyStatus).text
+						}}
+					>
+						{property.propertyStatus}
+					</div>
+				</div>
+				<div className="actions-section">
+					{!memberPage && property.propertyStatus === PropertyStatus.ACTIVE && (
+						<div className="action-buttons">
+							<IconButton className="edit-button" onClick={(e) => { e.stopPropagation(); pushEditProperty(property._id); }}>
+								<ModeIcon />
+							</IconButton>
+							<IconButton className="delete-button" onClick={(e) => { e.stopPropagation(); deletePropertyHandler(property._id); }}>
+								<DeleteIcon />
+							</IconButton>
+						</div>
+					)}
+					<div className="metrics-row">
+						<div className="metric-item">
+							<RemoveRedEyeIcon className="metric-icon" />
+							<span className="metric-value">{property.propertyViews || 0}</span>
+						</div>
+						<div className="metric-item">
+							<FavoriteIcon className="metric-icon" />
+							<span className="metric-value">{property.propertyLikes || 0}</span>
+						</div>
+					</div>
+				</div>
+				<div className="price-section">
+					<span className="price-label">FROM</span>
+					<span className="price-value">${formatterStr(property?.propertyPrice)}</span>
+					<span className="price-period">/DAY</span>
+				</div>
+			</div>
+		);
 	} else
 		return (
 			<div className="property-card-box">

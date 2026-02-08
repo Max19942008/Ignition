@@ -51,7 +51,45 @@ const MyProperties: NextPage = ({ initialInput, ...props }: any) => {
 	};
 
 	if (device === 'mobile') {
-		return <div> PROPERTIES MOBILE</div>;
+		return (
+			<div id="member-properties-page">
+				<Stack className="main-title-box">
+					<Stack className="right-box">
+						<Typography className="main-title">Bikes</Typography>
+					</Stack>
+				</Stack>
+				<Stack className="properties-list-box">
+					<Stack className="list-box">
+						{agentProperties?.length === 0 && (
+							<div className={'no-data'}>
+								<img src="/img/icons/icoAlert.svg" alt="" />
+								<p>No Bike found!</p>
+							</div>
+						)}
+						{agentProperties?.map((property: Property) => {
+							return <PropertyCard property={property} memberPage={true} key={property?._id} />;
+						})}
+
+						{agentProperties.length !== 0 && (
+							<Stack className="pagination-config">
+								<Stack className="pagination-box">
+									<Pagination
+										count={Math.ceil(total / searchFilter.limit)}
+										page={searchFilter.page}
+										shape="circular"
+										color="primary"
+										onChange={paginationHandler}
+									/>
+								</Stack>
+								<Stack className="total-result">
+									<Typography>{total} property available</Typography>
+								</Stack>
+							</Stack>
+						)}
+					</Stack>
+				</Stack>
+			</div>
+		);
 	} else {
 		return (
 			<div id="member-properties-page">
