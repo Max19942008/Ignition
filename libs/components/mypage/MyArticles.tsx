@@ -12,9 +12,11 @@ import { GET_BOARD_ARTICLES } from '../../../apollo/user/query';
 import { Messages } from '../../config';
 import { sweetMixinErrorAlert, sweetTopSmallSuccessAlert } from '../../sweetAlert';
 import CommunityCard from '../common/CommunityCard';
+import { useTranslation } from 'next-i18next';
 
 const MyArticles: NextPage = ({ initialInput, ...props }: T) => {
 	const device = useDeviceDetect();
+	const { t } = useTranslation('common');
 	const user = useReactiveVar(userVar);
 	const [searchCommunity, setSearchCommunity] = useState({
 		...initialInput,
@@ -75,8 +77,8 @@ const MyArticles: NextPage = ({ initialInput, ...props }: T) => {
 			<div id="my-articles-page">
 				<Stack className="main-title-box">
 					<Stack className="right-box">
-						<Typography className="main-title">Article</Typography>
-						<Typography className="sub-title">We are glad to see you again!</Typography>
+						<Typography className="main-title">{t('Article')}</Typography>
+						<Typography className="sub-title">{t('We are glad to see you again!')}</Typography>
 					</Stack>
 				</Stack>
 				<Stack className="article-list-box">
@@ -90,7 +92,7 @@ const MyArticles: NextPage = ({ initialInput, ...props }: T) => {
 					) : (
 						<div className={'no-data'}>
 							<img src="/img/icons/icoAlert.svg" alt="" />
-							<p>No Articles found!</p>
+							<p>{t('No Articles found!')}</p>
 						</div>
 					)}
 				</Stack>

@@ -19,6 +19,7 @@ import { LIKE_TARGET_MEMBER } from '../../apollo/user/mutation';
 import { Message } from '../../libs/enums/common.enum';
 import { sweetMixinErrorAlert, sweetTopSmallSuccessAlert } from '../../libs/sweetAlert';
 import { CircularProgress } from '@mui/material';
+import { useTranslation } from 'next-i18next';
 
 export const getStaticProps = async ({ locale }: any) => ({
 	props: {
@@ -29,6 +30,7 @@ export const getStaticProps = async ({ locale }: any) => ({
 const AgentList: NextPage = ({ initialInput, ...props }: any) => {
 	const device = useDeviceDetect();
 	const router = useRouter();
+	const { t } = useTranslation('common');
 	const [anchorEl2, setAnchorEl2] = useState<null | HTMLElement>(null);
 	const [filterSortName, setFilterSortName] = useState('Recent');
 	const [sortingOpen, setSortingOpen] = useState(false);
@@ -143,8 +145,8 @@ const AgentList: NextPage = ({ initialInput, ...props }: any) => {
 				<Stack className={'container'}>
 					{/* Header Section */}
 					<Stack className={'page-header'}>
-						<Typography className={'main-title'}>Find Your Perfect Agent</Typography>
-						<Typography className={'sub-title'}>Connect with trusted bike agents and get expert advice on your next ride</Typography>
+						<Typography className={'main-title'}>{t('Find Your Perfect Agent')}</Typography>
+						<Typography className={'sub-title'}>{t('Connect with trusted bike agents and get expert advice on your next ride')}</Typography>
 					</Stack>
 
 					{/* Filter Section */}
@@ -152,7 +154,7 @@ const AgentList: NextPage = ({ initialInput, ...props }: any) => {
 						<Box component={'div'} className={'left'}>
 							<OutlinedInput
 								className={'search-input'}
-								placeholder={'Search agents by name, location...'}
+								placeholder={t('Search agents by name, location...')}
 								value={searchText}
 								onChange={(e: any) => setSearchText(e.target.value)}
 								onKeyDown={(event: any) => {
@@ -185,13 +187,13 @@ const AgentList: NextPage = ({ initialInput, ...props }: any) => {
 						<Box component={'div'} className={'right'}>
 							<Stack className={'sort-wrapper'}>
 								<FilterListIcon className={'filter-icon'} />
-								<Typography className={'sort-label'}>Sort by</Typography>
+								<Typography className={'sort-label'}>{t('Sort by')}</Typography>
 								<Button 
 									className={'sort-button'}
 									onClick={sortingClickHandler} 
 									endIcon={<KeyboardArrowDownRoundedIcon />}
 								>
-									{filterSortName}
+									{t(filterSortName)}
 								</Button>
 								<Menu 
 									anchorEl={anchorEl} 
@@ -208,16 +210,16 @@ const AgentList: NextPage = ({ initialInput, ...props }: any) => {
 									}}
 								>
 									<MenuItem onClick={sortingHandler} id={'recent'} disableRipple className={'menu-item'}>
-										Recent
+										{t('Recent')}
 									</MenuItem>
 									<MenuItem onClick={sortingHandler} id={'old'} disableRipple className={'menu-item'}>
-										Oldest
+										{t('Oldest')}
 									</MenuItem>
 									<MenuItem onClick={sortingHandler} id={'likes'} disableRipple className={'menu-item'}>
-										Most Liked
+										{t('Most Liked')}
 									</MenuItem>
 									<MenuItem onClick={sortingHandler} id={'views'} disableRipple className={'menu-item'}>
-										Most Viewed
+										{t('Most Viewed')}
 									</MenuItem>
 								</Menu>
 							</Stack>
@@ -231,8 +233,8 @@ const AgentList: NextPage = ({ initialInput, ...props }: any) => {
 								<Box component="div" className={'no-data-icon'}>
 									<TwoWheelerIcon sx={{ fontSize: 80, color: '#ddd' }} />
 								</Box>
-								<Typography className={'no-data-title'}>No Agents Found</Typography>
-								<Typography className={'no-data-desc'}>Try adjusting your search or filters</Typography>
+								<Typography className={'no-data-title'}>{t('No Agents Found')}</Typography>
+								<Typography className={'no-data-desc'}>{t('Try adjusting your search or filters')}</Typography>
 							</Stack>
 						) : (
 							agents.map((agent: Member) => {
@@ -281,8 +283,8 @@ const AgentList: NextPage = ({ initialInput, ...props }: any) => {
 				<Stack className={'container'}>
 					{/* Header Section */}
 					<Stack className={'page-header'}>
-						<Typography className={'main-title'}>Find Your Perfect Agent</Typography>
-						<Typography className={'sub-title'}>Connect with trusted bike agents and get expert advice on your next ride</Typography>
+						<Typography className={'main-title'}>{t('Find Your Perfect Agent')}</Typography>
+						<Typography className={'sub-title'}>{t('Connect with trusted bike agents and get expert advice on your next ride')}</Typography>
 					</Stack>
 
 					{/* Filter Section */}
@@ -290,7 +292,7 @@ const AgentList: NextPage = ({ initialInput, ...props }: any) => {
 						<Box component={'div'} className={'left'}>
 							<OutlinedInput
 								className={'search-input'}
-								placeholder={'Search agents by name, location...'}
+								placeholder={t('Search agents by name, location...')}
 								value={searchText}
 								onChange={(e: any) => setSearchText(e.target.value)}
 								onKeyDown={(event: any) => {
@@ -323,13 +325,13 @@ const AgentList: NextPage = ({ initialInput, ...props }: any) => {
 						<Box component={'div'} className={'right'}>
 							<Stack className={'sort-wrapper'}>
 								<FilterListIcon className={'filter-icon'} />
-								<Typography className={'sort-label'}>Sort by</Typography>
+								<Typography className={'sort-label'}>{t('Sort by')}</Typography>
 								<Button 
 									className={'sort-button'}
 									onClick={sortingClickHandler} 
 									endIcon={<KeyboardArrowDownRoundedIcon />}
 								>
-									{filterSortName}
+									{t(filterSortName)}
 								</Button>
 								<Menu 
 									anchorEl={anchorEl} 
@@ -346,16 +348,16 @@ const AgentList: NextPage = ({ initialInput, ...props }: any) => {
 									}}
 								>
 									<MenuItem onClick={sortingHandler} id={'recent'} disableRipple className={'menu-item'}>
-										Recent
+										{t('Recent')}
 									</MenuItem>
 									<MenuItem onClick={sortingHandler} id={'old'} disableRipple className={'menu-item'}>
-										Oldest
+										{t('Oldest')}
 									</MenuItem>
 									<MenuItem onClick={sortingHandler} id={'likes'} disableRipple className={'menu-item'}>
-										Most Liked
+										{t('Most Liked')}
 									</MenuItem>
 									<MenuItem onClick={sortingHandler} id={'views'} disableRipple className={'menu-item'}>
-										Most Viewed
+										{t('Most Viewed')}
 									</MenuItem>
 								</Menu>
 							</Stack>
@@ -369,8 +371,8 @@ const AgentList: NextPage = ({ initialInput, ...props }: any) => {
 								<Box component="div" className={'no-data-icon'}>
 									<TwoWheelerIcon sx={{ fontSize: 80, color: '#ddd' }} />
 								</Box>
-								<Typography className={'no-data-title'}>No Agents Found</Typography>
-								<Typography className={'no-data-desc'}>Try adjusting your search or filters</Typography>
+								<Typography className={'no-data-title'}>{t('No Agents Found')}</Typography>
+								<Typography className={'no-data-desc'}>{t('Try adjusting your search or filters')}</Typography>
 							</Stack>
 						) : (
 							agents.map((agent: Member) => {

@@ -3,9 +3,18 @@ import { NextPage } from 'next';
 import useDeviceDetect from '../../libs/hooks/useDeviceDetect';
 import withLayoutBasic from '../../libs/components/layout/LayoutBasic';
 import { Stack, Box } from '@mui/material';
+import { serverSideTranslations } from 'next-i18next/serverSideTranslations';
+import { useTranslation } from 'next-i18next';
+
+export const getStaticProps = async ({ locale }: any) => ({
+	props: {
+		...(await serverSideTranslations(locale, ['common'])),
+	},
+});
 
 const About: NextPage = () => {
 	const device = useDeviceDetect();
+	const { t } = useTranslation('common');
 
 	if (device === 'mobile') {
 		return (
@@ -13,7 +22,7 @@ const About: NextPage = () => {
 				<Stack className={'intro'}>
 					<Stack className={'container'}>
 						<Stack className={'left'}>
-							<strong>We're on a Mission to Change View of Real Estate Field.</strong>
+							<strong>{t('We\'re on a Mission to Change View of Real Estate Field.')}</strong>
 						</Stack>
 						<Stack className={'right'}>
 							<p>
@@ -31,14 +40,14 @@ const About: NextPage = () => {
 									<div>
 										<img src="/img/icons/garden.svg" alt="" />
 									</div>
-									<span>Modern Villa</span>
+									<span>{t('Modern Villa')}</span>
 									<p>Nullam sollicitudin blandit Nullam maximus.</p>
 								</div>
 								<div className={'box'}>
 									<div>
 										<img src="/img/icons/securePayment.svg" alt="" />
 									</div>
-									<span>Secure Payment</span>
+									<span>{t('Secure Payment')}</span>
 									<p>Nullam sollicitudin blandit Nullam maximus.</p>
 								</div>
 							</Stack>
@@ -53,22 +62,22 @@ const About: NextPage = () => {
 						<Stack className={'info'}>
 							<Box component={'div'}>
 								<strong>4M</strong>
-								<p>Award Winning</p>
+								<p>{t('Award Winning')}</p>
 							</Box>
 							<Box component={'div'}>
 								<strong>12K</strong>
-								<p>Property Ready</p>
+								<p>{t('Property Ready')}</p>
 							</Box>
 							<Box component={'div'}>
 								<strong>20M</strong>
-								<p>Happy Customer</p>
+								<p>{t('Happy Customer')}</p>
 							</Box>
 						</Stack>
 					</Stack>
 				</Stack>
 				<Stack className={'agents'}>
 					<Stack className={'container'}>
-						<span className={'title'}>Our Exclusive Agetns</span>
+						<span className={'title'}>{t('Our Exclusive Agetns')}</span>
 						<p className={'desc'}>Aliquam lacinia diam quis lacus euismod</p>
 						<Stack className={'wrap'}>
 							{/*{[1, 2, 3, 4, 5].map(() => {*/}
@@ -80,13 +89,13 @@ const About: NextPage = () => {
 				<Stack className={'options'}>
 					<img src="/img/banner/aboutBanner.svg" alt="" className={'about-banner'} />
 					<Stack className={'container'}>
-						<strong>Let's find the right selling option for you</strong>
+						<strong>{t('Let\'s find the right selling option for you')}</strong>
 						<Stack>
 							<div className={'icon-box'}>
 								<img src="/img/icons/security.svg" alt="" />
 							</div>
 							<div className={'text-box'}>
-								<span>Property Management</span>
+								<span>{t('Property Management')}</span>
 								<p>Nullam sollicitudin blandit eros eu pretium. Nullam maximus ultricies auctor.</p>
 							</div>
 						</Stack>
@@ -95,7 +104,7 @@ const About: NextPage = () => {
 								<img src="/img/icons/keywording.svg" alt="" />
 							</div>
 							<div className={'text_-box'}>
-								<span>Property Management</span>
+								<span>{t('Property Management')}</span>
 								<p>Nullam sollicitudin blandit eros eu pretium. Nullam maximus ultricies auctor.</p>
 							</div>
 						</Stack>
@@ -104,19 +113,19 @@ const About: NextPage = () => {
 								<img src="/img/icons/investment.svg" alt="" />
 							</div>
 							<div className={'text-box'}>
-								<span>Property Management</span>
+								<span>{t('Property Management')}</span>
 								<p>Nullam sollicitudin blandit eros eu pretium. Nullam maximus ultricies auctor.</p>
 							</div>
 						</Stack>
 						<Stack className={'btn'}>
-							Learn More
+							{t('Learn More')}
 							<img src="/img/icons/rightup.svg" alt="" />
 						</Stack>
 					</Stack>
 				</Stack>
 				<Stack className={'partners'}>
 					<Stack className={'container'}>
-						<span>Trusted bu the world's best</span>
+						<span>{t('Trusted bu the world\'s best')}</span>
 						<Stack className={'wrap'}>
 							<img src="/img/icons/brands/amazon.svg" alt="" />
 							<img src="/img/icons/brands/amd.svg" alt="" />
@@ -129,12 +138,12 @@ const About: NextPage = () => {
 				<Stack className={'help'}>
 					<Stack className={'container'}>
 						<Box component={'div'} className={'left'}>
-							<strong>Need help? Talk to our expert.</strong>
-							<p>Talk to our experts or Browse through more properties.</p>
+							<strong>{t('Need help? Talk to our expert.')}</strong>
+							<p>{t('Talk to our experts or Browse through more properties.')}</p>
 						</Box>
 						<Box component={'div'} className={'right'}>
 							<div className={'white'}>
-								Contact Us
+								{t('Contact Us')}
 								<img src="/img/icons/rightup.svg" alt="" />
 							</div>
 							<div className={'black'}>
@@ -152,7 +161,7 @@ const About: NextPage = () => {
 				<Stack className={'intro'}>
 					<Stack className={'container'}>
 						<Stack className={'left'}>
-							<strong>We're on a Mission to Change View of Real Estate Field.</strong>
+							<strong>{t('We\'re on a Mission to Change View of Real Estate Field.')}</strong>
 						</Stack>
 						<Stack className={'right'}>
 							<p>
@@ -170,14 +179,14 @@ const About: NextPage = () => {
 									<div>
 										<img src="/img/icons/garden.svg" alt="" />
 									</div>
-									<span>Modern Villa</span>
+									<span>{t('Modern Villa')}</span>
 									<p>Nullam sollicitudin blandit Nullam maximus.</p>
 								</div>
 								<div className={'box'}>
 									<div>
 										<img src="/img/icons/securePayment.svg" alt="" />
 									</div>
-									<span>Secure Payment</span>
+									<span>{t('Secure Payment')}</span>
 									<p>Nullam sollicitudin blandit Nullam maximus.</p>
 								</div>
 							</Stack>
@@ -192,22 +201,22 @@ const About: NextPage = () => {
 						<Stack className={'info'}>
 							<Box component={'div'}>
 								<strong>4M</strong>
-								<p>Award Winning</p>
+								<p>{t('Award Winning')}</p>
 							</Box>
 							<Box component={'div'}>
 								<strong>12K</strong>
-								<p>Property Ready</p>
+								<p>{t('Property Ready')}</p>
 							</Box>
 							<Box component={'div'}>
 								<strong>20M</strong>
-								<p>Happy Customer</p>
+								<p>{t('Happy Customer')}</p>
 							</Box>
 						</Stack>
 					</Stack>
 				</Stack>
 				<Stack className={'agents'}>
 					<Stack className={'container'}>
-						<span className={'title'}>Our Exclusive Agetns</span>
+						<span className={'title'}>{t('Our Exclusive Agetns')}</span>
 						<p className={'desc'}>Aliquam lacinia diam quis lacus euismod</p>
 						<Stack className={'wrap'}>
 							{/*{[1, 2, 3, 4, 5].map(() => {*/}
@@ -219,13 +228,13 @@ const About: NextPage = () => {
 				<Stack className={'options'}>
 					<img src="/img/banner/aboutBanner.svg" alt="" className={'about-banner'} />
 					<Stack className={'container'}>
-						<strong>Let’s find the right selling option for you</strong>
+						<strong>{t('Let\'s find the right selling option for you')}</strong>
 						<Stack>
 							<div className={'icon-box'}>
 								<img src="/img/icons/security.svg" alt="" />
 							</div>
 							<div className={'text-box'}>
-								<span>Property Management</span>
+								<span>{t('Property Management')}</span>
 								<p>Nullam sollicitudin blandit eros eu pretium. Nullam maximus ultricies auctor.</p>
 							</div>
 						</Stack>
@@ -234,7 +243,7 @@ const About: NextPage = () => {
 								<img src="/img/icons/keywording.svg" alt="" />
 							</div>
 							<div className={'text_-box'}>
-								<span>Property Management</span>
+								<span>{t('Property Management')}</span>
 								<p>Nullam sollicitudin blandit eros eu pretium. Nullam maximus ultricies auctor.</p>
 							</div>
 						</Stack>
@@ -243,19 +252,19 @@ const About: NextPage = () => {
 								<img src="/img/icons/investment.svg" alt="" />
 							</div>
 							<div className={'text-box'}>
-								<span>Property Management</span>
+								<span>{t('Property Management')}</span>
 								<p>Nullam sollicitudin blandit eros eu pretium. Nullam maximus ultricies auctor.</p>
 							</div>
 						</Stack>
 						<Stack className={'btn'}>
-							Learn More
+							{t('Learn More')}
 							<img src="/img/icons/rightup.svg" alt="" />
 						</Stack>
 					</Stack>
 				</Stack>
 				<Stack className={'partners'}>
 					<Stack className={'container'}>
-						<span>Trusted bu the world's best</span>
+						<span>{t('Trusted bu the world\'s best')}</span>
 						<Stack className={'wrap'}>
 							<img src="/img/icons/brands/amazon.svg" alt="" />
 							<img src="/img/icons/brands/amd.svg" alt="" />
@@ -268,12 +277,12 @@ const About: NextPage = () => {
 				<Stack className={'help'}>
 					<Stack className={'container'}>
 						<Box component={'div'} className={'left'}>
-							<strong>Need help? Talk to our expert.</strong>
-							<p>Talk to our experts or Browse through more properties.</p>
+							<strong>{t('Need help? Talk to our expert.')}</strong>
+							<p>{t('Talk to our experts or Browse through more properties.')}</p>
 						</Box>
 						<Box component={'div'} className={'right'}>
 							<div className={'white'}>
-								Contact Us
+								{t('Contact Us')}
 								<img src="/img/icons/rightup.svg" alt="" />
 							</div>
 							<div className={'black'}>

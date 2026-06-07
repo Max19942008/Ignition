@@ -2,6 +2,7 @@ import React, { useCallback, useEffect, useRef, useState } from 'react';
 import { useRouter } from 'next/router';
 import { Button, Stack, Typography } from '@mui/material';
 import useDeviceDetect from '../../hooks/useDeviceDetect';
+import { useTranslation } from 'next-i18next';
 import { PropertyLocation, PropertyType, PropertyBrand, PropertyCondition } from '../../enums/property.enum';
 import { REACT_APP_API_URL } from '../../config';
 import { PropertyInput } from '../../types/property/property.input';
@@ -15,6 +16,7 @@ import { GET_PROPERTY } from '../../../apollo/user/query';
 
 const AddProperty = ({ initialValues, ...props }: any) => {
 	const device = useDeviceDetect();
+	const { t } = useTranslation('common');
 	const router = useRouter();
 	const inputRef = useRef<any>(null);
 	const [insertPropertyData, setInsertPropertyData] = useState<PropertyInput>(initialValues);
@@ -110,7 +112,6 @@ const AddProperty = ({ initialValues, ...props }: any) => {
 
 			const responseImages = response.data.data.imagesUploader;
 
-			console.log('+responseImages: ', responseImages);
 			setInsertPropertyData({ ...insertPropertyData, propertyImages: responseImages });
 		} catch (err: any) {
 			console.log('err: ', err.message);
@@ -225,23 +226,21 @@ const AddProperty = ({ initialValues, ...props }: any) => {
 		router.back();
 	}
 
-	console.log('+insertPropertyData', insertPropertyData);
-
 	if (device === 'mobile') {
 		return <div>ADD NEW PROPERTY MOBILE PAGE</div>;
 	} else {
 		return (
 			<div id="add-property-page">
 				<Stack className="main-title-box">
-					<Typography className="main-title">Add New Bike</Typography>
-					<Typography className="sub-title">We are glad to see you again!</Typography>
+					<Typography className="main-title">{t('Add New Bike')}</Typography>
+					<Typography className="sub-title">{t('We are glad to see you again!')}</Typography>
 				</Stack>
 
 				<div>
 					<Stack className="config">
 						<Stack className="description-box">
 							<Stack className="config-column">
-								<Typography className="title">Title</Typography>
+								<Typography className="title">{t('Title')}</Typography>
 								<input
 									type="text"
 									className="description-input"
@@ -255,7 +254,7 @@ const AddProperty = ({ initialValues, ...props }: any) => {
 
 							<Stack className="config-row">
 								<Stack className="price-year-after-price">
-									<Typography className="title">Price</Typography>
+									<Typography className="title">{t('Price')}</Typography>
 									<input
 										type="number"
 										className="description-input"
@@ -267,7 +266,7 @@ const AddProperty = ({ initialValues, ...props }: any) => {
 									/>
 								</Stack>
 								<Stack className="price-year-after-price">
-									<Typography className="title">Select Type</Typography>
+									<Typography className="title">{t('Select Type')}</Typography>
 									<select
 										className={'select-description'}
 										defaultValue={insertPropertyData.propertyType || 'select'}
@@ -295,7 +294,7 @@ const AddProperty = ({ initialValues, ...props }: any) => {
 
 							<Stack className="config-row">
 								<Stack className="price-year-after-price">
-									<Typography className="title">Select Location</Typography>
+									<Typography className="title">{t('Select Location')}</Typography>
 									<select
 										className={'select-description'}
 										defaultValue={insertPropertyData.propertyLocation || 'select'}
@@ -320,7 +319,7 @@ const AddProperty = ({ initialValues, ...props }: any) => {
 									<img src={'/img/icons/Vector.svg'} className={'arrow-down'} />
 								</Stack>
 								<Stack className="price-year-after-price">
-									<Typography className="title">Address</Typography>
+									<Typography className="title">{t('Address')}</Typography>
 									<input
 										type="text"
 										className="description-input"
@@ -335,7 +334,7 @@ const AddProperty = ({ initialValues, ...props }: any) => {
 
 							<Stack className="config-row">
 								<Stack className="price-year-after-price">
-									<Typography className="title">Barter</Typography>
+									<Typography className="title">{t('Barter')}</Typography>
 									<select
 										className={'select-description'}
 										value={insertPropertyData.propertyBarter ? 'yes' : 'no'}
@@ -347,14 +346,14 @@ const AddProperty = ({ initialValues, ...props }: any) => {
 										<option disabled={true} selected={true}>
 											Select
 										</option>
-										<option value={'yes'}>Yes</option>
-										<option value={'no'}>No</option>
+										<option value={'yes'}>{t('Yes')}</option>
+										<option value={'no'}>{t('No')}</option>
 									</select>
 									<div className={'divider'}></div>
 									<img src={'/img/icons/Vector.svg'} className={'arrow-down'} />
 								</Stack>
 								<Stack className="price-year-after-price">
-									<Typography className="title">Rent</Typography>
+									<Typography className="title">{t('Rent')}</Typography>
 									<select
 										className={'select-description'}
 										value={insertPropertyData.propertyRent ? 'yes' : 'no'}
@@ -366,8 +365,8 @@ const AddProperty = ({ initialValues, ...props }: any) => {
 										<option disabled={true} selected={true}>
 											Select
 										</option>
-										<option value={'yes'}>Yes</option>
-										<option value={'no'}>No</option>
+										<option value={'yes'}>{t('Yes')}</option>
+										<option value={'no'}>{t('No')}</option>
 									</select>
 									<div className={'divider'}></div>
 									<img src={'/img/icons/Vector.svg'} className={'arrow-down'} />
@@ -437,7 +436,7 @@ const AddProperty = ({ initialValues, ...props }: any) => {
 									/>
 								</Stack>
 								<Stack className="price-year-after-price">
-									<Typography className="title">Engine CC</Typography>
+									<Typography className="title">{t('Engine CC')}</Typography>
 									<input
 										type="number"
 										className="description-input"
@@ -449,7 +448,7 @@ const AddProperty = ({ initialValues, ...props }: any) => {
 									/>
 								</Stack>
 								<Stack className="price-year-after-price">
-									<Typography className="title">Mileage</Typography>
+									<Typography className="title">{t('Mileage')}</Typography>
 									<input
 										type="number"
 										className="description-input"
@@ -462,9 +461,9 @@ const AddProperty = ({ initialValues, ...props }: any) => {
 								</Stack>
 							</Stack>
 
-							<Typography className="property-title">Property Description</Typography>
+							<Typography className="property-title">{t('Property Description')}</Typography>
 							<Stack className="config-column">
-								<Typography className="title">Description</Typography>
+								<Typography className="title">{t('Description')}</Typography>
 								<textarea
 									name=""
 									id=""
@@ -477,7 +476,7 @@ const AddProperty = ({ initialValues, ...props }: any) => {
 							</Stack>
 						</Stack>
 
-						<Typography className="upload-title">Upload photos of your property</Typography>
+						<Typography className="upload-title">{t('Upload photos of your property')}</Typography>
 						<Stack className="images-box">
 							<Stack className="upload-box">
 								<svg xmlns="http://www.w3.org/2000/svg" width="121" height="120" viewBox="0 0 121 120" fill="none">
@@ -522,8 +521,8 @@ const AddProperty = ({ initialValues, ...props }: any) => {
 									</defs>
 								</svg>
 								<Stack className="text-box">
-									<Typography className="drag-title">Drag and drop images here</Typography>
-									<Typography className="format-title">Photos must be JPEG or PNG format and least 2048x768</Typography>
+									<Typography className="drag-title">{t('Drag and drop images here')}</Typography>
+									<Typography className="format-title">{t('Photos must be JPEG or PNG format and least 2048x768')}</Typography>
 								</Stack>
 								<Button
 									className="browse-button"
@@ -531,7 +530,7 @@ const AddProperty = ({ initialValues, ...props }: any) => {
 										inputRef.current.click();
 									}}
 								>
-									<Typography className="browse-button-text">Browse Files</Typography>
+									<Typography className="browse-button-text">{t('Browse Files')}</Typography>
 									<input
 										ref={inputRef}
 										type="file"
@@ -570,11 +569,11 @@ const AddProperty = ({ initialValues, ...props }: any) => {
 						<Stack className="buttons-row">
 							{router.query.propertyId ? (
 								<Button className="next-button" disabled={doDisabledCheck()} onClick={updatePropertyHandler}>
-									<Typography className="next-button-text">Save</Typography>
+									<Typography className="next-button-text">{t('Save')}</Typography>
 								</Button>
 							) : (
 								<Button className="next-button" disabled={doDisabledCheck()} onClick={insertPropertyHandler}>
-									<Typography className="next-button-text">Save</Typography>
+									<Typography className="next-button-text">{t('Save')}</Typography>
 								</Button>
 							)}
 						</Stack>

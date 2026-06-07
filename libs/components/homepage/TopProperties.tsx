@@ -15,6 +15,7 @@ import Link from 'next/link';
 import { LIKE_TARGET_PROPERTY } from '../../../apollo/user/mutation';
 import { sweetMixinErrorAlert, sweetTopSmallSuccessAlert } from '../../sweetAlert';
 import { Message } from '../../enums/common.enum';
+import { useTranslation } from 'next-i18next';
 
 interface TopPropertiesProps {
 	initialInput: PropertiesInquiry;
@@ -23,6 +24,7 @@ interface TopPropertiesProps {
 const TopProperties = (props: TopPropertiesProps) => {
 	const { initialInput } = props;
 	const device = useDeviceDetect();
+	const { t } = useTranslation('common');
 	const [topProperties, setTopProperties] = useState<Property[]>([]);
 
 	/** APOLLO REQUESTS **/
@@ -69,14 +71,14 @@ const TopProperties = (props: TopPropertiesProps) => {
 				<Stack className={'container'}>
 					<Stack className={'info-box'}>
 						<Box component={'div'} className={'left'}>
-							<span>Top Motorcycles</span>
-							<p>🏆 Premium rated bikes this month</p>
+							<span>{t('Top Motorcycles')}</span>
+							<p>🏆 {t('Premium rated bikes this month')}</p>
 						</Box>
 					</Stack>
 					<Stack className={'card-box'}>
 						{topProperties.length === 0 ? (
 							<Box component={'div'} className={'empty-list'}>
-								Top Properties Empty
+								{t('Top Properties Empty')}
 							</Box>
 						) : (
 							<Swiper
@@ -118,13 +120,13 @@ const TopProperties = (props: TopPropertiesProps) => {
 				<Stack className={'container'}>
 					<Stack className={'info-box'}>
 						<Box component={'div'} className={'left'}>
-							<span>Top Motorcycles</span>
-							<p>🏆 Premium rated bikes this month</p>
+							<span>{t('Top Motorcycles')}</span>
+							<p>🏆 {t('Premium rated bikes this month')}</p>
 						</Box>
 						<Box component={'div'} className={'right'}>
 							<div className={'more-box'}>
 								<Link href={'/property'}>
-									<span>View All Motorcycles</span>
+									<span>{t('View All Motorcycles')}</span>
 								</Link>
 								<img src="/img/icons/rightup.svg" alt="" />
 							</div>

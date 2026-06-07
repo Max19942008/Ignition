@@ -10,9 +10,11 @@ import { LIKE_TARGET_PROPERTY } from '../../../apollo/user/mutation';
 import { GET_FAVORITES } from '../../../apollo/user/query';
 import { Messages } from '../../config';
 import { sweetMixinErrorAlert } from '../../sweetAlert';
+import { useTranslation } from 'next-i18next';
 
 const MyFavorites: NextPage = () => {
 	const device = useDeviceDetect();
+	const { t } = useTranslation('common');
 	const [myFavorites, setMyFavorites] = useState<Property[]>([]);
 	const [total, setTotal] = useState<number>(0);
 	const [searchFavorites, setSearchFavorites] = useState<T>({ page: 1, limit: 6 });
@@ -67,10 +69,10 @@ const MyFavorites: NextPage = () => {
 			<div id="my-favorites-page">
 				<Stack className="main-title-box">
 					<Stack className="left-header">
-						<Typography className="section-label">FAVORITES</Typography>
+						<Typography className="section-label">{t('FAVORITES')}</Typography>
 						<Stack className="right-box">
-							<Typography className="main-title">My Favorites</Typography>
-							<Typography className="sub-title">Manage your favorite bikes • Save and revisit your preferred listings</Typography>
+							<Typography className="main-title">{t('My Favorites')}</Typography>
+							<Typography className="sub-title">{t('Manage your favorite bikes • Save and revisit your preferred listings')}</Typography>
 						</Stack>
 					</Stack>
 					<Stack className="header-right">
@@ -86,7 +88,7 @@ const MyFavorites: NextPage = () => {
 					) : (
 						<div className={'no-data'}>
 							<img src="/img/icons/icoAlert.svg" alt="" />
-							<p>No Favorites found!</p>
+							<p>{t('No Favorites found!')}</p>
 						</div>
 					)}
 				</Stack>

@@ -8,6 +8,7 @@ import { REACT_APP_API_URL } from '../../config';
 import { GET_MEMBER } from '../../../apollo/user/query';
 import { useQuery } from '@apollo/client';
 import { T } from '../../types/common';
+import { useTranslation } from 'next-i18next';
 
 interface MemberMenuProps {
 	subscribeHandler: any;
@@ -17,6 +18,7 @@ interface MemberMenuProps {
 const MemberMenu = (props: MemberMenuProps) => {
 	const { subscribeHandler, unsubscribeHandler } = props;
 	const device = useDeviceDetect();
+	const { t } = useTranslation('common');
 	const router = useRouter();
 	const category: any = router.query?.category;
 	const [member, setMember] = useState<Member | null>(null);
@@ -71,7 +73,7 @@ const MemberMenu = (props: MemberMenuProps) => {
 							>
 								Unfollow
 							</Button>
-							<Typography>Following</Typography>
+							<Typography>{t('Following')}</Typography>
 						</>
 					) : (
 						<Button

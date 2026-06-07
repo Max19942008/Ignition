@@ -27,6 +27,7 @@ import { serverSideTranslations } from 'next-i18next/serverSideTranslations';
 import { CREATE_COMMENT, LIKE_TARGET_PROPERTY, SUBSCRIBE, UNSUBSCRIBE } from '../../apollo/user/mutation';
 import { GET_COMMENTS, GET_MEMBER, GET_PROPERTIES } from '../../apollo/user/query';
 import { T } from '../../libs/types/common';
+import { useTranslation } from 'next-i18next';
 
 export const getStaticProps = async ({ locale }: any) => ({
 	props: {
@@ -37,6 +38,7 @@ export const getStaticProps = async ({ locale }: any) => ({
 const AgentDetail: NextPage = ({ initialInput, initialComment, ...props }: any) => {
 	const device = useDeviceDetect();
 	const router = useRouter();
+	const { t } = useTranslation('common');
 	const user = useReactiveVar(userVar);
 	const [agentId, setAgentId] = useState<string | null>(null);
 	const [agent, setAgent] = useState<Member | null>(null);
@@ -243,7 +245,7 @@ const AgentDetail: NextPage = ({ initialInput, initialComment, ...props }: any) 
 									src={agent?.memberImage ? `${REACT_APP_API_URL}/${agent?.memberImage}` : '/img/profile/defaultUser.svg'}
 									alt={agent?.memberNick || 'Agent'}
 								/>
-								<Stack className={'dealer-badge'}>AGENT</Stack>
+								<Stack className={'dealer-badge'}>{t('AGENT')}</Stack>
 							</Stack>
 							<Stack className={'dealer-info-section'}>
 								<Typography className={'dealer-name'} onClick={() => redirectToMemberPageHandler(agent?._id as string)}>
@@ -258,13 +260,13 @@ const AgentDetail: NextPage = ({ initialInput, initialComment, ...props }: any) 
 										<>
 											{agent?.meFollowed && agent?.meFollowed[0]?.myFollowing ? (
 												<Stack className={'following-wrapper'}>
-													<Typography className={'following-label'}>Following</Typography>
+													<Typography className={'following-label'}>{t('Following')}</Typography>
 													<Button
 														className={'btn-follow btn-unfollow'}
 														variant="outlined"
 														onClick={() => unsubscribeHandler(agent?._id as string)}
 													>
-														Unfollow
+														{t('Unfollow')}
 													</Button>
 												</Stack>
 											) : (
@@ -273,7 +275,7 @@ const AgentDetail: NextPage = ({ initialInput, initialComment, ...props }: any) 
 													variant="contained"
 													onClick={() => subscribeHandler(agent?._id as string)}
 												>
-													Follow
+													{t('Follow')}
 												</Button>
 											)}
 										</>
@@ -283,15 +285,15 @@ const AgentDetail: NextPage = ({ initialInput, initialComment, ...props }: any) 
 							<Stack className={'dealer-stats'}>
 								<Box component="div" className={'stat-item'}>
 									<Typography className={'stat-value'}>{propertyTotal || 0}</Typography>
-									<Typography className={'stat-label'}>BIKES</Typography>
+									<Typography className={'stat-label'}>{t('BIKES')}</Typography>
 								</Box>
 								<Box component="div" className={'stat-item'}>
 									<Typography className={'stat-value'}>{agent?.memberLikes || 0}</Typography>
-									<Typography className={'stat-label'}>LIKES</Typography>
+									<Typography className={'stat-label'}>{t('LIKES')}</Typography>
 								</Box>
 								<Box component="div" className={'stat-item'}>
 									<Typography className={'stat-value'}>{agent?.memberViews || 0}</Typography>
-									<Typography className={'stat-label'}>VIEWS</Typography>
+									<Typography className={'stat-label'}>{t('VIEWS')}</Typography>
 								</Box>
 							</Stack>
 						</Stack>
@@ -332,7 +334,7 @@ const AgentDetail: NextPage = ({ initialInput, initialComment, ...props }: any) 
 						{activeTab === 0 && (
 							<Stack className={'cars-content'}>
 								<Stack className={'content-header'}>
-									<Typography className={'section-title'}>Bikes</Typography>
+									<Typography className={'section-title'}>{t('Bikes')}</Typography>
 									<Typography className={'section-subtitle'}>{propertyTotal || 0} available</Typography>
 								</Stack>
 								<Stack className={'card-wrap'}>
@@ -347,7 +349,7 @@ const AgentDetail: NextPage = ({ initialInput, initialComment, ...props }: any) 
 									) : (
 										<Stack className={'no-data'}>
 											<img src="/img/icons/icoAlert.svg" alt="" />
-											<p>No bikes found!</p>
+											<p>{t('No bikes found!')}</p>
 										</Stack>
 									)}
 								</Stack>
@@ -387,7 +389,7 @@ const AgentDetail: NextPage = ({ initialInput, initialComment, ...props }: any) 
 														</clipPath>
 													</defs>
 												</svg>
-												<Typography className={'reviews'}>{commentTotal} Comments</Typography>
+												<Typography className={'reviews'}>{commentTotal} {t('Comments')}</Typography>
 											</Stack>
 										</Stack>
 										<Stack className={'review-list'}>
@@ -410,8 +412,8 @@ const AgentDetail: NextPage = ({ initialInput, initialComment, ...props }: any) 
 								)}
 
 								<Stack className={'leave-review-config'}>
-									<Typography className={'main-title'}>Drop your thoughts</Typography>
-									<Typography className={'review-title'}>👉 Experience</Typography>
+									<Typography className={'main-title'}>{t('Drop your thoughts')}</Typography>
+									<Typography className={'review-title'}>👉 {t('Experience')}</Typography>
 									<textarea
 										onChange={({ target: { value } }: any) => {
 											setInsertCommentData({ ...insertCommentData, commentContent: value });
@@ -424,7 +426,7 @@ const AgentDetail: NextPage = ({ initialInput, initialComment, ...props }: any) 
 											disabled={insertCommentData.commentContent === '' || user?._id === ''}
 											onClick={createCommentHandler}
 										>
-											<Typography className={'title'}>Submit Review</Typography>
+											<Typography className={'title'}>{t('Submit Review')}</Typography>
 											<svg xmlns="http://www.w3.org/2000/svg" width="17" height="17" viewBox="0 0 17 17" fill="none">
 												<g clipPath="url(#clip0_6975_3642)">
 													<path
@@ -460,7 +462,7 @@ const AgentDetail: NextPage = ({ initialInput, initialComment, ...props }: any) 
 									src={agent?.memberImage ? `${REACT_APP_API_URL}/${agent?.memberImage}` : '/img/profile/defaultUser.svg'}
 									alt={agent?.memberNick || 'Agent'}
 								/>
-								<Stack className={'dealer-badge'}>AGENT</Stack>
+								<Stack className={'dealer-badge'}>{t('AGENT')}</Stack>
 							</Stack>
 							<Stack className={'dealer-info-section'}>
 								<Typography className={'dealer-name'} onClick={() => redirectToMemberPageHandler(agent?._id as string)}>
@@ -475,13 +477,13 @@ const AgentDetail: NextPage = ({ initialInput, initialComment, ...props }: any) 
 										<>
 											{agent?.meFollowed && agent?.meFollowed[0]?.myFollowing ? (
 												<Stack className={'following-wrapper'}>
-													<Typography className={'following-label'}>Following</Typography>
+													<Typography className={'following-label'}>{t('Following')}</Typography>
 													<Button
 														className={'btn-follow btn-unfollow'}
 														variant="outlined"
 														onClick={() => unsubscribeHandler(agent?._id as string)}
 													>
-														Unfollow
+														{t('Unfollow')}
 													</Button>
 												</Stack>
 											) : (
@@ -490,7 +492,7 @@ const AgentDetail: NextPage = ({ initialInput, initialComment, ...props }: any) 
 													variant="contained"
 													onClick={() => subscribeHandler(agent?._id as string)}
 												>
-													Follow
+													{t('Follow')}
 												</Button>
 											)}
 										</>
@@ -500,15 +502,15 @@ const AgentDetail: NextPage = ({ initialInput, initialComment, ...props }: any) 
 						<Stack className={'dealer-stats'}>
 							<Box component="div" className={'stat-item'}>
 								<Typography className={'stat-value'}>{propertyTotal || 0}</Typography>
-								<Typography className={'stat-label'}>BIKES</Typography>
+								<Typography className={'stat-label'}>{t('BIKES')}</Typography>
 							</Box>
 							<Box component="div" className={'stat-item'}>
 								<Typography className={'stat-value'}>{agent?.memberLikes || 0}</Typography>
-								<Typography className={'stat-label'}>LIKES</Typography>
+								<Typography className={'stat-label'}>{t('LIKES')}</Typography>
 							</Box>
 							<Box component="div" className={'stat-item'}>
 								<Typography className={'stat-value'}>{agent?.memberViews || 0}</Typography>
-								<Typography className={'stat-label'}>VIEWS</Typography>
+								<Typography className={'stat-label'}>{t('VIEWS')}</Typography>
 							</Box>
 						</Stack>
 						</Stack>
@@ -549,7 +551,7 @@ const AgentDetail: NextPage = ({ initialInput, initialComment, ...props }: any) 
 						{activeTab === 0 && (
 							<Stack className={'cars-content'}>
 								<Stack className={'content-header'}>
-									<Typography className={'section-title'}>Bikes</Typography>
+									<Typography className={'section-title'}>{t('Bikes')}</Typography>
 									<Typography className={'section-subtitle'}>{propertyTotal || 0} available</Typography>
 								</Stack>
 								<Stack className={'card-wrap'}>
@@ -564,7 +566,7 @@ const AgentDetail: NextPage = ({ initialInput, initialComment, ...props }: any) 
 									) : (
 										<Stack className={'no-data'}>
 											<img src="/img/icons/icoAlert.svg" alt="" />
-											<p>No bikes found!</p>
+											<p>{t('No bikes found!')}</p>
 										</Stack>
 									)}
 								</Stack>
@@ -604,7 +606,7 @@ const AgentDetail: NextPage = ({ initialInput, initialComment, ...props }: any) 
 														</clipPath>
 													</defs>
 												</svg>
-												<Typography className={'reviews'}>{commentTotal} Comments</Typography>
+												<Typography className={'reviews'}>{commentTotal} {t('Comments')}</Typography>
 											</Stack>
 										</Stack>
 										<Stack className={'review-list'}>
@@ -627,8 +629,8 @@ const AgentDetail: NextPage = ({ initialInput, initialComment, ...props }: any) 
 								)}
 
 								<Stack className={'leave-review-config'}>
-									<Typography className={'main-title'}>Drop your thoughts</Typography>
-									<Typography className={'review-title'}>👉 Experience</Typography>
+									<Typography className={'main-title'}>{t('Drop your thoughts')}</Typography>
+									<Typography className={'review-title'}>👉 {t('Experience')}</Typography>
 									<textarea
 										onChange={({ target: { value } }: any) => {
 											setInsertCommentData({ ...insertCommentData, commentContent: value });
@@ -641,7 +643,7 @@ const AgentDetail: NextPage = ({ initialInput, initialComment, ...props }: any) 
 											disabled={insertCommentData.commentContent === '' || user?._id === ''}
 											onClick={createCommentHandler}
 										>
-											<Typography className={'title'}>Submit Review</Typography>
+											<Typography className={'title'}>{t('Submit Review')}</Typography>
 											<svg xmlns="http://www.w3.org/2000/svg" width="17" height="17" viewBox="0 0 17 17" fill="none">
 												<g clipPath="url(#clip0_6975_3642)">
 													<path

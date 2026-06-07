@@ -13,6 +13,7 @@ import { REACT_APP_API_URL } from '../../config';
 import { useRouter } from 'next/router';
 import { useReactiveVar } from '@apollo/client';
 import { userVar } from '../../../apollo/store';
+import { useTranslation } from 'next-i18next';
 
 interface TrendPropertyCardProps {
 	property: Property;
@@ -23,6 +24,7 @@ const TrendPropertyCard = (props: TrendPropertyCardProps) => {
 	const { property, likePropertyHandler } = props;
 	const device = useDeviceDetect();
 	const router = useRouter();
+	const { t } = useTranslation('common');
 		const user = useReactiveVar(userVar);
 	const liked = property?.meLiked && property?.meLiked[0]?.myFavorite;
 
@@ -50,7 +52,6 @@ const TrendPropertyCard = (props: TrendPropertyCardProps) => {
 
 	/** HANDLERS **/
 		const pushDetailHandler = async (propertyId: string) => {
-   console.log("propertyId:",propertyId);
 	 router.push({pathname: "/property/detail", query: {id: propertyId }});
 	};
 
@@ -107,7 +108,7 @@ const TrendPropertyCard = (props: TrendPropertyCardProps) => {
 					<Stack className="spec-row">
 						<div className="spec">
 							<SpeedIcon fontSize="small" />
-							<span>{property.propertyMileAge} miles</span>
+							<span>{property.propertyMileAge} {t('miles')}</span>
 						</div>
 						<div className="spec">
 							<TwoWheelerIcon fontSize="small" />
@@ -123,11 +124,11 @@ const TrendPropertyCard = (props: TrendPropertyCardProps) => {
 
 					<Stack className="card-foot">
 						<Box component={'div'} className="price-box">
-							<span className="from">From</span>
+							<span className="from">{t('From')}</span>
 							<strong className="price">${formattedPrice}</strong>
 						</Box>
 						<Button variant="contained" className="cta" onClick={goToDetail}>
-							Buy Now
+							{t('Buy Now')}
 						</Button>
 					</Stack>
 				</Box>
@@ -186,7 +187,7 @@ const TrendPropertyCard = (props: TrendPropertyCardProps) => {
 					<Stack className="spec-row">
 						<div className="spec">
 							<SpeedIcon fontSize="small" />
-							<span>{property.propertyMileAge} miles</span>
+							<span>{property.propertyMileAge} {t('miles')}</span>
 						</div>
 						<div className="spec">
 							<TwoWheelerIcon fontSize="small" />
@@ -202,11 +203,11 @@ const TrendPropertyCard = (props: TrendPropertyCardProps) => {
 
 					<Stack className="card-foot">
 						<Box component={'div'} className="price-box">
-							<span className="from">From</span>
+							<span className="from">{t('From')}</span>
 							<strong className="price">${formattedPrice}</strong>
 						</Box>
 						<Button variant="contained" className="cta" onClick={goToDetail}>
-							Buy Now
+							{t('Buy Now')}
 						</Button>
 					</Stack>
 				</Box>

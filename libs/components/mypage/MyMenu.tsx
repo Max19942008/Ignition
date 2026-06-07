@@ -10,9 +10,11 @@ import IconButton from '@mui/material/IconButton';
 import { REACT_APP_API_URL } from '../../config';
 import { logOut } from '../../auth';
 import { sweetConfirmAlert, sweetMixinErrorAlert } from '../../sweetAlert';
+import { useTranslation } from 'next-i18next';
 
 const MyMenu = () => {
 	const device = useDeviceDetect();
+	const { t } = useTranslation('common');
 	const router = useRouter();
 	const pathname = router.query.category ?? 'myProfile';
 	const category: any = router.query?.category ?? 'myProfile';
@@ -75,7 +77,7 @@ const MyMenu = () => {
 													<img className={'com-icon'} src={'/img/icons/newTab.svg'} alt={'com_icon'} />
 												)}
 												<Typography className={'sub-title'} variant={'subtitle1'} component={'p'}>
-													Add Property
+													{t('Add Property')}
 												</Typography>
 												<IconButton aria-label="delete" sx={{ ml: '40px' }}>
 													<PortraitIcon style={{ color: 'red' }} />
@@ -98,7 +100,7 @@ const MyMenu = () => {
 													<img className={'com-icon'} src={'/img/icons/home.svg'} alt={'com-icon'} />
 												)}
 												<Typography className={'sub-title'} variant={'subtitle1'} component={'p'}>
-													My Properties
+													{t('My Properties')}
 												</Typography>
 												<IconButton aria-label="delete" sx={{ ml: '36px' }}>
 													<PortraitIcon style={{ color: 'red' }} />
@@ -124,7 +126,7 @@ const MyMenu = () => {
 										)}
 
 										<Typography className={'sub-title'} variant={'subtitle1'} component={'p'}>
-											My Favorites
+											{t('My Favorites')}
 										</Typography>
 									</div>
 								</Link>
@@ -145,7 +147,7 @@ const MyMenu = () => {
 										)}
 
 										<Typography className={'sub-title'} variant={'subtitle1'} component={'p'}>
-											Recently Visited
+											{t('Recently Visited')}
 										</Typography>
 									</div>
 								</Link>
@@ -192,7 +194,7 @@ const MyMenu = () => {
 											</g>
 										</svg>
 										<Typography className={'sub-title'} variant={'subtitle1'} component={'p'}>
-											My Followers
+											{t('My Followers')}
 										</Typography>
 									</div>
 								</Link>
@@ -240,7 +242,7 @@ const MyMenu = () => {
 										</svg>
 
 										<Typography className={'sub-title'} variant={'subtitle1'} component={'p'}>
-											My Followings
+											{t('My Followings')}
 										</Typography>
 									</div>
 								</Link>
@@ -269,7 +271,7 @@ const MyMenu = () => {
 											)}
 
 											<Typography className={'sub-title'} variant={'subtitle1'} component={'p'}>
-												Articles
+												{t('Articles')}
 											</Typography>
 										</div>
 									</Link>
@@ -289,7 +291,7 @@ const MyMenu = () => {
 												<img className={'com-icon'} src={'/img/icons/newTab.svg'} alt={'com_icon'} />
 											)}
 											<Typography className={'sub-title'} variant={'subtitle1'} component={'p'}>
-												Write Article
+												{t('Write Article')}
 											</Typography>
 										</div>
 									</Link>
@@ -317,7 +319,7 @@ const MyMenu = () => {
 											<img className={'com-icon'} src={'/img/icons/user.svg'} alt={'com-icon'} />
 										)}
 										<Typography className={'sub-title'} variant={'subtitle1'} component={'p'}>
-											My Profile
+											{t('My Profile')}
 										</Typography>
 									</div>
 								</Link>
@@ -383,7 +385,7 @@ const MyMenu = () => {
 													<img className={'com-icon'} src={'/img/icons/newTab.svg'} alt={'com_icon'} />
 												)}
 												<Typography className={'sub-title'} variant={'subtitle1'} component={'p'}>
-													Add Property
+													{t('Add Property')}
 												</Typography>
 												<IconButton aria-label="delete" sx={{ ml: '40px' }}>
 													<PortraitIcon style={{ color: 'red' }} />
@@ -406,7 +408,7 @@ const MyMenu = () => {
 													<img className={'com-icon'} src={'/img/icons/home.svg'} alt={'com-icon'} />
 												)}
 												<Typography className={'sub-title'} variant={'subtitle1'} component={'p'}>
-													My Properties
+													{t('My Properties')}
 												</Typography>
 												<IconButton aria-label="delete" sx={{ ml: '36px' }}>
 													<PortraitIcon style={{ color: 'red' }} />
@@ -432,7 +434,7 @@ const MyMenu = () => {
 										)}
 
 										<Typography className={'sub-title'} variant={'subtitle1'} component={'p'}>
-											My Favorites
+											{t('My Favorites')}
 										</Typography>
 									</div>
 								</Link>
@@ -453,7 +455,7 @@ const MyMenu = () => {
 										)}
 
 										<Typography className={'sub-title'} variant={'subtitle1'} component={'p'}>
-											Recently Visited
+											{t('Recently Visited')}
 										</Typography>
 									</div>
 								</Link>
@@ -500,7 +502,7 @@ const MyMenu = () => {
 											</g>
 										</svg>
 										<Typography className={'sub-title'} variant={'subtitle1'} component={'p'}>
-											My Followers
+											{t('My Followers')}
 										</Typography>
 									</div>
 								</Link>
@@ -548,7 +550,7 @@ const MyMenu = () => {
 										</svg>
 
 										<Typography className={'sub-title'} variant={'subtitle1'} component={'p'}>
-											My Followings
+											{t('My Followings')}
 										</Typography>
 									</div>
 								</Link>
@@ -577,7 +579,7 @@ const MyMenu = () => {
 											)}
 
 											<Typography className={'sub-title'} variant={'subtitle1'} component={'p'}>
-												Articles
+												{t('Articles')}
 											</Typography>
 										</div>
 									</Link>
@@ -597,7 +599,7 @@ const MyMenu = () => {
 												<img className={'com-icon'} src={'/img/icons/newTab.svg'} alt={'com_icon'} />
 											)}
 											<Typography className={'sub-title'} variant={'subtitle1'} component={'p'}>
-												Write Article
+												{t('Write Article')}
 											</Typography>
 										</div>
 									</Link>
@@ -625,7 +627,7 @@ const MyMenu = () => {
 											<img className={'com-icon'} src={'/img/icons/user.svg'} alt={'com-icon'} />
 										)}
 										<Typography className={'sub-title'} variant={'subtitle1'} component={'p'}>
-											My Profile
+											{t('My Profile')}
 										</Typography>
 									</div>
 								</Link>

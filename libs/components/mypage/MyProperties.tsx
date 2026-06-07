@@ -12,10 +12,12 @@ import { userVar } from '../../../apollo/store';
 import { useRouter } from 'next/router';
 import { UPDATE_PROPERTY } from '../../../apollo/user/mutation';
 import { GET_AGENT_PROPERTIES } from '../../../apollo/user/query';
+import { useTranslation } from 'next-i18next';
 import { sweetConfirmAlert, sweetErrorHandling } from '../../sweetAlert';
 
 const MyProperties: NextPage = ({ initialInput, ...props }: any) => {
 	const device = useDeviceDetect();
+	const { t } = useTranslation('common');
 	const [searchFilter, setSearchFilter] = useState<AgentPropertiesInquiry>(initialInput);
 	const [agentProperties, setAgentProperties] = useState<Property[]>([]);
 	const [total, setTotal] = useState<number>(0);
@@ -98,10 +100,10 @@ const MyProperties: NextPage = ({ initialInput, ...props }: any) => {
 			<div id="my-property-page">
 				<Stack className="main-title-box">
 					<Stack className="left-header">
-						<Typography className="section-label">GARAGE</Typography>
+						<Typography className="section-label">{t('GARAGE')}</Typography>
 						<Stack className="right-box">
-							<Typography className="main-title">My Bikes</Typography>
-							<Typography className="sub-title">Manage your listings, update details, and archive old bikes.</Typography>
+							<Typography className="main-title">{t('My Bikes')}</Typography>
+							<Typography className="sub-title">{t('Manage your listings, update details, and archive old bikes.')}</Typography>
 						</Stack>
 					</Stack>
 					<Stack className="header-right">
@@ -141,7 +143,7 @@ const MyProperties: NextPage = ({ initialInput, ...props }: any) => {
 						{agentProperties?.length === 0 ? (
 							<div className={'no-data'}>
 								<img src="/img/icons/icoAlert.svg" alt="" />
-								<p>No Bikes found!</p>
+								<p>{t('No Bikes found!')}</p>
 							</div>
 						) : (
 							agentProperties.map((property: Property) => {

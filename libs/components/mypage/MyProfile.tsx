@@ -10,9 +10,11 @@ import { userVar } from '../../../apollo/store';
 import { MemberUpdate } from '../../types/member/member.update';
 import { UPDATE_MEMBER } from '../../../apollo/user/mutation';
 import { sweetErrorHandling, sweetMixinSuccessAlert } from '../../sweetAlert';
+import { useTranslation } from 'next-i18next';
 
 const MyProfile: NextPage = ({ initialValues, ...props }: any) => {
 	const device = useDeviceDetect();
+	const { t } = useTranslation('common');
 	const token = getJwtToken();
 	const user = useReactiveVar(userVar);
 	const [updateData, setUpdateData] = useState<MemberUpdate>(initialValues);
@@ -35,7 +37,6 @@ const MyProfile: NextPage = ({ initialValues, ...props }: any) => {
 	const uploadImage = async (e: any) => {
 		try {
 			const image = e.target.files[0];
-			console.log('+image:', image);
 
 			const formData = new FormData();
 			formData.append(
@@ -67,7 +68,6 @@ const MyProfile: NextPage = ({ initialValues, ...props }: any) => {
 			});
 
 			const responseImage = response.data.data.imageUploader;
-			console.log('+responseImage: ', responseImage);
 			updateData.memberImage = responseImage;
 			setUpdateData({ ...updateData });
 
@@ -107,7 +107,6 @@ const MyProfile: NextPage = ({ initialValues, ...props }: any) => {
 			return true;
 		}
 	};
-	console.log('+updateData', updateData);
 
 	if (device === 'mobile') {
 		return <>MY PROFILE PAGE MOBILE</>;
@@ -122,7 +121,7 @@ const MyProfile: NextPage = ({ initialValues, ...props }: any) => {
 				</Stack>
 				<Stack className="top-box">
 					<Stack className="photo-box">
-						<Typography className="title">Photo</Typography>
+						<Typography className="title">{t('Photo')}</Typography>
 						<Stack className="image-big-box">
 							<Stack className="image-box">
 								<img
@@ -143,7 +142,7 @@ const MyProfile: NextPage = ({ initialValues, ...props }: any) => {
 									accept="image/jpg, image/jpeg, image/png"
 								/>
 								<label htmlFor="hidden-input" className="labeler">
-									<Typography>Upload Profile Image</Typography>
+									<Typography>{t('Upload Profile Image')}</Typography>
 								</label>
 								<Typography className="upload-text">A photo must be in JPG, JPEG or PNG format!</Typography>
 							</Stack>
@@ -156,7 +155,7 @@ const MyProfile: NextPage = ({ initialValues, ...props }: any) => {
 							</Typography>
 							<input
 								type="text"
-								placeholder="Your username"
+								placeholder={t('Your username')}
 								value={updateData.memberNick}
 								onChange={({ target: { value } }) => setUpdateData({ ...updateData, memberNick: value })}
 							/>
@@ -167,7 +166,7 @@ const MyProfile: NextPage = ({ initialValues, ...props }: any) => {
 							</Typography>
 							<input
 								type="text"
-								placeholder="Your Phone"
+								placeholder={t('Your Phone')}
 								value={updateData.memberPhone}
 								onChange={({ target: { value } }) => setUpdateData({ ...updateData, memberPhone: value })}
 							/>
@@ -179,14 +178,14 @@ const MyProfile: NextPage = ({ initialValues, ...props }: any) => {
 						</Typography>
 						<input
 							type="text"
-							placeholder="Your address"
+							placeholder={t('Your address')}
 							value={updateData.memberAddress}
 							onChange={({ target: { value } }) => setUpdateData({ ...updateData, memberAddress: value })}
 						/>
 					</Stack>
 					<Stack className="about-me-box">
 						<Button className="update-button" onClick={updatePropertyHandler} disabled={doDisabledCheck()}>
-							<Typography>Update Profile</Typography>
+							<Typography>{t('Update Profile')}</Typography>
 							<svg xmlns="http://www.w3.org/2000/svg" width="13" height="13" viewBox="0 0 13 13" fill="none">
 								<g clipPath="url(#clip0_7065_6985)">
 									<path

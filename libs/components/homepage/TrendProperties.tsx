@@ -14,6 +14,7 @@ import { T } from '../../types/common';
 import { LIKE_TARGET_PROPERTY } from '../../../apollo/user/mutation';
 import { sweetMixinErrorAlert, sweetTopSmallSuccessAlert } from '../../sweetAlert';
 import { Message } from '../../enums/common.enum';
+import { useTranslation } from 'next-i18next';
 
 
 interface TrendPropertiesProps {
@@ -23,6 +24,7 @@ interface TrendPropertiesProps {
 const TrendProperties = (props: TrendPropertiesProps) => {
 	const { initialInput } = props;
 	const device = useDeviceDetect();
+	const { t } = useTranslation('common');
 	const [trendProperties, setTrendProperties] = useState<Property[]>([]);
 
 	/** APOLLO REQUESTS **/
@@ -59,7 +61,6 @@ const TrendProperties = (props: TrendPropertiesProps) => {
 		}
 	};
 
-	if (trendProperties) console.log('trendProperties:+++++++', trendProperties);
 	if (!trendProperties) return null;
 
 	if (device === 'mobile') {
@@ -68,14 +69,14 @@ const TrendProperties = (props: TrendPropertiesProps) => {
 				<Stack className={'container'}>
 					<Stack className={'info-box'}>
 						<Box component={'div'} className={'left'}>
-							<span>Most Searched Bikes</span>
-							<p>Trend is based on likes</p>
+							<span>{t('Most Searched Bikes')}</span>
+							<p>{t('Trend is based on likes')}</p>
 						</Box>
 					</Stack>
 					<Stack className={'card-box'}>
 						{trendProperties.length === 0 ? (
 							<Box component={'div'} className={'empty-list'}>
-								Trends Empty
+								{t('Trends Empty')}
 							</Box>
 						) : (
 							<Swiper
@@ -115,8 +116,8 @@ const TrendProperties = (props: TrendPropertiesProps) => {
 				<Stack className={'container'}>
 					<Stack className={'info-box'}>
 						<Box component={'div'} className={'left'}>
-							<span>Most Searched Bikes</span>
-							<p>Trend is based on likes</p>
+							<span>{t('Most Searched Bikes')}</span>
+							<p>{t('Trend is based on likes')}</p>
 						</Box>
 						<Box component={'div'} className={'right'}>
 							<div className={'pagination-box'}>
@@ -129,7 +130,7 @@ const TrendProperties = (props: TrendPropertiesProps) => {
 					<Stack className={'card-box'}>
 						{trendProperties.length === 0 ? (
 							<Box component={'div'} className={'empty-list'}>
-								Trends Empty
+								{t('Trends Empty')}
 							</Box>
 						) : (
 							<Swiper

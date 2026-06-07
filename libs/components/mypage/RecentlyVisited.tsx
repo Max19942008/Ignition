@@ -7,9 +7,11 @@ import { Property } from '../../types/property/property';
 import { T } from '../../types/common';
 import { GET_VISITED } from '../../../apollo/user/query';
 import { useQuery } from '@apollo/client';
+import { useTranslation } from 'next-i18next';
 
 const RecentlyVisited: NextPage = () => {
 	const device = useDeviceDetect();
+	const { t } = useTranslation('common');
 	const [recentlyVisited, setRecentlyVisited] = useState<Property[]>([]);
 	const [total, setTotal] = useState<number>(0);
 	const [searchVisited, setSearchVisited] = useState<T>({ page: 1, limit: 6 });
@@ -44,10 +46,10 @@ const RecentlyVisited: NextPage = () => {
 			<div id="my-favorites-page">
 				<Stack className="main-title-box">
 					<Stack className="left-header">
-						<Typography className="section-label">HISTORY</Typography>
+						<Typography className="section-label">{t('HISTORY')}</Typography>
 						<Stack className="right-box">
-							<Typography className="main-title">Recently Visited</Typography>
-							<Typography className="sub-title">Browse your viewing history • Revisit bikes you've explored</Typography>
+							<Typography className="main-title">{t('Recently Visited')}</Typography>
+							<Typography className="sub-title">{t("Browse your viewing history • Revisit bikes you've explored")}</Typography>
 						</Stack>
 					</Stack>
 					<Stack className="header-right">
@@ -63,7 +65,7 @@ const RecentlyVisited: NextPage = () => {
 					) : (
 						<div className={'no-data'}>
 							<img src="/img/icons/icoAlert.svg" alt="" />
-							<p>No Recently Visited Properties found!</p>
+							<p>{t('No Recently Visited Properties found!')}</p>
 						</div>
 					)}
 				</Stack>

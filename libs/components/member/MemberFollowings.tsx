@@ -11,6 +11,7 @@ import FavoriteBorderIcon from '@mui/icons-material/FavoriteBorder';
 import { userVar } from '../../../apollo/store';
 import { GET_MEMBER_FOLLOWINGS } from '../../../apollo/user/query';
 import { T } from '../../types/common';
+import { useTranslation } from 'next-i18next';
 
 interface MemberFollowingsProps {
 	initialInput: FollowInquiry;
@@ -23,6 +24,7 @@ interface MemberFollowingsProps {
 const MemberFollowings = (props: MemberFollowingsProps) => {
 	const { initialInput, subscribeHandler, unsubscribeHandler, likeMemberHandler, redirectToMemberPageHandler } = props;
 	const device = useDeviceDetect();
+	const { t } = useTranslation('common');
 	const router = useRouter();
 	const [total, setTotal] = useState<number>(0);
 	const category: any = router.query?.category ?? 'properties';
@@ -79,14 +81,14 @@ const MemberFollowings = (props: MemberFollowingsProps) => {
 				</Stack>
 				<Stack className="follows-list-box">
 					<Stack className="listing-title-box">
-						<Typography className="title-text">Name</Typography>
-						<Typography className="title-text">Details</Typography>
-						<Typography className="title-text">Subscription</Typography>
+						<Typography className="title-text">{t('Name')}</Typography>
+						<Typography className="title-text">{t('Details')}</Typography>
+						<Typography className="title-text">{t('Subscription')}</Typography>
 					</Stack>
 					{memberFollowings?.length === 0 && (
 						<div className={'no-data'}>
 							<img src="/img/icons/icoAlert.svg" alt="" />
-							<p>No Followings yet!</p>
+							<p>{t('No Followings yet!')}</p>
 						</div>
 					)}
 					{memberFollowings.map((follower: Following) => {
@@ -105,11 +107,11 @@ const MemberFollowings = (props: MemberFollowingsProps) => {
 								</Stack>
 								<Stack className={'details-box'}>
 									<Box className={'info-box'} component={'div'}>
-										<p>Followers</p>
+										<p>{t('Followers')}</p>
 										<span>({follower?.followingData?.memberFollowers})</span>
 									</Box>
 									<Box className={'info-box'} component={'div'}>
-										<p>Followings</p>
+										<p>{t('Followings')}</p>
 										<span>({follower?.followingData?.memberFollowings})</span>
 									</Box>
 									<Box className={'info-box'} component={'div'}>
@@ -130,7 +132,7 @@ const MemberFollowings = (props: MemberFollowingsProps) => {
 									<Stack className="action-box">
 										{follower.meFollowed && follower.meFollowed[0]?.myFollowing ? (
 											<>
-												<Typography>Following</Typography>
+												<Typography>{t('Following')}</Typography>
 												<Button
 													variant="outlined"
 													sx={{ background: '#f78181', ':hover': { background: '#f06363' } }}

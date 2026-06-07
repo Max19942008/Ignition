@@ -9,9 +9,11 @@ import { T } from '../../types/common';
 import { useRouter } from 'next/router';
 import { GET_PROPERTIES } from '../../../apollo/user/query';
 import { useQuery } from '@apollo/client';
+import { useTranslation } from 'next-i18next';
 
 const MyProperties: NextPage = ({ initialInput, ...props }: any) => {
 	const device = useDeviceDetect();
+	const { t } = useTranslation('common');
 	const router = useRouter();
 	const { memberId } = router.query;
 	const [searchFilter, setSearchFilter] = useState<PropertiesInquiry>({ ...initialInput });
@@ -55,7 +57,7 @@ const MyProperties: NextPage = ({ initialInput, ...props }: any) => {
 			<div id="member-properties-page">
 				<Stack className="main-title-box">
 					<Stack className="right-box">
-						<Typography className="main-title">Bikes</Typography>
+						<Typography className="main-title">{t('Bikes')}</Typography>
 					</Stack>
 				</Stack>
 				<Stack className="properties-list-box">
@@ -63,7 +65,7 @@ const MyProperties: NextPage = ({ initialInput, ...props }: any) => {
 						{agentProperties?.length === 0 && (
 							<div className={'no-data'}>
 								<img src="/img/icons/icoAlert.svg" alt="" />
-								<p>No Bike found!</p>
+								<p>{t('No Bike found!')}</p>
 							</div>
 						)}
 						{agentProperties?.map((property: Property) => {
@@ -95,23 +97,23 @@ const MyProperties: NextPage = ({ initialInput, ...props }: any) => {
 			<div id="member-properties-page">
 				<Stack className="main-title-box">
 					<Stack className="right-box">
-						<Typography className="main-title">Bikes</Typography>
+						<Typography className="main-title">{t('Bikes')}</Typography>
 					</Stack>
 				</Stack>
 				<Stack className="properties-list-box">
 					<Stack className="list-box">
 						{agentProperties?.length > 0 && (
 							<Stack className="listing-title-box">
-								<Typography className="title-text">Listing title</Typography>
-								<Typography className="title-text">Date Published</Typography>
-								<Typography className="title-text">Status</Typography>
-								<Typography className="title-text">View</Typography>
+								<Typography className="title-text">{t('Listing title')}</Typography>
+								<Typography className="title-text">{t('Date Published')}</Typography>
+								<Typography className="title-text">{t('Status')}</Typography>
+								<Typography className="title-text">{t('View')}</Typography>
 							</Stack>
 						)}
 						{agentProperties?.length === 0 && (
 							<div className={'no-data'}>
 								<img src="/img/icons/icoAlert.svg" alt="" />
-								<p>No Bike found!</p>
+								<p>{t('No Bike found!')}</p>
 							</div>
 						)}
 						{agentProperties?.map((property: Property) => {

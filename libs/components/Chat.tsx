@@ -67,7 +67,6 @@ const Chat = () => {
 
 		const handleMessage = (msg: any) => {
 			const data = JSON.parse(msg.data);
-			console.log('WebSocket Message:', data);
 
 			switch (data.event) {
 				case 'info': {

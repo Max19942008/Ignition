@@ -33,6 +33,7 @@ import CalendarTodayIcon from '@mui/icons-material/CalendarToday';
 import LabelIcon from '@mui/icons-material/Label';
 import TwoWheelerIcon from '@mui/icons-material/TwoWheeler';
 import { serverSideTranslations } from 'next-i18next/serverSideTranslations';
+import { useTranslation } from 'next-i18next';
 import 'swiper/css';
 import 'swiper/css/pagination';
 import { GET_COMMENTS, GET_PROPERTIES, GET_PROPERTY } from '../../apollo/user/query';
@@ -52,6 +53,7 @@ export const getStaticProps = async ({ locale }: any) => ({
 const PropertyDetail: NextPage = ({ initialComment, ...props }: any) => {
 	const device = useDeviceDetect();
 	const router = useRouter();
+	const { t } = useTranslation('common');
 	const user = useReactiveVar(userVar);
 	const [propertyId, setPropertyId] = useState<string | null>(null);
 	const [property, setProperty] = useState<Property | null>(null);
@@ -223,18 +225,18 @@ const PropertyDetail: NextPage = ({ initialComment, ...props }: any) => {
 						<Stack className={'breadcrumb-section'}>
 							<Stack className={'breadcrumb-nav'}>
 								<Link href="/">
-									<Typography className={'breadcrumb-item'}>Home</Typography>
+									<Typography className={'breadcrumb-item'}>{t('Home')}</Typography>
 								</Link>
 								<Typography className={'breadcrumb-separator'}>/</Typography>
 								<Link href="/property">
-									<Typography className={'breadcrumb-item'}>Bike</Typography>
+									<Typography className={'breadcrumb-item'}>{t('Bike')}</Typography>
 								</Link>
 								<Typography className={'breadcrumb-separator'}>/</Typography>
 								<Typography className={'breadcrumb-item active'}>{property?.propertyTitle}</Typography>
 							</Stack>
 							<Button className={'back-button'} onClick={() => router.back()}>
 								<ArrowBackIcon sx={{ fontSize: 18 }} />
-								<Typography>Back</Typography>
+								<Typography>{t('Back')}</Typography>
 							</Button>
 						</Stack>
 
@@ -283,7 +285,7 @@ const PropertyDetail: NextPage = ({ initialComment, ...props }: any) => {
 									</Stack>
 									{/* Price Overlay */}
 									<Stack className={'image-price-overlay'}>
-										<Typography className={'price-label'}>Price</Typography>
+										<Typography className={'price-label'}>{t('Price')}</Typography>
 										<Typography className={'price-value'}>${formatterStr(property?.propertyPrice)}</Typography>
 										<Typography className={'price-period'}>
 											{property?.propertyRent ? '/month' : property?.propertyBarter ? '/exchange' : ''}
@@ -312,7 +314,7 @@ const PropertyDetail: NextPage = ({ initialComment, ...props }: any) => {
 							<Stack className={'action-panel-section'}>
 								{/* Pricing Section */}
 								<Stack className={'pricing-section'}>
-									<Typography className={'pricing-label'}>Price</Typography>
+									<Typography className={'pricing-label'}>{t('Price')}</Typography>
 									<Typography className={'pricing-value'}>${formatterStr(property?.propertyPrice)}</Typography>
 									<Typography className={'pricing-period'}>
 										{property?.propertyRent ? 'per month' : property?.propertyBarter ? 'for exchange' : 'total'}
@@ -380,7 +382,7 @@ const PropertyDetail: NextPage = ({ initialComment, ...props }: any) => {
 											<EngineeringIcon sx={{ fontSize: 24 }} />
 										</Stack>
 										<Stack className={'option-includes'}>
-											<Typography className={'title'}>Engine</Typography>
+											<Typography className={'title'}>{t('Engine')}</Typography>
 											<Typography className={'option-data'}>{property?.propertyEngineCc|| 0} CC</Typography>
 										</Stack>
 									</Stack>
@@ -389,7 +391,7 @@ const PropertyDetail: NextPage = ({ initialComment, ...props }: any) => {
 											<SpeedIcon sx={{ fontSize: 24 }} />
 										</Stack>
 										<Stack className={'option-includes'}>
-											<Typography className={'title'}>Mileage</Typography>
+											<Typography className={'title'}>{t('Mileage')}</Typography>
 											<Typography className={'option-data'}>{property?.propertyMileAge || 0} km</Typography>
 										</Stack>
 									</Stack>
@@ -398,7 +400,7 @@ const PropertyDetail: NextPage = ({ initialComment, ...props }: any) => {
 											<CalendarTodayIcon sx={{ fontSize: 24 }} />
 										</Stack>
 										<Stack className={'option-includes'}>
-											<Typography className={'title'}>Year</Typography>
+											<Typography className={'title'}>{t('Year')}</Typography>
 											<Typography className={'option-data'}>{moment(property?.createdAt).format('YYYY')}</Typography>
 										</Stack>
 									</Stack>
@@ -407,7 +409,7 @@ const PropertyDetail: NextPage = ({ initialComment, ...props }: any) => {
 											<LabelIcon sx={{ fontSize: 24 }} />
 										</Stack>
 										<Stack className={'option-includes'}>
-											<Typography className={'title'}>Brand</Typography>
+											<Typography className={'title'}>{t('Brand')}</Typography>
 											<Typography className={'option-data'}>{property?.propertyBrand} </Typography>
 										</Stack>
 									</Stack>
@@ -416,58 +418,58 @@ const PropertyDetail: NextPage = ({ initialComment, ...props }: any) => {
 											<TwoWheelerIcon sx={{ fontSize: 24 }} />
 										</Stack>
 										<Stack className={'option-includes'}>
-											<Typography className={'title'}>Bike Type</Typography>
+											<Typography className={'title'}>{t('Bike Type')}</Typography>
 											<Typography className={'option-data'}>{property?.propertyType || 'N/A'}</Typography>
 										</Stack>
 									</Stack>
 								</Stack>
 								<Stack className={'prop-desc-config'}>
 									<Stack className={'top'}>
-										<Typography className={'title'}>Bike Description</Typography>
+										<Typography className={'title'}>{t('Bike Description')}</Typography>
 										<Typography className={'desc'}>{property?.propertyDesc ?? 'No Description!'}</Typography>
 									</Stack>
 									<Stack className={'bottom'}>
-										<Typography className={'title'}>Bike Details</Typography>
+										<Typography className={'title'}>{t('Bike Details')}</Typography>
 										<Stack className={'info-box'}>
 											<Stack className={'left'}>
 												<Box component={'div'} className={'info'}>
-													<Typography className={'title'}>Price</Typography>
+													<Typography className={'title'}>{t('Price')}</Typography>
 													<Typography className={'data'}>${formatterStr(property?.propertyPrice)}</Typography>
 												</Box>
 												<Box component={'div'} className={'info'}>
-													<Typography className={'title'}>Location</Typography>
+													<Typography className={'title'}>{t('Location')}</Typography>
 													<Typography className={'data'}>{property?.propertyLocation}</Typography>
 												</Box>
 												<Box component={'div'} className={'info'}>
-													<Typography className={'title'}>Address</Typography>
+													<Typography className={'title'}>{t('Address')}</Typography>
 													<Typography className={'data'}>{property?.propertyAddress} </Typography>
 												</Box>
 												<Box component={'div'} className={'info'}>
-													<Typography className={'title'}>Engine</Typography>
+													<Typography className={'title'}>{t('Engine')}</Typography>
 													<Typography className={'data'}>{property?.propertyEngineCc || 0} CC</Typography>
 												</Box>
 											</Stack>
 											<Stack className={'right'}>
 												<Box component={'div'} className={'info'}>
-													<Typography className={'title'}>Year</Typography>
+													<Typography className={'title'}>{t('Year')}</Typography>
 													<Typography className={'data'}>{moment(property?.createdAt).format('YYYY')}</Typography>
 												</Box>
 												<Box component={'div'} className={'info'}>
-													<Typography className={'title'}>Bike Type</Typography>
+													<Typography className={'title'}>{t('Bike Type')}</Typography>
 													<Typography className={'data'}>{property?.propertyType || 'N/A'}</Typography>
 												</Box>
 												<Box component={'div'} className={'info'}>
-													<Typography className={'title'}>Condition</Typography>
+													<Typography className={'title'}>{t('Condition')}</Typography>
 													<Typography className={'data'}>{property?.propertyCondition}</Typography>
 												</Box>
 												<Box component={'div'} className={'info'}>
-													<Typography className={'title'}>Options</Typography>
+													<Typography className={'title'}>{t('Options')}</Typography>
 													<Typography className={'data'}>
 														{property?.propertyBarter 
-															? 'Barter' 
+															? t('Barter') 
 															: property?.propertyRent 
-																? 'Rent Available' 
-																: 'Rent Available'}
+																? t('Rent Available') 
+																: t('Rent Available')}
 													</Typography>
 												</Box>
 											</Stack>
@@ -492,7 +494,7 @@ const PropertyDetail: NextPage = ({ initialComment, ...props }: any) => {
 														</clipPath>
 													</defs>
 												</svg>
-												<Typography className={'reviews'}>{commentTotal} Comments</Typography>
+												<Typography className={'reviews'}>{commentTotal} {t('Comments')}</Typography>
 											</Stack>
 										</Stack>
 										<Stack className={'review-list'}>
@@ -512,8 +514,8 @@ const PropertyDetail: NextPage = ({ initialComment, ...props }: any) => {
 									</Stack>
 								)}
 								<Stack className={'leave-review-config'}>
-									<Typography className={'main-title'}>Drop your thoughts</Typography>
-									<Typography className={'review-title'}>👉 Experience</Typography>
+									<Typography className={'main-title'}>{t('Drop your thoughts')}</Typography>
+									<Typography className={'review-title'}>👉 {t('Experience')}</Typography>
 									<textarea
 										onChange={({ target: { value } }: any) => {
 											setInsertCommentData({ ...insertCommentData, commentContent: value });
@@ -526,7 +528,7 @@ const PropertyDetail: NextPage = ({ initialComment, ...props }: any) => {
 											disabled={insertCommentData.commentContent === '' || user?._id === ''}
 											onClick={createCommentHandler}
 										>
-											<Typography className={'title'}>Submit Review</Typography>
+											<Typography className={'title'}>{t('Submit Review')}</Typography>
 											<svg xmlns="http://www.w3.org/2000/svg" width="17" height="17" viewBox="0 0 17 17" fill="none">
 												<g clipPath="url(#clip0_6975_3642)">
 													<path
@@ -550,8 +552,8 @@ const PropertyDetail: NextPage = ({ initialComment, ...props }: any) => {
 							<Stack className={'similar-properties-config'}>
 								<Stack className={'title-pagination-box'}>
 									<Stack className={'title-box'}>
-										<Typography className={'main-title'}>Related bikes</Typography>
-										<Typography className={'sub-title'}>Discover more amazing bikes nearby</Typography>
+										<Typography className={'main-title'}>{t('Related bikes')}</Typography>
+										<Typography className={'sub-title'}>{t('Discover more amazing bikes nearby')}</Typography>
 									</Stack>
 								</Stack>
 								<Stack className={'cards-box'}>
@@ -605,18 +607,18 @@ const PropertyDetail: NextPage = ({ initialComment, ...props }: any) => {
 						<Stack className={'breadcrumb-section'}>
 							<Stack className={'breadcrumb-nav'}>
 								<Link href="/">
-									<Typography className={'breadcrumb-item'}>Home</Typography>
+									<Typography className={'breadcrumb-item'}>{t('Home')}</Typography>
 								</Link>
 								<Typography className={'breadcrumb-separator'}>/</Typography>
 								<Link href="/property">
-									<Typography className={'breadcrumb-item'}>Bike</Typography>
+									<Typography className={'breadcrumb-item'}>{t('Bike')}</Typography>
 								</Link>
 								<Typography className={'breadcrumb-separator'}>/</Typography>
 								<Typography className={'breadcrumb-item active'}>{property?.propertyTitle}</Typography>
 							</Stack>
 							<Button className={'back-button'} onClick={() => router.back()}>
 								<ArrowBackIcon sx={{ fontSize: 18 }} />
-								<Typography>Back</Typography>
+								<Typography>{t('Back')}</Typography>
 							</Button>
 						</Stack>
 
@@ -666,7 +668,7 @@ const PropertyDetail: NextPage = ({ initialComment, ...props }: any) => {
 									</Stack>
 									{/* Price Overlay */}
 									<Stack className={'image-price-overlay'}>
-										<Typography className={'price-label'}>Price</Typography>
+										<Typography className={'price-label'}>{t('Price')}</Typography>
 										<Typography className={'price-value'}>${formatterStr(property?.propertyPrice)}</Typography>
 										<Typography className={'price-period'}>
 											{property?.propertyRent ? '/month' : property?.propertyBarter ? '/exchange' : ''}
@@ -695,7 +697,7 @@ const PropertyDetail: NextPage = ({ initialComment, ...props }: any) => {
 							<Stack className={'action-panel-section'}>
 								{/* Pricing Section */}
 								<Stack className={'pricing-section'}>
-									<Typography className={'pricing-label'}>Price</Typography>
+									<Typography className={'pricing-label'}>{t('Price')}</Typography>
 									<Typography className={'pricing-value'}>${formatterStr(property?.propertyPrice)}</Typography>
 									<Typography className={'pricing-period'}>
 										{property?.propertyRent ? 'per month' : property?.propertyBarter ? 'for exchange' : 'total'}
@@ -763,7 +765,7 @@ const PropertyDetail: NextPage = ({ initialComment, ...props }: any) => {
 										<EngineeringIcon sx={{ fontSize: 24 }} />
 									</Stack>
 									<Stack className={'option-includes'}>
-										<Typography className={'title'}>Engine</Typography>
+										<Typography className={'title'}>{t('Engine')}</Typography>
 										<Typography className={'option-data'}>{property?.propertyEngineCc|| 0} CC</Typography>
 									</Stack>
 								</Stack>
@@ -772,7 +774,7 @@ const PropertyDetail: NextPage = ({ initialComment, ...props }: any) => {
 										<SpeedIcon sx={{ fontSize: 24 }} />
 									</Stack>
 									<Stack className={'option-includes'}>
-										<Typography className={'title'}>Mileage</Typography>
+										<Typography className={'title'}>{t('Mileage')}</Typography>
 										<Typography className={'option-data'}>{property?.propertyMileAge || 0} km</Typography>
 									</Stack>
 								</Stack>
@@ -781,7 +783,7 @@ const PropertyDetail: NextPage = ({ initialComment, ...props }: any) => {
 										<CalendarTodayIcon sx={{ fontSize: 24 }} />
 									</Stack>
 									<Stack className={'option-includes'}>
-										<Typography className={'title'}>Year</Typography>
+										<Typography className={'title'}>{t('Year')}</Typography>
 										<Typography className={'option-data'}>{moment(property?.createdAt).format('YYYY')}</Typography>
 									</Stack>
 								</Stack>
@@ -790,7 +792,7 @@ const PropertyDetail: NextPage = ({ initialComment, ...props }: any) => {
 										<LabelIcon sx={{ fontSize: 24 }} />
 									</Stack>
 									<Stack className={'option-includes'}>
-										<Typography className={'title'}>Brand</Typography>
+										<Typography className={'title'}>{t('Brand')}</Typography>
 										<Typography className={'option-data'}>{property?.propertyBrand} </Typography>
 									</Stack>
 								</Stack>
@@ -799,59 +801,59 @@ const PropertyDetail: NextPage = ({ initialComment, ...props }: any) => {
 										<TwoWheelerIcon sx={{ fontSize: 24 }} />
 									</Stack>
 									<Stack className={'option-includes'}>
-										<Typography className={'title'}>Bike Type</Typography>
+										<Typography className={'title'}>{t('Bike Type')}</Typography>
 										<Typography className={'option-data'}>{property?.propertyType || 'N/A'}</Typography>
 									</Stack>
 								</Stack>
 								</Stack>
 								<Stack className={'prop-desc-config'}>
 									<Stack className={'top'}>
-										<Typography className={'title'}>Bike Description</Typography>
+										<Typography className={'title'}>{t('Bike Description')}</Typography>
 										<Typography className={'desc'}>{property?.propertyDesc ?? 'No Description!'}</Typography>
 									</Stack>
 									<Stack className={'bottom'}>
-										<Typography className={'title'}>Bike Details</Typography>
+										<Typography className={'title'}>{t('Bike Details')}</Typography>
 										<Stack className={'info-box'}>
 											<Stack className={'left'}>
 												<Box component={'div'} className={'info'}>
-													<Typography className={'title'}>Price</Typography>
+													<Typography className={'title'}>{t('Price')}</Typography>
 													<Typography className={'data'}>${formatterStr(property?.propertyPrice)}</Typography>
 												</Box>
 													<Box component={'div'} className={'info'}>
-													<Typography className={'title'}>Location</Typography>
+													<Typography className={'title'}>{t('Location')}</Typography>
 													<Typography className={'data'}>{property?.propertyLocation}</Typography>
 												</Box>
 												<Box component={'div'} className={'info'}>
-													<Typography className={'title'}>Address</Typography>
+													<Typography className={'title'}>{t('Address')}</Typography>
 													<Typography className={'data'}>{property?.propertyAddress} </Typography>
 												</Box>
 												
 												<Box component={'div'} className={'info'}>
-													<Typography className={'title'}>Engine</Typography>
+													<Typography className={'title'}>{t('Engine')}</Typography>
 													<Typography className={'data'}>{property?.propertyEngineCc || 0} CC</Typography>
 												</Box>
 											</Stack>
 											<Stack className={'right'}>
 												<Box component={'div'} className={'info'}>
-													<Typography className={'title'}>Year</Typography>
+													<Typography className={'title'}>{t('Year')}</Typography>
 													<Typography className={'data'}>{moment(property?.createdAt).format('YYYY')}</Typography>
 												</Box>
 												<Box component={'div'} className={'info'}>
-													<Typography className={'title'}>Bike Type</Typography>
+													<Typography className={'title'}>{t('Bike Type')}</Typography>
 													<Typography className={'data'}>{property?.propertyType || 'N/A'}</Typography>
 												</Box>
 											  <Box component={'div'} className={'info'}>
-													<Typography className={'title'}>Condition</Typography>
+													<Typography className={'title'}>{t('Condition')}</Typography>
 													<Typography className={'data'}>{property?.propertyCondition}</Typography>
 												</Box>
 												<Box component={'div'} className={'info'}>
-													<Typography className={'title'}>Options</Typography>
+													<Typography className={'title'}>{t('Options')}</Typography>
 													<Typography className={'data'}>
 														{property?.propertyBarter 
-															? 'Barter' 
+															? t('Barter') 
 															: property?.propertyRent 
-																? 'Rent Available' 
-																: 'Rent Available'}
+																? t('Rent Available') 
+																: t('Rent Available')}
 													</Typography>
 												</Box>
 											</Stack>
@@ -876,7 +878,7 @@ const PropertyDetail: NextPage = ({ initialComment, ...props }: any) => {
 														</clipPath>
 													</defs>
 												</svg>
-												<Typography className={'reviews'}>{commentTotal} Comments</Typography>
+												<Typography className={'reviews'}>{commentTotal} {t('Comments')}</Typography>
 											</Stack>
 										</Stack>
 										<Stack className={'review-list'}>
@@ -896,8 +898,8 @@ const PropertyDetail: NextPage = ({ initialComment, ...props }: any) => {
 									</Stack>
 								)}
 								<Stack className={'leave-review-config'}>
-									<Typography className={'main-title'}>Drop your thoughts</Typography>
-									<Typography className={'review-title'}>👉 Experience</Typography>
+									<Typography className={'main-title'}>{t('Drop your thoughts')}</Typography>
+									<Typography className={'review-title'}>👉 {t('Experience')}</Typography>
 									<textarea
 										onChange={({ target: { value } }: any) => {
 											setInsertCommentData({ ...insertCommentData, commentContent: value });
@@ -910,7 +912,7 @@ const PropertyDetail: NextPage = ({ initialComment, ...props }: any) => {
 											disabled={insertCommentData.commentContent === '' || user?._id === ''}
 											onClick={createCommentHandler}
 										>
-											<Typography className={'title'}>Submit Review</Typography>
+											<Typography className={'title'}>{t('Submit Review')}</Typography>
 											<svg xmlns="http://www.w3.org/2000/svg" width="17" height="17" viewBox="0 0 17 17" fill="none">
 												<g clipPath="url(#clip0_6975_3642)">
 													<path
@@ -934,8 +936,8 @@ const PropertyDetail: NextPage = ({ initialComment, ...props }: any) => {
 							<Stack className={'similar-properties-config'}>
 								<Stack className={'title-pagination-box'}>
 									<Stack className={'title-box'}>
-										<Typography className={'main-title'}>Related bikes</Typography>
-										<Typography className={'sub-title'}>Discover more amazing bikes nearby</Typography>
+										<Typography className={'main-title'}>{t('Related bikes')}</Typography>
+										<Typography className={'sub-title'}>{t('Discover more amazing bikes nearby')}</Typography>
 									</Stack>
 								</Stack>
 								<Stack className={'cards-box'}>

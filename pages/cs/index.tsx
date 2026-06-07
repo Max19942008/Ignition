@@ -7,6 +7,7 @@ import withLayoutBasic from '../../libs/components/layout/LayoutBasic';
 import Notice from '../../libs/components/cs/Notice';
 import Faq from '../../libs/components/cs/Faq';
 import { serverSideTranslations } from 'next-i18next/serverSideTranslations';
+import { useTranslation } from 'next-i18next';
 
 export const getStaticProps = async ({ locale }: any) => ({
 	props: {
@@ -16,6 +17,7 @@ export const getStaticProps = async ({ locale }: any) => ({
 
 const CS: NextPage = () => {
 	const device = useDeviceDetect();
+	const { t } = useTranslation('common');
 	const router = useRouter();
 
 	/** HANDLERS **/
@@ -37,8 +39,8 @@ const CS: NextPage = () => {
 				<Stack className={'container'}>
 					<Box component={'div'} className={'cs-main-info'}>
 						<Box component={'div'} className={'info'}>
-							<span className={'main-title'}>✨ CS Center</span>
-							<p className={'sub-title'}>🌟 We're here to help! Ask us anything</p>
+							<span className={'main-title'}>✨ {t('CS Center')}</span>
+							<p className={'sub-title'}>🌟 {t("We're here to help! Ask us anything")}</p>
 						</Box>
 						<Box component={'div'} className={'btns'}>
 							<div
@@ -48,7 +50,7 @@ const CS: NextPage = () => {
 								}}
 							>
 								<span className={'icon'}>📢</span>
-								<span>Notice</span>
+								<span>{t('Notice')}</span>
 							</div>
 							<div
 								className={tab == 'faq' ? 'active' : ''}
@@ -57,7 +59,7 @@ const CS: NextPage = () => {
 								}}
 							>
 								<span className={'icon'}>❓</span>
-								<span>FAQ</span>
+								<span>{t('FAQ')}</span>
 							</div>
 						</Box>
 					</Box>
@@ -76,8 +78,8 @@ const CS: NextPage = () => {
 				<Stack className={'container'}>
 					<Box component={'div'} className={'cs-main-info'}>
 						<Box component={'div'} className={'info'}>
-							<span className={'main-title'}>✨ CS Center</span>
-							<p className={'sub-title'}>🌟 We're here to help! Ask us anything</p>
+							<span className={'main-title'}>✨ {t('CS Center')}</span>
+							<p className={'sub-title'}>🌟 {t("We're here to help! Ask us anything")}</p>
 						</Box>
 						<Box component={'div'} className={'btns'}>
 							<div
@@ -87,7 +89,7 @@ const CS: NextPage = () => {
 								}}
 							>
 								<span className={'icon'}>📢</span>
-								<span>Notice</span>
+								<span>{t('Notice')}</span>
 							</div>
 							<div
 								className={tab == 'faq' ? 'active' : ''}
@@ -96,7 +98,7 @@ const CS: NextPage = () => {
 								}}
 							>
 								<span className={'icon'}>❓</span>
-								<span>FAQ</span>
+								<span>{t('FAQ')}</span>
 							</div>
 						</Box>
 					</Box>

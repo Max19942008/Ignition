@@ -12,9 +12,11 @@ import { LIKE_TARGET_BOARD_ARTICLE } from '../../../apollo/user/mutation';
 import { GET_BOARD_ARTICLES } from '../../../apollo/user/query';
 import { Messages } from '../../config';
 import { sweetMixinErrorAlert, sweetTopSmallSuccessAlert } from '../../sweetAlert';
+import { useTranslation } from 'next-i18next';
 
 const MemberArticles: NextPage = ({ initialInput, ...props }: any) => {
 	const device = useDeviceDetect();
+	const { t } = useTranslation('common');
 	const router = useRouter();
 	const [total, setTotal] = useState<number>(0);
 	const { memberId } = router.query;
@@ -79,14 +81,14 @@ const MemberArticles: NextPage = ({ initialInput, ...props }: any) => {
 			<div id="member-articles-page">
 				<Stack className="main-title-box">
 					<Stack className="right-box">
-						<Typography className="main-title">Articles</Typography>
+						<Typography className="main-title">{t('Articles')}</Typography>
 					</Stack>
 				</Stack>
 				<Stack className="articles-list-box">
 					{memberBoArticles?.length === 0 && (
 						<div className={'no-data'}>
 							<img src="/img/icons/icoAlert.svg" alt="" />
-							<p>No Articles found!</p>
+							<p>{t('No Articles found!')}</p>
 						</div>
 					)}
 					{memberBoArticles?.map((boardArticle: BoardArticle) => {

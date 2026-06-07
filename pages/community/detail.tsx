@@ -20,6 +20,7 @@ import { CommentGroup, CommentStatus } from '../../libs/enums/comment.enum';
 import { T } from '../../libs/types/common';
 import EditIcon from '@mui/icons-material/Edit';
 import { serverSideTranslations } from 'next-i18next/serverSideTranslations';
+import { useTranslation } from 'next-i18next';
 import { BoardArticle } from '../../libs/types/board-article/board-article';
 import { GET_BOARD_ARTICLE, GET_COMMENTS } from '../../apollo/user/query';
 import { CREATE_COMMENT, LIKE_TARGET_BOARD_ARTICLE, UPDATE_COMMENT } from '../../apollo/user/mutation';
@@ -38,6 +39,7 @@ export const getStaticProps = async ({ locale }: any) => ({
 const CommunityDetail: NextPage = ({ initialInput, ...props }: T) => {
 	const device = useDeviceDetect();
 	const router = useRouter();
+	const { t } = useTranslation('common');
 	const { query } = router;
 
 	const articleId = query?.id as string;
@@ -270,7 +272,7 @@ const CommunityDetail: NextPage = ({ initialInput, ...props }: T) => {
 					<Stack className="main-box">
 						{/* Left Sidebar - Boards */}
 						<Stack className="left-config">
-							<Typography className="boards-title">Boards</Typography>
+							<Typography className="boards-title">{t('Boards')}</Typography>
 							<Tabs
 								orientation="vertical"
 								aria-label="community boards"
@@ -285,8 +287,8 @@ const CommunityDetail: NextPage = ({ initialInput, ...props }: T) => {
 									value={'FREE'}
 									label={
 										<Stack className="board-item">
-											<Typography className="board-name">Free Board</Typography>
-											<Typography className="board-desc">Open chat about anything</Typography>
+											<Typography className="board-name">{t('Free Board')}</Typography>
+											<Typography className="board-desc">{t('Open chat about anything')}</Typography>
 										</Stack>
 									}
 									className={`board-tab ${articleCategory === 'FREE' ? 'active' : ''}`}
@@ -295,8 +297,8 @@ const CommunityDetail: NextPage = ({ initialInput, ...props }: T) => {
 									value={'RECOMMEND'}
 									label={
 										<Stack className="board-item">
-											<Typography className="board-name">Recommend</Typography>
-											<Typography className="board-desc">Best spots & services</Typography>
+											<Typography className="board-name">{t('Recommend')}</Typography>
+											<Typography className="board-desc">{t('Best spots & services')}</Typography>
 										</Stack>
 									}
 									className={`board-tab ${articleCategory === 'RECOMMEND' ? 'active' : ''}`}
@@ -305,8 +307,8 @@ const CommunityDetail: NextPage = ({ initialInput, ...props }: T) => {
 									value={'NEWS'}
 									label={
 										<Stack className="board-item">
-											<Typography className="board-name">News</Typography>
-											<Typography className="board-desc">Auto industry updates</Typography>
+											<Typography className="board-name">{t('News')}</Typography>
+											<Typography className="board-desc">{t('Auto industry updates')}</Typography>
 										</Stack>
 									}
 									className={`board-tab ${articleCategory === 'NEWS' ? 'active' : ''}`}
@@ -315,8 +317,8 @@ const CommunityDetail: NextPage = ({ initialInput, ...props }: T) => {
 									value={'HUMOR'}
 									label={
 										<Stack className="board-item">
-											<Typography className="board-name">Humor</Typography>
-											<Typography className="board-desc">Memes & fun</Typography>
+											<Typography className="board-name">{t('Humor')}</Typography>
+											<Typography className="board-desc">{t('Memes & fun')}</Typography>
 										</Stack>
 									}
 									className={`board-tab ${articleCategory === 'HUMOR' ? 'active' : ''}`}
@@ -384,7 +386,7 @@ const CommunityDetail: NextPage = ({ initialInput, ...props }: T) => {
 
 							{/* Article Content */}
 							<Stack className="article-content">
-								<Typography className="content-title">Article Content</Typography>
+								<Typography className="content-title">{t('Article Content')}</Typography>
 								<Stack className="content-wrapper">
 									<ToastViewerComponent markdown={boardArticle?.articleContent} className={'article-viewer'} />
 								</Stack>
@@ -393,7 +395,7 @@ const CommunityDetail: NextPage = ({ initialInput, ...props }: T) => {
 							<Stack className="comments-section">
 								<Stack className="comments-header">
 									<Typography className="comments-title">
-										Comments <span className="comments-count">({total})</span>
+										{t('Comments')} <span className="comments-count">({total})</span>
 									</Typography>
 								</Stack>
 
@@ -403,7 +405,7 @@ const CommunityDetail: NextPage = ({ initialInput, ...props }: T) => {
 										<input
 											type="text"
 											className="comment-input"
-											placeholder="Share your thoughts..."
+											placeholder={t('Share your thoughts...')}
 											value={comment}
 											onChange={(e) => {
 												if (e.target.value.length > 100) return;
@@ -414,7 +416,7 @@ const CommunityDetail: NextPage = ({ initialInput, ...props }: T) => {
 										<Stack className="form-footer">
 											<Typography className="char-count">{wordsCnt}/100</Typography>
 											<Button className="submit-comment-btn" onClick={creteCommentHandler} disabled={!comment}>
-												Post Comment
+												{t('Post Comment')}
 											</Button>
 										</Stack>
 									</Stack>
@@ -494,7 +496,7 @@ const CommunityDetail: NextPage = ({ initialInput, ...props }: T) => {
 								onClick={cancelButtonHandler}
 							>
 								<Stack className="update-modal" onClick={(e:any) => e.stopPropagation()}>
-									<Typography className="modal-title">Update comment</Typography>
+									<Typography className="modal-title">{t('Update comment')}</Typography>
 									<Stack className="modal-content">
 										<input
 											className="update-input"
@@ -507,10 +509,10 @@ const CommunityDetail: NextPage = ({ initialInput, ...props }: T) => {
 											<Typography className="char-count">{updatedCommentWordsCnt}/100</Typography>
 											<Stack className="modal-actions">
 												<Button className="cancel-btn" onClick={cancelButtonHandler}>
-													Cancel
+													{t('Cancel')}
 												</Button>
 												<Button className="update-btn" onClick={() => updateButtonHandler(updatedCommentId, undefined)}>
-													Update
+													{t('Update')}
 												</Button>
 											</Stack>
 										</Stack>
@@ -534,7 +536,7 @@ const CommunityDetail: NextPage = ({ initialInput, ...props }: T) => {
 					<Stack className="main-box">
 						{/* Left Sidebar - Boards */}
 						<Stack className="left-config">
-							<Typography className="boards-title">Boards</Typography>
+							<Typography className="boards-title">{t('Boards')}</Typography>
 							<Tabs
 								orientation="vertical"
 								aria-label="community boards"
@@ -549,8 +551,8 @@ const CommunityDetail: NextPage = ({ initialInput, ...props }: T) => {
 									value={'FREE'}
 									label={
 										<Stack className="board-item">
-											<Typography className="board-name">Free Board</Typography>
-											<Typography className="board-desc">Open chat about anything</Typography>
+											<Typography className="board-name">{t('Free Board')}</Typography>
+											<Typography className="board-desc">{t('Open chat about anything')}</Typography>
 										</Stack>
 									}
 									className={`board-tab ${articleCategory === 'FREE' ? 'active' : ''}`}
@@ -559,8 +561,8 @@ const CommunityDetail: NextPage = ({ initialInput, ...props }: T) => {
 									value={'RECOMMEND'}
 									label={
 										<Stack className="board-item">
-											<Typography className="board-name">Recommend</Typography>
-											<Typography className="board-desc">Best spots & services</Typography>
+											<Typography className="board-name">{t('Recommend')}</Typography>
+											<Typography className="board-desc">{t('Best spots & services')}</Typography>
 										</Stack>
 									}
 									className={`board-tab ${articleCategory === 'RECOMMEND' ? 'active' : ''}`}
@@ -569,8 +571,8 @@ const CommunityDetail: NextPage = ({ initialInput, ...props }: T) => {
 									value={'NEWS'}
 									label={
 										<Stack className="board-item">
-											<Typography className="board-name">News</Typography>
-											<Typography className="board-desc">Auto industry updates</Typography>
+											<Typography className="board-name">{t('News')}</Typography>
+											<Typography className="board-desc">{t('Auto industry updates')}</Typography>
 										</Stack>
 									}
 									className={`board-tab ${articleCategory === 'NEWS' ? 'active' : ''}`}
@@ -579,8 +581,8 @@ const CommunityDetail: NextPage = ({ initialInput, ...props }: T) => {
 									value={'HUMOR'}
 									label={
 										<Stack className="board-item">
-											<Typography className="board-name">Humor</Typography>
-											<Typography className="board-desc">Memes & fun</Typography>
+											<Typography className="board-name">{t('Humor')}</Typography>
+											<Typography className="board-desc">{t('Memes & fun')}</Typography>
 										</Stack>
 									}
 									className={`board-tab ${articleCategory === 'HUMOR' ? 'active' : ''}`}
@@ -648,7 +650,7 @@ const CommunityDetail: NextPage = ({ initialInput, ...props }: T) => {
 
 							{/* Article Content */}
 							<Stack className="article-content">
-								<Typography className="content-title">Article Content</Typography>
+								<Typography className="content-title">{t('Article Content')}</Typography>
 								<Stack className="content-wrapper">
 									<ToastViewerComponent markdown={boardArticle?.articleContent} className={'article-viewer'} />
 								</Stack>
@@ -657,7 +659,7 @@ const CommunityDetail: NextPage = ({ initialInput, ...props }: T) => {
 							<Stack className="comments-section">
 								<Stack className="comments-header">
 									<Typography className="comments-title">
-										Comments <span className="comments-count">({total})</span>
+										{t('Comments')} <span className="comments-count">({total})</span>
 									</Typography>
 								</Stack>
 
@@ -667,7 +669,7 @@ const CommunityDetail: NextPage = ({ initialInput, ...props }: T) => {
 										<input
 											type="text"
 											className="comment-input"
-											placeholder="Share your thoughts..."
+											placeholder={t('Share your thoughts...')}
 											value={comment}
 											onChange={(e) => {
 												if (e.target.value.length > 100) return;
@@ -678,7 +680,7 @@ const CommunityDetail: NextPage = ({ initialInput, ...props }: T) => {
 										<Stack className="form-footer">
 											<Typography className="char-count">{wordsCnt}/100</Typography>
 											<Button className="submit-comment-btn" onClick={creteCommentHandler} disabled={!comment}>
-												Post Comment
+												{t('Post Comment')}
 											</Button>
 										</Stack>
 									</Stack>
@@ -758,7 +760,7 @@ const CommunityDetail: NextPage = ({ initialInput, ...props }: T) => {
 								onClick={cancelButtonHandler}
 							>
 								<Stack className="update-modal" onClick={(e:any) => e.stopPropagation()}>
-									<Typography className="modal-title">Update comment</Typography>
+									<Typography className="modal-title">{t('Update comment')}</Typography>
 									<Stack className="modal-content">
 										<input
 											className="update-input"
@@ -771,10 +773,10 @@ const CommunityDetail: NextPage = ({ initialInput, ...props }: T) => {
 											<Typography className="char-count">{updatedCommentWordsCnt}/100</Typography>
 											<Stack className="modal-actions">
 												<Button className="cancel-btn" onClick={cancelButtonHandler}>
-													Cancel
+													{t('Cancel')}
 												</Button>
 												<Button className="update-btn" onClick={() => updateButtonHandler(updatedCommentId, undefined)}>
-													Update
+													{t('Update')}
 												</Button>
 											</Stack>
 										</Stack>

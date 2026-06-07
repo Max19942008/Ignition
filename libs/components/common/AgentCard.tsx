@@ -14,6 +14,7 @@ import PhoneIcon from '@mui/icons-material/Phone';
 import { useReactiveVar } from '@apollo/client';
 import { userVar } from '../../../apollo/store';
 import { T } from '../../types/common';
+import { useTranslation } from 'next-i18next';
 
 type Agent = {
 	_id?: string;
@@ -41,30 +42,33 @@ type AgentStatsProps = {
 	rating: string;
 };
 
-const AgentStats = ({ bikes, views, likes, rating }: AgentStatsProps): JSX.Element => (
+const AgentStats = ({ bikes, views, likes, rating }: AgentStatsProps): JSX.Element => {
+	const { t } = useTranslation('common');
+	return (
 	<div className={'agent-stats-grid'}>
 		<div className={'stat-item cars-stat'}>
 			<TwoWheelerIcon className={'stat-icon'} />
 			<span className={'stat-value'}>{bikes}</span>
-			<span className={'stat-label'}>BIKES</span>
+			<span className={'stat-label'}>{t('BIKES')}</span>
 		</div>
 		<div className={'stat-item views-stat'}>
 			<RemoveRedEyeIcon className={'stat-icon'} />
 			<span className={'stat-value'}>{views}</span>
-			<span className={'stat-label'}>VIEWS</span>
+			<span className={'stat-label'}>{t('VIEWS')}</span>
 		</div>
 		<div className={'stat-item likes-stat'}>
 			<FavoriteIcon className={'stat-icon'} />
 			<span className={'stat-value'}>{likes}</span>
-			<span className={'stat-label'}>LIKES</span>
+			<span className={'stat-label'}>{t('LIKES')}</span>
 		</div>
 		<div className={'stat-item rating-stat'}>
 			<StarIcon className={'stat-icon'} />
 			<span className={'stat-value'}>{rating}</span>
-			<span className={'stat-label'}>RATING</span>
+			<span className={'stat-label'}>{t('RATING')}</span>
 		</div>
 	</div>
-);
+	);
+};
 
 const AgentCard = (props: AgentCardProps) => {
 	const { agent: rawAgent, likeMemberHandler } = props;

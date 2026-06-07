@@ -1,6 +1,7 @@
 import { Menu, MenuItem } from '@mui/material';
 import React, { useState } from 'react';
 import useDeviceDetect from '../../hooks/useDeviceDetect';
+import { useTranslation } from 'next-i18next';
 import IconButton from '@mui/material/IconButton';
 import ModeIcon from '@mui/icons-material/Mode';
 import DeleteIcon from '@mui/icons-material/Delete';
@@ -23,13 +24,13 @@ interface PropertyCardProps {
 export const PropertyCard = (props: PropertyCardProps) => {
 	const { property, deletePropertyHandler, memberPage, updatePropertyHandler } = props;
 	const device = useDeviceDetect();
+	const { t } = useTranslation('common');
 	const router = useRouter();
 	const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null);
 	const open = Boolean(anchorEl);
 
 	/** HANDLERS **/
 	const pushEditProperty = async (id: string) => {
-		console.log('+pushEditProperty: ', id);
 		await router.push({
 			pathname: '/mypage',
 			query: { category: 'addProperty', propertyId: id },
@@ -142,7 +143,7 @@ export const PropertyCard = (props: PropertyCardProps) => {
 					</div>
 				</div>
 				<div className="price-section">
-					<span className="price-label">FROM</span>
+					<span className="price-label">{t('FROM')}</span>
 					<span className="price-value">${formatterStr(property?.propertyPrice)}</span>
 					<span className="price-period">/DAY</span>
 				</div>
@@ -211,7 +212,7 @@ export const PropertyCard = (props: PropertyCardProps) => {
 					</div>
 				</div>
 				<div className="price-section">
-					<span className="price-label">FROM</span>
+					<span className="price-label">{t('FROM')}</span>
 					<span className="price-value">${formatterStr(property?.propertyPrice)}</span>
 					<span className="price-period">/DAY</span>
 				</div>

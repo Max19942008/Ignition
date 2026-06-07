@@ -94,7 +94,6 @@ const Filter = (props: FilterType) => {
 					{ scroll: false },
 				);
 
-				console.log('propertyLocationSelectHandler:', e.target.value, 'newLocations:', newLocations);
 			} catch (err: any) {
 				console.log('ERROR, propertyLocationSelectHandler:', err);
 			}
@@ -135,7 +134,6 @@ const Filter = (props: FilterType) => {
 					{ scroll: false },
 				);
 
-				console.log('propertyTypeSelectHandler:', e.target.value, 'newTypes:', newTypes);
 			} catch (err: any) {
 				console.log('ERROR, propertyTypeSelectHandler:', err);
 			}
@@ -198,7 +196,6 @@ const Filter = (props: FilterType) => {
 					);
 				}
 
-				console.log('propertyRoomSelectHandler:', number);
 			} catch (err: any) {
 				console.log('ERROR, propertyRoomSelectHandler:', err);
 			}
@@ -243,7 +240,6 @@ const Filter = (props: FilterType) => {
 					);
 				}
 
-				console.log('propertyOptionSelectHandler:', e.target.value);
 			} catch (err: any) {
 				console.log('ERROR, propertyOptionSelectHandler:', err);
 			}
@@ -306,7 +302,6 @@ const Filter = (props: FilterType) => {
 					);
 				}
 
-				console.log('propertyBedSelectHandler:', number);
 			} catch (err: any) {
 				console.log('ERROR, propertyBedSelectHandler:', err);
 			}
@@ -429,7 +424,6 @@ const Filter = (props: FilterType) => {
 					`/property?input=${JSON.stringify(newSearch)}`,
 					{ scroll: false },
 				);
-				console.log('recentSortHandler');
 			} catch (err: any) {
 				console.log('ERROR, recentSortHandler:', err);
 			}
@@ -450,7 +444,6 @@ const Filter = (props: FilterType) => {
 					`/property?input=${JSON.stringify(newSearch)}`,
 					{ scroll: false },
 				);
-				console.log('oldestSortHandler');
 			} catch (err: any) {
 				console.log('ERROR, oldestSortHandler:', err);
 			}
@@ -471,7 +464,6 @@ const Filter = (props: FilterType) => {
 					`/property?input=${JSON.stringify(newSearch)}`,
 					{ scroll: false },
 				);
-				console.log('likesSortHandler:', direction);
 			} catch (err: any) {
 				console.log('ERROR, likesSortHandler:', err);
 			}
@@ -492,7 +484,6 @@ const Filter = (props: FilterType) => {
 					`/property?input=${JSON.stringify(newSearch)}`,
 					{ scroll: false },
 				);
-				console.log('viewsSortHandler');
 			} catch (err: any) {
 				console.log('ERROR, viewsSortHandler:', err);
 			}

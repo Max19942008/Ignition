@@ -18,6 +18,7 @@ import { Messages } from '../../libs/config';
 import { sweetMixinErrorAlert, sweetTopSmallSuccessAlert } from '../../libs/sweetAlert';
 import RefreshIcon from '@mui/icons-material/Refresh';
 import ArticleIcon from '@mui/icons-material/Article';
+import { useTranslation } from 'next-i18next';
 
 export const getStaticProps = async ({ locale }: any) => ({
 	props: {
@@ -28,6 +29,7 @@ export const getStaticProps = async ({ locale }: any) => ({
 const Community: NextPage = ({ initialInput, ...props }: T) => {
 	const device = useDeviceDetect();
 	const router = useRouter();
+	const { t } = useTranslation('common');
 	const { query } = router;
 	const articleCategory = query?.articleCategory as string;
 	const [searchCommunity, setSearchCommunity] = useState<BoardArticlesInquiry>(initialInput);
@@ -69,8 +71,6 @@ const Community: NextPage = ({ initialInput, ...props }: T) => {
 
 	/** HANDLERS **/
 	const tabChangeHandler = async (e: T, value: string) => {
-		console.log(value);
-
 		setSearchCommunity({ ...searchCommunity, page: 1, search: { articleCategory: value as BoardArticleCategory } });
 		await router.push(
 			{
@@ -137,8 +137,8 @@ const Community: NextPage = ({ initialInput, ...props }: T) => {
 					<Stack className="header-banner">
 						<Stack className="header-content">
 							<Stack className="header-left">
-								<Typography className="header-label">COMMUNITY</Typography>
-								<Typography className="header-title">Drive the conversation.</Typography>
+								<Typography className="header-label">{t('COMMUNITY')}</Typography>
+								<Typography className="header-title">{t('Drive the conversation.')}</Typography>
 								<Typography className="header-description">
 									Learn, share, and laugh with enthusiasts. Pick a lane and dive into the latest posts.
 								</Typography>
@@ -165,11 +165,11 @@ const Community: NextPage = ({ initialInput, ...props }: T) => {
 								<Box component={'div'} className="stat-card articles-stat">
 									<ArticleIcon className="stat-icon" />
 									<Typography className="stat-value">{totalCount || 0}</Typography>
-									<Typography className="stat-label">Articles</Typography>
+									<Typography className="stat-label">{t('Articles')}</Typography>
 								</Box>
 								<Box component={'div'} className="stat-card category-stat">
 									<Typography className="stat-value">{getCategoryLabel(searchCommunity.search.articleCategory)}</Typography>
-									<Typography className="stat-label">Category</Typography>
+									<Typography className="stat-label">{t('Category')}</Typography>
 								</Box>
 							</Stack>
 						</Stack>
@@ -179,7 +179,7 @@ const Community: NextPage = ({ initialInput, ...props }: T) => {
 						<Stack className="main-box">
 							{/* Left Sidebar - Boards */}
 							<Stack className="left-config">
-								<Typography className="boards-title">Boards</Typography>
+								<Typography className="boards-title">{t('Boards')}</Typography>
 								<TabList
 									orientation="vertical"
 									aria-label="community boards"
@@ -193,8 +193,8 @@ const Community: NextPage = ({ initialInput, ...props }: T) => {
 										value={'FREE'}
 										label={
 											<Stack className="board-item">
-												<Typography className="board-name">Free Board</Typography>
-												<Typography className="board-desc">Open chat about anything</Typography>
+												<Typography className="board-name">{t('Free Board')}</Typography>
+												<Typography className="board-desc">{t('Open chat about anything')}</Typography>
 											</Stack>
 										}
 										className={`board-tab ${searchCommunity.search.articleCategory == 'FREE' ? 'active' : ''}`}
@@ -203,8 +203,8 @@ const Community: NextPage = ({ initialInput, ...props }: T) => {
 										value={'RECOMMEND'}
 										label={
 											<Stack className="board-item">
-												<Typography className="board-name">Recommend</Typography>
-												<Typography className="board-desc">Best spots & services</Typography>
+												<Typography className="board-name">{t('Recommend')}</Typography>
+												<Typography className="board-desc">{t('Best spots & services')}</Typography>
 											</Stack>
 										}
 										className={`board-tab ${searchCommunity.search.articleCategory == 'RECOMMEND' ? 'active' : ''}`}
@@ -213,8 +213,8 @@ const Community: NextPage = ({ initialInput, ...props }: T) => {
 										value={'NEWS'}
 										label={
 											<Stack className="board-item">
-												<Typography className="board-name">News</Typography>
-												<Typography className="board-desc">Auto industry updates</Typography>
+												<Typography className="board-name">{t('News')}</Typography>
+												<Typography className="board-desc">{t('Auto industry updates')}</Typography>
 											</Stack>
 										}
 										className={`board-tab ${searchCommunity.search.articleCategory == 'NEWS' ? 'active' : ''}`}
@@ -223,8 +223,8 @@ const Community: NextPage = ({ initialInput, ...props }: T) => {
 										value={'HUMOR'}
 										label={
 											<Stack className="board-item">
-												<Typography className="board-name">Humor</Typography>
-												<Typography className="board-desc">Memes & fun</Typography>
+												<Typography className="board-name">{t('Humor')}</Typography>
+												<Typography className="board-desc">{t('Memes & fun')}</Typography>
 											</Stack>
 										}
 										className={`board-tab ${searchCommunity.search.articleCategory == 'HUMOR' ? 'active' : ''}`}
@@ -239,7 +239,7 @@ const Community: NextPage = ({ initialInput, ...props }: T) => {
 							<Stack className="right-config">
 								<Stack className="panel-config">
 									<Stack className="posts-header">
-										<Typography className="posts-title">Latest posts</Typography>
+										<Typography className="posts-title">{t('Latest posts')}</Typography>
 										<Typography className="posts-subtitle">
 											Sorted by newest • {getCategoryLabel(searchCommunity.search.articleCategory)} board
 										</Typography>
@@ -257,7 +257,7 @@ const Community: NextPage = ({ initialInput, ...props }: T) => {
 											) : (
 												<Stack className={'no-data'}>
 													<img src="/img/icons/icoAlert.svg" alt="" />
-													<p>No Article found!</p>
+													<p>{t('No Article found!')}</p>
 												</Stack>
 											)}
 										</Stack>
@@ -274,7 +274,7 @@ const Community: NextPage = ({ initialInput, ...props }: T) => {
 											) : (
 												<Stack className={'no-data'}>
 													<img src="/img/icons/icoAlert.svg" alt="" />
-													<p>No Article found!</p>
+													<p>{t('No Article found!')}</p>
 												</Stack>
 											)}
 										</Stack>
@@ -291,7 +291,7 @@ const Community: NextPage = ({ initialInput, ...props }: T) => {
 											) : (
 												<Stack className={'no-data'}>
 													<img src="/img/icons/icoAlert.svg" alt="" />
-													<p>No Article found!</p>
+													<p>{t('No Article found!')}</p>
 												</Stack>
 											)}
 										</Stack>
@@ -307,7 +307,7 @@ const Community: NextPage = ({ initialInput, ...props }: T) => {
 											) : (
 												<Stack className={'no-data'}>
 													<img src="/img/icons/icoAlert.svg" alt="" />
-													<p>No Article found!</p>
+													<p>{t('No Article found!')}</p>
 												</Stack>
 											)}
 										</Stack>
@@ -346,8 +346,8 @@ const Community: NextPage = ({ initialInput, ...props }: T) => {
 					<Stack className="header-banner">
 						<Stack className="header-content">
 							<Stack className="header-left">
-								<Typography className="header-label">COMMUNITY</Typography>
-								<Typography className="header-title">Drive the conversation.</Typography>
+								<Typography className="header-label">{t('COMMUNITY')}</Typography>
+								<Typography className="header-title">{t('Drive the conversation.')}</Typography>
 								<Typography className="header-description">
 									Learn, share, and laugh with enthusiasts. Pick a lane and dive into the latest posts.
 								</Typography>
@@ -374,11 +374,11 @@ const Community: NextPage = ({ initialInput, ...props }: T) => {
 						<Box component={'div'} className="stat-card articles-stat">
 							<ArticleIcon className="stat-icon" />
 							<Typography className="stat-value">{totalCount || 0}</Typography>
-							<Typography className="stat-label">Articles</Typography>
+							<Typography className="stat-label">{t('Articles')}</Typography>
 						</Box>
 						<Box component={'div'} className="stat-card category-stat">
 							<Typography className="stat-value">{getCategoryLabel(searchCommunity.search.articleCategory)}</Typography>
-							<Typography className="stat-label">Category</Typography>
+							<Typography className="stat-label">{t('Category')}</Typography>
 						</Box>
 					</Stack>
 						</Stack>
@@ -388,7 +388,7 @@ const Community: NextPage = ({ initialInput, ...props }: T) => {
 						<Stack className="main-box">
 							{/* Left Sidebar - Boards */}
 							<Stack className="left-config">
-								<Typography className="boards-title">Boards</Typography>
+								<Typography className="boards-title">{t('Boards')}</Typography>
 								<TabList
 									orientation="vertical"
 									aria-label="community boards"
@@ -402,8 +402,8 @@ const Community: NextPage = ({ initialInput, ...props }: T) => {
 										value={'FREE'}
 										label={
 											<Stack className="board-item">
-												<Typography className="board-name">Free Board</Typography>
-												<Typography className="board-desc">Open chat about anything</Typography>
+												<Typography className="board-name">{t('Free Board')}</Typography>
+												<Typography className="board-desc">{t('Open chat about anything')}</Typography>
 											</Stack>
 										}
 										className={`board-tab ${searchCommunity.search.articleCategory == 'FREE' ? 'active' : ''}`}
@@ -412,8 +412,8 @@ const Community: NextPage = ({ initialInput, ...props }: T) => {
 										value={'RECOMMEND'}
 										label={
 											<Stack className="board-item">
-												<Typography className="board-name">Recommend</Typography>
-												<Typography className="board-desc">Best spots & services</Typography>
+												<Typography className="board-name">{t('Recommend')}</Typography>
+												<Typography className="board-desc">{t('Best spots & services')}</Typography>
 											</Stack>
 										}
 										className={`board-tab ${searchCommunity.search.articleCategory == 'RECOMMEND' ? 'active' : ''}`}
@@ -422,8 +422,8 @@ const Community: NextPage = ({ initialInput, ...props }: T) => {
 										value={'NEWS'}
 										label={
 											<Stack className="board-item">
-												<Typography className="board-name">News</Typography>
-												<Typography className="board-desc">Auto industry updates</Typography>
+												<Typography className="board-name">{t('News')}</Typography>
+												<Typography className="board-desc">{t('Auto industry updates')}</Typography>
 											</Stack>
 										}
 										className={`board-tab ${searchCommunity.search.articleCategory == 'NEWS' ? 'active' : ''}`}
@@ -432,8 +432,8 @@ const Community: NextPage = ({ initialInput, ...props }: T) => {
 										value={'HUMOR'}
 										label={
 											<Stack className="board-item">
-												<Typography className="board-name">Humor</Typography>
-												<Typography className="board-desc">Memes & fun</Typography>
+												<Typography className="board-name">{t('Humor')}</Typography>
+												<Typography className="board-desc">{t('Memes & fun')}</Typography>
 											</Stack>
 										}
 										className={`board-tab ${searchCommunity.search.articleCategory == 'HUMOR' ? 'active' : ''}`}
@@ -448,7 +448,7 @@ const Community: NextPage = ({ initialInput, ...props }: T) => {
 							<Stack className="right-config">
 								<Stack className="panel-config">
 									<Stack className="posts-header">
-										<Typography className="posts-title">Latest posts</Typography>
+										<Typography className="posts-title">{t('Latest posts')}</Typography>
 										<Typography className="posts-subtitle">
 											Sorted by newest • {getCategoryLabel(searchCommunity.search.articleCategory)} board
 										</Typography>
@@ -466,7 +466,7 @@ const Community: NextPage = ({ initialInput, ...props }: T) => {
 											) : (
 												<Stack className={'no-data'}>
 													<img src="/img/icons/icoAlert.svg" alt="" />
-													<p>No Article found!</p>
+													<p>{t('No Article found!')}</p>
 												</Stack>
 											)}
 										</Stack>
@@ -483,7 +483,7 @@ const Community: NextPage = ({ initialInput, ...props }: T) => {
 											) : (
 												<Stack className={'no-data'}>
 													<img src="/img/icons/icoAlert.svg" alt="" />
-													<p>No Article found!</p>
+													<p>{t('No Article found!')}</p>
 												</Stack>
 											)}
 										</Stack>
@@ -500,7 +500,7 @@ const Community: NextPage = ({ initialInput, ...props }: T) => {
 											) : (
 												<Stack className={'no-data'}>
 													<img src="/img/icons/icoAlert.svg" alt="" />
-													<p>No Article found!</p>
+													<p>{t('No Article found!')}</p>
 												</Stack>
 											)}
 										</Stack>
@@ -516,7 +516,7 @@ const Community: NextPage = ({ initialInput, ...props }: T) => {
 											) : (
 												<Stack className={'no-data'}>
 													<img src="/img/icons/icoAlert.svg" alt="" />
-													<p>No Article found!</p>
+													<p>{t('No Article found!')}</p>
 												</Stack>
 											)}
 										</Stack>

@@ -37,16 +37,12 @@ constructor(uri: string) {
 	this.socket = new WebSocket(`${uri}?token=${getJwtToken()}`);
 	socketVar(this.socket);
 
-	this.socket.onopen = () => {
-   console.log('WebSocket connection');
-	 };
+	this.socket.onopen = () => {};
 
-	 this.socket.onmessage = (msg) => {
-		console.log('WebSocket Message:',msg.data);
-	 };
+	 this.socket.onmessage = (msg) => {};
 
 	  this.socket.onerror = (error) => {
-		console.log('WebSocket Error:',error);
+		console.error('WebSocket Error:', error);
 	 };
 }
 
@@ -69,7 +65,6 @@ function createIsomorphicLink() {
 					...getHeaders(),
 				},
 			}));
-			console.warn('requesting.. ', operation);
 			return forward(operation);
 		});
 

@@ -6,6 +6,7 @@ import { useRouter } from 'next/router';
 import { styled } from '@mui/material/styles';
 import useDeviceDetect from '../../hooks/useDeviceDetect';
 import KeyboardArrowDownRoundedIcon from '@mui/icons-material/KeyboardArrowDownRounded';
+import { useTranslation } from 'next-i18next';
 
 const Accordion = styled((props: AccordionProps) => <MuiAccordion disableGutters elevation={0} square {...props} />)(
 	({ theme }) => ({
@@ -32,6 +33,7 @@ const AccordionSummary = styled((props: AccordionSummaryProps) => (
 
 const Faq = () => {
 	const device = useDeviceDetect();
+	const { t } = useTranslation('common');
 	const router = useRouter();
 	const [category, setCategory] = useState<string>('bike');
 	const [expanded, setExpanded] = useState<string | false>('panel1');
@@ -445,7 +447,7 @@ const Faq = () => {
 							changeCategoryHandler('bike');
 						}}
 					>
-						🏍️ Bike
+						🏍️ {t('Bike')}
 					</div>
 					<div
 						className={category === 'payment' ? 'active' : ''}
@@ -453,7 +455,7 @@ const Faq = () => {
 							changeCategoryHandler('payment');
 						}}
 					>
-						💳 Payment
+						💳 {t('Payment')}
 					</div>
 					<div
 						className={category === 'buyers' ? 'active' : ''}
@@ -461,7 +463,7 @@ const Faq = () => {
 							changeCategoryHandler('buyers');
 						}}
 					>
-						👥 For Buyers
+						👥 {t('For Buyers')}
 					</div>
 					<div
 						className={category === 'agents' ? 'active' : ''}
@@ -469,7 +471,7 @@ const Faq = () => {
 							changeCategoryHandler('agents');
 						}}
 					>
-						🤝 For Agents
+						🤝 {t('For Agents')}
 					</div>
 					<div
 						className={category === 'membership' ? 'active' : ''}
@@ -477,7 +479,7 @@ const Faq = () => {
 							changeCategoryHandler('membership');
 						}}
 					>
-						⭐ Membership
+						⭐ {t('Membership')}
 					</div>
 					<div
 						className={category === 'community' ? 'active' : ''}
@@ -485,7 +487,7 @@ const Faq = () => {
 							changeCategoryHandler('community');
 						}}
 					>
-						💬 Community
+						💬 {t('Community')}
 					</div>
 					<div
 						className={category === 'other' ? 'active' : ''}
@@ -493,7 +495,7 @@ const Faq = () => {
 							changeCategoryHandler('other');
 						}}
 					>
-						📋 Other
+						📋 {t('Other')}
 					</div>
 				</Box>
 				<Box className={'wrap'} component={'div'}>

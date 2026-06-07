@@ -12,6 +12,7 @@ import { GET_AGENTS } from '../../../apollo/user/query';
 import { useQuery } from '@apollo/client';
 import { T } from '../../types/common';
 import Link from 'next/link';
+import { useTranslation } from 'next-i18next';
 
 interface TopAgentsProps {
 	initialInput: AgentsInquiry;
@@ -21,6 +22,7 @@ const TopAgents = (props: TopAgentsProps) => {
 	const { initialInput } = props;
 	const device = useDeviceDetect();
 	const router = useRouter();
+	const { t } = useTranslation('common');
 	const [topAgents, setTopAgents] = useState<Member[]>([]);
 
 	/** APOLLO REQUESTS **/
@@ -45,14 +47,14 @@ const TopAgents = (props: TopAgentsProps) => {
 				<Stack className={'container'}>
 					<Stack className={'info-box'}>
 						<Box component={'div'} className={'left'}>
-							<span>Elite Riders</span>
-							<p>⭐ Meet our community champions</p>
+							<span>{t('Elite Riders')}</span>
+							<p>⭐ {t('Meet our community champions')}</p>
 						</Box>
 					</Stack>
 					<Stack className={'wrapper'}>
 						{topAgents.length === 0 ? (
 							<Box component={'div'} className={'empty-list'}>
-								Agents Empty
+								{t('Agents Empty')}
 							</Box>
 						) : (
 							<Swiper
@@ -94,13 +96,13 @@ const TopAgents = (props: TopAgentsProps) => {
 				<Stack className={'container'}>
 					<Stack className={'info-box'}>
 						<Box component={'div'} className={'left'}>
-							<span>Elite Riders</span>
-							<p>⭐ Meet our community champions</p>
+							<span>{t('Elite Riders')}</span>
+							<p>⭐ {t('Meet our community champions')}</p>
 						</Box>
 						<Box component={'div'} className={'right'}>
 							<div className={'more-box'}>
 								<Link href={'/agent'}>
-									<span>Explore All Riders</span>
+									<span>{t('Explore All Riders')}</span>
 								</Link>
 								<img src="/img/icons/rightup.svg" alt="" />
 							</div>

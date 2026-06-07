@@ -15,6 +15,7 @@ import { useMutation, useQuery } from '@apollo/client';
 import { LIKE_TARGET_PROPERTY } from '../../../apollo/user/mutation';
 import { Message } from '../../enums/common.enum';
 import { sweetMixinErrorAlert, sweetTopSmallSuccessAlert } from '../../sweetAlert';
+import { useTranslation } from 'next-i18next';
 
 interface PopularPropertiesProps {
 	initialInput: PropertiesInquiry;
@@ -23,6 +24,7 @@ interface PopularPropertiesProps {
 const PopularProperties = (props: PopularPropertiesProps) => {
 	const { initialInput } = props;
 	const device = useDeviceDetect();
+	const { t } = useTranslation('common');
 	const [popularProperties, setPopularProperties] = useState<Property[]>([]);
 
 	/** APOLLO REQUESTS **/
@@ -68,14 +70,14 @@ const PopularProperties = (props: PopularPropertiesProps) => {
 				<Stack className={'container'}>
 					<Stack className={'info-box'}>
 						<Box component={'div'} className={'left'}>
-							<span>Popular Bikes</span>
-							<p>🔥 Most viewed motorcycles this week</p>
+							<span>{t('Popular Bikes')}</span>
+							<p>🔥 {t('Most viewed motorcycles this week')}</p>
 						</Box>
 					</Stack>
 					<Stack className={'card-box'}>
 						{popularProperties.length === 0 ? (
 							<Box component={'div'} className={'empty-list'}>
-								Popular Empty
+								{t('Popular Empty')}
 							</Box>
 						) : (
 							<Swiper
@@ -117,13 +119,13 @@ const PopularProperties = (props: PopularPropertiesProps) => {
 				<Stack className={'container'}>
 					<Stack className={'info-box'}>
 						<Box component={'div'} className={'left'}>
-							<span>Popular Bikes</span>
-							<p>🔥 Most viewed motorcycles this week</p>
+							<span>{t('Popular Bikes')}</span>
+							<p>🔥 {t('Most viewed motorcycles this week')}</p>
 						</Box>
 						<Box component={'div'} className={'right'}>
 							<div className={'more-box'}>
 								<Link href={'/property'}>
-									<span>Explore All Bikes</span>
+									<span>{t('Explore All Bikes')}</span>
 								</Link>
 								<img src="/img/icons/rightup.svg" alt="" />
 							</div>

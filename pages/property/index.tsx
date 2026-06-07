@@ -19,6 +19,7 @@ import { useMutation, useQuery } from '@apollo/client';
 import { T } from '../../libs/types/common';
 import { LIKE_TARGET_PROPERTY } from '../../apollo/user/mutation';
 import { sweetMixinErrorAlert, sweetTopSmallSuccessAlert } from '../../libs/sweetAlert';
+import { useTranslation } from 'next-i18next';
 
 export const getStaticProps = async ({ locale }: any) => ({
 	props: {
@@ -29,6 +30,7 @@ export const getStaticProps = async ({ locale }: any) => ({
 const PropertyList: NextPage = ({ initialInput, ...props }: any) => {
 	const device = useDeviceDetect();
 	const router = useRouter();
+	const { t } = useTranslation('common');
 	const [searchFilter, setSearchFilter] = useState<PropertiesInquiry>(
 		router?.query?.input ? JSON.parse(router?.query?.input as string) : initialInput,
 	);
@@ -439,24 +441,24 @@ const PropertyList: NextPage = ({ initialInput, ...props }: any) => {
 	const propertyBrands = Object.values(PropertyBrand);
 	const propertyConditions = Object.values(PropertyCondition);
 	
-	const selectedBrand = (searchFilter?.search?.brandList || []).length > 0 
-		? `${(searchFilter?.search?.brandList || []).length} selected` 
-		: 'Brand';
-	const selectedType = (searchFilter?.search?.typeList || []).length > 0 
-		? `${(searchFilter?.search?.typeList || []).length} selected` 
-		: 'Type';
-	const selectedCondition = (searchFilter?.search?.conditionList || []).length > 0 
-		? `${(searchFilter?.search?.conditionList || []).length} selected` 
-		: 'Condition';
-	const selectedLocation = (searchFilter?.search?.locationList || []).length > 0 
-		? `${(searchFilter?.search?.locationList || []).length} selected` 
-		: 'Location';
+	const selectedBrand = (searchFilter?.search?.brandList || []).length > 0
+		? `${(searchFilter?.search?.brandList || []).length} ${t('selected')}`
+		: t('Brand');
+	const selectedType = (searchFilter?.search?.typeList || []).length > 0
+		? `${(searchFilter?.search?.typeList || []).length} ${t('selected')}`
+		: t('Type');
+	const selectedCondition = (searchFilter?.search?.conditionList || []).length > 0
+		? `${(searchFilter?.search?.conditionList || []).length} ${t('selected')}`
+		: t('Condition');
+	const selectedLocation = (searchFilter?.search?.locationList || []).length > 0
+		? `${(searchFilter?.search?.locationList || []).length} ${t('selected')}`
+		: t('Location');
 	const selectedYear = searchFilter?.search?.yearRange
 		? `${searchFilter?.search?.yearRange?.start} - ${searchFilter?.search?.yearRange?.end}`
-		: 'Year';
+		: t('Year');
 	const selectedPrice = searchFilter?.search?.pricesRange
 		? `$${(searchFilter?.search?.pricesRange?.start || 0).toLocaleString()} - $${(searchFilter?.search?.pricesRange?.end || 0).toLocaleString()}`
-		: 'Price/day';
+		: t('Price/day');
 	
 	if (device === 'mobile') {
 
@@ -468,8 +470,8 @@ const PropertyList: NextPage = ({ initialInput, ...props }: any) => {
 						{/* Top Row - Title, Count, Reset, Likes */}
 						<Stack className={'filter-header-top'}>
 							<Box component="div" className={'filter-header-left'}>
-								<Typography className={'filter-header-title'}>Bikes</Typography>
-								<Typography className={'filter-header-count'}>{total} available</Typography>
+								<Typography className={'filter-header-title'}>{t('Bikes')}</Typography>
+								<Typography className={'filter-header-count'}>{total} {t('available')}</Typography>
 							</Box>
 							<Box component="div" className={'filter-header-right'}>
 								<Button
@@ -477,14 +479,14 @@ const PropertyList: NextPage = ({ initialInput, ...props }: any) => {
 									startIcon={<FilterListIcon />}
 									onClick={handleReset}
 								>
-									Reset
+									{t('Reset')}
 								</Button>
 								<Button
 									className={'filter-sort-button'}
 									endIcon={<KeyboardArrowDownRoundedIcon />}
 									onClick={(e: React.MouseEvent<HTMLButtonElement>) => setLikesAnchor(e.currentTarget)}
 								>
-									{filterSortName}
+									{t(filterSortName)}
 								</Button>
 								<Menu
 									anchorEl={likesAnchor}
@@ -525,7 +527,7 @@ const PropertyList: NextPage = ({ initialInput, ...props }: any) => {
 											}
 										}}
 									>
-										Recent
+										{t('Recent')}
 									</MenuItem>
 									<MenuItem 
 										onClick={async () => {
@@ -543,7 +545,7 @@ const PropertyList: NextPage = ({ initialInput, ...props }: any) => {
 											}
 										}}
 									>
-										Oldest
+										{t('Oldest')}
 									</MenuItem>
 									<MenuItem 
 										onClick={() => handleLikesSort(Direction.DESC)}
@@ -558,7 +560,7 @@ const PropertyList: NextPage = ({ initialInput, ...props }: any) => {
 											}
 										}}
 									>
-										Likes
+										{t('Likes')}
 									</MenuItem>
 									<MenuItem 
 										onClick={async () => {
@@ -576,7 +578,7 @@ const PropertyList: NextPage = ({ initialInput, ...props }: any) => {
 											}
 										}}
 									>
-										Views
+										{t('Views')}
 									</MenuItem>
 								</Menu>
 							</Box>
@@ -699,7 +701,7 @@ const PropertyList: NextPage = ({ initialInput, ...props }: any) => {
 								PaperProps={{ style: { maxHeight: 400, width: 200 } }}
 							>
 								<Typography sx={{ px: 2, py: 1, fontWeight: 600, fontSize: '12px', color: '#717171' }}>
-									From Year
+									{t('From Year')}
 								</Typography>
 								{propertyYears.slice().reverse().map((year: string) => (
 									<MenuItem
@@ -711,7 +713,7 @@ const PropertyList: NextPage = ({ initialInput, ...props }: any) => {
 									</MenuItem>
 								))}
 								<Typography sx={{ px: 2, py: 1, fontWeight: 600, fontSize: '12px', color: '#717171', mt: 1, borderTop: '1px solid #eee' }}>
-									To Year
+									{t('To Year')}
 								</Typography>
 								{propertyYears.slice().reverse().map((year: string) => (
 									<MenuItem
@@ -739,7 +741,7 @@ const PropertyList: NextPage = ({ initialInput, ...props }: any) => {
 								PaperProps={{ style: { maxHeight: 400, width: 200 } }}
 							>
 								<Typography sx={{ px: 2, py: 1, fontWeight: 600, fontSize: '12px', color: '#717171' }}>
-									Min Price ($)
+									{t('Min Price ($)')}
 								</Typography>
 								{[0, 500, 1000, 2000, 5000, 10000, 20000, 50000, 100000, 200000].map((price) => (
 									<MenuItem
@@ -751,7 +753,7 @@ const PropertyList: NextPage = ({ initialInput, ...props }: any) => {
 									</MenuItem>
 								))}
 								<Typography sx={{ px: 2, py: 1, fontWeight: 600, fontSize: '12px', color: '#717171', mt: 1, borderTop: '1px solid #eee' }}>
-									Max Price ($)
+									{t('Max Price ($)')}
 								</Typography>
 								{[500, 1000, 2000, 5000, 10000, 20000, 50000, 100000, 200000, 500000].map((price) => (
 									<MenuItem
@@ -770,7 +772,7 @@ const PropertyList: NextPage = ({ initialInput, ...props }: any) => {
 								startIcon={<RefreshIcon />}
 								onClick={handleReset}
 							>
-								Reset
+								{t('Reset')}
 							</Button>
 						</Stack>
 					</Stack>
@@ -781,7 +783,7 @@ const PropertyList: NextPage = ({ initialInput, ...props }: any) => {
 								{properties?.length === 0 ? (
 									<div className={'no-data'}>
 										<img src="/img/icons/icoAlert.svg" alt="" />
-										<p>No bikes found!</p>
+										<p>{t('No bikes found!')}</p>
 									</div>
 								) : (
 									properties.map((property: Property) => {
@@ -823,8 +825,8 @@ const PropertyList: NextPage = ({ initialInput, ...props }: any) => {
 						{/* Top Row - Title, Count, Reset, Likes */}
 						<Stack className={'filter-header-top'}>
 							<Box component="div" className={'filter-header-left'}>
-								<Typography className={'filter-header-title'}>Bikes</Typography>
-								<Typography className={'filter-header-count'}>{total} available</Typography>
+								<Typography className={'filter-header-title'}>{t('Bikes')}</Typography>
+								<Typography className={'filter-header-count'}>{total} {t('available')}</Typography>
 							</Box>
 							<Box component="div" className={'filter-header-right'}>
 								<Button
@@ -832,14 +834,14 @@ const PropertyList: NextPage = ({ initialInput, ...props }: any) => {
 									startIcon={<FilterListIcon />}
 									onClick={handleReset}
 								>
-									Reset
+									{t('Reset')}
 								</Button>
 								<Button
 									className={'filter-sort-button'}
 									endIcon={<KeyboardArrowDownRoundedIcon />}
 									onClick={(e: React.MouseEvent<HTMLButtonElement>) => setLikesAnchor(e.currentTarget)}
 								>
-									{filterSortName}
+									{t(filterSortName)}
 								</Button>
 								<Menu
 									anchorEl={likesAnchor}
@@ -880,7 +882,7 @@ const PropertyList: NextPage = ({ initialInput, ...props }: any) => {
 											}
 										}}
 									>
-										Recent
+										{t('Recent')}
 									</MenuItem>
 									<MenuItem 
 										onClick={async () => {
@@ -898,7 +900,7 @@ const PropertyList: NextPage = ({ initialInput, ...props }: any) => {
 											}
 										}}
 									>
-										Oldest
+										{t('Oldest')}
 									</MenuItem>
 									<MenuItem 
 										onClick={() => handleLikesSort(Direction.DESC)}
@@ -913,7 +915,7 @@ const PropertyList: NextPage = ({ initialInput, ...props }: any) => {
 											}
 										}}
 									>
-										Likes
+										{t('Likes')}
 									</MenuItem>
 									<MenuItem 
 										onClick={async () => {
@@ -931,7 +933,7 @@ const PropertyList: NextPage = ({ initialInput, ...props }: any) => {
 											}
 										}}
 									>
-										Views
+										{t('Views')}
 									</MenuItem>
 								</Menu>
 							</Box>
@@ -1054,7 +1056,7 @@ const PropertyList: NextPage = ({ initialInput, ...props }: any) => {
 								PaperProps={{ style: { maxHeight: 400, width: 200 } }}
 							>
 								<Typography sx={{ px: 2, py: 1, fontWeight: 600, fontSize: '12px', color: '#717171' }}>
-									From Year
+									{t('From Year')}
 								</Typography>
 								{propertyYears.slice().reverse().map((year: string) => (
 									<MenuItem
@@ -1066,7 +1068,7 @@ const PropertyList: NextPage = ({ initialInput, ...props }: any) => {
 									</MenuItem>
 								))}
 								<Typography sx={{ px: 2, py: 1, fontWeight: 600, fontSize: '12px', color: '#717171', mt: 1, borderTop: '1px solid #eee' }}>
-									To Year
+									{t('To Year')}
 								</Typography>
 								{propertyYears.slice().reverse().map((year: string) => (
 									<MenuItem
@@ -1094,7 +1096,7 @@ const PropertyList: NextPage = ({ initialInput, ...props }: any) => {
 								PaperProps={{ style: { maxHeight: 400, width: 200 } }}
 							>
 								<Typography sx={{ px: 2, py: 1, fontWeight: 600, fontSize: '12px', color: '#717171' }}>
-									Min Price ($)
+									{t('Min Price ($)')}
 								</Typography>
 								{[0, 500, 1000, 2000, 5000, 10000, 20000, 50000, 100000, 200000].map((price) => (
 									<MenuItem
@@ -1106,7 +1108,7 @@ const PropertyList: NextPage = ({ initialInput, ...props }: any) => {
 									</MenuItem>
 								))}
 								<Typography sx={{ px: 2, py: 1, fontWeight: 600, fontSize: '12px', color: '#717171', mt: 1, borderTop: '1px solid #eee' }}>
-									Max Price ($)
+									{t('Max Price ($)')}
 								</Typography>
 								{[500, 1000, 2000, 5000, 10000, 20000, 50000, 100000, 200000, 500000].map((price) => (
 									<MenuItem
@@ -1125,7 +1127,7 @@ const PropertyList: NextPage = ({ initialInput, ...props }: any) => {
 								startIcon={<RefreshIcon />}
 								onClick={handleReset}
 							>
-								Reset
+								{t('Reset')}
 							</Button>
 						</Stack>
 					</Stack>
@@ -1136,7 +1138,7 @@ const PropertyList: NextPage = ({ initialInput, ...props }: any) => {
 								{properties?.length === 0 ? (
 									<div className={'no-data'}>
 										<img src="/img/icons/icoAlert.svg" alt="" />
-										<p>No bikes found!</p>
+										<p>{t('No bikes found!')}</p>
 									</div>
 								) : (
 									properties.map((property: Property) => {

@@ -20,6 +20,7 @@ import ModeIcon from '@mui/icons-material/Mode';
 import DeleteIcon from '@mui/icons-material/Delete';
 import { useRouter } from 'next/router';
 import { PropertyType, PropertyStatus } from '../../enums/property.enum';
+import { useTranslation } from 'next-i18next';
 
 interface PropertyCardType {
 	property: Property;
@@ -32,6 +33,7 @@ interface PropertyCardType {
 const PropertyCard = (props: PropertyCardType) => {
 	const { property, likePropertyHandler, myFavorites, recentlyVisited, deletePropertyHandler } = props;
 	const device = useDeviceDetect();
+	const { t } = useTranslation('common');
 	const user = useReactiveVar(userVar);
 	const router = useRouter();
 	const imagePath: string = useMemo(() => {
@@ -150,7 +152,7 @@ const PropertyCard = (props: PropertyCardType) => {
 					<Stack className="spec-row">
 						<div className="spec">
 							<SpeedIcon fontSize="small" />
-							<span>{property.propertyMileAge || 0} miles</span>
+							<span>{property.propertyMileAge || 0} {t('miles')}</span>
 						</div>
 						<div className="spec">
 							<TwoWheelerIcon fontSize="small" />
@@ -166,11 +168,11 @@ const PropertyCard = (props: PropertyCardType) => {
 
 					<Stack className="card-foot">
 						<Box component={'div'} className="price-box">
-							<span className="from">From</span>
+							<span className="from">{t('From')}</span>
 							<strong className="price">${formattedPrice}</strong>
 						</Box>
 						<Button variant="contained" className="cta" onClick={handleBuyNow}>
-							Buy Now
+							{t('Buy Now')}
 						</Button>
 					</Stack>
 				</Box>
@@ -218,7 +220,7 @@ const PropertyCard = (props: PropertyCardType) => {
 						{property.propertyBrand} • {property.propertyYear} • {property.propertyEngineCc}cc • {property.propertyCondition}
 					</Typography>
 					<Stack className="specs-row">
-						<Chip label={`${property.propertyYear} Year`} className="spec-chip" />
+						<Chip label={`${property.propertyYear} ${t('Year')}`} className="spec-chip" />
 						<Chip label={`${property.propertyEngineCc}cc`} className="spec-chip" />
 						<Chip label={property.propertyLocation} className="spec-chip" />
 					</Stack>
@@ -284,9 +286,9 @@ const PropertyCard = (props: PropertyCardType) => {
 					</Stack>
 				</Stack>
 				<Stack className="price-section">
-					<Typography className="price-label">FROM</Typography>
+					<Typography className="price-label">{t('FROM')}</Typography>
 					<Typography className="price-value">${formatterStr(property?.propertyPrice)}</Typography>
-					<Typography className="price-period">/DAY</Typography>
+					<Typography className="price-period">{t('/DAY')}</Typography>
 				</Stack>
 			</Stack>
 		);
@@ -378,7 +380,7 @@ const PropertyCard = (props: PropertyCardType) => {
 					<Stack className="specs-row">
 						<Box component={'div'} className="spec-badge">
 							<SpeedIcon sx={{ fontSize: '14px', color: '#25b44b' }} />
-							<Typography>{property.propertyMileAge || 0} miles</Typography>
+							<Typography>{property.propertyMileAge || 0} {t('miles')}</Typography>
 						</Box>
 						<Box component={'div'} className="spec-badge">
 							<TwoWheelerIcon sx={{ fontSize: '14px', color: '#25b44b' }} />

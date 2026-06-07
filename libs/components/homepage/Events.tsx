@@ -1,6 +1,7 @@
 import React from 'react';
 import { Stack, Box } from '@mui/material';
 import useDeviceDetect from '../../hooks/useDeviceDetect';
+import { useTranslation } from 'next-i18next';
 
 interface EventData {
 	eventTitle: string;
@@ -69,6 +70,7 @@ const EventCard = ({ event }: { event: EventData }) => {
 
 const Events = () => {
 	const device = useDeviceDetect();
+	const { t } = useTranslation('common');
 
 	if (device === 'mobile') {
 		return <div>EVENT CARD</div>;
@@ -78,8 +80,8 @@ const Events = () => {
 				<Stack className={'container'}>
 					<Stack className={'info-box'}>
 						<Box component={'div'} className={'left'}>
-							<span>Motorcycle Events</span>
-							<p>Join exciting motorcycle events and connect with riders!</p>
+							<span>{t('Motorcycle Events')}</span>
+							<p>{t('Join exciting motorcycle events and connect with riders!')}</p>
 						</Box>
 					</Stack>
 					<Stack className={'card-wrapper'}>

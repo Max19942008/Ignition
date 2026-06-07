@@ -13,6 +13,7 @@ import PersonIcon from '@mui/icons-material/Person';
 import LockIcon from '@mui/icons-material/Lock';
 import PhoneIcon from '@mui/icons-material/Phone';
 import TwoWheelerIcon from '@mui/icons-material/TwoWheeler';
+import { useTranslation } from 'next-i18next';
 
 export const getStaticProps = async ({ locale }: any) => ({
 	props: {
@@ -23,6 +24,7 @@ export const getStaticProps = async ({ locale }: any) => ({
 const Join: NextPage = () => {
 	const router = useRouter();
 	const device = useDeviceDetect();
+	const { t } = useTranslation('common');
 	const [input, setInput] = useState({ nick: '', password: '', phone: '', type: 'USER' });
 	const [loginView, setLoginView] = useState<boolean>(true);
 	const [showPassword, setShowPassword] = useState<boolean>(false);
@@ -84,13 +86,13 @@ const Join: NextPage = () => {
 								<img src="/img/logo/logo1.webp" alt="Ignition Logo" className={'logo-img'} />
 								<Typography className={'logo-text'}>Ignition</Typography>
 							</Box>
-							<Typography className={'logo-subtitle'}>Your Motorcycle Marketplace</Typography>
+							<Typography className={'logo-subtitle'}>{t('Your Motorcycle Marketplace')}</Typography>
 						</Box>
 
 						{/* Title Section */}
 						<Box component="div" className={'title-section'}>
 							<Typography className={'title'}>
-								{loginView ? 'Welcome Back!' : 'Create Account'}
+								{loginView ? t('Welcome Back!') : t('Create Account')}
 							</Typography>
 							<Typography className={'subtitle'}>
 								{loginView
@@ -104,8 +106,8 @@ const Join: NextPage = () => {
 							<Box component="div" className={'input-box'}>
 								<TextField
 									fullWidth
-									label="Nickname"
-									placeholder="Enter your nickname"
+									label={t('Nickname')}
+									placeholder={t('Enter your nickname')}
 									value={input.nick}
 									onChange={(e) => handleInput('nick', e.target.value)}
 									onKeyDown={(event) => {
@@ -128,7 +130,7 @@ const Join: NextPage = () => {
 									fullWidth
 									label="Password"
 									type={showPassword ? 'text' : 'password'}
-									placeholder="Enter your password"
+									placeholder={t('Enter your password')}
 									value={input.password}
 									onChange={(e) => handleInput('password', e.target.value)}
 									onKeyDown={(event) => {
@@ -158,7 +160,7 @@ const Join: NextPage = () => {
 									<TextField
 										fullWidth
 										label="Phone Number"
-										placeholder="Enter your phone number"
+										placeholder={t('Enter your phone number')}
 										value={input.phone}
 										onChange={(e) => handleInput('phone', e.target.value)}
 										onKeyDown={(event) => {
@@ -180,7 +182,7 @@ const Join: NextPage = () => {
 						{/* User Type Selection (Signup only) */}
 						{!loginView && (
 							<Box component="div" className={'user-type-section'}>
-								<Typography className={'user-type-label'}>I want to register as:</Typography>
+								<Typography className={'user-type-label'}>{t('I want to register as:')}</Typography>
 								<Box component="div" className={'user-type-buttons'}>
 									<Button
 										variant={input.type === 'USER' ? 'contained' : 'outlined'}
@@ -188,7 +190,7 @@ const Join: NextPage = () => {
 										className={`user-type-btn ${input.type === 'USER' ? 'active' : ''}`}
 										startIcon={<PersonIcon />}
 									>
-										User
+										{t('User')}
 									</Button>
 									<Button
 										variant={input.type === 'AGENT' ? 'contained' : 'outlined'}
@@ -196,7 +198,7 @@ const Join: NextPage = () => {
 										className={`user-type-btn ${input.type === 'AGENT' ? 'active' : ''}`}
 										startIcon={<TwoWheelerIcon />}
 									>
-										Agent
+										{t('Agent')}
 									</Button>
 								</Box>
 							</Box>
@@ -207,10 +209,10 @@ const Join: NextPage = () => {
 							<Box component="div" className={'remember-section'}>
 								<FormControlLabel
 									control={<Checkbox defaultChecked className={'remember-checkbox'} />}
-									label="Remember me"
+									label={t('Remember me')}
 									className={'remember-label'}
 								/>
-								<Button className={'forgot-password-btn'}>Forgot Password?</Button>
+								<Button className={'forgot-password-btn'}>{t('Forgot Password?')}</Button>
 							</Box>
 						)}
 
@@ -232,12 +234,12 @@ const Join: NextPage = () => {
 						{/* Switch View */}
 						<Box component="div" className={'switch-view'}>
 							<Typography className={'switch-text'}>
-								{loginView ? "Don't have an account? " : 'Already have an account? '}
+								{loginView ? t("Don't have an account? ") : t('Already have an account? ')}
 								<Button
 									onClick={() => viewChangeHandler(!loginView)}
 									className={'switch-btn'}
 								>
-									{loginView ? 'SIGN UP' : 'LOGIN'}
+									{loginView ? t('SIGN UP') : t('LOGIN')}
 								</Button>
 							</Typography>
 						</Box>
@@ -260,13 +262,13 @@ const Join: NextPage = () => {
 									<img src="/img/logo/logo1.webp" alt="Ignition Logo" className={'logo-img'} />
 									<Typography className={'logo-text'}>Ignition</Typography>
 							</Box>
-							<Typography className={'logo-subtitle'}>Your Motorcycle Marketplace</Typography>
+							<Typography className={'logo-subtitle'}>{t('Your Motorcycle Marketplace')}</Typography>
 						</Box>
 
 						{/* Title Section */}
 						<Box component="div" className={'title-section'}>
 								<Typography className={'title'}>
-									{loginView ? 'Welcome Back!' : 'Create Account'}
+									{loginView ? t('Welcome Back!') : t('Create Account')}
 								</Typography>
 								<Typography className={'subtitle'}>
 									{loginView
@@ -280,8 +282,8 @@ const Join: NextPage = () => {
 								<Box component="div" className={'input-box'}>
 									<TextField
 										fullWidth
-										label="Nickname"
-										placeholder="Enter your nickname"
+										label={t('Nickname')}
+										placeholder={t('Enter your nickname')}
 										value={input.nick}
 										onChange={(e) => handleInput('nick', e.target.value)}
 										onKeyDown={(event) => {
@@ -304,7 +306,7 @@ const Join: NextPage = () => {
 										fullWidth
 										label="Password"
 										type={showPassword ? 'text' : 'password'}
-										placeholder="Enter your password"
+										placeholder={t('Enter your password')}
 										value={input.password}
 										onChange={(e) => handleInput('password', e.target.value)}
 										onKeyDown={(event) => {
@@ -334,7 +336,7 @@ const Join: NextPage = () => {
 										<TextField
 											fullWidth
 											label="Phone Number"
-											placeholder="Enter your phone number"
+											placeholder={t('Enter your phone number')}
 											value={input.phone}
 											onChange={(e) => handleInput('phone', e.target.value)}
 											onKeyDown={(event) => {
@@ -356,7 +358,7 @@ const Join: NextPage = () => {
 					{/* User Type Selection (Signup only) */}
 					{!loginView && (
 						<Box component="div" className={'user-type-section'}>
-							<Typography className={'user-type-label'}>I want to register as:</Typography>
+							<Typography className={'user-type-label'}>{t('I want to register as:')}</Typography>
 							<Box component="div" className={'user-type-buttons'}>
 										<Button
 											variant={input.type === 'USER' ? 'contained' : 'outlined'}
@@ -364,7 +366,7 @@ const Join: NextPage = () => {
 											className={`user-type-btn ${input.type === 'USER' ? 'active' : ''}`}
 											startIcon={<PersonIcon />}
 										>
-											User
+											{t('User')}
 										</Button>
 										<Button
 											variant={input.type === 'AGENT' ? 'contained' : 'outlined'}
@@ -372,7 +374,7 @@ const Join: NextPage = () => {
 											className={`user-type-btn ${input.type === 'AGENT' ? 'active' : ''}`}
 											startIcon={<TwoWheelerIcon />}
 										>
-							Agent
+							{t('Agent')}
 						</Button>
 					</Box>
 				</Box>
@@ -383,7 +385,7 @@ const Join: NextPage = () => {
 				<Box component="div" className={'remember-section'}>
 									<FormControlLabel
 										control={<Checkbox defaultChecked className={'remember-checkbox'} />}
-										label="Remember me"
+										label={t('Remember me')}
 										className={'remember-label'}
 									/>
 					<Button className={'forgot-password-btn'}>Forgot Password?</Button>
@@ -402,18 +404,18 @@ const Join: NextPage = () => {
 								onClick={loginView ? doLogin : doSignUp}
 								className={'submit-btn'}
 							>
-								{loginView ? 'LOGIN' : 'SIGN UP'}
+								{loginView ? t('LOGIN') : t('SIGN UP')}
 							</Button>
 
 			{/* Switch View */}
 			<Box component="div" className={'switch-view'}>
 								<Typography className={'switch-text'}>
-									{loginView ? "Don't have an account? " : 'Already have an account? '}
+									{loginView ? t("Don't have an account? ") : t('Already have an account? ')}
 									<Button
 										onClick={() => viewChangeHandler(!loginView)}
 										className={'switch-btn'}
 									>
-										{loginView ? 'SIGN UP' : 'LOGIN'}
+										{loginView ? t('SIGN UP') : t('LOGIN')}
 					</Button>
 				</Typography>
 			</Box>
@@ -425,22 +427,22 @@ const Join: NextPage = () => {
 				<Box component="div" className={'moto-icon-wrapper'}>
 					<TwoWheelerIcon className={'moto-icon'} />
 				</Box>
-								<Typography className={'right-title'}>Welcome to Ignition</Typography>
+								<Typography className={'right-title'}>{t('Welcome to Ignition')}</Typography>
 				<Typography className={'right-subtitle'}>
 					Your trusted marketplace for buying and selling motorcycles
 				</Typography>
 				<Box component="div" className={'features-list'}>
 					<Box component="div" className={'feature-item'}>
 						<Typography className={'feature-icon'}>🏍️</Typography>
-						<Typography className={'feature-text'}>Wide Selection</Typography>
+						<Typography className={'feature-text'}>{t('Wide Selection')}</Typography>
 					</Box>
 					<Box component="div" className={'feature-item'}>
 						<Typography className={'feature-icon'}>🔒</Typography>
-						<Typography className={'feature-text'}>Secure Transactions</Typography>
+						<Typography className={'feature-text'}>{t('Secure Transactions')}</Typography>
 					</Box>
 					<Box component="div" className={'feature-item'}>
 						<Typography className={'feature-icon'}>⚡</Typography>
-						<Typography className={'feature-text'}>Fast & Easy</Typography>
+						<Typography className={'feature-text'}>{t('Fast & Easy')}</Typography>
 					</Box>
 				</Box>
 			</Box>
