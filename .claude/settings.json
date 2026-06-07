@@ -1,0 +1,19 @@
+{
+  "permissions": {
+    "allow": [
+      "Bash(cat apps/moto-hub/src/components/notification/notification.resolver.ts)",
+      "Bash(cat apps/moto-hub/src/components/notification/notification.module.ts)",
+      "Bash(sed -n '/GET_MEMBER_FOLLOWERS/,$p' apollo/user/query.ts)",
+      "Bash(sed -n '/mutation Subscribe/,$p' apollo/user/mutation.ts)",
+      "Bash(curl -s -X POST http://159.223.61.65:4001/graphql -H \"Content-Type: application/json\" -d '{\"query\":\"{ __type\\(name:\\\\\"Mutation\\\\\"\\){ fields { name } } }\"}' --max-time 15)",
+      "Bash(curl -s -X POST http://localhost:3007/graphql -H \"Content-Type: application/json\" -d '{\"query\":\"{ __type\\(name:\\\\\"Mutation\\\\\"\\){ fields { name } } }\"}' --max-time 15)"
+    ],
+    "additionalDirectories": [
+      "c:\\Users\\RAKHIMBOEV BOBUR\\Desktop\\moto-hub\\apps\\moto-hub\\src\\libs\\enums",
+      "c:\\Users\\RAKHIMBOEV BOBUR\\Desktop\\moto-hub\\apps\\moto-hub\\src\\components\\notification\\channels",
+      "c:\\Users\\RAKHIMBOEV BOBUR\\Desktop\\moto-hub\\apps\\moto-hub\\src\\components\\notification",
+      "c:\\Users\\RAKHIMBOEV BOBUR\\Desktop\\moto-hub\\apps\\moto-hub\\src\\components\\property",
+      "c:\\Users\\RAKHIMBOEV BOBUR\\Desktop\\moto-hub"
+    ]
+  }
+}

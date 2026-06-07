@@ -13,10 +13,19 @@ import { CaretDown } from 'phosphor-react';
 import useDeviceDetect from '../hooks/useDeviceDetect';
 import Link from 'next/link';
 import NotificationsOutlinedIcon from '@mui/icons-material/NotificationsOutlined';
-import { useReactiveVar } from '@apollo/client';
+import { Badge, Divider, Typography } from '@mui/material';
+import DeleteOutlineIcon from '@mui/icons-material/DeleteOutline';
+import { useReactiveVar, useQuery, useMutation } from '@apollo/client';
 import { userVar } from '../../apollo/store';
 import { Logout } from '@mui/icons-material';
 import { REACT_APP_API_URL } from '../config';
+import { GET_NOTIFICATIONS } from '../../apollo/user/query';
+import { DELETE_NOTIFICATION, MARK_NOTIFICATIONS_READ } from '../../apollo/user/mutation';
+import { Notification } from '../types/notification/notification';
+import { NotificationStatus } from '../enums/notification.enum';
+import { Direction } from '../enums/common.enum';
+import { T } from '../types/common';
+import moment from 'moment';
 
 const Top = () => {
 	const device = useDeviceDetect();
@@ -32,6 +41,26 @@ const Top = () => {
 	const [bgColor, setBgColor] = useState<boolean>(false);
 	const [logoutAnchor, setLogoutAnchor] = React.useState<null | HTMLElement>(null);
 	const logoutOpen = Boolean(logoutAnchor);
+	const [notifyAnchor, setNotifyAnchor] = useState<null | HTMLElement>(null);
+	const notifyOpen = Boolean(notifyAnchor);
+
+	/** APOLLO REQUESTS **/
+	const [markNotificationsRead] = useMutation(MARK_NOTIFICATIONS_READ);
+	const [deleteNotificationMutation] = useMutation(DELETE_NOTIFICATION);
+
+	const {
+		data: notiData,
+		refetch: refetchNotifications,
+	} = useQuery(GET_NOTIFICATIONS, {
+		fetchPolicy: 'cache-and-network',
+		variables: { input: { page: 1, limit: 20, direction: Direction.DESC, search: {} } },
+		skip: !user?._id,
+		notifyOnNetworkStatusChange: true,
+		pollInterval: 30000,
+	});
+
+	const notifications: Notification[] = notiData?.getNotifications?.list ?? [];
+	const unreadCount: number = notiData?.getNotifications?.unreadCounter?.[0]?.total ?? 0;
 
 	/** LIFECYCLES **/
 	useEffect(() => {
@@ -87,6 +116,33 @@ const Top = () => {
 
 	const handleClose = () => {
 		setAnchorEl(null);
+	};
+
+	const notifyClick = async (event: any) => {
+		setNotifyAnchor(event.currentTarget);
+		// mark all as read when the dropdown opens
+		if (unreadCount > 0) {
+			try {
+				await markNotificationsRead({ variables: { input: {} } });
+				await refetchNotifications();
+			} catch (err) {
+				console.log('markNotificationsRead err:', err);
+			}
+		}
+	};
+
+	const notifyClose = () => {
+		setNotifyAnchor(null);
+	};
+
+	const removeNotification = async (e: any, notificationId: string) => {
+		e.stopPropagation();
+		try {
+			await deleteNotificationMutation({ variables: { input: { _id: notificationId } } });
+			await refetchNotifications();
+		} catch (err) {
+			console.log('deleteNotification err:', err);
+		}
 	};
 
 	const handleHover = (event: any) => {
@@ -238,7 +294,72 @@ const Top = () => {
 							)}
 
 							<div className={'lan-box'}>
-								{user?._id && <NotificationsOutlinedIcon className={'notification-icon'} />}
+								{user?._id && (
+									<>
+										<Badge badgeContent={unreadCount} color="error" overlap="circular">
+											<NotificationsOutlinedIcon
+												className={'notification-icon'}
+												style={{ cursor: 'pointer' }}
+												onClick={notifyClick}
+											/>
+										</Badge>
+										<Menu
+											anchorEl={notifyAnchor}
+											open={notifyOpen}
+											onClose={notifyClose}
+											sx={{ mt: '10px' }}
+											anchorOrigin={{ vertical: 'bottom', horizontal: 'right' }}
+											transformOrigin={{ vertical: 'top', horizontal: 'right' }}
+											PaperProps={{ style: { width: 360, maxHeight: 460 } }}
+										>
+											<Box component={'div'} sx={{ px: 2, py: 1, display: 'flex', justifyContent: 'space-between' }}>
+												<Typography fontWeight={700}>{t('Notifications')}</Typography>
+												<Link href={'/notifications'} onClick={notifyClose}>
+													<Typography color="primary" fontSize={13} sx={{ cursor: 'pointer' }}>
+														{t('View all')}
+													</Typography>
+												</Link>
+											</Box>
+											<Divider />
+											{notifications.length === 0 ? (
+												<Box component={'div'} sx={{ px: 2, py: 3, textAlign: 'center', color: '#888' }}>
+													{t('No notifications')}
+												</Box>
+											) : (
+												notifications.slice(0, 8).map((noti: Notification) => (
+													<MenuItem
+														key={noti._id}
+														sx={{
+															whiteSpace: 'normal',
+															alignItems: 'flex-start',
+															background:
+																noti.notificationStatus === NotificationStatus.WAIT ? 'rgba(37,180,75,0.06)' : 'transparent',
+														}}
+													>
+														<Box component={'div'} sx={{ flex: 1 }}>
+															<Typography fontSize={13} fontWeight={600}>
+																{noti.notificationTitle}
+															</Typography>
+															{noti.notificationDesc && (
+																<Typography fontSize={12} color="#666">
+																	{noti.notificationDesc}
+																</Typography>
+															)}
+															<Typography fontSize={11} color="#aaa">
+																{moment(noti.createdAt).fromNow()}
+															</Typography>
+														</Box>
+														<DeleteOutlineIcon
+															fontSize="small"
+															sx={{ color: '#bbb', ml: 1 }}
+															onClick={(e: T) => removeNotification(e, noti._id)}
+														/>
+													</MenuItem>
+												))
+											)}
+										</Menu>
+									</>
+								)}
 								<Button
 									disableRipple
 									className="btn-lang"

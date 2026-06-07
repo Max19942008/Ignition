@@ -39,7 +39,7 @@ import 'swiper/css/pagination';
 import { GET_COMMENTS, GET_PROPERTIES, GET_PROPERTY } from '../../apollo/user/query';
 import { T } from '../../libs/types/common';
 import { Direction, Message } from '../../libs/enums/common.enum';
-import { CREATE_COMMENT, LIKE_TARGET_PROPERTY } from '../../apollo/user/mutation';
+import { CREATE_COMMENT, LIKE_TARGET_PROPERTY, NOTIFY_INTEREST } from '../../apollo/user/mutation';
 import { sweetErrorHandling, sweetMixinErrorAlert, sweetTopSmallSuccessAlert } from '../../libs/sweetAlert';
 
 SwiperCore.use([Autoplay, Navigation, Pagination]);
@@ -73,6 +73,7 @@ const PropertyDetail: NextPage = ({ initialComment, ...props }: any) => {
 	/** APOLLO REQUESTS **/
 	const [likeTargetProperty] = useMutation(LIKE_TARGET_PROPERTY);
    const [createComment] = useMutation(CREATE_COMMENT);
+   const [notifyInterest] = useMutation(NOTIFY_INTEREST);
 
 		const {
 		loading: getPropertyLoading, 
@@ -191,6 +192,19 @@ const PropertyDetail: NextPage = ({ initialComment, ...props }: any) => {
 			sweetMixinErrorAlert(err.message).then();
 			}
 		};
+
+	const notifyInterestHandler = async () => {
+		try {
+			if (!user?._id) throw new Error(Message.NOT_AUTHENTICATED);
+			if (!property?._id) return;
+
+			await notifyInterest({ variables: { propertyId: property._id } });
+			await sweetTopSmallSuccessAlert(t('The dealer has been notified of your interest!'), 1200);
+		} catch (err: any) {
+			console.log('ERROR notifyInterestHandler:', err.message);
+			sweetMixinErrorAlert(err.message).then();
+		}
+	};
 
 		
 	const createCommentHandler = async () => {
@@ -326,8 +340,8 @@ const PropertyDetail: NextPage = ({ initialComment, ...props }: any) => {
 									<Button className={'btn-call-dealer'} startIcon={<PhoneIcon />}>
 										Call Dealer
 									</Button>
-									<Button className={'btn-book-online'}>
-										Book Online
+									<Button className={'btn-book-online'} onClick={notifyInterestHandler}>
+										{t("I'm Interested")}
 									</Button>
 									<Button 
 										className={`btn-like ${property?.meLiked && property?.meLiked[0]?.myFavorite ? 'liked' : ''}`}
@@ -709,8 +723,8 @@ const PropertyDetail: NextPage = ({ initialComment, ...props }: any) => {
 									<Button className={'btn-call-dealer'} startIcon={<PhoneIcon />}>
 										Call Dealer
 									</Button>
-									<Button className={'btn-book-online'}>
-										Book Online
+									<Button className={'btn-book-online'} onClick={notifyInterestHandler}>
+										{t("I'm Interested")}
 									</Button>
 									<Button 
 										className={`btn-like ${property?.meLiked && property?.meLiked[0]?.myFavorite ? 'liked' : ''}`}

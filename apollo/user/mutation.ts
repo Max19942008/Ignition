@@ -340,3 +340,26 @@ export const UNSUBSCRIBE = gql`
 		}
 	}
 `;
+
+/**************************
+ *      NOTIFICATION      *
+ *************************/
+
+export const MARK_NOTIFICATIONS_READ = gql`
+	mutation MarkNotificationsRead($input: NotificationReadInput) {
+		markNotificationsRead(input: $input)
+	}
+`;
+
+export const DELETE_NOTIFICATION = gql`
+	mutation DeleteNotification($input: NotificationDeleteInput) {
+		deleteNotification(input: $input)
+	}
+`;
+
+/** Client expresses interest in a motorbike → admin gets notified (in-app + Gmail + Telegram) */
+export const NOTIFY_INTEREST = gql`
+	mutation NotifyInterest($propertyId: String!) {
+		notifyInterest(propertyId: $propertyId)
+	}
+`;
