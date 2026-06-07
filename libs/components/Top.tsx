@@ -172,8 +172,8 @@ const Top = () => {
 						<Box component={'div'} className={'logo-box'}>
 							<Link href={'/'}>
 								<Stack direction="row" alignItems="center" spacing={1.5} className="brand">
-									<img src="/img/logo/logo1.webp" alt="Bike Hub logo" className="logo-img" />
-									<span className="logo-wordmark">Ignition</span>
+									<img src="/img/logo/motopresto.svg" alt="MOTOPRESTO logo" className="logo-img" />
+									<span className="logo-wordmark">MOTOPRESTO</span>
 								</Stack>
 							</Link>
 						</Box>

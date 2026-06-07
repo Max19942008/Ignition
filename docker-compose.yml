@@ -1,8 +1,8 @@
 
 
 services:
-  Ignition:
-    container_name: Ignition
+  motopresto:
+    container_name: motopresto
     restart: always
     image: node:20.10.0
     ports:
@@ -10,8 +10,8 @@ services:
     environment:
       - PORT=3000
     volumes:
-      - ./:/usr/src/ignition
-    working_dir: /usr/src/ignition
+      - ./:/usr/src/motopresto
+    working_dir: /usr/src/motopresto
     networks:
       - client-network
     # FOR PRODUCTION

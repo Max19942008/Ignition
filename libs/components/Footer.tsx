@@ -19,8 +19,8 @@ const Footer = () => {
 				<Stack component="div" className={'left'}>
 					<Box component={'div'} className={'footer-box logo-box'}>
 						<div className={'logo-container'}>
-							<img src="/img/logo/logo1.webp" alt="Logo" className={'logo'} />
-							<span className={'logo-text'}>Ignition</span>
+							<img src="/img/logo/motopresto.svg" alt="MOTOPRESTO logo" className={'logo'} />
+							<span className={'logo-text'}>MOTOPRESTO</span>
 						</div>
 						<p className={'description'}>
 							{t('Your trusted partner in finding the perfect motorcycle. Experience excellence in bike services and community.')}
@@ -99,7 +99,7 @@ const Footer = () => {
 				</Stack>
 			</Stack>
 			<Stack component="div" className={'second'}>
-				<span>© Ignition - {t('All rights reserved.')} Ignition {moment().year()}</span>
+				<span>© MOTOPRESTO - {t('All rights reserved.')} MOTOPRESTO {moment().year()}</span>
 				<div className={'footer-links'}>
 					<span>{t('Privacy')}</span>
 					<span className={'separator'}>·</span>

@@ -83,8 +83,8 @@ const Join: NextPage = () => {
 						{/* Logo Section */}
 						<Box component="div" className={'logo-section'}>
 							<Box component="div" className={'logo-box'}>
-								<img src="/img/logo/logo1.webp" alt="Ignition Logo" className={'logo-img'} />
-								<Typography className={'logo-text'}>Ignition</Typography>
+								<img src="/img/logo/motopresto.svg" alt="MOTOPRESTO Logo" className={'logo-img'} />
+								<Typography className={'logo-text'}>MOTOPRESTO</Typography>
 							</Box>
 							<Typography className={'logo-subtitle'}>{t('Your Motorcycle Marketplace')}</Typography>
 						</Box>
@@ -96,8 +96,8 @@ const Join: NextPage = () => {
 							</Typography>
 							<Typography className={'subtitle'}>
 								{loginView
-									? 'Sign in to continue to Ignition'
-									: 'Join Ignition and start buying or selling motorcycles'}
+									? 'Sign in to continue to MOTOPRESTO'
+									: 'Join MOTOPRESTO and start buying or selling motorcycles'}
 							</Typography>
 						</Box>
 
@@ -259,8 +259,8 @@ const Join: NextPage = () => {
 							{/* Logo Section */}
 						<Box component="div" className={'logo-section'}>
 							<Box component="div" className={'logo-box'}>
-									<img src="/img/logo/logo1.webp" alt="Ignition Logo" className={'logo-img'} />
-									<Typography className={'logo-text'}>Ignition</Typography>
+									<img src="/img/logo/motopresto.svg" alt="MOTOPRESTO Logo" className={'logo-img'} />
+									<Typography className={'logo-text'}>MOTOPRESTO</Typography>
 							</Box>
 							<Typography className={'logo-subtitle'}>{t('Your Motorcycle Marketplace')}</Typography>
 						</Box>
@@ -272,8 +272,8 @@ const Join: NextPage = () => {
 								</Typography>
 								<Typography className={'subtitle'}>
 									{loginView
-										? 'Sign in to continue to Ignition'
-										: 'Join Ignition and start buying or selling motorcycles'}
+										? 'Sign in to continue to MOTOPRESTO'
+										: 'Join MOTOPRESTO and start buying or selling motorcycles'}
 								</Typography>
 							</Box>
 
@@ -427,7 +427,7 @@ const Join: NextPage = () => {
 				<Box component="div" className={'moto-icon-wrapper'}>
 					<TwoWheelerIcon className={'moto-icon'} />
 				</Box>
-								<Typography className={'right-title'}>{t('Welcome to Ignition')}</Typography>
+								<Typography className={'right-title'}>{t('Welcome to MOTOPRESTO')}</Typography>
 				<Typography className={'right-subtitle'}>
 					Your trusted marketplace for buying and selling motorcycles
 				</Typography>
