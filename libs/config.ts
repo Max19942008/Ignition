@@ -21,3 +21,8 @@ export const Messages = {
 };
 
 export const topPropertyRank = 2;
+
+/** PART (spare parts & accessories) */
+export const availablePartOptions = ['partBarter'];
+export const topPartRank = 2;
+export const partPriceRange = [0, 50, 100, 200, 500, 1000, 2000, 5000, 10000, 20000];

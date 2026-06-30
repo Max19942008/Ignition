@@ -379,6 +379,252 @@ export const GET_VISITED = gql`
 `;
 
 /**************************
+ *          PART          *
+ *************************/
+
+export const GET_PART = gql`
+	query GetPart($input: String!) {
+		getPart(partId: $input) {
+			_id
+			partCategory
+			partType
+			partStatus
+			partLocation
+			partBrand
+			partCondition
+			partTitle
+			partPrice
+			partStockCount
+			partCompatibleBrands
+			partViews
+			partLikes
+			partComments
+			partRank
+			partImages
+			partDesc
+			partBarter
+			memberId
+			soldAt
+			deletedAt
+			createdAt
+			updatedAt
+			memberData {
+				_id
+				memberType
+				memberStatus
+				memberAuthType
+				memberPhone
+				memberNick
+				memberFullName
+				memberImage
+				memberAddress
+				memberDesc
+				memberWarnings
+				memberBlocks
+				memberPoints
+				memberLikes
+				memberViews
+				deletedAt
+				createdAt
+				updatedAt
+				accessToken
+			}
+			meLiked {
+				memberId
+				likeRefId
+				myFavorite
+			}
+		}
+	}
+`;
+
+export const GET_PARTS = gql`
+	query GetParts($input: PartsInquiry!) {
+		getParts(input: $input) {
+			list {
+				_id
+				partCategory
+				partType
+				partStatus
+				partLocation
+				partBrand
+				partCondition
+				partTitle
+				partPrice
+				partStockCount
+				partCompatibleBrands
+				partViews
+				partLikes
+				partComments
+				partRank
+				partImages
+				partDesc
+				partBarter
+				memberId
+				soldAt
+				deletedAt
+				createdAt
+				updatedAt
+				memberData {
+					_id
+					memberType
+					memberStatus
+					memberAuthType
+					memberPhone
+					memberNick
+					memberFullName
+					memberImage
+					memberAddress
+					memberDesc
+					memberProperties
+					memberArticles
+					memberFollowers
+					memberFollowings
+					memberPoints
+					memberLikes
+					memberViews
+					memberComments
+					memberRank
+					memberWarnings
+					memberBlocks
+					deletedAt
+					createdAt
+					updatedAt
+					accessToken
+				}
+				meLiked {
+					memberId
+					likeRefId
+					myFavorite
+				}
+			}
+			metaCounter {
+				total
+			}
+		}
+	}
+`;
+
+export const GET_AGENT_PARTS = gql`
+	query GetAgentParts($input: AgentPartsInquiry!) {
+		getAgentParts(input: $input) {
+			list {
+				_id
+				partCategory
+				partType
+				partStatus
+				partLocation
+				partBrand
+				partCondition
+				partTitle
+				partPrice
+				partStockCount
+				partCompatibleBrands
+				partViews
+				partLikes
+				partComments
+				partRank
+				partImages
+				partDesc
+				partBarter
+				memberId
+				soldAt
+				deletedAt
+				createdAt
+				updatedAt
+			}
+			metaCounter {
+				total
+			}
+		}
+	}
+`;
+
+export const GET_FAVORITE_PARTS = gql`
+	query GetFavoriteParts($input: OrdinaryInquiry!) {
+		getFavoriteParts(input: $input) {
+			list {
+				_id
+				partCategory
+				partType
+				partStatus
+				partLocation
+				partBrand
+				partCondition
+				partTitle
+				partPrice
+				partStockCount
+				partCompatibleBrands
+				partViews
+				partLikes
+				partComments
+				partRank
+				partImages
+				partDesc
+				partBarter
+				memberId
+				soldAt
+				deletedAt
+				createdAt
+				updatedAt
+				memberData {
+					_id
+					memberType
+					memberNick
+					memberFullName
+					memberImage
+				}
+			}
+			metaCounter {
+				total
+			}
+		}
+	}
+`;
+
+export const GET_VISITED_PARTS = gql`
+	query GetVisitedParts($input: OrdinaryInquiry!) {
+		getVisitedParts(input: $input) {
+			list {
+				_id
+				partCategory
+				partType
+				partStatus
+				partLocation
+				partBrand
+				partCondition
+				partTitle
+				partPrice
+				partStockCount
+				partCompatibleBrands
+				partViews
+				partLikes
+				partComments
+				partRank
+				partImages
+				partDesc
+				partBarter
+				memberId
+				soldAt
+				deletedAt
+				createdAt
+				updatedAt
+				memberData {
+					_id
+					memberType
+					memberNick
+					memberFullName
+					memberImage
+				}
+			}
+			metaCounter {
+				total
+			}
+		}
+	}
+`;
+
+/**************************
  *      BOARD-ARTICLE     *
  *************************/
 

@@ -104,6 +104,70 @@ export const REMOVE_PROPERTY_BY_ADMIN = gql`
 `;
 
 /**************************
+ *          PART          *
+ *************************/
+
+export const UPDATE_PART_BY_ADMIN = gql`
+	mutation UpdatePartByAdmin($input: PartUpdate!) {
+		updatePartByAdmin(input: $input) {
+			_id
+			partCategory
+			partType
+			partStatus
+			partLocation
+			partBrand
+			partCondition
+			partTitle
+			partPrice
+			partStockCount
+			partCompatibleBrands
+			partViews
+			partLikes
+			partComments
+			partRank
+			partImages
+			partDesc
+			partBarter
+			memberId
+			soldAt
+			deletedAt
+			createdAt
+			updatedAt
+		}
+	}
+`;
+
+export const REMOVE_PART_BY_ADMIN = gql`
+	mutation RemovePartByAdmin($input: String!) {
+		removePartByAdmin(partId: $input) {
+			_id
+			partCategory
+			partType
+			partStatus
+			partLocation
+			partBrand
+			partCondition
+			partTitle
+			partPrice
+			partStockCount
+			partCompatibleBrands
+			partViews
+			partLikes
+			partComments
+			partRank
+			partImages
+			partDesc
+			partBarter
+			memberId
+			soldAt
+			deletedAt
+			createdAt
+			updatedAt
+		}
+	}
+`;
+
+/**************************
  *      BOARD-ARTICLE     *
  *************************/
 

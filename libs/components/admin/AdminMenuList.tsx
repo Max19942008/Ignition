@@ -33,6 +33,9 @@ const AdminMenuList = (props: any) => {
 			case 'properties':
 				setClickMenu(['Bikes']);
 				break;
+			case 'parts':
+				setClickMenu(['Bikes']);
+				break;
 			case 'community':
 				setClickMenu(['Community']);
 				break;
@@ -106,7 +109,10 @@ const AdminMenuList = (props: any) => {
 
 	const sub_menu_set: any = {
 		Users: [{ title: 'List', url: '/_admin/users' }],
-		Bikes: [{ title: 'Bike List', url: '/_admin/properties' }],
+		Bikes: [
+			{ title: 'Bike List', url: '/_admin/properties' },
+			{ title: 'Parts List', url: '/_admin/parts' },
+		],
 		Community: [{ title: 'List', url: '/_admin/community' }],
 		Cs: [
 			{ title: 'FAQ', url: '/_admin/cs/faq' },

@@ -204,6 +204,9 @@ const Top = () => {
 				<Link href={'/property'}>
 					<div>{t('Bikes')}</div>
 				</Link>
+				<Link href={'/part'}>
+					<div>{t('Parts')}</div>
+				</Link>
 				<Link href={'/agent'}>
 					<div> {t('Agents')} </div>
 				</Link>
@@ -239,6 +242,9 @@ const Top = () => {
 							</Link>
 							<Link href={'/property'}>
 								<div>{t('Bikes')}</div>
+							</Link>
+							<Link href={'/part'}>
+								<div>{t('Parts')}</div>
 							</Link>
 							<Link href={'/agent'}>
 								<div> {t('Agents')} </div>

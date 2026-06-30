@@ -107,6 +107,68 @@ export const GET_ALL_PROPERTIES_BY_ADMIN = gql`
 `;
 
 /**************************
+ *          PART          *
+ *************************/
+
+export const GET_ALL_PARTS_BY_ADMIN = gql`
+	query GetAllPartsByAdmin($input: AllPartsInquiry!) {
+		getAllPartsByAdmin(input: $input) {
+			list {
+				_id
+				partCategory
+				partType
+				partStatus
+				partLocation
+				partBrand
+				partCondition
+				partTitle
+				partPrice
+				partStockCount
+				partCompatibleBrands
+				partViews
+				partLikes
+				partComments
+				partRank
+				partImages
+				partDesc
+				partBarter
+				memberId
+				soldAt
+				deletedAt
+				createdAt
+				updatedAt
+				memberData {
+					_id
+					memberType
+					memberStatus
+					memberAuthType
+					memberPhone
+					memberNick
+					memberFullName
+					memberImage
+					memberAddress
+					memberDesc
+					memberWarnings
+					memberBlocks
+					memberProperties
+					memberRank
+					memberPoints
+					memberLikes
+					memberViews
+					deletedAt
+					createdAt
+					updatedAt
+					accessToken
+				}
+			}
+			metaCounter {
+				total
+			}
+		}
+	}
+`;
+
+/**************************
  *      BOARD-ARTICLE     *
  *************************/
 

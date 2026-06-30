@@ -222,6 +222,100 @@ export const LIKE_TARGET_PROPERTY = gql`
 `;
 
 /**************************
+ *          PART          *
+ *************************/
+
+export const CREATE_PART = gql`
+	mutation CreatePart($input: PartInput!) {
+		createPart(input: $input) {
+			_id
+			partCategory
+			partType
+			partStatus
+			partLocation
+			partBrand
+			partCondition
+			partTitle
+			partPrice
+			partStockCount
+			partCompatibleBrands
+			partViews
+			partLikes
+			partComments
+			partRank
+			partImages
+			partDesc
+			partBarter
+			memberId
+			soldAt
+			deletedAt
+			createdAt
+			updatedAt
+		}
+	}
+`;
+
+export const UPDATE_PART = gql`
+	mutation UpdatePart($input: PartUpdate!) {
+		updatePart(input: $input) {
+			_id
+			partCategory
+			partType
+			partStatus
+			partLocation
+			partBrand
+			partCondition
+			partTitle
+			partPrice
+			partStockCount
+			partCompatibleBrands
+			partViews
+			partLikes
+			partComments
+			partRank
+			partImages
+			partDesc
+			partBarter
+			memberId
+			soldAt
+			deletedAt
+			createdAt
+			updatedAt
+		}
+	}
+`;
+
+export const LIKE_TARGET_PART = gql`
+	mutation LikeTargetPart($input: String!) {
+		likeTargetPart(partId: $input) {
+			_id
+			partCategory
+			partType
+			partStatus
+			partLocation
+			partBrand
+			partCondition
+			partTitle
+			partPrice
+			partStockCount
+			partCompatibleBrands
+			partViews
+			partLikes
+			partComments
+			partRank
+			partImages
+			partDesc
+			partBarter
+			memberId
+			soldAt
+			deletedAt
+			createdAt
+			updatedAt
+		}
+	}
+`;
+
+/**************************
  *      BOARD-ARTICLE     *
  *************************/
 

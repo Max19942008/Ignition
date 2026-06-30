@@ -8,6 +8,10 @@ import MyProperties from '../../libs/components/mypage/MyProperties';
 import MyFavorites from '../../libs/components/mypage/MyFavorites';
 import RecentlyVisited from '../../libs/components/mypage/RecentlyVisited';
 import AddProperty from '../../libs/components/mypage/AddNewProperty';
+import AddPart from '../../libs/components/mypage/AddNewPart';
+import MyParts from '../../libs/components/mypage/MyParts';
+import MyFavoriteParts from '../../libs/components/mypage/MyFavoriteParts';
+import RecentlyVisitedParts from '../../libs/components/mypage/RecentlyVisitedParts';
 import MyProfile from '../../libs/components/mypage/MyProfile';
 import MyArticles from '../../libs/components/mypage/MyArticles';
 import { useMutation, useReactiveVar } from '@apollo/client';
@@ -122,6 +126,10 @@ const MyPage: NextPage = () => {
 								<Stack className={'list-config'}>
 									{category === 'addProperty' && <AddProperty />}
 									{category === 'myProperties' && <MyProperties />}
+									{category === 'addPart' && <AddPart />}
+									{category === 'myParts' && <MyParts />}
+									{category === 'myFavoriteParts' && <MyFavoriteParts />}
+									{category === 'recentlyVisitedParts' && <RecentlyVisitedParts />}
 									{category === 'myFavorites' && <MyFavorites />}
 									{category === 'recentlyVisited' && <RecentlyVisited />}
 									{category === 'myArticles' && <MyArticles />}
@@ -163,6 +171,10 @@ const MyPage: NextPage = () => {
 								<Stack className={'list-config'}>
 									{category === 'addProperty' && <AddProperty />}
 									{category === 'myProperties' && <MyProperties />}
+									{category === 'addPart' && <AddPart />}
+									{category === 'myParts' && <MyParts />}
+									{category === 'myFavoriteParts' && <MyFavoriteParts />}
+									{category === 'recentlyVisitedParts' && <RecentlyVisitedParts />}
 									{category === 'myFavorites' && <MyFavorites />}
 									{category === 'recentlyVisited' && <RecentlyVisited />}
 									{category === 'myArticles' && <MyArticles />}
