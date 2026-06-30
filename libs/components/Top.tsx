@@ -204,8 +204,11 @@ const Top = () => {
 				<Link href={'/property'}>
 					<div>{t('Bikes')}</div>
 				</Link>
-				<Link href={'/part'}>
-					<div>{t('Parts')}</div>
+				<Link href={'/part?category=SPARE_PART'}>
+					<div>{t('Spare Parts')}</div>
+				</Link>
+				<Link href={'/part?category=ACCESSORY'}>
+					<div>{t('Accessories')}</div>
 				</Link>
 				<Link href={'/agent'}>
 					<div> {t('Agents')} </div>
@@ -243,8 +246,11 @@ const Top = () => {
 							<Link href={'/property'}>
 								<div>{t('Bikes')}</div>
 							</Link>
-							<Link href={'/part'}>
-								<div>{t('Parts')}</div>
+							<Link href={'/part?category=SPARE_PART'}>
+								<div>{t('Spare Parts')}</div>
+							</Link>
+							<Link href={'/part?category=ACCESSORY'}>
+								<div>{t('Accessories')}</div>
 							</Link>
 							<Link href={'/agent'}>
 								<div> {t('Agents')} </div>

@@ -76,13 +76,24 @@ const PartList: NextPage = ({ initialInput, ...props }: any) => {
 			} catch (err) {
 				console.error('Error parsing router query:', err);
 			}
+		} else if (router.query.category) {
+			// Deep-link: /part?category=SPARE_PART | ACCESSORY
+			const cat = router.query.category as string;
+			const next: PartsInquiry = {
+				...initialInput,
+				search: cat === 'ALL' ? {} : { categoryList: [cat] },
+			};
+			if (JSON.stringify(next) !== JSON.stringify(searchFilter)) {
+				setSearchFilter(next);
+				setCurrentPage(1);
+			}
 		} else {
 			if (JSON.stringify(initialInput) !== JSON.stringify(searchFilter)) {
 				setSearchFilter(initialInput);
 				setCurrentPage(initialInput.page === undefined ? 1 : initialInput.page);
 			}
 		}
-	}, [router.query.input]);
+	}, [router.query.input, router.query.category]);
 
 	useEffect(() => {
 		if (searchFilter) getPartsRefetch({ input: searchFilter });
@@ -208,13 +219,71 @@ const PartList: NextPage = ({ initialInput, ...props }: any) => {
 		? `$${(searchFilter?.search?.pricesRange?.start || 0).toLocaleString()} - $${(searchFilter?.search?.pricesRange?.end || 0).toLocaleString()}`
 		: t('Price');
 
+	/** CATEGORY SECTION TABS (Spare Parts / Accessories) **/
+	const activeCat: 'ALL' | PartCategory =
+		searchFilter?.search?.categoryList?.length === 1 ? (searchFilter.search.categoryList[0] as PartCategory) : 'ALL';
+
+	const handleCategoryTab = async (cat: 'ALL' | PartCategory) => {
+		const newSearch: PartsInquiry = { ...searchFilter, page: 1, search: { ...searchFilter.search } };
+		if (cat === 'ALL') delete newSearch.search.categoryList;
+		else newSearch.search.categoryList = [cat];
+		setSearchFilter(newSearch);
+		setCurrentPage(1);
+		await pushNewFilter(newSearch);
+	};
+
+	const sectionTabs: { key: 'ALL' | PartCategory; label: string }[] = [
+		{ key: 'ALL', label: t('All') },
+		{ key: PartCategory.SPARE_PART, label: t('Spare Parts') },
+		{ key: PartCategory.ACCESSORY, label: t('Accessories') },
+	];
+	const sectionTitle =
+		activeCat === PartCategory.SPARE_PART
+			? t('Spare Parts')
+			: activeCat === PartCategory.ACCESSORY
+			? t('Accessories')
+			: t('Parts & Accessories');
+
 	return (
 		<div id="property-list-page" style={{ position: 'relative' }}>
 			<div className="container">
+				{/* SECTION TABS — Spare Parts vs Accessories */}
+				<Stack
+					direction="row"
+					spacing={1.5}
+					sx={{ mb: '20px', mt: '8px', flexWrap: 'wrap' }}
+					className={'part-category-tabs'}
+				>
+					{sectionTabs.map((tab) => {
+						const isActive = activeCat === tab.key;
+						return (
+							<Button
+								key={tab.key}
+								onClick={() => handleCategoryTab(tab.key)}
+								sx={{
+									px: '22px',
+									py: '10px',
+									borderRadius: '999px',
+									fontWeight: 700,
+									fontSize: '15px',
+									textTransform: 'none',
+									border: isActive ? '1px solid #25b44b' : '1px solid #e0e0e0',
+									background: isActive ? '#25b44b' : '#fff',
+									color: isActive ? '#fff' : '#181a20',
+									boxShadow: isActive ? '0 4px 12px rgba(37,180,75,0.25)' : 'none',
+									'&:hover': { background: isActive ? '#1ea043' : '#f5f5f5' },
+								}}
+							>
+								{tab.label}
+							</Button>
+						);
+					})}
+				</Stack>
+
 				<Stack className={'filter-header-section'}>
 					<Stack className={'filter-header-top'}>
 						<Box component="div" className={'filter-header-left'}>
-							<Typography className={'filter-header-title'}>{t('Parts & Accessories')}</Typography>
+							<Typography className={'filter-header-title'}>{sectionTitle}</Typography>
 							<Typography className={'filter-header-count'}>
 								{total} {t('available')}
 							</Typography>
