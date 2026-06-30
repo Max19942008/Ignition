@@ -7,6 +7,8 @@ import TopAgents from '../libs/components/homepage/TopAgents';
 import Events from '../libs/components/homepage/Events';
 import TrendProperties from '../libs/components/homepage/TrendProperties';
 import TopProperties from '../libs/components/homepage/TopProperties';
+import TopParts from '../libs/components/homepage/TopParts';
+import { PartCategory } from '../libs/enums/part.enum';
 import { Stack } from '@mui/material';
 import Advertisement from '../libs/components/homepage/Advertisement';
 import { serverSideTranslations } from 'next-i18next/serverSideTranslations';
@@ -27,6 +29,18 @@ const Home: NextPage = () => {
 				<PopularProperties />
 				<Advertisement />
 				<TopProperties />
+				<TopParts
+					category={PartCategory.SPARE_PART}
+					title={'Top Spare Parts'}
+					subtitle={'Most popular spare parts this month'}
+					navPrefix={'top-spare'}
+				/>
+				<TopParts
+					category={PartCategory.ACCESSORY}
+					title={'Top Accessories'}
+					subtitle={'Most popular accessories this month'}
+					navPrefix={'top-accessory'}
+				/>
 				<TopAgents />
 			</Stack>
 		);
@@ -37,6 +51,18 @@ const Home: NextPage = () => {
 				<PopularProperties />
 				<Advertisement />
 				<TopProperties />
+				<TopParts
+					category={PartCategory.SPARE_PART}
+					title={'Top Spare Parts'}
+					subtitle={'Most popular spare parts this month'}
+					navPrefix={'top-spare'}
+				/>
+				<TopParts
+					category={PartCategory.ACCESSORY}
+					title={'Top Accessories'}
+					subtitle={'Most popular accessories this month'}
+					navPrefix={'top-accessory'}
+				/>
 				<TopAgents />
 				<Events />
 				<CommunityBoards />
