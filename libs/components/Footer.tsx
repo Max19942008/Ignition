@@ -19,8 +19,12 @@ const Footer = () => {
 				<Stack component="div" className={'left'}>
 					<Box component={'div'} className={'footer-box logo-box'}>
 						<div className={'logo-container'}>
-							<img src="/img/logo/motopresto.svg" alt="MOTOPRESTO logo" className={'logo'} />
-							<span className={'logo-text'}>MOTOPRESTO</span>
+							<img
+								src="/img/logo/motopresto.png"
+								alt="MOTOPRESTO logo"
+								className={'logo'}
+								style={{ height: '48px', width: 'auto' }}
+							/>
 						</div>
 						<p className={'description'}>
 							{t('Your trusted partner in finding the perfect motorcycle. Experience excellence in bike services and community.')}

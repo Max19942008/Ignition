@@ -83,8 +83,12 @@ const Join: NextPage = () => {
 						{/* Logo Section */}
 						<Box component="div" className={'logo-section'}>
 							<Box component="div" className={'logo-box'}>
-								<img src="/img/logo/motopresto.svg" alt="MOTOPRESTO Logo" className={'logo-img'} />
-								<Typography className={'logo-text'}>MOTOPRESTO</Typography>
+								<img
+									src="/img/logo/motopresto.png"
+									alt="MOTOPRESTO Logo"
+									className={'logo-img'}
+									style={{ height: '64px', width: 'auto' }}
+								/>
 							</Box>
 							<Typography className={'logo-subtitle'}>{t('Your Motorcycle Marketplace')}</Typography>
 						</Box>
@@ -259,8 +263,12 @@ const Join: NextPage = () => {
 							{/* Logo Section */}
 						<Box component="div" className={'logo-section'}>
 							<Box component="div" className={'logo-box'}>
-									<img src="/img/logo/motopresto.svg" alt="MOTOPRESTO Logo" className={'logo-img'} />
-									<Typography className={'logo-text'}>MOTOPRESTO</Typography>
+									<img
+										src="/img/logo/motopresto.png"
+										alt="MOTOPRESTO Logo"
+										className={'logo-img'}
+										style={{ height: '64px', width: 'auto' }}
+									/>
 							</Box>
 							<Typography className={'logo-subtitle'}>{t('Your Motorcycle Marketplace')}</Typography>
 						</Box>

@@ -13,10 +13,10 @@ export default function Document() {
 				<meta name="msapplication-config" content="/browserconfig.xml" />
 				
 				{/* Favicon & Icons */}
-				<link rel="icon" type="image/svg+xml" href="/img/logo/motopresto.svg" />
-				<link rel="apple-touch-icon" sizes="180x180" href="/img/logo/motopresto.svg" />
-				<link rel="icon" type="image/svg+xml" sizes="32x32" href="/img/logo/motopresto.svg" />
-				<link rel="icon" type="image/svg+xml" sizes="16x16" href="/img/logo/motopresto.svg" />
+				<link rel="icon" type="image/png" href="/img/logo/motopresto.png" />
+				<link rel="apple-touch-icon" sizes="180x180" href="/img/logo/motopresto.png" />
+				<link rel="icon" type="image/png" sizes="32x32" href="/img/logo/motopresto.png" />
+				<link rel="icon" type="image/png" sizes="16x16" href="/img/logo/motopresto.png" />
 				<link rel="manifest" href="/manifest.json" />
 				
 				{/* Google Fonts - Poppins */}
@@ -55,7 +55,7 @@ export default function Document() {
 					property="og:description"
 					content="Buy and sell motorcycles anywhere anytime. Best Bikes at Best prices on MOTOPRESTO"
 				/>
-				<meta property="og:image" content="/img/logo/motopresto.svg" />
+				<meta property="og:image" content="/img/logo/motopresto.png" />
 				<meta property="og:image:width" content="1200" />
 				<meta property="og:image:height" content="630" />
 				<meta property="og:image:alt" content="MOTOPRESTO Logo" />
@@ -73,7 +73,7 @@ export default function Document() {
 					name="twitter:description"
 					content="Buy and sell motorcycles anywhere anytime. Best Bikes at Best prices on MOTOPRESTO"
 				/>
-				<meta name="twitter:image" content="/img/logo/motopresto.svg" />
+				<meta name="twitter:image" content="/img/logo/motopresto.png" />
 				<meta name="twitter:image:alt" content="MOTOPRESTO Logo" />
 				
 				{/* Additional Meta Tags */}
@@ -110,7 +110,7 @@ export default function Document() {
 								name: 'MOTOPRESTO',
 								logo: {
 									'@type': 'ImageObject',
-									url: 'https://motopresto.com/img/logo/motopresto.svg',
+									url: 'https://motopresto.com/img/logo/motopresto.png',
 								},
 							},
 						}),
@@ -118,7 +118,7 @@ export default function Document() {
 				/>
 				
 				{/* Performance Optimization */}
-				<link rel="preload" href="/img/logo/motopresto.svg" as="image" />
+				<link rel="preload" href="/img/logo/motopresto.png" as="image" />
 				
 				{/* Font Display Strategy */}
 				<style

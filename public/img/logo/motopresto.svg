@@ -1,9 +1,12 @@
-<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100" width="100" height="100" role="img" aria-label="MOTOPRESTO">
-  <rect width="100" height="100" rx="20" fill="#000000"/>
-  <g fill="#f2f2f2">
-    <!-- M -->
-    <path d="M16 26 L28 26 L37 50 L46 26 L58 26 L58 74 L48 74 L48 43 L40 64 L34 64 L26 43 L26 74 L16 74 Z"/>
-    <!-- P -->
-    <path d="M62 26 L80 26 C89 26 95 32 95 41 C95 50 89 56 80 56 L72 56 L72 74 L62 74 Z M72 35 L72 47 L79 47 C83 47 85 45 85 41 C85 37 83 35 79 35 Z"/>
-  </g>
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 460 210" width="460" height="210" role="img" aria-label="MOTOPRESTO">
+  <rect width="460" height="210" rx="26" fill="#000000"/>
+  <!-- MP monogram -->
+  <text x="230" y="120" text-anchor="middle"
+        font-family="'Arial Black', 'Helvetica Neue', Arial, sans-serif"
+        font-weight="900" font-style="italic" font-size="150"
+        letter-spacing="-8" fill="#f4f4f4">MP</text>
+  <!-- MOTOPRESTO wordmark -->
+  <text x="230" y="172" text-anchor="middle"
+        font-family="'Arial Black', 'Helvetica Neue', Arial, sans-serif"
+        font-weight="800" font-size="38" letter-spacing="10" fill="#f4f4f4">MOTOPRESTO</text>
 </svg>
