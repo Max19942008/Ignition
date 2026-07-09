@@ -33,7 +33,7 @@ const Top = () => {
 	const { t, i18n } = useTranslation('common');
 	const router = useRouter();
 	const [anchorEl2, setAnchorEl2] = useState<null | HTMLElement>(null);
-	const [lang, setLang] = useState<string | null>('en');
+	const [lang, setLang] = useState<string | null>('uz');
 	const drop = Boolean(anchorEl2);
 	const [colorChange, setColorChange] = useState(false);
 	const [anchorEl, setAnchorEl] = React.useState<any | HTMLElement>(null);
@@ -65,8 +65,8 @@ const Top = () => {
 	/** LIFECYCLES **/
 	useEffect(() => {
 		if (localStorage.getItem('locale') === null) {
-			localStorage.setItem('locale', 'en');
-			setLang('en');
+			localStorage.setItem('locale', 'uz');
+			setLang('uz');
 		} else {
 			setLang(localStorage.getItem('locale'));
 		}
