@@ -282,7 +282,7 @@ const AddProperty = ({ initialValues, ...props }: any) => {
 											</option>
 											{propertyType.map((type: any) => (
 												<option value={`${type}`} key={type}>
-													{type}
+													{t(type)}
 												</option>
 											))}
 										</>
@@ -310,7 +310,7 @@ const AddProperty = ({ initialValues, ...props }: any) => {
 											</option>
 											{propertyLocation.map((location: any) => (
 												<option value={`${location}`} key={location}>
-													{location}
+													{t(location)}
 												</option>
 											))}
 										</>
@@ -390,7 +390,7 @@ const AddProperty = ({ initialValues, ...props }: any) => {
 										</option>
 										{propertyBrand.map((brand: any) => (
 											<option value={`${brand}`} key={brand}>
-												{brand.replace('_', ' ')}
+												{t(brand)}
 											</option>
 										))}
 									</select>
@@ -413,7 +413,7 @@ const AddProperty = ({ initialValues, ...props }: any) => {
 										</option>
 										{propertyCondition.map((condition: any) => (
 											<option value={`${condition}`} key={condition}>
-												{condition}
+												{t(condition)}
 											</option>
 										))}
 									</select>

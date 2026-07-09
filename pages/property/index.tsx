@@ -606,7 +606,7 @@ const PropertyList: NextPage = ({ initialInput, ...props }: any) => {
 										onClick={() => handleBrandSelect(brand)}
 										selected={(searchFilter?.search?.brandList || []).includes(brand)}
 									>
-										{brand}
+										{t(brand)}
 									</MenuItem>
 								))}
 							</Menu>
@@ -631,7 +631,7 @@ const PropertyList: NextPage = ({ initialInput, ...props }: any) => {
 										onClick={() => handleTypeSelect(type)}
 										selected={(searchFilter?.search?.typeList || []).includes(type)}
 									>
-										{type}
+										{t(type)}
 									</MenuItem>
 								))}
 							</Menu>
@@ -656,7 +656,7 @@ const PropertyList: NextPage = ({ initialInput, ...props }: any) => {
 										onClick={() => handleConditionSelect(condition)}
 										selected={(searchFilter?.search?.conditionList || []).includes(condition)}
 									>
-										{condition}
+										{t(condition)}
 									</MenuItem>
 								))}
 							</Menu>
@@ -681,7 +681,7 @@ const PropertyList: NextPage = ({ initialInput, ...props }: any) => {
 										onClick={() => handleLocationSelect(location)}
 										selected={(searchFilter?.search?.locationList || []).includes(location)}
 									>
-										{location}
+										{t(location)}
 									</MenuItem>
 								))}
 							</Menu>
@@ -961,7 +961,7 @@ const PropertyList: NextPage = ({ initialInput, ...props }: any) => {
 										onClick={() => handleBrandSelect(brand)}
 										selected={(searchFilter?.search?.brandList || []).includes(brand)}
 									>
-										{brand}
+										{t(brand)}
 									</MenuItem>
 								))}
 							</Menu>
@@ -986,7 +986,7 @@ const PropertyList: NextPage = ({ initialInput, ...props }: any) => {
 										onClick={() => handleTypeSelect(type)}
 										selected={(searchFilter?.search?.typeList || []).includes(type)}
 									>
-										{type}
+										{t(type)}
 									</MenuItem>
 								))}
 							</Menu>
@@ -1011,7 +1011,7 @@ const PropertyList: NextPage = ({ initialInput, ...props }: any) => {
 										onClick={() => handleConditionSelect(condition)}
 										selected={(searchFilter?.search?.conditionList || []).includes(condition)}
 									>
-										{condition}
+										{t(condition)}
 									</MenuItem>
 								))}
 							</Menu>
@@ -1036,7 +1036,7 @@ const PropertyList: NextPage = ({ initialInput, ...props }: any) => {
 										onClick={() => handleLocationSelect(location)}
 										selected={(searchFilter?.search?.locationList || []).includes(location)}
 									>
-										{location}
+										{t(location)}
 									</MenuItem>
 								))}
 							</Menu>

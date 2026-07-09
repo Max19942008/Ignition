@@ -103,7 +103,7 @@ const PropertyCard = (props: PropertyCardType) => {
 				>
 					{property?.propertyType && (
 						<Box component={'div'} className={'type-badge'}>
-							<Typography>{property.propertyType}</Typography>
+							<Typography>{t(property.propertyType)}</Typography>
 						</Box>
 					)}
 					<Stack flexDirection="row" className="img-bottom-row">
@@ -144,7 +144,7 @@ const PropertyCard = (props: PropertyCardType) => {
 					<Stack direction="row" alignItems="center" justifyContent="space-between" spacing={1} className="location-row">
 						<Stack direction="row" alignItems="center" spacing={1}>
 							<LocationOnIcon fontSize="small" />
-							<span>{property.propertyLocation}</span>
+							<span>{t(property.propertyLocation)}</span>
 						</Stack>
 						<span>{property.propertyAddress}</span>
 					</Stack>
@@ -156,7 +156,7 @@ const PropertyCard = (props: PropertyCardType) => {
 						</div>
 						<div className="spec">
 							<TwoWheelerIcon fontSize="small" />
-							<span>{property.propertyCondition || 'N/A'}</span>
+							<span>{t(property.propertyCondition || 'N/A')}</span>
 						</div>
 						<div className="spec">
 							<EngineeringIcon fontSize="small" />
@@ -201,7 +201,7 @@ const PropertyCard = (props: PropertyCardType) => {
 									color: getTypeBadgeColor(property.propertyType).text
 								}}
 							>
-								<Typography>{property.propertyType}</Typography>
+								<Typography>{t(property.propertyType)}</Typography>
 							</Box>
 						)}
 					</Box>
@@ -217,12 +217,12 @@ const PropertyCard = (props: PropertyCardType) => {
 						<Typography className="bike-name">{property.propertyTitle}</Typography>
 					</Link>
 					<Typography className="bike-details">
-						{property.propertyBrand} • {property.propertyYear} • {property.propertyEngineCc}cc • {property.propertyCondition}
+						{property.propertyBrand} • {property.propertyYear} • {property.propertyEngineCc}cc • {t(property.propertyCondition)}
 					</Typography>
 					<Stack className="specs-row">
 						<Chip label={`${property.propertyYear} ${t('Year')}`} className="spec-chip" />
 						<Chip label={`${property.propertyEngineCc}cc`} className="spec-chip" />
-						<Chip label={property.propertyLocation} className="spec-chip" />
+						<Chip label={t(property.propertyLocation)} className="spec-chip" />
 					</Stack>
 					<Box 
 						component={'div'}
@@ -308,7 +308,7 @@ const PropertyCard = (props: PropertyCardType) => {
 					{/* Type Badge - Yuqori chapda */}
 					{property?.propertyType && (
 						<Box component={'div'} className={'type-badge'}>
-							<Typography>{property.propertyType}</Typography>
+							<Typography>{t(property.propertyType)}</Typography>
 						</Box>
 					)}
 					{/* Price Overlay - Pastki chapda */}
@@ -369,7 +369,7 @@ const PropertyCard = (props: PropertyCardType) => {
 					<Box component={'div'} className="location-info">
 						<LocationOnIcon sx={{ fontSize: '16px', color: '#25b44b' }} />
 						<Stack className="location-details">
-							<Typography className="location-text">{property.propertyLocation}</Typography>
+							<Typography className="location-text">{t(property.propertyLocation)}</Typography>
 							{property.propertyAddress && (
 								<Typography className="address-text">{property.propertyAddress}</Typography>
 							)}
@@ -384,7 +384,7 @@ const PropertyCard = (props: PropertyCardType) => {
 						</Box>
 						<Box component={'div'} className="spec-badge">
 							<TwoWheelerIcon sx={{ fontSize: '14px', color: '#25b44b' }} />
-							<Typography>{property.propertyCondition || 'N/A'}</Typography>
+							<Typography>{t(property.propertyCondition || 'N/A')}</Typography>
 						</Box>
 						<Box component={'div'} className="spec-badge">
 							<EngineeringIcon sx={{ fontSize: '14px', color: '#25b44b' }} />

@@ -152,7 +152,7 @@ const PartDetail: NextPage = ({ ...props }: any) => {
 								</Stack>
 								<Stack className={'image-location-badge'}>
 									<LocationOnIcon sx={{ fontSize: 16 }} />
-									<Typography>{part?.partLocation}</Typography>
+									<Typography>{part?.partLocation ? t(part.partLocation) : ''}</Typography>
 								</Stack>
 								<Stack className={'image-engagement-metrics'}>
 									<Stack className={'engagement-metric-badge view-badge'}>
@@ -237,7 +237,7 @@ const PartDetail: NextPage = ({ ...props }: any) => {
 									<Link href={`/agent/detail?agentId=${part?.memberData?._id}`}>
 										<Typography className={'dealer-name'}>{part?.memberData?.memberNick || 'Dealer'}</Typography>
 									</Link>
-									<Typography className={'dealer-location'}>{part?.partLocation}</Typography>
+									<Typography className={'dealer-location'}>{part?.partLocation ? t(part.partLocation) : ''}</Typography>
 								</Stack>
 								<Stack className={'dealer-actions'}>
 									<Link href={`/agent/detail?agentId=${part?.memberData?._id}`}>
@@ -266,7 +266,7 @@ const PartDetail: NextPage = ({ ...props }: any) => {
 									</Stack>
 									<Stack className={'option-includes'}>
 										<Typography className={'title'}>{t('Type')}</Typography>
-										<Typography className={'option-data'}>{part?.partType}</Typography>
+										<Typography className={'option-data'}>{part?.partType ? t(part.partType) : ''}</Typography>
 									</Stack>
 								</Stack>
 								<Stack className={'option option-year'}>
@@ -275,7 +275,7 @@ const PartDetail: NextPage = ({ ...props }: any) => {
 									</Stack>
 									<Stack className={'option-includes'}>
 										<Typography className={'title'}>{t('Condition')}</Typography>
-										<Typography className={'option-data'}>{part?.partCondition}</Typography>
+										<Typography className={'option-data'}>{part?.partCondition ? t(part.partCondition) : ''}</Typography>
 									</Stack>
 								</Stack>
 								<Stack className={'option option-size'}>
@@ -314,7 +314,7 @@ const PartDetail: NextPage = ({ ...props }: any) => {
 											</Box>
 											<Box component={'div'} className={'info'}>
 												<Typography className={'title'}>{t('Location')}</Typography>
-												<Typography className={'data'}>{part?.partLocation}</Typography>
+												<Typography className={'data'}>{part?.partLocation ? t(part.partLocation) : ''}</Typography>
 											</Box>
 											<Box component={'div'} className={'info'}>
 												<Typography className={'title'}>{t('Category')}</Typography>
@@ -324,11 +324,11 @@ const PartDetail: NextPage = ({ ...props }: any) => {
 										<Stack className={'right'}>
 											<Box component={'div'} className={'info'}>
 												<Typography className={'title'}>{t('Type')}</Typography>
-												<Typography className={'data'}>{part?.partType}</Typography>
+												<Typography className={'data'}>{part?.partType ? t(part.partType) : ''}</Typography>
 											</Box>
 											<Box component={'div'} className={'info'}>
 												<Typography className={'title'}>{t('Condition')}</Typography>
-												<Typography className={'data'}>{part?.partCondition}</Typography>
+												<Typography className={'data'}>{part?.partCondition ? t(part.partCondition) : ''}</Typography>
 											</Box>
 											<Box component={'div'} className={'info'}>
 												<Typography className={'title'}>{t('In Stock')}</Typography>

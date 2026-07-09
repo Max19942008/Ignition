@@ -236,7 +236,7 @@ const AddPart = ({ initialValues, ...props }: any) => {
 										</option>
 										{partCategory.map((category: any) => (
 											<option value={`${category}`} key={category}>
-												{category.replace('_', ' ')}
+												{t(category)}
 											</option>
 										))}
 									</select>
@@ -261,7 +261,7 @@ const AddPart = ({ initialValues, ...props }: any) => {
 										</option>
 										{partType.map((type: any) => (
 											<option value={`${type}`} key={type}>
-												{type.replace('_', ' ')}
+												{t(type)}
 											</option>
 										))}
 									</select>
@@ -283,7 +283,7 @@ const AddPart = ({ initialValues, ...props }: any) => {
 										</option>
 										{partLocation.map((location: any) => (
 											<option value={`${location}`} key={location}>
-												{location}
+												{t(location)}
 											</option>
 										))}
 									</select>
@@ -308,7 +308,7 @@ const AddPart = ({ initialValues, ...props }: any) => {
 										</option>
 										{partBrand.map((brand: any) => (
 											<option value={`${brand}`} key={brand}>
-												{brand.replace('_', ' ')}
+												{t(brand)}
 											</option>
 										))}
 									</select>
@@ -330,7 +330,7 @@ const AddPart = ({ initialValues, ...props }: any) => {
 										</option>
 										{partCondition.map((condition: any) => (
 											<option value={`${condition}`} key={condition}>
-												{condition}
+												{t(condition)}
 											</option>
 										))}
 									</select>

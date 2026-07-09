@@ -134,7 +134,7 @@ const PartCard = (props: PartCardType) => {
 								{part.partTitle}
 							</strong>
 							<span className={'subtitle'}>
-								{part.partBrand} · {part.partType}
+								{part.partBrand} · {t(part.partType)}
 							</span>
 						</Stack>
 						<Stack direction="row" alignItems="center" spacing={0.5} className="rating">
@@ -146,7 +146,7 @@ const PartCard = (props: PartCardType) => {
 					<Stack direction="row" alignItems="center" justifyContent="space-between" spacing={1} className="location-row">
 						<Stack direction="row" alignItems="center" spacing={1}>
 							<LocationOnIcon fontSize="small" />
-							<span>{part.partLocation}</span>
+							<span>{t(part.partLocation)}</span>
 						</Stack>
 						<span>{categoryLabel}</span>
 					</Stack>
@@ -154,7 +154,7 @@ const PartCard = (props: PartCardType) => {
 					<Stack className="spec-row">
 						<div className="spec">
 							<CategoryIcon fontSize="small" />
-							<span>{part.partType}</span>
+							<span>{t(part.partType)}</span>
 						</div>
 						<div className="spec">
 							<BuildIcon fontSize="small" />
@@ -209,12 +209,12 @@ const PartCard = (props: PartCardType) => {
 						<Typography className="bike-name">{part.partTitle}</Typography>
 					</Link>
 					<Typography className="bike-details">
-						{part.partBrand} • {part.partType} • {part.partCondition}
+						{part.partBrand} • {t(part.partType)} • {t(part.partCondition)}
 					</Typography>
 					<Stack className="specs-row">
-						<Chip label={part.partType} className="spec-chip" />
+						<Chip label={t(part.partType)} className="spec-chip" />
 						<Chip label={`${part.partStockCount ?? 0} ${t('pcs')}`} className="spec-chip" />
-						<Chip label={part.partLocation} className="spec-chip" />
+						<Chip label={t(part.partLocation)} className="spec-chip" />
 					</Stack>
 					<Box
 						component={'div'}
@@ -316,7 +316,7 @@ const PartCard = (props: PartCardType) => {
 								<Typography className="card-title">{part.partTitle}</Typography>
 							</Link>
 							<Typography className="card-subtitle">
-								{part.partBrand} • {part.partType}
+								{part.partBrand} • {t(part.partType)}
 							</Typography>
 						</Stack>
 						<Box component={'div'} className="rating-badge">
@@ -328,7 +328,7 @@ const PartCard = (props: PartCardType) => {
 					<Box component={'div'} className="location-info">
 						<LocationOnIcon sx={{ fontSize: '16px', color: '#25b44b' }} />
 						<Stack className="location-details">
-							<Typography className="location-text">{part.partLocation}</Typography>
+							<Typography className="location-text">{t(part.partLocation)}</Typography>
 							<Typography className="address-text">{categoryLabel}</Typography>
 						</Stack>
 					</Box>
@@ -336,7 +336,7 @@ const PartCard = (props: PartCardType) => {
 					<Stack className="specs-row">
 						<Box component={'div'} className="spec-badge">
 							<CategoryIcon sx={{ fontSize: '14px', color: '#25b44b' }} />
-							<Typography>{part.partType}</Typography>
+							<Typography>{t(part.partType)}</Typography>
 						</Box>
 						<Box component={'div'} className="spec-badge">
 							<BuildIcon sx={{ fontSize: '14px', color: '#25b44b' }} />

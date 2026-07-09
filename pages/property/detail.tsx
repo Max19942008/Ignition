@@ -265,12 +265,12 @@ const PropertyDetail: NextPage = ({ initialComment, ...props }: any) => {
 									/>
 									{/* Image Type Badge */}
 									<Stack className={'image-type-badge'}>
-										<Typography>{property?.propertyType || 'Bike'}</Typography>
+										<Typography>{t(property?.propertyType || 'Bike')}</Typography>
 									</Stack>
 									{/* Location Badge */}
 									<Stack className={'image-location-badge'}>
 										<LocationOnIcon sx={{ fontSize: 16 }} />
-										<Typography>{property?.propertyLocation}</Typography>
+										<Typography>{property?.propertyLocation ? t(property.propertyLocation) : ''}</Typography>
 									</Stack>
 									{/* Engagement Metrics */}
 									<Stack className={'image-engagement-metrics'}>
@@ -373,7 +373,7 @@ const PropertyDetail: NextPage = ({ initialComment, ...props }: any) => {
 										<Link href={`/agent/detail?agentId=${property?.memberData?._id}`}>
 											<Typography className={'dealer-name'}>{property?.memberData?.memberNick || 'Dealer'}</Typography>
 										</Link>
-										<Typography className={'dealer-location'}>{property?.propertyLocation}</Typography>
+										<Typography className={'dealer-location'}>{property?.propertyLocation ? t(property.propertyLocation) : ''}</Typography>
 									</Stack>
 									<Stack className={'dealer-actions'}>
 										<Button className={'btn-dealer-call'} startIcon={<PhoneIcon />}>
@@ -433,7 +433,7 @@ const PropertyDetail: NextPage = ({ initialComment, ...props }: any) => {
 										</Stack>
 										<Stack className={'option-includes'}>
 											<Typography className={'title'}>{t('Bike Type')}</Typography>
-											<Typography className={'option-data'}>{property?.propertyType || 'N/A'}</Typography>
+											<Typography className={'option-data'}>{t(property?.propertyType || 'N/A')}</Typography>
 										</Stack>
 									</Stack>
 								</Stack>
@@ -452,7 +452,7 @@ const PropertyDetail: NextPage = ({ initialComment, ...props }: any) => {
 												</Box>
 												<Box component={'div'} className={'info'}>
 													<Typography className={'title'}>{t('Location')}</Typography>
-													<Typography className={'data'}>{property?.propertyLocation}</Typography>
+													<Typography className={'data'}>{property?.propertyLocation ? t(property.propertyLocation) : ''}</Typography>
 												</Box>
 												<Box component={'div'} className={'info'}>
 													<Typography className={'title'}>{t('Address')}</Typography>
@@ -470,11 +470,11 @@ const PropertyDetail: NextPage = ({ initialComment, ...props }: any) => {
 												</Box>
 												<Box component={'div'} className={'info'}>
 													<Typography className={'title'}>{t('Bike Type')}</Typography>
-													<Typography className={'data'}>{property?.propertyType || 'N/A'}</Typography>
+													<Typography className={'data'}>{t(property?.propertyType || 'N/A')}</Typography>
 												</Box>
 												<Box component={'div'} className={'info'}>
 													<Typography className={'title'}>{t('Condition')}</Typography>
-													<Typography className={'data'}>{property?.propertyCondition}</Typography>
+													<Typography className={'data'}>{property?.propertyCondition ? t(property.propertyCondition) : ''}</Typography>
 												</Box>
 												<Box component={'div'} className={'info'}>
 													<Typography className={'title'}>{t('Options')}</Typography>
@@ -647,12 +647,12 @@ const PropertyDetail: NextPage = ({ initialComment, ...props }: any) => {
 									/>
 									{/* Image Type Badge */}
 									<Stack className={'image-type-badge'}>
-										<Typography>{property?.propertyType || 'Bike'}</Typography>
+										<Typography>{t(property?.propertyType || 'Bike')}</Typography>
 									</Stack>
 									{/* Location Badge */}
 									<Stack className={'image-location-badge'}>
 										<LocationOnIcon sx={{ fontSize: 16 }} />
-										<Typography>{property?.propertyLocation}</Typography>
+										<Typography>{property?.propertyLocation ? t(property.propertyLocation) : ''}</Typography>
 									</Stack>
 									{/* Engagement Metrics */}
 									<Stack className={'image-engagement-metrics'}>
@@ -756,7 +756,7 @@ const PropertyDetail: NextPage = ({ initialComment, ...props }: any) => {
 									<Link href={`/agent/detail?agentId=${property?.memberData?._id}`}>
 										<Typography className={'dealer-name'}>{property?.memberData?.memberNick || 'Dealer'}</Typography>
 									</Link>
-									<Typography className={'dealer-location'}>{property?.propertyLocation}</Typography>
+									<Typography className={'dealer-location'}>{property?.propertyLocation ? t(property.propertyLocation) : ''}</Typography>
 								</Stack>
 								<Stack className={'dealer-actions'}>
 									<Button className={'btn-dealer-call'} startIcon={<PhoneIcon />}>
@@ -816,7 +816,7 @@ const PropertyDetail: NextPage = ({ initialComment, ...props }: any) => {
 									</Stack>
 									<Stack className={'option-includes'}>
 										<Typography className={'title'}>{t('Bike Type')}</Typography>
-										<Typography className={'option-data'}>{property?.propertyType || 'N/A'}</Typography>
+										<Typography className={'option-data'}>{t(property?.propertyType || 'N/A')}</Typography>
 									</Stack>
 								</Stack>
 								</Stack>
@@ -835,7 +835,7 @@ const PropertyDetail: NextPage = ({ initialComment, ...props }: any) => {
 												</Box>
 													<Box component={'div'} className={'info'}>
 													<Typography className={'title'}>{t('Location')}</Typography>
-													<Typography className={'data'}>{property?.propertyLocation}</Typography>
+													<Typography className={'data'}>{property?.propertyLocation ? t(property.propertyLocation) : ''}</Typography>
 												</Box>
 												<Box component={'div'} className={'info'}>
 													<Typography className={'title'}>{t('Address')}</Typography>
@@ -854,11 +854,11 @@ const PropertyDetail: NextPage = ({ initialComment, ...props }: any) => {
 												</Box>
 												<Box component={'div'} className={'info'}>
 													<Typography className={'title'}>{t('Bike Type')}</Typography>
-													<Typography className={'data'}>{property?.propertyType || 'N/A'}</Typography>
+													<Typography className={'data'}>{t(property?.propertyType || 'N/A')}</Typography>
 												</Box>
 											  <Box component={'div'} className={'info'}>
 													<Typography className={'title'}>{t('Condition')}</Typography>
-													<Typography className={'data'}>{property?.propertyCondition}</Typography>
+													<Typography className={'data'}>{property?.propertyCondition ? t(property.propertyCondition) : ''}</Typography>
 												</Box>
 												<Box component={'div'} className={'info'}>
 													<Typography className={'title'}>{t('Options')}</Typography>
