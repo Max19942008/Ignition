@@ -360,5 +360,20 @@
   "BOOTS": "Etik",
   "LUGGAGE": "Yuk sumkasi",
   "PHONE_MOUNT": "Telefon ushlagich",
-  "COVER": "Chexol"
+  "COVER": "Chexol",
+
+  "Welcome back!": "Xush kelibsiz!",
+  "Successfully signed up!": "Muvaffaqiyatli ro'yxatdan o'tdingiz!",
+  "Please enter your nickname and password": "Taxallus va parolni kiriting",
+  "Nickname must be 3 to 20 characters": "Taxallus 3 dan 20 tagacha belgidan iborat bo'lishi kerak",
+  "Password must be 5 to 30 characters": "Parol 5 dan 30 tagacha belgidan iborat bo'lishi kerak",
+  "Please enter a valid phone number": "To'g'ri telefon raqamini kiriting",
+  "Wrong password, try again!": "Parol noto'g'ri, qayta urinib ko'ring!",
+  "Already used nick or phone": "Bu taxallus yoki telefon allaqachon ishlatilgan",
+  "No member with that member nick!": "Bunday taxallusli foydalanuvchi topilmadi!",
+  "You have been blocked!": "Siz bloklangansiz!",
+  "Login failed. Please try again.": "Kirishda xatolik. Qayta urinib ko'ring.",
+  "Sign up failed. Please try again.": "Ro'yxatdan o'tishda xatolik. Qayta urinib ko'ring.",
+  "Something went wrong. Please try again.": "Xatolik yuz berdi. Qayta urinib ko'ring.",
+  "Bad Request Exception": "Kiritilgan ma'lumotlar noto'g'ri"
 }

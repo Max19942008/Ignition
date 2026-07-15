@@ -2,7 +2,6 @@ import decodeJWT from 'jwt-decode';
 import { initializeApollo } from '../../apollo/client';
 import { userVar } from '../../apollo/store';
 import { CustomJwtPayload } from '../types/customJwtPayload';
-import { sweetMixinErrorAlert } from '../sweetAlert';
 import { LOGIN, SIGN_UP } from '../../apollo/user/mutation';
 
 export function getJwtToken(): any {
@@ -15,18 +14,24 @@ export function setJwtToken(token: string) {
 	localStorage.setItem('accessToken', token);
 }
 
-export const logIn = async (nick: string, password: string): Promise<void> => {
-	try {
-		const { jwtToken } = await requestJwtToken({ nick, password });
+/** Pulls a human-readable message out of an Apollo/GraphQL error safely. */
+const extractErrorMessage = (err: any): string => {
+	return (
+		err?.graphQLErrors?.[0]?.message ||
+		err?.networkError?.result?.errors?.[0]?.message ||
+		err?.message ||
+		'Something went wrong. Please try again.'
+	).replace('Definer: ', '');
+};
 
-		if (jwtToken) {
-			updateStorage({ jwtToken });
-			updateUserInfo(jwtToken);
-		}
-	} catch (err) {
-		console.warn('login err', err);
-		logOut();
-		throw new Error('Login Err');
+export const logIn = async (nick: string, password: string): Promise<void> => {
+	const { jwtToken } = await requestJwtToken({ nick, password });
+
+	if (jwtToken) {
+		updateStorage({ jwtToken });
+		updateUserInfo(jwtToken);
+	} else {
+		throw new Error('Login failed. Please try again.');
 	}
 };
 
@@ -46,35 +51,24 @@ const requestJwtToken = async ({
 			fetchPolicy: 'network-only',
 		});
 
-		const { accessToken } = result?.data?.login;
-
+		const accessToken = result?.data?.login?.accessToken;
 		return { jwtToken: accessToken };
 	} catch (err: any) {
-		console.log('request token err', err.graphQLErrors);
-		switch (err.graphQLErrors[0].message) {
-			case 'Definer: login and password do not match':
-				await sweetMixinErrorAlert('Please check your password again');
-				break;
-			case 'Definer: user has been blocked!':
-				await sweetMixinErrorAlert('User has been blocked!');
-				break;
-		}
-		throw new Error('token error');
+		// Do NOT reload the page here — surface the real reason to the caller.
+		const message = extractErrorMessage(err);
+		console.log('login request err:', message);
+		throw new Error(message);
 	}
 };
 
 export const signUp = async (nick: string, password: string, phone: string, type: string): Promise<void> => {
-	try {
-		const { jwtToken } = await requestSignUpJwtToken({ nick, password, phone, type });
+	const { jwtToken } = await requestSignUpJwtToken({ nick, password, phone, type });
 
-		if (jwtToken) {
-			updateStorage({ jwtToken });
-			updateUserInfo(jwtToken);
-		}
-	} catch (err) {
-		console.warn('login err', err);
-		logOut();
-		throw new Error('Login Err');
+	if (jwtToken) {
+		updateStorage({ jwtToken });
+		updateUserInfo(jwtToken);
+	} else {
+		throw new Error('Sign up failed. Please try again.');
 	}
 };
 
@@ -100,20 +94,12 @@ const requestSignUpJwtToken = async ({
 			fetchPolicy: 'network-only',
 		});
 
-		const { accessToken } = result?.data?.signup;
-
+		const accessToken = result?.data?.signup?.accessToken;
 		return { jwtToken: accessToken };
 	} catch (err: any) {
-		console.log('request token err', err.graphQLErrors);
-		switch (err.graphQLErrors[0].message) {
-			case 'Definer: login and password do not match':
-				await sweetMixinErrorAlert('Please check your password again');
-				break;
-			case 'Definer: user has been blocked!':
-				await sweetMixinErrorAlert('User has been blocked!');
-				break;
-		}
-		throw new Error('token error');
+		const message = extractErrorMessage(err);
+		console.log('signup request err:', message);
+		throw new Error(message);
 	}
 };
 

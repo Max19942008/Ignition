@@ -5,7 +5,7 @@ import withLayoutBasic from '../../libs/components/layout/LayoutBasic';
 import { Box, Button, Checkbox, FormControlLabel, FormGroup, Stack, TextField, Typography, IconButton, InputAdornment } from '@mui/material';
 import { useRouter } from 'next/router';
 import { logIn, signUp } from '../../libs/auth';
-import { sweetMixinErrorAlert } from '../../libs/sweetAlert';
+import { sweetMixinErrorAlert, sweetMixinSuccessAlert } from '../../libs/sweetAlert';
 import { serverSideTranslations } from 'next-i18next/serverSideTranslations';
 import VisibilityIcon from '@mui/icons-material/Visibility';
 import VisibilityOffIcon from '@mui/icons-material/VisibilityOff';
@@ -54,21 +54,41 @@ const Join: NextPage = () => {
 
 	const doLogin = useCallback(async () => {
 		try {
-			await logIn(input.nick, input.password);
+			if (!input.nick.trim() || !input.password) {
+				await sweetMixinErrorAlert(t('Please enter your nickname and password'));
+				return;
+			}
+			await logIn(input.nick.trim(), input.password);
+			await sweetMixinSuccessAlert(t('Welcome back!'), 1500);
 			await router.push(`${router.query.referrer ?? '/'}`);
 		} catch (err: any) {
-			await sweetMixinErrorAlert(err.message);
+			await sweetMixinErrorAlert(t(err.message));
 		}
-	}, [input, router]);
+	}, [input, router, t]);
 
 	const doSignUp = useCallback(async () => {
 		try {
-			await signUp(input.nick, input.password, input.phone, input.type);
+			const nick = input.nick.trim();
+			const phone = input.phone.trim();
+			if (nick.length < 3 || nick.length > 20) {
+				await sweetMixinErrorAlert(t('Nickname must be 3 to 20 characters'));
+				return;
+			}
+			if (input.password.length < 5 || input.password.length > 30) {
+				await sweetMixinErrorAlert(t('Password must be 5 to 30 characters'));
+				return;
+			}
+			if (phone.length < 7) {
+				await sweetMixinErrorAlert(t('Please enter a valid phone number'));
+				return;
+			}
+			await signUp(nick, input.password, phone, input.type);
+			await sweetMixinSuccessAlert(t('Successfully signed up!'), 1500);
 			await router.push(`${router.query.referrer ?? '/'}`);
 		} catch (err: any) {
-			await sweetMixinErrorAlert(err.message);
+			await sweetMixinErrorAlert(t(err.message));
 		}
-	}, [input, router]);
+	}, [input, router, t]);
 
 	const togglePasswordVisibility = () => {
 		setShowPassword(!showPassword);
