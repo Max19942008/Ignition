@@ -38,7 +38,6 @@ const PartList: NextPage = ({ initialInput, ...props }: any) => {
 	const [total, setTotal] = useState<number>(0);
 	const [currentPage, setCurrentPage] = useState<number>(1);
 	const [filterSortName, setFilterSortName] = useState('New');
-	const [categoryAnchor, setCategoryAnchor] = useState<null | HTMLElement>(null);
 	const [brandAnchor, setBrandAnchor] = useState<null | HTMLElement>(null);
 	const [typeAnchor, setTypeAnchor] = useState<null | HTMLElement>(null);
 	const [conditionAnchor, setConditionAnchor] = useState<null | HTMLElement>(null);
@@ -140,15 +139,6 @@ const PartList: NextPage = ({ initialInput, ...props }: any) => {
 	const toggleInList = (list: any[] = [], value: any) =>
 		list.includes(value) ? list.filter((v) => v !== value) : [...list, value];
 
-	const handleCategorySelect = async (category: PartCategory) => {
-		const next = toggleInList(searchFilter?.search?.categoryList || [], category);
-		const newSearch = { ...searchFilter };
-		if (next.length === 0) delete newSearch.search.categoryList;
-		else newSearch.search = { ...newSearch.search, categoryList: next };
-		await pushNewFilter(newSearch);
-		setCategoryAnchor(null);
-	};
-
 	const handleTypeSelect = async (type: PartType) => {
 		const next = toggleInList(searchFilter?.search?.typeList || [], type);
 		const newSearch = { ...searchFilter };
@@ -202,14 +192,12 @@ const PartList: NextPage = ({ initialInput, ...props }: any) => {
 		setLikesAnchor(null);
 	};
 
-	const partCategories = Object.values(PartCategory);
 	const partBrands = Object.values(PartBrand);
 	const partConditions = Object.values(PartCondition);
 	const partLocations = Object.values(PartLocation);
 
 	const sel = (arr: any[] = [], label: string) =>
 		arr.length > 0 ? `${arr.length} ${t('selected')}` : t(label);
-	const selectedCategory = sel(searchFilter?.search?.categoryList || [], 'Category');
 	const selectedType = sel(searchFilter?.search?.typeList || [], 'Type');
 	const selectedBrand = sel(searchFilter?.search?.brandList || [], 'Brand');
 	const selectedCondition = sel(searchFilter?.search?.conditionList || [], 'Condition');
@@ -318,31 +306,7 @@ const PartList: NextPage = ({ initialInput, ...props }: any) => {
 					</Stack>
 
 					<Stack className={'filter-header-row'}>
-						{/* Category Filter (Spare part / Accessory) */}
-						<Button
-							className={'filter-dropdown-button'}
-							endIcon={<KeyboardArrowDownRoundedIcon />}
-							onClick={(e: React.MouseEvent<HTMLButtonElement>) => setCategoryAnchor(e.currentTarget)}
-						>
-							{selectedCategory}
-						</Button>
-						<Menu
-							anchorEl={categoryAnchor}
-							open={Boolean(categoryAnchor)}
-							onClose={() => setCategoryAnchor(null)}
-							PaperProps={{ style: { maxHeight: 300, width: 200 } }}
-						>
-							{partCategories.map((category) => (
-								<MenuItem
-									key={category}
-									onClick={() => handleCategorySelect(category)}
-									selected={(searchFilter?.search?.categoryList || []).includes(category)}
-								>
-									{t(category)}
-								</MenuItem>
-							))}
-						</Menu>
-
+						{/* Category is controlled by the section tabs above (Spare Parts / Accessories) */}
 						{/* Type Filter */}
 						<Button
 							className={'filter-dropdown-button'}
