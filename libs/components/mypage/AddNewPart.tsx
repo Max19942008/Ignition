@@ -3,7 +3,7 @@ import { useRouter } from 'next/router';
 import { Button, Stack, Typography } from '@mui/material';
 import useDeviceDetect from '../../hooks/useDeviceDetect';
 import { useTranslation } from 'next-i18next';
-import { PartBrand, PartCategory, PartCondition, PartLocation, PartType } from '../../enums/part.enum';
+import { PartBrand, PartCategory, PartCondition, PartLocation, PartType, getPartTypesByCategory } from '../../enums/part.enum';
 import { REACT_APP_API_URL } from '../../config';
 import { PartInput } from '../../types/part/part.input';
 import axios from 'axios';
@@ -21,7 +21,8 @@ const AddPart = ({ initialValues, ...props }: any) => {
 	const inputRef = useRef<any>(null);
 	const [insertPartData, setInsertPartData] = useState<PartInput>(initialValues);
 	const [partCategory] = useState<PartCategory[]>(Object.values(PartCategory));
-	const [partType] = useState<PartType[]>(Object.values(PartType));
+	// Type options follow the selected category (spare-part types vs accessory types)
+	const partType = getPartTypesByCategory(insertPartData.partCategory as PartCategory);
 	const [partLocation] = useState<PartLocation[]>(Object.values(PartLocation));
 	const [partBrand] = useState<PartBrand[]>(Object.values(PartBrand));
 	const [partCondition] = useState<PartCondition[]>(Object.values(PartCondition));

@@ -12,7 +12,7 @@ import KeyboardArrowDownRoundedIcon from '@mui/icons-material/KeyboardArrowDownR
 import FilterListIcon from '@mui/icons-material/FilterList';
 import RefreshIcon from '@mui/icons-material/Refresh';
 import { Direction, Message } from '../../libs/enums/common.enum';
-import { PartBrand, PartCategory, PartCondition, PartLocation, PartType } from '../../libs/enums/part.enum';
+import { PartBrand, PartCategory, PartCondition, PartLocation, PartType, getPartTypesByCategory } from '../../libs/enums/part.enum';
 import { partPriceRange } from '../../libs/config';
 import { GET_PARTS } from '../../apollo/user/query';
 import { useMutation, useQuery } from '@apollo/client';
@@ -203,7 +203,6 @@ const PartList: NextPage = ({ initialInput, ...props }: any) => {
 	};
 
 	const partCategories = Object.values(PartCategory);
-	const partTypes = Object.values(PartType);
 	const partBrands = Object.values(PartBrand);
 	const partConditions = Object.values(PartCondition);
 	const partLocations = Object.values(PartLocation);
@@ -223,10 +222,14 @@ const PartList: NextPage = ({ initialInput, ...props }: any) => {
 	const activeCat: 'ALL' | PartCategory =
 		searchFilter?.search?.categoryList?.length === 1 ? (searchFilter.search.categoryList[0] as PartCategory) : 'ALL';
 
+	// Type options depend on the active category — spare-part types vs accessory types
+	const partTypes = getPartTypesByCategory(activeCat === 'ALL' ? undefined : activeCat);
+
 	const handleCategoryTab = async (cat: 'ALL' | PartCategory) => {
 		const newSearch: PartsInquiry = { ...searchFilter, page: 1, search: { ...searchFilter.search } };
 		if (cat === 'ALL') delete newSearch.search.categoryList;
 		else newSearch.search.categoryList = [cat];
+		delete newSearch.search.typeList; // reset type filter — valid types differ per category
 		setSearchFilter(newSearch);
 		setCurrentPage(1);
 		await pushNewFilter(newSearch);

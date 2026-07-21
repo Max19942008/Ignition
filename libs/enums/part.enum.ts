@@ -28,6 +28,40 @@ export enum PartType {
 	OTHER = 'OTHER',
 }
 
+/** Types that belong to spare parts only */
+export const SPARE_PART_TYPES: PartType[] = [
+	PartType.ENGINE,
+	PartType.EXHAUST,
+	PartType.BRAKE,
+	PartType.SUSPENSION,
+	PartType.TIRE,
+	PartType.BATTERY,
+	PartType.FILTER,
+	PartType.CHAIN,
+	PartType.ELECTRICAL,
+	PartType.BODY_PANEL,
+	PartType.OTHER,
+];
+
+/** Types that belong to accessories only */
+export const ACCESSORY_TYPES: PartType[] = [
+	PartType.HELMET,
+	PartType.GLOVES,
+	PartType.JACKET,
+	PartType.BOOTS,
+	PartType.LUGGAGE,
+	PartType.PHONE_MOUNT,
+	PartType.COVER,
+	PartType.OTHER,
+];
+
+/** Returns the type list valid for a given category (all types when none). */
+export const getPartTypesByCategory = (category?: PartCategory | null): PartType[] => {
+	if (category === PartCategory.ACCESSORY) return ACCESSORY_TYPES;
+	if (category === PartCategory.SPARE_PART) return SPARE_PART_TYPES;
+	return Object.values(PartType);
+};
+
 export enum PartCondition {
 	NEW = 'NEW',
 	USED = 'USED',
