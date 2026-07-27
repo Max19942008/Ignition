@@ -29,6 +29,7 @@ export const SIGN_UP = gql`
 			createdAt
 			updatedAt
 			accessToken
+			refreshToken
 		}
 	}
 `;
@@ -57,7 +58,25 @@ export const LOGIN = gql`
 			createdAt
 			updatedAt
 			accessToken
+			refreshToken
 		}
+	}
+`;
+
+/** Trades the stored refresh token for a fresh pair. Single-use: the response
+ *  carries a new refresh token that must replace the old one. */
+export const REFRESH_TOKEN = gql`
+	mutation RefreshToken($refreshToken: String!) {
+		refreshToken(refreshToken: $refreshToken) {
+			accessToken
+			refreshToken
+		}
+	}
+`;
+
+export const LOGOUT = gql`
+	mutation Logout($refreshToken: String!) {
+		logout(refreshToken: $refreshToken)
 	}
 `;
 

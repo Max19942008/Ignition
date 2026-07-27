@@ -4,7 +4,7 @@ import createUploadLink from 'apollo-upload-client/public/createUploadLink.js';
 import { WebSocketLink } from '@apollo/client/link/ws';
 import { getMainDefinition } from '@apollo/client/utilities';
 import { onError } from '@apollo/client/link/error';
-import { getJwtToken } from '../libs/auth';
+import { getJwtToken, isAccessTokenValid, logOut, refreshAccessToken, setJwtToken } from '../libs/auth';
 import { TokenRefreshLink } from 'apollo-link-token-refresh';
 import { sweetErrorAlert } from '../libs/sweetAlert';
 import { socketVar } from './store';
@@ -18,14 +18,30 @@ function getHeaders() {
 	return headers;
 }
 
+/**
+ * Access tokens live an hour, so this link checks the expiry before every
+ * operation and silently swaps in a new pair when one is about to lapse. The
+ * refresh call goes out as a bare fetch — routing it back through Apollo would
+ * re-enter this same link.
+ */
 const tokenRefreshLink = new TokenRefreshLink({
 	accessTokenField: 'accessToken',
-	isTokenValidOrUndefined: () => {
-		return true;
-	}, // @ts-ignore
-	fetchAccessToken: () => {
-		// execute refresh token
-		return null;
+	isTokenValidOrUndefined: () => isAccessTokenValid(),
+	// @ts-ignore — the lib expects a fetch Response, but we already resolve the pair
+	fetchAccessToken: async () => {
+		const accessToken = await refreshAccessToken();
+		return { accessToken };
+	},
+	/** Skips the library's Response parser: fetchAccessToken hands back the body directly. */
+	// @ts-ignore
+	handleResponse: () => (body: any) => body,
+	handleFetch: (accessToken: string) => {
+		setJwtToken(accessToken);
+	},
+	handleError: (err: Error) => {
+		// Refresh failed: the session is genuinely over (expired, revoked, blocked).
+		console.log('token refresh failed:', err.message);
+		logOut();
 	},
 });
 
