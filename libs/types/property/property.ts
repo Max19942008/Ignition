@@ -1,3 +1,4 @@
+import { Currency } from '../../enums/currency.enum';
 import { PropertyBrand, PropertyCondition, PropertyLocation, PropertyStatus, PropertyType } from '../../enums/property.enum';
 import { Member } from '../member/member';
 
@@ -21,6 +22,7 @@ export interface Property {
 	propertyAddress: string;
 	propertyTitle: string;
 	propertyPrice: number;
+	propertyCurrency: Currency;
 	propertyMileAge: number;
 	propertyEngineCc: number;
 	propertyBeds: number;

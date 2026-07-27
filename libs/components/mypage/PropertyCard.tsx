@@ -8,7 +8,7 @@ import DeleteIcon from '@mui/icons-material/Delete';
 import RemoveRedEyeIcon from '@mui/icons-material/RemoveRedEye';
 import FavoriteIcon from '@mui/icons-material/Favorite';
 import { Property } from '../../types/property/property';
-import { formatterStr } from '../../utils';
+import { formatterStr, formatPrice } from '../../utils';
 import Moment from 'react-moment';
 import { useRouter } from 'next/router';
 import { PropertyStatus, PropertyType } from '../../enums/property.enum';
@@ -144,7 +144,7 @@ export const PropertyCard = (props: PropertyCardProps) => {
 				</div>
 				<div className="price-section">
 					<span className="price-label">{t('FROM')}</span>
-					<span className="price-value">${formatterStr(property?.propertyPrice)}</span>
+					<span className="price-value">{formatPrice(property?.propertyPrice, property?.propertyCurrency)}</span>
 					<span className="price-period">/DAY</span>
 				</div>
 			</div>
@@ -213,7 +213,7 @@ export const PropertyCard = (props: PropertyCardProps) => {
 				</div>
 				<div className="price-section">
 					<span className="price-label">{t('FROM')}</span>
-					<span className="price-value">${formatterStr(property?.propertyPrice)}</span>
+					<span className="price-value">{formatPrice(property?.propertyPrice, property?.propertyCurrency)}</span>
 					<span className="price-period">/DAY</span>
 				</div>
 			</div>

@@ -1,4 +1,5 @@
 import React, { useCallback, useEffect, useRef, useState } from 'react';
+import { Currency, CURRENCY_META } from '../../enums/currency.enum';
 import { useRouter } from 'next/router';
 import { Button, Stack, Typography } from '@mui/material';
 import useDeviceDetect from '../../hooks/useDeviceDetect';
@@ -51,6 +52,7 @@ const AddProperty = ({ initialValues, ...props }: any) => {
 				...insertPropertyData,
 				propertyTitle: getPropertyData?.getProperty ? getPropertyData?.getProperty?.propertyTitle : '',
 				propertyPrice: getPropertyData?.getProperty ? getPropertyData?.getProperty?.propertyPrice : 0,
+				propertyCurrency: getPropertyData?.getProperty?.propertyCurrency ?? Currency.USD,
 				propertyType: getPropertyData?.getProperty ? getPropertyData?.getProperty?.propertyType : '',
 				propertyBrand: getPropertyData?.getProperty ? getPropertyData?.getProperty?.propertyBrand : '',
 				propertyCondition: getPropertyData?.getProperty ? getPropertyData?.getProperty?.propertyCondition : '',
@@ -152,6 +154,7 @@ const AddProperty = ({ initialValues, ...props }: any) => {
 					input: {
 						propertyTitle: insertPropertyData.propertyTitle,
 						propertyPrice: insertPropertyData.propertyPrice,
+						propertyCurrency: insertPropertyData.propertyCurrency || Currency.USD,
 						propertyType: insertPropertyData.propertyType,
 						propertyBrand: insertPropertyData.propertyBrand,
 						propertyCondition: insertPropertyData.propertyCondition,
@@ -196,6 +199,7 @@ const AddProperty = ({ initialValues, ...props }: any) => {
 						_id: router.query.propertyId as string,
 						propertyTitle: insertPropertyData.propertyTitle,
 						propertyPrice: insertPropertyData.propertyPrice,
+						propertyCurrency: insertPropertyData.propertyCurrency || Currency.USD,
 						propertyType: insertPropertyData.propertyType,
 						propertyBrand: insertPropertyData.propertyBrand,
 						propertyCondition: insertPropertyData.propertyCondition,
@@ -264,6 +268,23 @@ const AddProperty = ({ initialValues, ...props }: any) => {
 											setInsertPropertyData({ ...insertPropertyData, propertyPrice: value === '' ? 0 : parseInt(value) || 0 })
 										}
 									/>
+								</Stack>
+								<Stack className="price-year-after-price">
+									<Typography className="title">{t('Currency')}</Typography>
+									<select
+										className={'select-description'}
+										value={insertPropertyData.propertyCurrency || Currency.USD}
+										onChange={({ target: { value } }) =>
+											// @ts-ignore
+											setInsertPropertyData({ ...insertPropertyData, propertyCurrency: value })
+										}
+									>
+										{Object.values(Currency).map((cur) => (
+											<option value={cur} key={cur}>
+												{CURRENCY_META[cur].label}
+											</option>
+										))}
+									</select>
 								</Stack>
 								<Stack className="price-year-after-price">
 									<Typography className="title">{t('Select Type')}</Typography>

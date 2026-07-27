@@ -5,7 +5,7 @@ import FavoriteIcon from '@mui/icons-material/Favorite';
 import FavoriteBorderIcon from '@mui/icons-material/FavoriteBorder';
 import { Part } from '../../types/part/part';
 import Link from 'next/link';
-import { formatterStr } from '../../utils';
+import { formatterStr, formatPrice } from '../../utils';
 import { REACT_APP_API_URL } from '../../config';
 import { useReactiveVar } from '@apollo/client';
 import { userVar } from '../../../apollo/store';
@@ -41,7 +41,7 @@ const PartCard = (props: PartCardType) => {
 		return '/img/banner/header1.svg';
 	}, [part]);
 
-	const formattedPrice = useMemo(() => (part?.partPrice ? part.partPrice.toLocaleString() : '0'), [part?.partPrice]);
+	const formattedPrice = useMemo(() => formatPrice(part?.partPrice, part?.partCurrency), [part?.partPrice]);
 
 	const ratingValue = useMemo(() => {
 		if (part?.partRank && part.partRank > 0) return (part.partRank / 10).toFixed(1);
@@ -173,7 +173,7 @@ const PartCard = (props: PartCardType) => {
 					<Stack className="card-foot">
 						<Box component={'div'} className="price-box">
 							<span className="from">{t('Price')}</span>
-							<strong className="price">${formattedPrice}</strong>
+							<strong className="price">{formattedPrice}</strong>
 						</Box>
 						<Button variant="contained" className="cta" onClick={handleBuyNow}>
 							{t('Buy Now')}
@@ -268,7 +268,7 @@ const PartCard = (props: PartCardType) => {
 				</Stack>
 				<Stack className="price-section">
 					<Typography className="price-label">{t('PRICE')}</Typography>
-					<Typography className="price-value">${formatterStr(part?.partPrice)}</Typography>
+					<Typography className="price-value">{formatPrice(part?.partPrice, part?.partCurrency)}</Typography>
 				</Stack>
 			</Stack>
 		);
@@ -285,7 +285,7 @@ const PartCard = (props: PartCardType) => {
 						</Box>
 					)}
 					<Box component={'div'} className={'price-overlay'}>
-						<Typography className="price-overlay-value">${formatterStr(part?.partPrice)}</Typography>
+						<Typography className="price-overlay-value">{formatPrice(part?.partPrice, part?.partCurrency)}</Typography>
 					</Box>
 					<Stack className="engagement-badges">
 						<Box

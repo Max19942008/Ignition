@@ -49,6 +49,7 @@ export const UPDATE_PROPERTY_BY_ADMIN = gql`
             propertyAddress
             propertyTitle
             propertyPrice
+            propertyCurrency
             propertyYear
             propertyEngineCc
             propertyMileAge
@@ -82,6 +83,7 @@ export const REMOVE_PROPERTY_BY_ADMIN = gql`
         propertyAddress
         propertyTitle
         propertyPrice
+        propertyCurrency
         propertyYear
         propertyEngineCc
         propertyMileAge
@@ -119,6 +121,7 @@ export const UPDATE_PART_BY_ADMIN = gql`
 			partCondition
 			partTitle
 			partPrice
+			partCurrency
 			partStockCount
 			partCompatibleBrands
 			partViews
@@ -149,6 +152,7 @@ export const REMOVE_PART_BY_ADMIN = gql`
 			partCondition
 			partTitle
 			partPrice
+			partCurrency
 			partStockCount
 			partCompatibleBrands
 			partViews

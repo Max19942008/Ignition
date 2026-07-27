@@ -1,4 +1,5 @@
 import React, { useCallback, useEffect, useRef, useState } from 'react';
+import { Currency, CURRENCY_META } from '../../enums/currency.enum';
 import { useRouter } from 'next/router';
 import { Button, Stack, Typography } from '@mui/material';
 import useDeviceDetect from '../../hooks/useDeviceDetect';
@@ -47,6 +48,7 @@ const AddPart = ({ initialValues, ...props }: any) => {
 				...insertPartData,
 				partTitle: p?.partTitle ?? '',
 				partPrice: p?.partPrice ?? 0,
+				partCurrency: p?.partCurrency ?? Currency.USD,
 				partCategory: p?.partCategory ?? '',
 				partType: p?.partType ?? '',
 				partBrand: p?.partBrand ?? '',
@@ -130,6 +132,7 @@ const AddPart = ({ initialValues, ...props }: any) => {
 	const buildInput = () => ({
 		partTitle: insertPartData.partTitle,
 		partPrice: insertPartData.partPrice,
+		partCurrency: insertPartData.partCurrency || Currency.USD,
 		partCategory: insertPartData.partCategory,
 		partType: insertPartData.partType,
 		partBrand: insertPartData.partBrand,
@@ -221,6 +224,23 @@ const AddPart = ({ initialValues, ...props }: any) => {
 											setInsertPartData({ ...insertPartData, partPrice: value === '' ? 0 : parseInt(value) || 0 })
 										}
 									/>
+								</Stack>
+								<Stack className="price-year-after-price">
+									<Typography className="title">{t('Currency')}</Typography>
+									<select
+										className={'select-description'}
+										value={insertPartData.partCurrency || Currency.USD}
+										onChange={({ target: { value } }) =>
+											// @ts-ignore
+											setInsertPartData({ ...insertPartData, partCurrency: value })
+										}
+									>
+										{Object.values(Currency).map((cur) => (
+											<option value={cur} key={cur}>
+												{CURRENCY_META[cur].label}
+											</option>
+										))}
+									</select>
 								</Stack>
 								<Stack className="price-year-after-price">
 									<Typography className="title">{t('Category')}</Typography>

@@ -1,4 +1,5 @@
 import React, { useMemo } from 'react';
+import { formatPrice } from '../../utils';
 import { Stack, Box, Divider, Typography, Button } from '@mui/material';
 import IconButton from '@mui/material/IconButton';
 import useDeviceDetect from '../../hooks/useDeviceDetect';
@@ -34,7 +35,7 @@ const TopPartCard = (props: TopPartCardProps) => {
 		return '/img/banner/header1.svg';
 	}, [part]);
 
-	const formattedPrice = useMemo(() => (part?.partPrice ? part.partPrice.toLocaleString() : '0'), [part?.partPrice]);
+	const formattedPrice = useMemo(() => formatPrice(part?.partPrice, part?.partCurrency), [part?.partPrice]);
 
 	const ratingValue = useMemo(() => {
 		if (part?.partRank && part.partRank > 0) return part.partRank.toFixed(2);
@@ -114,7 +115,7 @@ const TopPartCard = (props: TopPartCardProps) => {
 				<Stack className="card-foot">
 					<Box component={'div'} className="price-box">
 						<span className="from">{t('Price')}</span>
-						<strong className="price">${formattedPrice}</strong>
+						<strong className="price">{formattedPrice}</strong>
 					</Box>
 					<Button variant="contained" className="cta" onClick={goToDetail}>
 						{t('Buy Now')}

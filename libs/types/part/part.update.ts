@@ -1,3 +1,4 @@
+import { Currency } from '../../enums/currency.enum';
 import { PartBrand, PartCategory, PartCondition, PartLocation, PartStatus, PartType } from '../../enums/part.enum';
 
 export interface PartUpdate {
@@ -10,6 +11,7 @@ export interface PartUpdate {
 	partCondition?: PartCondition;
 	partTitle?: string;
 	partPrice?: number;
+	partCurrency?: Currency;
 	partStockCount?: number;
 	partCompatibleBrands?: PartBrand[];
 	partImages?: string[];

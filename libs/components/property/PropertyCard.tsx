@@ -5,7 +5,7 @@ import FavoriteIcon from '@mui/icons-material/Favorite';
 import FavoriteBorderIcon from '@mui/icons-material/FavoriteBorder';
 import { Property } from '../../types/property/property';
 import Link from 'next/link';
-import { formatterStr } from '../../utils';
+import { formatterStr, formatPrice } from '../../utils';
 import { REACT_APP_API_URL } from '../../config';
 import { useReactiveVar } from '@apollo/client';
 import { userVar } from '../../../apollo/store';
@@ -42,7 +42,7 @@ const PropertyCard = (props: PropertyCardType) => {
 	}, [property]);
 
 	const formattedPrice = useMemo(
-		() => (property?.propertyPrice ? property.propertyPrice.toLocaleString() : '0'),
+		() => formatPrice(property?.propertyPrice, property?.propertyCurrency),
 		[property?.propertyPrice],
 	);
 
@@ -169,7 +169,7 @@ const PropertyCard = (props: PropertyCardType) => {
 					<Stack className="card-foot">
 						<Box component={'div'} className="price-box">
 							<span className="from">{t('From')}</span>
-							<strong className="price">${formattedPrice}</strong>
+							<strong className="price">{formattedPrice}</strong>
 						</Box>
 						<Button variant="contained" className="cta" onClick={handleBuyNow}>
 							{t('Buy Now')}
@@ -287,7 +287,7 @@ const PropertyCard = (props: PropertyCardType) => {
 				</Stack>
 				<Stack className="price-section">
 					<Typography className="price-label">{t('FROM')}</Typography>
-					<Typography className="price-value">${formatterStr(property?.propertyPrice)}</Typography>
+					<Typography className="price-value">{formatPrice(property?.propertyPrice, property?.propertyCurrency)}</Typography>
 					<Typography className="price-period">{t('/DAY')}</Typography>
 				</Stack>
 			</Stack>
@@ -313,7 +313,7 @@ const PropertyCard = (props: PropertyCardType) => {
 					)}
 					{/* Price Overlay - Pastki chapda */}
 					<Box component={'div'} className={'price-overlay'}>
-						<Typography className="price-overlay-value">${formatterStr(property?.propertyPrice)}</Typography>
+						<Typography className="price-overlay-value">{formatPrice(property?.propertyPrice, property?.propertyCurrency)}</Typography>
 					</Box>
 					{/* Views va Likes Badge - Pastki o'ngda, bir qatorda */}
 					<Stack className="engagement-badges">

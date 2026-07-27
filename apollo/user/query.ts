@@ -94,6 +94,7 @@ export const GET_PROPERTY = gql`
             propertyAddress
             propertyTitle
             propertyPrice
+            propertyCurrency
             propertyYear
             propertyEngineCc
             propertyMileAge
@@ -154,6 +155,7 @@ export const GET_PROPERTIES = gql`
             propertyAddress
             propertyTitle
             propertyPrice
+            propertyCurrency
             propertyYear
             propertyEngineCc
             propertyMileAge
@@ -223,6 +225,7 @@ export const GET_AGENT_PROPERTIES = gql`
             propertyAddress
             propertyTitle
             propertyPrice
+            propertyCurrency
             propertyYear
             propertyEngineCc
             propertyMileAge
@@ -261,6 +264,7 @@ export const GET_FAVORITES = gql`
             propertyAddress
             propertyTitle
             propertyPrice
+            propertyCurrency
             propertyYear
             propertyEngineCc
             propertyMileAge
@@ -326,6 +330,7 @@ export const GET_VISITED = gql`
             propertyAddress
             propertyTitle
             propertyPrice
+            propertyCurrency
             propertyYear
             propertyEngineCc
             propertyMileAge
@@ -394,6 +399,7 @@ export const GET_PART = gql`
 			partCondition
 			partTitle
 			partPrice
+			partCurrency
 			partStockCount
 			partCompatibleBrands
 			partViews
@@ -451,6 +457,7 @@ export const GET_PARTS = gql`
 				partCondition
 				partTitle
 				partPrice
+				partCurrency
 				partStockCount
 				partCompatibleBrands
 				partViews
@@ -518,6 +525,7 @@ export const GET_AGENT_PARTS = gql`
 				partCondition
 				partTitle
 				partPrice
+				partCurrency
 				partStockCount
 				partCompatibleBrands
 				partViews
@@ -553,6 +561,7 @@ export const GET_FAVORITE_PARTS = gql`
 				partCondition
 				partTitle
 				partPrice
+				partCurrency
 				partStockCount
 				partCompatibleBrands
 				partViews
@@ -595,6 +604,7 @@ export const GET_VISITED_PARTS = gql`
 				partCondition
 				partTitle
 				partPrice
+				partCurrency
 				partStockCount
 				partCompatibleBrands
 				partViews

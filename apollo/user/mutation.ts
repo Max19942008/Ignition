@@ -153,6 +153,7 @@ export const CREATE_PROPERTY = gql`
         propertyAddress
         propertyTitle
         propertyPrice
+        propertyCurrency
         propertyYear
         propertyEngineCc
         propertyMileAge
@@ -186,6 +187,7 @@ export const UPDATE_PROPERTY = gql`
         propertyAddress
         propertyTitle
         propertyPrice
+        propertyCurrency
         propertyYear
         propertyEngineCc
         propertyMileAge
@@ -219,6 +221,7 @@ export const LIKE_TARGET_PROPERTY = gql`
         propertyAddress
         propertyTitle
         propertyPrice
+        propertyCurrency
         propertyYear
         propertyEngineCc
         propertyMileAge
@@ -256,6 +259,7 @@ export const CREATE_PART = gql`
 			partCondition
 			partTitle
 			partPrice
+			partCurrency
 			partStockCount
 			partCompatibleBrands
 			partViews
@@ -286,6 +290,7 @@ export const UPDATE_PART = gql`
 			partCondition
 			partTitle
 			partPrice
+			partCurrency
 			partStockCount
 			partCompatibleBrands
 			partViews
@@ -316,6 +321,7 @@ export const LIKE_TARGET_PART = gql`
 			partCondition
 			partTitle
 			partPrice
+			partCurrency
 			partStockCount
 			partCompatibleBrands
 			partViews

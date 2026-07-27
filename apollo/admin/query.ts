@@ -58,6 +58,7 @@ export const GET_ALL_PROPERTIES_BY_ADMIN = gql`
             propertyAddress
             propertyTitle
             propertyPrice
+            propertyCurrency
             propertyYear
             propertyEngineCc
             propertyMileAge
@@ -123,6 +124,7 @@ export const GET_ALL_PARTS_BY_ADMIN = gql`
 				partCondition
 				partTitle
 				partPrice
+				partCurrency
 				partStockCount
 				partCompatibleBrands
 				partViews

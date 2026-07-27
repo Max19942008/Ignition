@@ -1,4 +1,5 @@
 import React, { useMemo } from 'react';
+import { formatPrice } from '../../utils';
 import { Stack, Box, Divider, Typography, Button, IconButton } from '@mui/material';
 import useDeviceDetect from '../../hooks/useDeviceDetect';
 import LocationOnIcon from '@mui/icons-material/LocationOn';
@@ -34,7 +35,7 @@ const TrendPropertyCard = (props: TrendPropertyCardProps) => {
 	}, [property]);
 
 	const formattedPrice = useMemo(
-		() => (property?.propertyPrice ? property.propertyPrice.toLocaleString() : '0'),
+		() => formatPrice(property?.propertyPrice, property?.propertyCurrency),
 		[property?.propertyPrice],
 	);
 
@@ -125,7 +126,7 @@ const TrendPropertyCard = (props: TrendPropertyCardProps) => {
 					<Stack className="card-foot">
 						<Box component={'div'} className="price-box">
 							<span className="from">{t('From')}</span>
-							<strong className="price">${formattedPrice}</strong>
+							<strong className="price">{formattedPrice}</strong>
 						</Box>
 						<Button variant="contained" className="cta" onClick={goToDetail}>
 							{t('Buy Now')}
@@ -204,7 +205,7 @@ const TrendPropertyCard = (props: TrendPropertyCardProps) => {
 					<Stack className="card-foot">
 						<Box component={'div'} className="price-box">
 							<span className="from">{t('From')}</span>
-							<strong className="price">${formattedPrice}</strong>
+							<strong className="price">{formattedPrice}</strong>
 						</Box>
 						<Button variant="contained" className="cta" onClick={goToDetail}>
 							{t('Buy Now')}

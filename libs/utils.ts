@@ -1,8 +1,19 @@
 import numeral from 'numeral';
 import { sweetMixinErrorAlert } from './sweetAlert';
+import { Currency, CURRENCY_META } from './enums/currency.enum';
 
 export const formatterStr = (value: number | undefined): string => {
 	return numeral(value).format('0,0') != '0' ? numeral(value).format('0,0') : '';
+};
+
+/**
+ * Renders a price in the currency the seller entered it in. Falls back to USD
+ * for listings created before currencies existed.
+ */
+export const formatPrice = (value: number | undefined | null, currency?: Currency | string | null): string => {
+	const amount = numeral(value ?? 0).format('0,0');
+	const meta = CURRENCY_META[(currency as Currency) ?? Currency.USD] ?? CURRENCY_META[Currency.USD];
+	return meta.suffix ? `${amount} ${meta.symbol}` : `${meta.symbol}${amount}`;
 };
 
 export const likeTargetPropertyHandler = async (likeTargetProperty: any, id: string) => {

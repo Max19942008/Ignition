@@ -1,3 +1,4 @@
+import { Currency } from '../../enums/currency.enum';
 import { PartBrand, PartCategory, PartCondition, PartLocation, PartStatus, PartType } from '../../enums/part.enum';
 import { Member } from '../member/member';
 import { MeLiked, TotalCounter } from '../property/property';
@@ -12,6 +13,7 @@ export interface Part {
 	partCondition: PartCondition;
 	partTitle: string;
 	partPrice: number;
+	partCurrency: Currency;
 	partStockCount: number;
 	partCompatibleBrands?: PartBrand[];
 	partViews: number;
