@@ -48,7 +48,7 @@ const MyParts: NextPage = ({ initialInput, ...props }: any) => {
 
 	const deletePartHandler = async (id: string) => {
 		try {
-			if (await sweetConfirmAlert('Are you sure to delete this part?')) {
+			if (await sweetConfirmAlert(t('Are you sure you want to delete this part?'))) {
 				await updatePart({ variables: { input: { _id: id, partStatus: 'DELETE' } } });
 				await getAgentPartsRefetch({ input: searchFilter });
 			}

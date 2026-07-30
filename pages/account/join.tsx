@@ -120,8 +120,8 @@ const Join: NextPage = () => {
 							</Typography>
 							<Typography className={'subtitle'}>
 								{loginView
-									? 'Sign in to continue to MOTOPRESTO'
-									: 'Join MOTOPRESTO and start buying or selling motorcycles'}
+									? t('Sign in to continue to MOTOPRESTO')
+									: t('Join MOTOPRESTO and start buying or selling motorcycles')}
 							</Typography>
 						</Box>
 
@@ -152,7 +152,7 @@ const Join: NextPage = () => {
 							<Box component="div" className={'input-box'}>
 								<TextField
 									fullWidth
-									label="Password"
+									label={t('Password')}
 									type={showPassword ? 'text' : 'password'}
 									placeholder={t('Enter your password')}
 									value={input.password}
@@ -300,8 +300,8 @@ const Join: NextPage = () => {
 								</Typography>
 								<Typography className={'subtitle'}>
 									{loginView
-										? 'Sign in to continue to MOTOPRESTO'
-										: 'Join MOTOPRESTO and start buying or selling motorcycles'}
+										? t('Sign in to continue to MOTOPRESTO')
+										: t('Join MOTOPRESTO and start buying or selling motorcycles')}
 								</Typography>
 							</Box>
 
@@ -332,7 +332,7 @@ const Join: NextPage = () => {
 							<Box component="div" className={'input-box'}>
 									<TextField
 										fullWidth
-										label="Password"
+										label={t('Password')}
 										type={showPassword ? 'text' : 'password'}
 										placeholder={t('Enter your password')}
 										value={input.password}

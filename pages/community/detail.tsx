@@ -231,7 +231,7 @@ const CommunityDetail: NextPage = ({ initialInput, ...props }: T) => {
       throw new Error('Provide data to update your comment!');
 
     if (commentStatus) {
-      if (await sweetConfirmAlert('Do you want to delete the comment?')) {
+      if (await sweetConfirmAlert(t('Do you want to delete this comment?'))) {
         await updateComment({
           variables: {
             input: updateData,
