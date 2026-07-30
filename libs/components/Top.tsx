@@ -87,6 +87,16 @@ const Top = () => {
 		if (jwt) updateUserInfo(jwt);
 	}, []);
 
+	/**
+	 * This used to sit in the render body, so every re-render (and the navbar
+	 * re-renders on each scroll tick and each notification poll) attached one
+	 * more listener that nothing ever removed.
+	 */
+	useEffect(() => {
+		window.addEventListener('scroll', changeNavbarColor);
+		return () => window.removeEventListener('scroll', changeNavbarColor);
+	}, []);
+
 	/** HANDLERS **/
 	const langClick = (e: any) => {
 		setAnchorEl2(e.currentTarget);
@@ -190,10 +200,6 @@ const Top = () => {
 			},
 		},
 	}));
-
-	if (typeof window !== 'undefined') {
-		window.addEventListener('scroll', changeNavbarColor);
-	}
 
 	if (device == 'mobile') {
 		return (
