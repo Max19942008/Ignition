@@ -5,6 +5,9 @@
 	margin-bottom: 0;
 	width: 100%;
 	max-width: 100%;
+	// Never let the nowrap title inside dictate how wide the card gets — it is
+	// the card that sizes the text, not the other way round.
+	min-width: 0;
 	height: auto;
 	min-height: 455px;
 	display: flex;
@@ -158,6 +161,7 @@
 		padding: 24px 22px 20px;
 		display: flex;
 		flex-direction: column;
+		min-width: 0;
 		box-sizing: border-box;
 		border-radius: 0px 0px 20px 20px;
 		border: 2px solid transparent;
