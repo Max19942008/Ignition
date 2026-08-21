@@ -3,7 +3,7 @@ import { Box, Button, Stack, Typography, Pagination as MuiPagination } from '@mu
 import useDeviceDetect from '../../libs/hooks/useDeviceDetect';
 import withLayoutFull from '../../libs/components/layout/LayoutFull';
 import { NextPage } from 'next';
-import PartCard from '../../libs/components/part/PartCard';
+import PartBigCard from '../../libs/components/part/PartBigCard';
 import FavoriteIcon from '@mui/icons-material/Favorite';
 import FavoriteBorderIcon from '@mui/icons-material/FavoriteBorder';
 import { useMutation, useQuery, useReactiveVar } from '@apollo/client';
@@ -344,7 +344,7 @@ const PartDetail: NextPage = ({ ...props }: any) => {
 					</Stack>
 
 					{destinationParts.length !== 0 && (
-						<Stack className={'similar-properties-config'}>
+						<Stack className={'similar-properties-config parts-related'}>
 							<Stack className={'title-pagination-box'}>
 								<Stack className={'title-box'}>
 									<Typography className={'main-title'}>{t('Related parts')}</Typography>
@@ -360,7 +360,7 @@ const PartDetail: NextPage = ({ ...props }: any) => {
 											className={`property-card-wrapper card-${index + 1}`}
 											sx={{ animationDelay: `${index * 0.1}s` }}
 										>
-											<PartCard part={relatedPart} likePartHandler={likePartHandler} />
+											<PartBigCard part={relatedPart} likePartHandler={likePartHandler} />
 										</Box>
 									);
 								})}

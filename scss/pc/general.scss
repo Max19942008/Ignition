@@ -1011,3 +1011,297 @@
 		}
 	}
 }
+
+/* =========================================================================
+   PART "BIG CARD" — the related-items card on /part/detail.
+   It reuses .property-big-card-box so the grid, stagger animation and hover
+   lift of the related section carry over unchanged; everything below is the
+   parts-only layer on top: a category ribbon, a fitment strip and stock
+   state, plus a violet/blue accent so parts never read as a bike listing.
+   ========================================================================= */
+
+#pc-wrap #property-detail-page .property-detail-config .similar-properties-config.parts-related {
+	background: linear-gradient(135deg, #ffffff 0%, #f7f6ff 30%, #f2f8ff 60%, #ffffff 100%);
+	box-shadow: 0 12px 48px rgba(124, 58, 237, 0.1), 0 4px 16px rgba(0, 0, 0, 0.08);
+
+	&::before {
+		background: linear-gradient(90deg, #7c3aed 0%, #3b82f6 25%, #06b6d4 50%, #a855f7 75%, #7c3aed 100%);
+		background-size: 200% 100%;
+	}
+
+	.title-pagination-box .title-box .main-title {
+		background: linear-gradient(135deg, #181a20 0%, #7c3aed 50%, #3b82f6 100%);
+		-webkit-background-clip: text;
+		-webkit-text-fill-color: transparent;
+		background-clip: text;
+
+		&::after {
+			background: linear-gradient(90deg, #7c3aed 0%, #3b82f6 100%);
+		}
+	}
+
+	.cards-box .property-card-wrapper:hover .property-big-card-box.part-big-card {
+		box-shadow: 0 20px 60px rgba(124, 58, 237, 0.28), 0 8px 24px rgba(0, 0, 0, 0.15);
+	}
+}
+
+#pc-wrap
+	#property-detail-page
+	.property-detail-config
+	.similar-properties-config
+	.cards-box
+	.property-card-wrapper
+	.property-big-card-box.part-big-card,
+.property-big-card-box.part-big-card {
+	min-height: 470px;
+
+	&::before {
+		background: linear-gradient(90deg, #7c3aed 0%, #3b82f6 50%, #06b6d4 100%);
+	}
+
+	&:hover {
+		border-color: rgba(124, 58, 237, 0.3);
+		box-shadow: 0 20px 60px rgba(124, 58, 237, 0.25), 0 8px 24px rgba(0, 0, 0, 0.15);
+		background: linear-gradient(135deg, #ffffff 0%, #f7f6ff 100%);
+
+		.category-ribbon {
+			transform: translateY(-2px);
+			box-shadow: 0 8px 22px rgba(0, 0, 0, 0.28);
+		}
+
+		.info .title {
+			background: linear-gradient(135deg, #7c3aed 0%, #3b82f6 100%);
+			-webkit-background-clip: text;
+			-webkit-text-fill-color: transparent;
+			background-clip: text;
+		}
+	}
+
+	.card-img {
+		/* Category is the first thing a parts buyer sorts on — give it the corner. */
+		.category-ribbon {
+			position: absolute;
+			top: 18px;
+			right: 18px;
+			z-index: 2;
+			display: flex;
+			align-items: center;
+			gap: 6px;
+			padding: 8px 16px;
+			border-radius: 20px;
+			backdrop-filter: blur(10px);
+			-webkit-backdrop-filter: blur(10px);
+			border: 1px solid rgba(255, 255, 255, 0.35);
+			box-shadow: 0 4px 14px rgba(0, 0, 0, 0.2);
+			transition: all 0.35s cubic-bezier(0.4, 0, 0.2, 1);
+
+			svg {
+				font-size: 15px;
+				color: #fff;
+			}
+
+			span {
+				color: #fff;
+				font-family: $font;
+				font-size: 12px;
+				font-weight: 700;
+				line-height: normal;
+				letter-spacing: 0.4px;
+				text-transform: uppercase;
+				white-space: nowrap;
+			}
+		}
+	}
+
+	&.is-spare .card-img .category-ribbon {
+		background: linear-gradient(135deg, rgba(59, 130, 246, 0.92) 0%, rgba(37, 99, 235, 0.92) 100%);
+	}
+
+	&.is-accessory .card-img .category-ribbon {
+		background: linear-gradient(135deg, rgba(168, 85, 247, 0.92) 0%, rgba(124, 58, 237, 0.92) 100%);
+	}
+
+	.info {
+		background: linear-gradient(135deg, #ffffff 0%, #faf9ff 100%);
+		flex: 1;
+		display: flex;
+		flex-direction: column;
+
+		/* Fitment is optional, so pin the badge row down rather than let it float. */
+		.bott {
+			margin-top: auto;
+		}
+
+		.title {
+			background: linear-gradient(135deg, #181a20 0%, #7c3aed 100%);
+			-webkit-background-clip: text;
+			-webkit-text-fill-color: transparent;
+			background-clip: text;
+		}
+
+		.desc-wrapper .location-icon {
+			color: #7c3aed;
+		}
+
+		.options .option-item {
+			background: linear-gradient(135deg, #f8f5ff 0%, #eee9ff 100%);
+			border-color: rgba(124, 58, 237, 0.2);
+			min-width: 0;
+			max-width: 100%;
+
+			&::before {
+				background: linear-gradient(90deg, transparent 0%, rgba(124, 58, 237, 0.2) 50%, transparent 100%);
+			}
+
+			&:hover {
+				background: linear-gradient(135deg, #7c3aed 0%, #6d28d9 100%);
+				border-color: #7c3aed;
+				box-shadow: 0 6px 20px rgba(124, 58, 237, 0.3), 0 2px 8px rgba(124, 58, 237, 0.2);
+			}
+
+			.option-icon {
+				color: #7c3aed;
+			}
+
+			span {
+				min-width: 0;
+				overflow: hidden;
+				text-overflow: ellipsis;
+			}
+		}
+
+		/* "Does it fit my bike?" — the one question a spare part has to answer. */
+		.fitment-strip {
+			margin-top: 14px;
+			display: flex;
+			align-items: center;
+			gap: 10px;
+			padding: 10px 14px;
+			border-radius: 12px;
+			background: linear-gradient(135deg, #f0fdfa 0%, #ecfeff 100%);
+			border: 1px dashed rgba(6, 182, 212, 0.45);
+			transition: all 0.35s ease;
+
+			&:hover {
+				border-style: solid;
+				border-color: rgba(6, 182, 212, 0.8);
+				background: linear-gradient(135deg, #ecfeff 0%, #e0f7fa 100%);
+			}
+
+			.fitment-icon {
+				font-size: 18px;
+				color: #0891b2;
+				flex-shrink: 0;
+			}
+
+			.fitment-list {
+				display: flex;
+				align-items: center;
+				gap: 6px;
+				overflow: hidden;
+			}
+
+			.fitment-chip {
+				padding: 4px 10px;
+				border-radius: 8px;
+				background: rgba(255, 255, 255, 0.9);
+				border: 1px solid rgba(6, 182, 212, 0.3);
+				color: #0e7490;
+				font-family: $font;
+				font-size: 11px;
+				font-weight: 700;
+				line-height: normal;
+				letter-spacing: 0.3px;
+				white-space: nowrap;
+				transition: all 0.25s ease;
+
+				&:hover {
+					background: #06b6d4;
+					border-color: #06b6d4;
+					color: #fff;
+					transform: translateY(-2px);
+				}
+
+				&.more {
+					background: rgba(6, 182, 212, 0.12);
+					border-style: dashed;
+				}
+			}
+		}
+
+		.bott .options-badges .badge {
+			&.badge-stock {
+				background: linear-gradient(135deg, #06b6d4 0%, #0891b2 100%);
+				color: #fff;
+				box-shadow: 0 2px 8px rgba(6, 182, 212, 0.3);
+			}
+
+			&.badge-barter {
+				background: linear-gradient(135deg, #a855f7 0%, #7c3aed 100%);
+				box-shadow: 0 2px 8px rgba(168, 85, 247, 0.3);
+			}
+		}
+
+		.bott .buttons-box .icon-btn:hover {
+			background: rgba(124, 58, 237, 0.1);
+		}
+	}
+}
+
+/* The related-parts pagination inherits the bike section's green; re-tint it so
+   the whole block reads as one piece. */
+#pc-wrap
+	#property-detail-page
+	.property-detail-config
+	.similar-properties-config.parts-related
+	.pagination-container
+	.pagination-wrapper {
+	border-color: rgba(124, 58, 237, 0.2);
+	box-shadow: 0 8px 32px rgba(124, 58, 237, 0.15), 0 2px 12px rgba(0, 0, 0, 0.08);
+
+	&::before {
+		background: linear-gradient(90deg, #7c3aed 0%, #3b82f6 35%, #06b6d4 70%, #a855f7 100%);
+	}
+}
+
+#pc-wrap
+	#property-detail-page
+	.similar-properties-config.parts-related
+	.pagination-container
+	.MuiPagination-root
+	.MuiPaginationItem-root {
+	&::before {
+		background: linear-gradient(90deg, transparent 0%, rgba(124, 58, 237, 0.2) 50%, transparent 100%);
+	}
+
+	&:hover {
+		background: linear-gradient(135deg, #7c3aed 0%, #6d28d9 100%);
+		border-color: #7c3aed;
+		box-shadow: 0 6px 20px rgba(124, 58, 237, 0.3), 0 2px 8px rgba(124, 58, 237, 0.2);
+	}
+
+	&.Mui-selected {
+		background: linear-gradient(135deg, #7c3aed 0%, #06b6d4 100%);
+		border-color: #7c3aed;
+		box-shadow: 0 6px 20px rgba(124, 58, 237, 0.4), 0 2px 8px rgba(6, 182, 212, 0.3);
+
+		&:hover {
+			background: linear-gradient(135deg, #6d28d9 0%, #0891b2 100%);
+			box-shadow: 0 8px 24px rgba(124, 58, 237, 0.5), 0 4px 12px rgba(6, 182, 212, 0.4);
+		}
+	}
+
+	&.MuiPaginationItem-previousNext {
+		background: linear-gradient(135deg, #f8f5ff 0%, #eee9ff 100%);
+		border-color: rgba(124, 58, 237, 0.3);
+
+		&:hover {
+			background: linear-gradient(135deg, #7c3aed 0%, #6d28d9 100%);
+			border-color: #7c3aed;
+		}
+
+		svg {
+			color: #7c3aed;
+		}
+	}
+}
