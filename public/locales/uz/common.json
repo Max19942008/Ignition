@@ -384,5 +384,7 @@
   "Login failed. Please try again.": "Kirishda xatolik. Qayta urinib ko'ring.",
   "Sign up failed. Please try again.": "Ro'yxatdan o'tishda xatolik. Qayta urinib ko'ring.",
   "Something went wrong. Please try again.": "Xatolik yuz berdi. Qayta urinib ko'ring.",
-  "Bad Request Exception": "Kiritilgan ma'lumotlar noto'g'ri"
+  "Bad Request Exception": "Kiritilgan ma'lumotlar noto'g'ri",
+  "Dealer notified": "Sotuvchi xabardor qilindi",
+  "Sending…": "Yuborilmoqda…"
 }

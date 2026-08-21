@@ -8,6 +8,13 @@ export interface MeLiked {
 	myFavorite: boolean;
 }
 
+/** Carries one entry once this member has told the dealer they want the bike. */
+export interface MeInterested {
+	memberId: string;
+	propertyId: string;
+	myInterest: boolean;
+}
+
 export interface TotalCounter {
 	total: number;
 }
@@ -44,6 +51,7 @@ export interface Property {
 	updatedAt: Date;
 	/** from aggregation **/
 	meLiked?: MeLiked[];
+	meInterested?: MeInterested[];
 	memberData?: Member;
 }
 

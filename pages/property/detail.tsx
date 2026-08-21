@@ -32,6 +32,8 @@ import SpeedIcon from '@mui/icons-material/Speed';
 import CalendarTodayIcon from '@mui/icons-material/CalendarToday';
 import LabelIcon from '@mui/icons-material/Label';
 import TwoWheelerIcon from '@mui/icons-material/TwoWheeler';
+import CheckCircleIcon from '@mui/icons-material/CheckCircle';
+import HandshakeIcon from '@mui/icons-material/Handshake';
 import { serverSideTranslations } from 'next-i18next/serverSideTranslations';
 import { useTranslation } from 'next-i18next';
 import 'swiper/css';
@@ -69,6 +71,13 @@ const PropertyDetail: NextPage = ({ initialComment, ...props }: any) => {
 	});
 	const [similarPropertiesPage, setSimilarPropertiesPage] = useState<number>(1);
 	const [similarPropertiesTotal, setSimilarPropertiesTotal] = useState<number>(0);
+	/**
+	 * The interest button flips the moment it is pressed rather than waiting for
+	 * the refetch — the mutation also sends mail and a Telegram message, so it can
+	 * take a second or two, and a button that looks dead invites a second press.
+	 */
+	const [interestSending, setInterestSending] = useState<boolean>(false);
+	const [interestJustSent, setInterestJustSent] = useState<boolean>(false);
 
 	/** APOLLO REQUESTS **/
 	const [likeTargetProperty] = useMutation(LIKE_TARGET_PROPERTY);
@@ -135,6 +144,13 @@ const PropertyDetail: NextPage = ({ initialComment, ...props }: any) => {
 				});
 
 	/** LIFECYCLES **/
+	/** Related-bike links swap the id without remounting, so drop the local flag
+	 *  or the next bike would open already claiming the dealer had been told. */
+	useEffect(() => {
+		setInterestJustSent(false);
+		setInterestSending(false);
+	}, [router.query.id]);
+
 	useEffect(() => {
 		if (router.query.id) {
 			setPropertyId(router.query.id as string);
@@ -193,16 +209,27 @@ const PropertyDetail: NextPage = ({ initialComment, ...props }: any) => {
 			}
 		};
 
+	/** True once this member has told the dealer — from the server, or from the tap just made. */
+	const isInterested: boolean = interestJustSent || !!property?.meInterested?.[0]?.myInterest;
+
 	const notifyInterestHandler = async () => {
+		/** One-way on purpose: the dealer was messaged, and that cannot be unsent. */
+		if (isInterested || interestSending) return;
+
 		try {
 			if (!user?._id) throw new Error(Message.NOT_AUTHENTICATED);
 			if (!property?._id) return;
 
+			setInterestSending(true);
 			await notifyInterest({ variables: { propertyId: property._id } });
+			setInterestJustSent(true);
 			await sweetTopSmallSuccessAlert(t('The dealer has been notified of your interest!'), 1200);
+			await getPropertyRefetch({ input: property._id });
 		} catch (err: any) {
 			console.log('ERROR notifyInterestHandler:', err.message);
 			sweetMixinErrorAlert(err.message).then();
+		} finally {
+			setInterestSending(false);
 		}
 	};
 
@@ -340,8 +367,19 @@ const PropertyDetail: NextPage = ({ initialComment, ...props }: any) => {
 									<Button className={'btn-call-dealer'} startIcon={<PhoneIcon />}>
 										Call Dealer
 									</Button>
-									<Button className={'btn-book-online'} onClick={notifyInterestHandler}>
-										{t("I'm Interested")}
+									<Button
+										className={`btn-book-online ${isInterested ? 'interested' : ''} ${
+											interestSending ? 'sending' : ''
+										}`}
+										disabled={isInterested || interestSending}
+										startIcon={isInterested ? <CheckCircleIcon /> : <HandshakeIcon />}
+										onClick={notifyInterestHandler}
+									>
+										{isInterested
+											? t('Dealer notified')
+											: interestSending
+											? t('Sending…')
+											: t("I'm Interested")}
 									</Button>
 									<Button 
 										className={`btn-like ${property?.meLiked && property?.meLiked[0]?.myFavorite ? 'liked' : ''}`}
@@ -723,8 +761,19 @@ const PropertyDetail: NextPage = ({ initialComment, ...props }: any) => {
 									<Button className={'btn-call-dealer'} startIcon={<PhoneIcon />}>
 										Call Dealer
 									</Button>
-									<Button className={'btn-book-online'} onClick={notifyInterestHandler}>
-										{t("I'm Interested")}
+									<Button
+										className={`btn-book-online ${isInterested ? 'interested' : ''} ${
+											interestSending ? 'sending' : ''
+										}`}
+										disabled={isInterested || interestSending}
+										startIcon={isInterested ? <CheckCircleIcon /> : <HandshakeIcon />}
+										onClick={notifyInterestHandler}
+									>
+										{isInterested
+											? t('Dealer notified')
+											: interestSending
+											? t('Sending…')
+											: t("I'm Interested")}
 									</Button>
 									<Button 
 										className={`btn-like ${property?.meLiked && property?.meLiked[0]?.myFavorite ? 'liked' : ''}`}

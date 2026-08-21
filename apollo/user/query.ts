@@ -138,6 +138,11 @@ export const GET_PROPERTY = gql`
 				likeRefId
 				myFavorite
 			}
+			meInterested {
+				memberId
+				propertyId
+				myInterest
+			}
 		}
 	}
 `;
