@@ -30,7 +30,15 @@ export interface Part {
 	updatedAt: Date;
 	/** from aggregation **/
 	meLiked?: MeLiked[];
+	meInterested?: MePartInterested[];
 	memberData?: Member;
+}
+
+/** Carries one entry once this member has told the seller they want the part. */
+export interface MePartInterested {
+	memberId: string;
+	partId: string;
+	myInterest: boolean;
 }
 
 export interface Parts {

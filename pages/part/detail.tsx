@@ -16,6 +16,8 @@ import Link from 'next/link';
 import RemoveRedEyeIcon from '@mui/icons-material/RemoveRedEye';
 import ArrowBackIcon from '@mui/icons-material/ArrowBack';
 import PhoneIcon from '@mui/icons-material/Phone';
+import CheckCircleIcon from '@mui/icons-material/CheckCircle';
+import HandshakeIcon from '@mui/icons-material/Handshake';
 import LocationOnIcon from '@mui/icons-material/LocationOn';
 import CategoryIcon from '@mui/icons-material/Category';
 import BuildIcon from '@mui/icons-material/Build';
@@ -28,7 +30,7 @@ import { GET_PART, GET_PARTS } from '../../apollo/user/query';
 import { T } from '../../libs/types/common';
 import { Direction, Message } from '../../libs/enums/common.enum';
 import { PartCategory } from '../../libs/enums/part.enum';
-import { LIKE_TARGET_PART } from '../../apollo/user/mutation';
+import { LIKE_TARGET_PART, NOTIFY_PART_INTEREST } from '../../apollo/user/mutation';
 import { sweetMixinErrorAlert, sweetTopSmallSuccessAlert } from '../../libs/sweetAlert';
 
 export const getStaticProps = async ({ locale }: any) => ({
@@ -48,9 +50,13 @@ const PartDetail: NextPage = ({ ...props }: any) => {
 	const [destinationParts, setDestinationParts] = useState<Part[]>([]);
 	const [relatedPage, setRelatedPage] = useState<number>(1);
 	const [relatedTotal, setRelatedTotal] = useState<number>(0);
+	/** Flips on the press rather than on the refetch — same reasoning as the bike page. */
+	const [interestSending, setInterestSending] = useState<boolean>(false);
+	const [interestJustSent, setInterestJustSent] = useState<boolean>(false);
 
 	/** APOLLO REQUESTS **/
 	const [likeTargetPart] = useMutation(LIKE_TARGET_PART);
+	const [notifyPartInterest] = useMutation(NOTIFY_PART_INTEREST);
 
 	const { refetch: getPartRefetch } = useQuery(GET_PART, {
 		fetchPolicy: 'cache-and-network',
@@ -91,6 +97,13 @@ const PartDetail: NextPage = ({ ...props }: any) => {
 		if (router.query.id) setPartId(router.query.id as string);
 	}, [router]);
 
+	/** Related-part links swap the id without remounting, so drop the local flag
+	 *  or the next part would open already claiming the seller had been told. */
+	useEffect(() => {
+		setInterestJustSent(false);
+		setInterestSending(false);
+	}, [router.query.id]);
+
 	/** HANDLERS **/
 	const changeImageHandler = (image: string) => setSlideImage(image);
 
@@ -109,6 +122,30 @@ const PartDetail: NextPage = ({ ...props }: any) => {
 		} catch (err: any) {
 			console.log('ERROR likePartHandler:', err.message);
 			sweetMixinErrorAlert(err.message).then();
+		}
+	};
+
+	/** True once this member has told the seller — from the server, or from the tap just made. */
+	const isInterested: boolean = interestJustSent || !!part?.meInterested?.[0]?.myInterest;
+
+	const notifyInterestHandler = async () => {
+		/** One-way on purpose: the seller was messaged, and that cannot be unsent. */
+		if (isInterested || interestSending) return;
+
+		try {
+			if (!user?._id) throw new Error(Message.NOT_AUTHENTICATED);
+			if (!part?._id) return;
+
+			setInterestSending(true);
+			await notifyPartInterest({ variables: { partId: part._id } });
+			setInterestJustSent(true);
+			await sweetTopSmallSuccessAlert(t('The dealer has been notified of your interest!'), 1200);
+			await getPartRefetch({ input: part._id });
+		} catch (err: any) {
+			console.log('ERROR notifyInterestHandler:', err.message);
+			sweetMixinErrorAlert(err.message).then();
+		} finally {
+			setInterestSending(false);
 		}
 	};
 
@@ -209,6 +246,20 @@ const PartDetail: NextPage = ({ ...props }: any) => {
 							<Stack className={'action-buttons'}>
 								<Button className={'btn-call-dealer'} startIcon={<PhoneIcon />}>
 									{t('Call Dealer')}
+								</Button>
+								<Button
+									className={`btn-book-online ${isInterested ? 'interested' : ''} ${
+										interestSending ? 'sending' : ''
+									}`}
+									disabled={isInterested || interestSending}
+									startIcon={isInterested ? <CheckCircleIcon /> : <HandshakeIcon />}
+									onClick={notifyInterestHandler}
+								>
+									{isInterested
+										? t('Dealer notified')
+										: interestSending
+										? t('Sending…')
+										: t("I'm Interested")}
 								</Button>
 								<Button
 									className={`btn-like ${isLiked ? 'liked' : ''}`}

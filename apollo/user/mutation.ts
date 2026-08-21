@@ -482,3 +482,9 @@ export const NOTIFY_INTEREST = gql`
 		notifyInterest(propertyId: $propertyId)
 	}
 `;
+
+export const NOTIFY_PART_INTEREST = gql`
+	mutation NotifyPartInterest($partId: String!) {
+		notifyPartInterest(partId: $partId)
+	}
+`;

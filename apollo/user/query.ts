@@ -445,6 +445,11 @@ export const GET_PART = gql`
 				likeRefId
 				myFavorite
 			}
+			meInterested {
+				memberId
+				partId
+				myInterest
+			}
 		}
 	}
 `;
