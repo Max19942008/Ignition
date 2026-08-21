@@ -134,7 +134,10 @@ const PropertyDetail: NextPage = ({ initialComment, ...props }: any) => {
 			 refetch: getCommentsRefetch,
 				} = useQuery(GET_COMMENTS, {
 			 fetchPolicy: "cache-and-network",
-			 variables: {input: initialComment },
+			 /** `initialComment` carries commentRefId: '' forever — the skip below waited
+			  *  for the real id, then this sent the empty one anyway and the server threw
+			  *  on `new ObjectId('')`. Every listing opened with a 500 in the console. */
+			 variables: {input: commentInquiry },
 			 skip: !commentInquiry.search.commentRefId,
 			 notifyOnNetworkStatusChange: true,
 			 onCompleted: (data: T) => {
