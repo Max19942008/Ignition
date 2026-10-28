@@ -279,5 +279,13 @@
 	"I'm Interested": "Мне интересно",
 	"Dealer notified": "Продавец уведомлён",
 	"Sending…": "Отправка…",
-	"The dealer has been notified of your interest!": "Продавец уведомлён о вашем интересе!"
+	"The dealer has been notified of your interest!": "Продавец уведомлён о вашем интересе!",
+	"Continue with Google": "Войти через Google",
+	"Signing you in with Google...": "Выполняется вход через Google...",
+	"Google login was cancelled": "Вход через Google отменён",
+	"Google login failed. Please try again.": "Не удалось войти через Google. Попробуйте ещё раз.",
+	"Please enable browser storage to sign in with Google": "Разрешите хранилище браузера, чтобы войти через Google",
+	"This account signs in with Google!": "Этот аккаунт входит через Google!",
+	"Welcome back!": "С возвращением!",
+	"You have been blocked!": "Вы заблокированы!"
 }

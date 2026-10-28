@@ -386,5 +386,11 @@
   "Something went wrong. Please try again.": "Xatolik yuz berdi. Qayta urinib ko'ring.",
   "Bad Request Exception": "Kiritilgan ma'lumotlar noto'g'ri",
   "Dealer notified": "Sotuvchi xabardor qilindi",
-  "Sending…": "Yuborilmoqda…"
+  "Sending…": "Yuborilmoqda…",
+  "Continue with Google": "Google orqali kirish",
+  "Signing you in with Google...": "Google orqali kirilmoqda...",
+  "Google login was cancelled": "Google orqali kirish bekor qilindi",
+  "Google login failed. Please try again.": "Google orqali kirishda xatolik. Qayta urinib ko'ring.",
+  "Please enable browser storage to sign in with Google": "Google orqali kirish uchun brauzer xotirasini (storage) yoqing",
+  "This account signs in with Google!": "Bu akkaunt Google orqali kiradi!"
 }

@@ -14,6 +14,7 @@ import LockIcon from '@mui/icons-material/Lock';
 import PhoneIcon from '@mui/icons-material/Phone';
 import TwoWheelerIcon from '@mui/icons-material/TwoWheeler';
 import { useTranslation } from 'next-i18next';
+import GoogleLoginButton from '../../libs/components/auth/GoogleLoginButton';
 
 export const getStaticProps = async ({ locale }: any) => ({
 	props: {
@@ -255,6 +256,8 @@ const Join: NextPage = () => {
 							{loginView ? 'LOGIN' : 'SIGN UP'}
 						</Button>
 
+						<GoogleLoginButton returnPath={router.query.referrer} />
+
 						{/* Switch View */}
 						<Box component="div" className={'switch-view'}>
 							<Typography className={'switch-text'}>
@@ -434,6 +437,8 @@ const Join: NextPage = () => {
 							>
 								{loginView ? t('LOGIN') : t('SIGN UP')}
 							</Button>
+
+			<GoogleLoginButton returnPath={router.query.referrer} />
 
 			{/* Switch View */}
 			<Box component="div" className={'switch-view'}>

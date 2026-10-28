@@ -279,5 +279,11 @@
   "I'm Interested": "I'm Interested",
   "Dealer notified": "Dealer notified",
   "Sending…": "Sending…",
-  "The dealer has been notified of your interest!": "The dealer has been notified of your interest!"
+  "The dealer has been notified of your interest!": "The dealer has been notified of your interest!",
+  "Continue with Google": "Continue with Google",
+  "Signing you in with Google...": "Signing you in with Google...",
+  "Google login was cancelled": "Google login was cancelled",
+  "Google login failed. Please try again.": "Google login failed. Please try again.",
+  "Please enable browser storage to sign in with Google": "Please enable browser storage to sign in with Google",
+  "This account signs in with Google!": "This account signs in with Google!"
 }

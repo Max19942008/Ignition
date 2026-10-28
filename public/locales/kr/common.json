@@ -278,5 +278,13 @@
   "I'm Interested": "관심 있습니다",
   "Dealer notified": "판매자에게 전달됨",
   "Sending…": "전송 중…",
-  "The dealer has been notified of your interest!": "판매자에게 관심이 전달되었습니다!"
+  "The dealer has been notified of your interest!": "판매자에게 관심이 전달되었습니다!",
+  "Continue with Google": "Google로 계속하기",
+  "Signing you in with Google...": "Google로 로그인하는 중...",
+  "Google login was cancelled": "Google 로그인이 취소되었습니다",
+  "Google login failed. Please try again.": "Google 로그인에 실패했습니다. 다시 시도해 주세요.",
+  "Please enable browser storage to sign in with Google": "Google로 로그인하려면 브라우저 저장소를 허용해 주세요",
+  "This account signs in with Google!": "이 계정은 Google로 로그인합니다!",
+  "Welcome back!": "다시 오신 것을 환영합니다!",
+  "You have been blocked!": "차단되었습니다!"
 }
