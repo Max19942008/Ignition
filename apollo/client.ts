@@ -1,13 +1,10 @@
 import { useMemo } from 'react';
-import { ApolloClient, ApolloLink, InMemoryCache, split, from, NormalizedCacheObject } from '@apollo/client';
+import { ApolloClient, ApolloLink, InMemoryCache, from, NormalizedCacheObject } from '@apollo/client';
 import createUploadLink from 'apollo-upload-client/public/createUploadLink.js';
-import { WebSocketLink } from '@apollo/client/link/ws';
-import { getMainDefinition } from '@apollo/client/utilities';
 import { onError } from '@apollo/client/link/error';
 import { getJwtToken, isAccessTokenValid, logOut, refreshAccessToken, setJwtToken } from '../libs/auth';
 import { TokenRefreshLink } from 'apollo-link-token-refresh';
 import { sweetErrorAlert } from '../libs/sweetAlert';
-import { socketVar } from './store';
 let apolloClient: ApolloClient<NormalizedCacheObject>;
 
 function getHeaders() {
@@ -45,33 +42,6 @@ const tokenRefreshLink = new TokenRefreshLink({
 	},
 });
 
-// Custom WebSocket client 
-class LoginWebSocket {
-private socket: WebSocket;
-
-constructor(uri: string) {
-	this.socket = new WebSocket(`${uri}?token=${getJwtToken()}`);
-	socketVar(this.socket);
-
-	this.socket.onopen = () => {};
-
-	 this.socket.onmessage = (msg) => {};
-
-	  this.socket.onerror = (error) => {
-		console.error('WebSocket Error:', error);
-	 };
-}
-
- send(data: string | ArrayBuffer | SharedArrayBuffer | Blob | ArrayBufferView) {
-	this.socket.send(data);
- }
-
- close() {
-	this.socket.close();
- }
-}
-
-
 function createIsomorphicLink() {
 	if (typeof window !== 'undefined') {
 		const authLink = new ApolloLink((operation, forward) => {
@@ -89,19 +59,6 @@ function createIsomorphicLink() {
 			uri: process.env.REACT_APP_API_GRAPHQL_URL,
 		});
 
-		/* WEBSOCKET SUBSCRIPTION LINK */
-		const wsLink = new WebSocketLink({
-			uri: process.env.REACT_APP_API_WS ?? 'ws://127.0.0.1:3007',
-			options: {
-				reconnect: false,
-				timeout: 30000,
-				connectionParams: () => {
-					return { headers: getHeaders() };
-				},
-			},
-			webSocketImpl: LoginWebSocket
-		});
-
 		const errorLink = onError(({ graphQLErrors, networkError, response }) => {
 			if (graphQLErrors) {
 				graphQLErrors.map(({ message, locations, path, extensions }) => {
@@ -117,16 +74,8 @@ function createIsomorphicLink() {
 			}
 		});
 
-		const splitLink = split(
-			({ query }) => {
-				const definition = getMainDefinition(query);
-				return definition.kind === 'OperationDefinition' && definition.operation === 'subscription';
-			},
-			wsLink,
-			authLink.concat(link),
-		);
-
-		return from([errorLink, tokenRefreshLink, splitLink]);
+		// The live chat keeps its own WebSocket (libs/chatSocket.ts); no GraphQL subscriptions are used.
+		return from([errorLink, tokenRefreshLink, authLink.concat(link)]);
 	}
 }
 
