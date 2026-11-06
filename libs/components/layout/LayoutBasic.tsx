@@ -79,6 +79,18 @@ const withLayoutBasic = (Component: any) => {
 					bgSize = '70%';
 					setAuthHeader(true);
 					break;
+				case '/privacy':
+					title = 'Privacy Policy';
+					desc = 'How MotoHub handles your data';
+					bgImage = '/img/property/ducati1.avif';
+					bgSize = '60%';
+					break;
+				case '/account/delete':
+					title = 'Delete Account';
+					desc = 'Remove your MotoHub account';
+					bgImage = '/img/property/ducati1.avif';
+					bgSize = '60%';
+					break;
 				case '/member':
 					title = 'Member Page';
 					desc = 'Home / For Rent';

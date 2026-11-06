@@ -8,6 +8,7 @@ import useDeviceDetect from '../hooks/useDeviceDetect';
 import { Stack, Box } from '@mui/material';
 import { useTranslation } from 'next-i18next';
 import moment from 'moment';
+import Link from 'next/link';
 
 const Footer = () => {
 	const device = useDeviceDetect();
@@ -86,7 +87,7 @@ const Footer = () => {
 						<div className={'link-column'}>
 							<strong>{t('Quick Links')}</strong>
 							<span>{t('Terms of Use')}</span>
-							<span>{t('Privacy Policy')}</span>
+							<Link href={'/privacy'} style={{ color: 'inherit', textDecoration: 'none' }}><span>{t('Privacy Policy')}</span></Link>
 							<span>{t('Pricing Plans')}</span>
 							<span>{t('Our Services')}</span>
 							<span>{t('Contact Support')}</span>
@@ -105,7 +106,7 @@ const Footer = () => {
 			<Stack component="div" className={'second'}>
 				<span>© MOTOPRESTO - {t('All rights reserved.')} MOTOPRESTO {moment().year()}</span>
 				<div className={'footer-links'}>
-					<span>{t('Privacy')}</span>
+					<Link href={'/privacy'} style={{ color: 'inherit', textDecoration: 'none' }}><span>{t('Privacy')}</span></Link>
 					<span className={'separator'}>·</span>
 					<span>{t('Terms')}</span>
 					<span className={'separator'}>·</span>
