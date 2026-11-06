@@ -488,3 +488,25 @@ export const NOTIFY_PART_INTEREST = gql`
 		notifyPartInterest(partId: $partId)
 	}
 `;
+
+/**************************
+ *      AI ASSISTANT      *
+ *************************/
+
+export const ASK_ASSISTANT = gql`
+	mutation AskAssistant($input: AiChatInput!) {
+		askAssistant(input: $input) {
+			answer
+			sources {
+				sourceType
+				sourceId
+				title
+				subtitle
+				price
+				currency
+				image
+				articleCategory
+			}
+		}
+	}
+`;
