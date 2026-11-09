@@ -1,0 +1,25 @@
+# Production frontend on the VPS:  docker compose -f docker-compose.prod.yml up -d --build
+# Joins the moto-hub stack's network so its Caddy proxies ${FRONTEND_DOMAIN} here.
+services:
+  web:
+    build:
+      context: .
+      args:
+        REACT_APP_API_URL: https://${API_DOMAIN}
+        REACT_APP_API_GRAPHQL_URL: https://${API_DOMAIN}/graphql
+        REACT_APP_API_WS: wss://${API_DOMAIN}
+    image: ignition:latest
+    container_name: ignition-web
+    restart: unless-stopped
+    expose:
+      - "3000"
+    mem_limit: 768m
+    networks: [motohub]
+    logging:
+      driver: json-file
+      options: { max-size: "10m", max-file: "3" }
+
+networks:
+  motohub:
+    external: true
+    name: motohub_default
