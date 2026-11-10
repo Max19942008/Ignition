@@ -13,7 +13,9 @@ import { CaretDown } from 'phosphor-react';
 import useDeviceDetect from '../hooks/useDeviceDetect';
 import Link from 'next/link';
 import NotificationsOutlinedIcon from '@mui/icons-material/NotificationsOutlined';
-import { Badge, Divider, Typography } from '@mui/material';
+import { Badge, Divider, Typography, Drawer, IconButton } from '@mui/material';
+import MenuIcon from '@mui/icons-material/Menu';
+import CloseIcon from '@mui/icons-material/Close';
 import DeleteOutlineIcon from '@mui/icons-material/DeleteOutline';
 import { useReactiveVar, useQuery, useMutation } from '@apollo/client';
 import { userVar } from '../../apollo/store';
@@ -43,6 +45,7 @@ const Top = () => {
 	const logoutOpen = Boolean(logoutAnchor);
 	const [notifyAnchor, setNotifyAnchor] = useState<null | HTMLElement>(null);
 	const notifyOpen = Boolean(notifyAnchor);
+	const [mobileMenu, setMobileMenu] = useState(false);
 
 	/** APOLLO REQUESTS **/
 	const [markNotificationsRead] = useMutation(MARK_NOTIFICATIONS_READ);
@@ -202,35 +205,99 @@ const Top = () => {
 	}));
 
 	if (device == 'mobile') {
+		const mobileLinks: { href: string; label: string }[] = [
+			{ href: '/', label: t('Home') },
+			{ href: '/property', label: t('Bikes') },
+			{ href: '/part?category=SPARE_PART', label: t('Spare Parts') },
+			{ href: '/part?category=ACCESSORY', label: t('Accessories') },
+			{ href: '/agent', label: t('Agents') },
+			{ href: '/community?articleCategory=FREE', label: t('Community') },
+			...(user?._id ? [{ href: '/mypage', label: t('My Page') }] : []),
+			{ href: '/cs', label: t('CS') },
+		];
+		const isActive = (href: string) => router.asPath.split('?')[0] === href.split('?')[0];
+		const languages = ['uz', 'ru', 'en', 'kr'];
+
 		return (
-			<Stack className={'top'}>
-				<Link href={'/'}>
-					<div>{t('Home')}</div>
-				</Link>
-				<Link href={'/property'}>
-					<div>{t('Bikes')}</div>
-				</Link>
-				<Link href={'/part?category=SPARE_PART'}>
-					<div>{t('Spare Parts')}</div>
-				</Link>
-				<Link href={'/part?category=ACCESSORY'}>
-					<div>{t('Accessories')}</div>
-				</Link>
-				<Link href={'/agent'}>
-					<div> {t('Agents')} </div>
-				</Link>
-				<Link href={'/community?articleCategory=FREE'}>
-					<div> {t('Community')} </div>
-				</Link>
-				{user?._id && (
-					<Link href={'/mypage'}>
-						<div> {t('My Page')} </div>
+			<>
+				<Stack className={'m-navbar'} direction="row" alignItems="center" justifyContent="space-between">
+					<Link href={'/'} className={'m-logo'}>
+						<img src="/img/logo/motopresto.png" alt="MOTOPRESTO" />
 					</Link>
-				)}
-				<Link href={'/cs'}>
-					<div> {t('CS')} </div>
-				</Link>
-			</Stack>
+					<Stack direction="row" alignItems="center" spacing={1}>
+						{user?._id ? (
+							<Link href={'/mypage'} className={'m-avatar'} aria-label={t('My Page')}>
+								<img
+									src={user?.memberImage ? `${REACT_APP_API_URL}/${user?.memberImage}` : '/img/profile/defaultUser.svg'}
+									alt=""
+								/>
+							</Link>
+						) : (
+							<Link href={'/account/join'} className={'m-login'}>
+								<AccountCircleOutlinedIcon />
+								<span>{t('Login')}</span>
+							</Link>
+						)}
+						<IconButton className={'m-burger'} aria-label="Menu" onClick={() => setMobileMenu(true)}>
+							<MenuIcon />
+						</IconButton>
+					</Stack>
+				</Stack>
+
+				<Drawer
+					anchor="right"
+					open={mobileMenu}
+					onClose={() => setMobileMenu(false)}
+					PaperProps={{ className: 'm-drawer' }}
+				>
+					<Stack className={'m-drawer-head'} direction="row" alignItems="center" justifyContent="space-between">
+						<img src="/img/logo/motopresto.png" alt="MOTOPRESTO" />
+						<IconButton aria-label="Close" onClick={() => setMobileMenu(false)}>
+							<CloseIcon />
+						</IconButton>
+					</Stack>
+					<nav className={'m-drawer-links'}>
+						{mobileLinks.map((l) => (
+							<Link
+								key={l.href}
+								href={l.href}
+								className={isActive(l.href) ? 'active' : ''}
+								onClick={() => setMobileMenu(false)}
+							>
+								{l.label}
+							</Link>
+						))}
+					</nav>
+					<Stack className={'m-drawer-langs'} direction="row" spacing={1}>
+						{languages.map((code) => (
+							<button
+								key={code}
+								id={code}
+								className={lang === code ? 'active' : ''}
+								onClick={() => {
+									setMobileMenu(false);
+									langChoice({ target: { id: code } });
+								}}
+							>
+								<img src={`/img/flag/lang${code}.png`} alt="" />
+								{code.toUpperCase()}
+							</button>
+						))}
+					</Stack>
+					{user?._id && (
+						<button
+							className={'m-drawer-logout'}
+							onClick={() => {
+								setMobileMenu(false);
+								logOut();
+							}}
+						>
+							<Logout fontSize="small" />
+							Logout
+						</button>
+					)}
+				</Drawer>
+			</>
 		);
 	} else {
 		return (

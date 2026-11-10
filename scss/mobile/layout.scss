@@ -1,0 +1,378 @@
+/** Mobile shell: header, drawer menu, floating buttons, overflow guard **/
+@import '/scss/variables.scss';
+
+#mobile-wrap {
+	width: 100%;
+	max-width: 100vw;
+	overflow-x: hidden;
+
+	#top {
+		position: sticky;
+		top: 0;
+		z-index: 1100;
+	}
+
+	#main {
+		min-width: 0;
+		img,
+		video {
+			max-width: 100%;
+		}
+	}
+}
+
+.m-navbar {
+	height: 60px;
+	padding: 0 12px 0 16px;
+	background: #181a20;
+	border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+
+	.m-logo img {
+		display: block;
+		height: 38px;
+		width: auto;
+	}
+
+	.m-login {
+		display: flex;
+		align-items: center;
+		gap: 6px;
+		height: 38px;
+		padding: 0 14px 0 10px;
+		border-radius: 19px;
+		border: 1.5px solid rgba(255, 255, 255, 0.3);
+		background: rgba(255, 255, 255, 0.08);
+		color: #fff;
+		font: 700 13px $font;
+		white-space: nowrap;
+		svg {
+			font-size: 20px;
+		}
+	}
+
+	.m-avatar img {
+		display: block;
+		width: 36px;
+		height: 36px;
+		border-radius: 50%;
+		object-fit: cover;
+		border: 2px solid rgba(255, 255, 255, 0.3);
+	}
+
+	.m-burger {
+		color: #fff;
+		svg {
+			font-size: 28px;
+		}
+	}
+}
+
+.m-drawer {
+	width: min(300px, 85vw);
+	background: #181a20 !important;
+	color: #fff !important;
+	font-family: $font;
+
+	.m-drawer-head {
+		height: 60px;
+		padding: 0 8px 0 16px;
+		border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+		img {
+			height: 36px;
+			width: auto;
+		}
+		button {
+			color: #fff;
+		}
+	}
+
+	.m-drawer-links {
+		display: flex;
+		flex-direction: column;
+		padding: 8px 0;
+		a {
+			padding: 14px 20px;
+			color: rgba(255, 255, 255, 0.85);
+			font-size: 16px;
+			font-weight: 600;
+			border-left: 3px solid transparent;
+			&.active {
+				color: #fff;
+				background: rgba(37, 180, 75, 0.12);
+				border-left-color: #25b44b;
+			}
+		}
+	}
+
+	.m-drawer-langs {
+		padding: 12px 16px;
+		border-top: 1px solid rgba(255, 255, 255, 0.08);
+		button {
+			flex: 1;
+			display: flex;
+			flex-direction: column;
+			align-items: center;
+			gap: 4px;
+			padding: 8px 0;
+			border-radius: 10px;
+			border: 1px solid rgba(255, 255, 255, 0.15);
+			background: transparent;
+			color: rgba(255, 255, 255, 0.8);
+			font: 600 11px $font;
+			img {
+				width: 26px;
+				height: auto;
+				pointer-events: none;
+			}
+			&.active {
+				border-color: #25b44b;
+				color: #fff;
+				background: rgba(37, 180, 75, 0.12);
+			}
+		}
+	}
+
+	.m-drawer-logout {
+		margin: 8px 16px 20px;
+		display: flex;
+		align-items: center;
+		justify-content: center;
+		gap: 8px;
+		height: 44px;
+		border-radius: 10px;
+		border: 1px solid rgba(255, 255, 255, 0.15);
+		background: transparent;
+		color: #ff6b6b;
+		font: 600 14px $font;
+	}
+}
+
+/* Floating AI + live-chat buttons: same line, tighter to the edges on phones */
+@media (max-width: 768px) {
+	.ai-assistant {
+		.ai-fab {
+			left: 16px;
+			bottom: 16px;
+			height: 48px;
+			padding: 0 16px;
+		}
+		.ai-panel {
+			left: 8px;
+			right: 8px;
+			bottom: 8px;
+			width: auto;
+			max-width: none;
+			height: calc(100dvh - 76px);
+			max-height: none;
+		}
+	}
+	.chatting {
+		.chat-button {
+			right: 16px;
+			bottom: 16px;
+			width: 48px;
+			height: 48px;
+		}
+		.chat-frame {
+			width: calc(100vw - 16px);
+			right: calc(-100vw - 16px);
+			bottom: 76px;
+			height: min(500px, calc(100dvh - 150px));
+			&.open {
+				right: 8px;
+			}
+		}
+	}
+}
+
+/* Home hero (shorter than the desktop full-screen one) */
+#mobile-wrap .m-hero {
+	position: relative;
+	height: 56vh;
+	min-height: 320px;
+	max-height: 480px;
+	overflow: hidden;
+	background: #0f1114;
+
+	.m-hero-video {
+		position: absolute;
+		inset: 0;
+		width: 100%;
+		height: 100%;
+		object-fit: cover;
+		filter: grayscale(0.4) brightness(0.55);
+	}
+
+	.m-hero-text {
+		position: relative;
+		z-index: 1;
+		height: 100%;
+		padding: 0 24px 36px;
+		justify-content: flex-end;
+		color: #fff;
+		font-family: $font;
+		h1 {
+			margin: 0 0 10px;
+			font-size: 32px;
+			font-weight: 800;
+			line-height: 1.15;
+			text-transform: capitalize;
+		}
+		p {
+			margin: 0;
+			font-size: 15px;
+			line-height: 1.5;
+			color: rgba(255, 255, 255, 0.85);
+		}
+	}
+}
+
+/* Listing pages (bikes, parts): title on its own line, sort control full width */
+#mobile-wrap .filter-header-section {
+	.filter-header-top {
+		flex-direction: column !important;
+		align-items: stretch !important;
+		gap: 14px;
+	}
+	.filter-header-right {
+		display: flex;
+		width: 100%;
+		gap: 10px;
+		/* the row below already has a reset button */
+		.filter-reset-button {
+			display: none !important;
+		}
+		> * {
+			flex: 1;
+		}
+	}
+}
+
+/* Bike detail page: the PC styles apply here too; these stack it for phones */
+#mobile-wrap #property-detail-page {
+	padding-top: 0;
+	padding-bottom: 90px;
+
+	.container {
+		width: 100%;
+		max-width: 100%;
+		padding: 0 16px;
+		box-sizing: border-box;
+	}
+
+	.property-detail-config {
+		padding-top: 16px;
+		gap: 18px;
+
+	.breadcrumb-section {
+		flex-direction: column;
+		gap: 12px;
+		.breadcrumb-nav {
+			flex-wrap: wrap;
+			gap: 6px;
+			.MuiTypography-root {
+				font-size: 13px;
+			}
+		}
+		.back-button {
+			align-self: flex-start;
+			height: 38px;
+			padding: 0 16px;
+			font-size: 14px;
+		}
+	}
+
+	.main-content-section {
+		flex-direction: column;
+		gap: 18px;
+		margin-bottom: 18px;
+
+		.image-section {
+			flex: none;
+			width: 100%;
+			min-width: 0;
+			.main-image-wrapper {
+				height: 260px;
+				border-radius: 14px;
+			}
+			.thumbnail-gallery {
+				overflow-x: auto;
+				padding-bottom: 4px;
+				.thumbnail-item {
+					flex: 0 0 auto;
+					width: 84px;
+					height: 64px;
+				}
+			}
+		}
+
+		.action-panel-section {
+			flex: none;
+			width: 100%;
+			margin: 0;
+			gap: 14px;
+		}
+	}
+
+	/* every remaining box: never wider than the phone */
+	> * {
+		max-width: 100%;
+		min-width: 0;
+	}
+	}
+}
+
+/* Detail page sections: PC paddings (36-48px) eat a third of a phone screen */
+#mobile-wrap #property-detail-page .property-detail-config {
+	.options-config,
+	.prop-desc-config,
+	.reviews-config,
+	.leave-review-config,
+	.similar-properties-config {
+		padding-left: 16px !important;
+		padding-right: 16px !important;
+		max-width: 100%;
+		box-sizing: border-box;
+	}
+	.options-config {
+		display: grid !important;
+		grid-template-columns: repeat(2, minmax(0, 1fr));
+		gap: 10px !important;
+		.option {
+			width: auto !important;
+			min-width: 0 !important;
+			* {
+				min-width: 0 !important;
+			}
+			padding: 14px 12px !important;
+			flex-direction: column !important;
+			align-items: flex-start !important;
+			gap: 10px;
+			.svg-box {
+				width: 44px !important;
+				height: 44px !important;
+				border-radius: 12px !important;
+			}
+			.title {
+				font-size: 11px !important;
+			}
+			.option-data {
+				font-size: 17px !important;
+				word-break: break-word;
+			}
+		}
+	}
+	.prop-desc-config,
+	.similar-properties-config {
+		h2,
+		.title,
+		.main-title {
+			font-size: 26px !important;
+			line-height: 1.25 !important;
+		}
+	}
+	.similar-properties-config .property-big-card-box {
+		width: 100% !important;
+		max-width: 100%;
+	}
+}

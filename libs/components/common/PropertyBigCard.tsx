@@ -89,9 +89,8 @@ const PropertyBigCard = (props: PropertyBigCardProps) => {
 		}
 	}, [likePropertyHandler, user, property, isLiking]);
 
-	if (device === 'mobile') {
-		return <div>BIKE BIG CARD</div>;
-	} else {
+	// Same card on phones; the related-listings slider sizes it.
+	{
 		return (
 			<Stack className="property-big-card-box" onClick={() => goPropertyDetatilPage(property?._id)}>
 				<Box

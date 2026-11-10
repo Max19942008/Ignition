@@ -46,9 +46,30 @@ const withLayoutMain = (Component: any) => {
 							<Top />
 						</Stack>
 
+						<Stack className={'m-hero'}>
+							<video
+								key={HERO_VIDEOS[heroVideoIndex]}
+								className={'m-hero-video'}
+								autoPlay
+								muted
+								playsInline
+								preload="metadata"
+								onEnded={handleHeroVideoEnd}
+							>
+								<source src={HERO_VIDEOS[heroVideoIndex]} type="video/mp4" />
+							</video>
+							<Stack className={'m-hero-text'}>
+								<h1>All bikes. One place.</h1>
+								<p>Looping hero videos keep the spotlight on fresh listings while you search.</p>
+							</Stack>
+						</Stack>
+
 						<Stack id={'main'}>
 							<Component {...props} />
 						</Stack>
+
+						<Chat />
+						<AiAssistant />
 
 						<Stack id={'footer'}>
 							<Footer />

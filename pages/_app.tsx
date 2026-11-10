@@ -1,4 +1,5 @@
 import type { AppProps } from 'next/app';
+import Head from 'next/head';
 import { ThemeProvider, createTheme } from '@mui/material/styles';
 import { CssBaseline } from '@mui/material';
 import React, { useState } from 'react';
@@ -9,6 +10,7 @@ import { appWithTranslation } from 'next-i18next';
 import '../scss/app.scss';
 import '../scss/pc/main.scss';
 import '../scss/mobile/main.scss';
+import '../scss/chat.scss';
 
 const App = ({ Component, pageProps }: AppProps) => {
 	// @ts-ignore
@@ -19,6 +21,10 @@ const App = ({ Component, pageProps }: AppProps) => {
 		<ApolloProvider client={client}>
 			<ThemeProvider theme={theme}>
 				<CssBaseline />
+				<Head>
+					{/* Without this, phones render the page 980px wide and zoom out. */}
+					<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
+				</Head>
 				<Component {...pageProps} />
 			</ThemeProvider>
 		</ApolloProvider>

@@ -1,13 +1,7 @@
 @import '/scss/variables.scss';
+@import '/scss/mobile/layout.scss';
 
 #mobile-wrap {
-  .top {
-    height: 100px;
-    display: flex;
-    flex-direction: row;
-    justify-content: space-around;
-    align-items: center;
-  }
 
   .info-box {
     width: 100%;
@@ -1825,6 +1819,62 @@
           display: flex;
           flex-direction: column;
           width: 100%;
+          .top {
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+            padding: 22px 18px;
+            border-radius: 16px;
+            background: rgba(255, 255, 255, 0.04);
+            border: 1px solid rgba(255, 255, 255, 0.08);
+            strong {
+              color: #fff;
+              font-family: $font;
+              font-size: 18px;
+              font-weight: 700;
+            }
+            .newsletter-desc {
+              margin: 0;
+              color: #9ca3af;
+              font-family: $font;
+              font-size: 14px;
+              line-height: 1.5;
+            }
+            .newsletter-box {
+              margin-top: 6px;
+              display: flex;
+              flex-direction: column;
+              gap: 10px;
+              width: 100%;
+              input {
+                width: 100%;
+                height: 46px;
+                padding: 0 16px;
+                border-radius: 12px;
+                border: 1px solid rgba(255, 255, 255, 0.15);
+                background: rgba(255, 255, 255, 0.06);
+                color: #fff;
+                font: 400 14px $font;
+                outline: none;
+                &::placeholder {
+                  color: #6b7280;
+                }
+                &:focus {
+                  border-color: #25b44b;
+                }
+              }
+              .subscribe-btn {
+                width: 100%;
+                height: 46px;
+                border: none;
+                border-radius: 12px;
+                background: linear-gradient(135deg, #25b44b 0%, #178f38 100%);
+                color: #fff;
+                font: 700 15px $font;
+                cursor: pointer;
+              }
+            }
+          }
           .bottom {
             margin-top: 25px;
             display: flex;
@@ -1858,6 +1908,13 @@
                   color: #ff7a18;
                 }
                 &:last-child {
+                  margin-bottom: 0;
+                }
+              }
+              a {
+                display: block;
+                margin-bottom: 14px;
+                span {
                   margin-bottom: 0;
                 }
               }
